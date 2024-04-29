@@ -1,0 +1,18 @@
+<div class="login-container">
+  <button type="submit" pButton label="Voltar" icon="pi pi-arrow-left" (click)="voltar()"></button>
+  <h1>{{text.Consac}}</h1>
+  <h2>{{text.VI}}</h2>
+  <form (ngSubmit)="login()">
+    <span class="p-float-label">
+      <input type="text" pInputText id="username" name="username" placeholder="Insira o nome da instituição" required>
+    </span>
+    <span class="p-float-label">
+      <input type="password" pInputText id="password" name="password" placeholder={{placeholder.usuarioSenha}} required>
+    </span>
+    <button type="submit" pButton label={{label.login}} (click)="login()"></button>
+    <div class="register-button-container">
+      <button type="submit" pButton label={{label.cadastro}} style="background: transparent; border: none;" (click)="cadastrarInstituicao()"></button>
+    </div>
+  </form>
+</div>
+

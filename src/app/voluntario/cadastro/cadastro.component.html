@@ -1,0 +1,37 @@
+<div class="toolbar">
+  <div class="title">CONSAC</div>
+  <div class="actions">
+    <button type="submit" pButton label="Voltar" (click)="voltar()"></button>
+  </div>
+</div>
+
+<!-- Dados Pessoais -->
+
+<form [formGroup]="cadastroForm" (ngSubmit)="onSubmit()" class="p-fluid">
+  <div class="p-field">
+    <label for="name">Nome</label>
+    <input id="name" type="text" pInputText formControlName="name">
+  </div>
+
+  <div class="p-field">
+    <label for="email">E-mail</label>
+    <input id="email" type="email" pInputText formControlName="email">
+  </div>
+
+  <div class="p-field">
+    <label for="password">Senha</label>
+    <p-password [feedback]="false" formControlName="password"></p-password>
+  </div>
+
+  <div class="p-field">
+    <label for="interestArea">Área de Interesse</label>
+    <input id="interestArea" type="text" pInputText formControlName="interestArea">
+  </div>
+
+  <div class="p-field">
+    <label for="competence">Competência</label>
+    <input id="competence" type="text" pInputText formControlName="competence">
+  </div>
+
+  <button type="submit" pButton label="Cadastrar" class="ui-button-primary"></button>
+</form>

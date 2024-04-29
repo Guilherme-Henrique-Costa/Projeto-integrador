@@ -1,0 +1,80 @@
+/* Estilização geral do formulário */
+.toolbar {
+  background-color: #ECEDF1; /* Cor de fundo clara */
+  padding: 10px 15px; /* Espaçamento interno */
+  display: flex; /* Uso de Flexbox para alinhamento */
+  align-items: center; /* Alinha os itens verticalmente no centro */
+  justify-content: space-between; /* Distribui espaço entre os itens */
+  border-bottom: 1px solid #CCCCCC; /* Linha divisória na parte inferior da barra de ferramentas */
+}
+
+.toolbar .title {
+  font-size: 1.25rem; /* Tamanho da fonte para o título na barra de ferramentas */
+  color: #333; /* Cor da fonte para o título */
+  font-weight: bold; /* Negrito para o título */
+}
+
+/* Estilos para botões ou outros controles dentro da .toolbar, se houver */
+.toolbar button {
+  padding: 6px 12px;
+  background-color: #007bff; /* Exemplo de cor de fundo para botões */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+form.p-fluid {
+  width: 90%;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  background-color: #fff;
+}
+
+/* Estilização para cada campo do formulário */
+.p-field {
+  margin-bottom: 16px;
+}
+
+.p-field label {
+  display: block;
+  margin-bottom: 4px;
+  color: #333;
+  font-weight: 600;
+}
+
+/* Estilizando campos de entrada */
+input[pInputText] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+/* Estado de foco para destacar a borda do campo de entrada */
+input[pInputText]:focus, .p-password input:focus {
+  outline: none;
+  border-color: #80bdff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Estilizando o botão de envio */
+button.ui-button-primary {
+  width: 100%;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: branco;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button.ui-button-primary:hover {
+  background-color: #0056b3;
+}
