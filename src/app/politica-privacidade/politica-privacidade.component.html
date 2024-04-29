@@ -1,0 +1,33 @@
+<div class="container-inicio">
+  <div class="titulo"><h1>{{texto.politicaDePrivacidade}}</h1></div>
+  <div class="texto">
+    <h2>{{texto.dadosColetados}}</h2>
+    <p>
+     {{frasesAleatorias.frase10}}
+    </p>
+    <p>
+      {{frasesAleatorias.frase11}}
+    </p>
+    <p>
+      {{frasesAleatorias.frase12}}
+    </p>
+    <h2>{{frasesAleatorias.frase13}}</h2>
+    <p>
+      {{frasesAleatorias.frase14}}
+    </p>
+    <h2>{{frasesAleatorias.frase15}}</h2>
+    <p>
+      {{frasesAleatorias.frase16}}
+    </p>
+  </div>
+  <div class="grid p-fluid justify-content-center p-4">
+    <div class="btn">
+      <p-button
+        [style]="{ background: 'var(--color-primary)', border: 'none' }"
+        class="btn-inicio"
+        routerLink="/login"
+        label={{label.voltarParaInicio}}
+      ></p-button>
+    </div>
+  </div>
+</div>

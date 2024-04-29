@@ -15,7 +15,22 @@ import { LoginComponent } from './voluntario/login/login.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ToolbarModule } from 'primeng/toolbar';
 import { LoginInstituicaoComponent } from './instituicao/login-instituicao/login-instituicao.component';
-import { HomeComponent } from './home/home/home.component';
+import { HomeComponent } from './home/home.component';
+import { CadastroInstituicaoComponent } from './instituicao/cadastro-instituicao/cadastro-instituicao.component';
+import { PoliticaPrivacidadeComponent } from './politica-privacidade/politica-privacidade.component';
+import { ToastModule } from 'primeng/toast';
+import { DialogModule } from 'primeng/dialog';
+import { CadastroRejeitadoComponent } from './cadastro-rejeitado/cadastro-rejeitado.component';
+import { CommonModule } from '@angular/common';
+
+import { FormsModule,} from '@angular/forms';
+import { CardModule } from 'primeng/card';
+import { InputMaskModule } from 'primeng/inputmask';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { TriStateCheckboxModule } from 'primeng/tristatecheckbox';
+import { MenubarModule } from 'primeng/menubar';
+import { CheckboxModule } from 'primeng/checkbox';
+import { RippleModule } from 'primeng/ripple';
 
 @NgModule({
   declarations: [
@@ -24,6 +39,9 @@ import { HomeComponent } from './home/home/home.component';
     CadastroComponent,
     LoginInstituicaoComponent,
     HomeComponent,
+    CadastroInstituicaoComponent,
+    PoliticaPrivacidadeComponent,
+    CadastroRejeitadoComponent,
   ],
   imports: [
     BrowserModule,
@@ -34,7 +52,18 @@ import { HomeComponent } from './home/home/home.component';
     InputTextareaModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    ToolbarModule
+    ToolbarModule,
+    ToastModule,
+    DialogModule,
+    FormsModule,
+    CardModule,
+    InputMaskModule,
+    RadioButtonModule,
+    TriStateCheckboxModule,
+    MenubarModule,
+    CheckboxModule,
+    RippleModule
+
   ],
   providers: [],
   bootstrap: [AppComponent]

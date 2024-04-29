@@ -25,16 +25,6 @@ export class CadastroComponent {
     });
   }
   ngOnInit() {
-    this.items = [
-        {
-            label: 'Update',
-            icon: 'pi pi-refresh'
-        },
-        {
-            label: 'Delete',
-            icon: 'pi pi-times'
-        }
-    ];
 }
 
   onSubmit(): void {

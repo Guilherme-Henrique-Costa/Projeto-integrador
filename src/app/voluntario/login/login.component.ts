@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Text, placeholder, label } from 'src/assets/dicionario';
+import { MessageService } from 'primeng/api';
+import { Text, placeholder, label, frases } from 'src/assets/dicionario';
 
 @Component({
   selector: 'app-login',
@@ -11,9 +12,14 @@ export class LoginComponent implements OnInit {
   username: string = '';
   password: string = '';
 
+  position!: string;
+  displayPosition!: boolean;
+
   text = Text;
   placeholder = placeholder;
   label = label;
+
+  frasesAleatorias = frases;
 
 
   constructor(
@@ -21,8 +27,18 @@ export class LoginComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.position = 'center';
+    this.displayPosition = true;
     // Intencionalmente vazio para uso futuro
   }
+
+  aceitar() {
+      this.router.navigate(['/login']);
+    }
+
+    rejeitar() {
+      this.router.navigate(['/cadastro-rejeitado']);
+    }
 
   login(): void {
     if (this.username === '' || this.password === '') {
@@ -33,5 +49,9 @@ export class LoginComponent implements OnInit {
   }
   cadastrar() {
     this.router.navigate(['/cadastro']);
+  }
+
+  voltar() {
+    this.router.navigate(['/home']);
   }
 }
