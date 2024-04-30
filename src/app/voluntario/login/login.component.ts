@@ -6,7 +6,8 @@ import { Text, placeholder, label, frases } from 'src/assets/dicionario';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
+  providers: [MessageService]
 })
 export class LoginComponent implements OnInit {
   username: string = '';
@@ -24,7 +25,8 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private router: Router,
-  ) {}
+    private messageService: MessageService
+  ) { }
 
   ngOnInit(): void {
     this.position = 'center';
@@ -33,19 +35,19 @@ export class LoginComponent implements OnInit {
   }
 
   aceitar() {
-      this.router.navigate(['/login']);
-    }
+    this.router.navigate(['/login']);
+  }
 
-    rejeitar() {
-      this.router.navigate(['/cadastro-rejeitado']);
-    }
+  rejeitar() {
+    this.router.navigate(['/cadastro-rejeitado']);
+  }
 
   login(): void {
-    if (this.username === '' || this.password === '') {
-      alert('Por favor, preencha todos os campos.');
-    } else {
-      alert('Login realizado com sucesso.');
-    }
+    this.messageService.add({
+      severity: 'sucesso',
+      summary: 'Sucesso',
+      detail: 'Login feito com sucesso',
+      styleClass: 'toast-success'});
   }
   cadastrar() {
     this.router.navigate(['/cadastro']);

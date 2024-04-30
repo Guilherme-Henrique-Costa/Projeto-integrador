@@ -5,6 +5,7 @@ import { LoginInstituicaoRoutingModule } from './login-instituicao-routing.modul
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
+import { ToastModule } from 'primeng/toast';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { FormsModule } from '@angular/forms';
     LoginInstituicaoRoutingModule,
     InputTextModule,
     ButtonModule,
-    FormsModule
+    FormsModule,
+    ToastModule,
   ]
 })
 export class LoginInstituicaoModule { }
