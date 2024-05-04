@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { Sidebar } from 'primeng/sidebar';
 
 @Component({
   selector: 'app-menu-instituicao',
@@ -6,5 +7,18 @@ import { Component } from '@angular/core';
   styleUrls: ['./menu-instituicao.component.css']
 })
 export class MenuInstituicaoComponent {
+  @ViewChild('sidebarRef', { static: false }) sidebarRef!: Sidebar;
+  sidebarVisible: boolean = false;
+
+  constructor() {}
+
+  closeCallback(e: Event): void {
+    this.sidebarRef.close(e);
+  }
+
+  toggleSidebar() {
+    this.sidebarVisible = !this.sidebarVisible;
+  }
+
 
 }
