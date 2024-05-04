@@ -34,12 +34,13 @@
 
 }
 .btn-inicio{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  max-width: 500px;
-
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 10px;
+  background-color: #EC0089;
+  color: rgb(255, 255, 255);
+  border: none;
+  height: 50px;
 }
 
 @media (min-width: 576px) {
@@ -52,6 +53,15 @@
     line-height: 1.8rem;
     font-weight: 300;
     padding: 0px 128px;
+  }
+  .btn-inicio{
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 10px;
+    background-color: #EC0089;
+    color: rgb(255, 255, 255);
+    border: none;
+    height: 50px;
   }
 }
 

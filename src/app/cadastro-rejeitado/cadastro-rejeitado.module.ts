@@ -7,7 +7,7 @@ import { CadastroRejeitadoComponent } from './cadastro-rejeitado.component';
 
 
 @NgModule({
-  declarations: [],
+  declarations: [CadastroRejeitadoComponent],
   imports: [
     CommonModule,
     CadastroRejeitadoRoutingModule,

@@ -1,0 +1,50 @@
+<div class="app-container">
+  <!-- Toolbar que encolhe quando a sidebar está visível -->
+  <div class="toolbar" [ngClass]="{'shrink': sidebarVisible}">
+    <!-- Conteúdo da toolbar, pode incluir botões ou títulos -->
+    <h1>{{ sidebarVisible ? 'Menu Compacto' : 'Menu Completo' }}</h1>
+  </div>
+
+  <div class="card flex justify-content-center">
+    <!-- Botão para abrir a sidebar -->
+    <p-button icon="pi pi-arrow-right"
+    (click)="toggleSidebar()"
+    aria-controls="sidebar"
+    [attr.aria-expanded]="sidebarVisible ? true : false"></p-button>
+
+    <!-- Sidebar com conteúdo personalizado -->
+    <p-sidebar #sidebarRef [(visible)]="sidebarVisible" id="sidebar" class="custom-sidebar"
+      (onHide)="sidebarVisible = false" role="region">
+      <ng-template pTemplate="headless">
+        <div class="flex flex-column h-full">
+          <!-- Cabeçalho com logo e botão de fechar -->
+          <div class="flex align-items-center justify-content-between px-4 pt-3">
+            <div class="logo-container">
+              <span class="logo-text">Your Logo</span>
+            </div>
+            <p-button (click)="closeCallback($event)" icon="pi pi-times" class="close-btn"></p-button>
+          </div>
+          <!-- Corpo da sidebar -->
+          <div class="sidebar-body">
+            <ul class="menu-list">
+              <li><a><i class="pi pi-home"></i> Dashboard</a></li>
+              <li><a><i class="pi pi-bookmark"></i> Bookmarks</a></li>
+              <li><a><i class="pi pi-chart-line"></i> Reports</a></li>
+              <li><a><i class="pi pi-users"></i> Team</a></li>
+              <li><a><i class="pi pi-comments"></i> Messages <span class="badge">3</span></a></li>
+              <li><a><i class="pi pi-calendar"></i> Calendar</a></li>
+              <li><a><i class="pi pi-cog"></i> Settings</a></li>
+            </ul>
+          </div>
+          <!-- Rodapé da sidebar -->
+          <div class="sidebar-footer">
+            <a class="user-info">
+              <img src="path_to_profile_picture.jpg" alt="Profile" class="profile-pic">
+              <span>Amy Elsner</span>
+            </a>
+          </div>
+        </div>
+      </ng-template>
+    </p-sidebar>
+  </div>
+</div>

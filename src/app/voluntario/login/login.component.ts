@@ -48,6 +48,7 @@ export class LoginComponent implements OnInit {
       summary: 'Sucesso',
       detail: 'Login feito com sucesso',
       styleClass: 'toast-success'});
+      this.router.navigate(['/menu']);
   }
   cadastrar() {
     this.router.navigate(['/cadastro']);

@@ -31,6 +31,9 @@ import { TriStateCheckboxModule } from 'primeng/tristatecheckbox';
 import { MenubarModule } from 'primeng/menubar';
 import { CheckboxModule } from 'primeng/checkbox';
 import { RippleModule } from 'primeng/ripple';
+import { MenuComponent } from './voluntario/menu/menu.component';
+import { MenuInstituicaoComponent } from './instituicao/menu-instituicao/menu-instituicao.component';
+import { SidebarModule } from 'primeng/sidebar';
 
 @NgModule({
   declarations: [
@@ -42,6 +45,8 @@ import { RippleModule } from 'primeng/ripple';
     CadastroInstituicaoComponent,
     PoliticaPrivacidadeComponent,
     CadastroRejeitadoComponent,
+    MenuComponent,
+    MenuInstituicaoComponent,
   ],
   imports: [
     BrowserModule,
@@ -62,7 +67,8 @@ import { RippleModule } from 'primeng/ripple';
     TriStateCheckboxModule,
     MenubarModule,
     CheckboxModule,
-    RippleModule
+    RippleModule,
+    SidebarModule
 
   ],
   providers: [],

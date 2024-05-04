@@ -5,7 +5,9 @@ import { CadastroComponent } from './voluntario/cadastro/cadastro.component';
 import { HomeComponent } from './home/home.component';
 import { LoginInstituicaoComponent } from './instituicao/login-instituicao/login-instituicao.component';
 import { CadastroInstituicaoComponent } from './instituicao/cadastro-instituicao/cadastro-instituicao.component';
-import { PoliticaPrivacidadeModule } from './politica-privacidade/politica-privacidade.module';
+import { PoliticaPrivacidadeComponent } from './politica-privacidade/politica-privacidade.component';
+import { MenuComponent } from './voluntario/menu/menu.component';
+import { MenuInstituicaoComponent } from './instituicao/menu-instituicao/menu-instituicao.component';
 
 const routes: Routes = [
   {
@@ -13,30 +15,47 @@ const routes: Routes = [
     pathMatch: 'full',
     redirectTo: 'home',
   },
+
   {
     path: 'login',
     component: LoginComponent,
   },
+
   {
     path: 'cadastro',
     component: CadastroComponent,
   },
+
   {
     path: 'home',
     component: HomeComponent,
   },
+
+  {
+    path: 'menu',
+    component: MenuComponent,
+  },
+
   {
     path: 'login-instituicao',
     component: LoginInstituicaoComponent,
   },
+
   {
     path: 'cadastro-instituicao',
     component: CadastroInstituicaoComponent,
   },
+
   {
     path: 'politica-privacidade',
-    component: PoliticaPrivacidadeModule,
+    component: PoliticaPrivacidadeComponent,
   },
+
+  {
+    path: 'menu-instituicao',
+    component: MenuInstituicaoComponent,
+  }
+
 ];
 
 @NgModule({

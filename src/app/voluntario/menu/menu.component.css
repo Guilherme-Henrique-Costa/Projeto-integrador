@@ -1,0 +1,110 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Ajusta a altura da sidebar para ocupar a tela inteira */
+}
+
+.custom-sidebar {
+  background-color: #ffffff; /* Cor de fundo */
+  color: #333333; /* Cor do texto */
+  font-family: 'Roboto', sans-serif; /* Fonte do texto */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Sombra para um efeito elevado */
+  border-right: 1px solid #e0e0e0; /* Borda sutil à direita */
+  width: 250px; /* Largura padrão */
+  display: flex;
+  flex-direction: column;
+}
+
+.box {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.cabeca {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px; /* Espaçamento interno */
+  border-bottom: 1px solid #e0e0e0; /* Linha sutil de separação */
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 15px; /* Espaço entre logo e texto */
+}
+
+.logo {
+  height: 40px; /* Ajuste na altura do logotipo */
+}
+
+.logo-text {
+  font-size: 22px;
+  font-weight: bold;
+  color: #007bff; /* Cor azul para o logo */
+}
+
+.close-btn {
+  background-color: transparent;
+  border: none;
+  cursor: pointer; /* Cursor do mouse como ponteiro */
+}
+
+.corpo {
+  flex-grow: 1; /* Cresce para ocupar o espaço disponível */
+  overflow-y: auto; /* Barra de rolagem se necessário */
+}
+
+.menu-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 10px; /* Espaço antes do primeiro item */
+}
+
+.menu-list li {
+  margin-bottom: 5px; /* Espaço entre os itens */
+}
+
+.menu-list a {
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  text-decoration: none;
+  color: inherit;
+  transition: background-color 0.2s; /* Transição suave ao mudar de cor */
+}
+
+.menu-list a:hover {
+  background-color: #f0f0f0; /* Cor de fundo ao passar o mouse */
+}
+
+.badge {
+  background-color: #007bff;
+  color: #ffffff;
+  padding: 3px 8px;
+  border-radius: 12px; /* Aumenta o arredondamento da badge */
+  font-size: 14px;
+  font-weight: bold;
+  margin-left: auto; /* Alinha a badge à direita */
+}
+
+.rodape {
+  padding: 20px;
+  background-color: #f9f9f9; /* Fundo sutil para o rodapé */
+  border-top: 1px solid #e0e0e0; /* Linha separadora */
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer; /* Indica que é clicável */
+}
+
+.profile-pic {
+  width: 40px;
+  height: 40px;
+  border-radius: 20px; /* Torna a foto de perfil completamente redonda */
+  object-fit: cover; /* Garante que a foto preencha o espaço sem distorcer */
+}
