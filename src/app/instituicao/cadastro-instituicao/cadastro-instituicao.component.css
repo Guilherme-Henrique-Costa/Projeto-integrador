@@ -1,6 +1,6 @@
 /* Estilização geral do formulário */
 .toolbar {
-  background-color: #ECEDF1; /* Cor de fundo clara */
+  background-color: hsl(278, 96%, 18%); /* Cor de fundo clara */
   padding: 10px 15px; /* Espaçamento interno */
   display: flex; /* Uso de Flexbox para alinhamento */
   align-items: center; /* Alinha os itens verticalmente no centro */
@@ -10,14 +10,14 @@
 
 .toolbar .title {
   font-size: 1.25rem; /* Tamanho da fonte para o título na barra de ferramentas */
-  color: #333; /* Cor da fonte para o título */
+  color: #fcf6f6; /* Cor da fonte para o título */
   font-weight: bold; /* Negrito para o título */
 }
 
 /* Estilos para botões ou outros controles dentro da .toolbar, se houver */
 .toolbar button {
   padding: 6px 12px;
-  background-color: #007bff; /* Exemplo de cor de fundo para botões */
+  background-color: #C00088; /* Exemplo de cor de fundo para botões */
   color: white;
   border: none;
   border-radius: 4px;
@@ -25,24 +25,25 @@
 }
 
 form.p-fluid {
-  width: 90%;
+  width: 50%;
   max-width: 500px;
   margin: 0 auto;
-  padding: 20px;
+  margin-top: 25px;
+  padding: 35px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
-  background-color: #fff;
+  background-color: #36085B;
 }
 
 /* Estilização para cada campo do formulário */
 .p-field {
-  margin-bottom: 16px;
+  margin-bottom: 35px;
 }
 
 .p-field label {
   display: block;
   margin-bottom: 4px;
-  color: #333;
+  color: #fbfafa;
   font-weight: 600;
 }
 
@@ -65,10 +66,9 @@ input[pInputText]:focus, .p-password input:focus {
 /* Estilizando o botão de envio */
 button.ui-button-primary {
   width: 100%;
-  padding: 10px 15px;
+  padding: 20px 30px;
   border: none;
-  border-radius: 4px;
-  background-color: #007bff;
+  background-color: #C00088;
   color: branco;
   font-size: 1rem;
   cursor: pointer;
@@ -76,5 +76,5 @@ button.ui-button-primary {
 }
 
 button.ui-button-primary:hover {
-  background-color: #0056b3;
+  background-color: #C00088;
 }
