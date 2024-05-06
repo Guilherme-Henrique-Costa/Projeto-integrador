@@ -12,10 +12,6 @@ export class MenuComponent {
 
   constructor() {}
 
-  closeCallback(e: Event): void {
-    this.sidebarRef.close(e);
-  }
-
   toggleSidebar() {
     this.sidebarVisible = !this.sidebarVisible;
   }
