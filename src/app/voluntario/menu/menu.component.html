@@ -3,7 +3,7 @@
   <p-sidebar #sidebarRef [(visible)]="sidebarVisible">
     <ng-template pTemplate="headless">
       <div class="flex flex-column h-full">
-        <!-- Cabeçalho com logo e botão de fechar -->
+        <!-- Cabeçalho com logo -->
         <div class="flex align-items-center justify-content-between px-4 pt-3">
           <span class="logo-text">Consac</span>
         </div>
@@ -14,7 +14,7 @@
             <li><a><i class="pi pi-bookmark"></i> Bookmarks</a></li>
             <li><a><i class="pi pi-chart-line"></i> Reports</a></li>
             <li><a><i class="pi pi-users"></i> Team</a></li>
-            <li><a><i class="pi pi-comments"></i> Messages <span class="badge">3</span></a></li>
+            <li><a><i class="pi pi-comments"></i> Messages</a></li>
             <li><a><i class="pi pi-calendar"></i> Calendar</a></li>
             <li><a><i class="pi pi-cog"></i> Settings</a></li>
           </ul>
@@ -29,16 +29,20 @@
     </ng-template>
   </p-sidebar>
 
-  <div class="app-container">
-    <!-- Toolbar que encolhe quando a sidebar está visível -->
-    <div class="toolbar" [ngClass]="{'shrink': sidebarVisible}">
-      <h1>{{ sidebarVisible ? 'Menu Compacto' : 'Menu Completo' }}</h1>
+  <!-- Toolbar que encolhe quando a sidebar está visível -->
+  <div class="toolbar" [ngClass]="{'shrink': sidebarVisible}">
+    <h1>{{ sidebarVisible ? 'Menu Compacto' : 'Menu Completo' }}</h1>
+    <div class="p-toolbar-group-left">
+      <span class="p-input-icon-left">
+          <i class="pi pi-search"></i>
+          <input pInputText placeholder="Search" />
+      </span>
     </div>
+  </div>
 
-    <div class="card flex justify-content-center">
-      <!-- Botão para abrir a sidebar -->
-      <p-button icon="pi pi-arrow-right" (click)="toggleSidebar()" aria-controls="sidebar"
-        [attr.aria-expanded]="sidebarVisible ? true : false"></p-button>
-    </div>
+  <div class="card flex justify-content-center">
+    <!-- Botão para abrir a sidebar -->
+    <p-button icon="pi pi-arrow-right" (click)="toggleSidebar()" aria-controls="sidebar"
+      [attr.aria-expanded]="sidebarVisible ? true : false"></p-button>
   </div>
 </div>
