@@ -44,7 +44,6 @@ import { SidebarModule } from 'primeng/sidebar';
     HomeComponent,
     CadastroInstituicaoComponent,
     PoliticaPrivacidadeComponent,
-    CadastroRejeitadoComponent,
     MenuComponent,
     MenuInstituicaoComponent,
   ],

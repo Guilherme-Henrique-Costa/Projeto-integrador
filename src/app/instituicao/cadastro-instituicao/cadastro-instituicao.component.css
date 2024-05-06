@@ -6,6 +6,7 @@
   align-items: center; /* Alinha os itens verticalmente no centro */
   justify-content: space-between; /* Distribui espaço entre os itens */
   border-bottom: 1px solid #CCCCCC; /* Linha divisória na parte inferior da barra de ferramentas */
+  margin: -10px;
 }
 
 .toolbar .title {

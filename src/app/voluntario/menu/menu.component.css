@@ -108,3 +108,10 @@
   border-radius: 20px; /* Torna a foto de perfil completamente redonda */
   object-fit: cover; /* Garante que a foto preencha o espaço sem distorcer */
 }
+.search-box {
+  padding: 8px;
+  margin-left: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+

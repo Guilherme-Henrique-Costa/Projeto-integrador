@@ -9,9 +9,9 @@ import { Text } from 'src/assets/dicionario';
   styleUrls: ['./cadastro-rejeitado.component.css'],
 })
 export class CadastroRejeitadoComponent implements OnInit {
-  texto = Text;
-  frasesAleatorias = frases;
-  label = label;
+  // texto = Text;
+  // frasesAleatorias = frases;
+  // label = label;
 
   constructor(private router: Router) {}
 
