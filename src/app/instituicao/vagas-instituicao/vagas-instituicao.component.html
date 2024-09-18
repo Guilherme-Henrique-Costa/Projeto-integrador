@@ -1,4 +1,4 @@
-<div class="app-container">
+<div class="vagas-container">
   <!-- Botão para abrir/fechar a barra lateral -->
   <button class="toggle-sidebar-btn" (click)="toggleSidebar()">
     <i class="pi" [ngClass]="{'pi-chevron-left': sidebarOpen, 'pi-chevron-right': !sidebarOpen}"></i>
@@ -40,21 +40,3 @@
         <i class="pi pi-search"></i>
       </button>
     </div>
-
-    <!-- Seção de Ranking -->
-    <div class="ranking-section">
-      <h3>Ranking</h3>
-      <ul>
-        <li *ngFor="let item of filteredRankingItems()">{{ item }}</li>
-      </ul>
-    </div>
-
-    <!-- Seção de Feedback -->
-    <div class="feedback-section">
-      <h3>Feedback</h3>
-      <ul>
-        <li *ngFor="let item of filteredFeedbackItems()">{{ item }}</li>
-      </ul>
-    </div>
-  </div>
-</div>

@@ -1,19 +1,80 @@
+<div class="container-dialogo">
+  <p-dialog
+    class="title"
+    [breakpoints]="{ '960px': '75vw', '640px': '100vw' }"
+    [style]="{ width: '50vw', color: '#eeb50b' }"
+    header="Nós respeitamos sua privacidade"
+    [(visible)]="displayPosition"
+    [position]="position"
+    [modal]="true"
+    [draggable]="false"
+    [resizable]="false"
+  >
+    <p>
+      {{ frasesAleatorias.frase6 }}
+      <a class="link-politica" routerLink="/politica-privacidade">
+        {{ text.politicaDePrivacidade }}
+      </a>
+    </p>
+    <ng-template pTemplate="footer">
+      <div class="footer">
+        <button
+          pButton
+          pRipple
+          [style]="{
+            color: '#000',
+            background: 'transparent',
+            border: '1px solid #000'
+          }"
+          (click)="rejeitar()"
+          [label]="label.rejeitar"
+          class="btn-rejeitar p-button-outlined p-button-rounded"
+        ></button>
+
+        <button
+          pButton
+          pRipple
+          type="button"
+          [label]="label.aceitar"
+          [style]="{
+            color: 'white',
+            background: '#eeb50b',
+            border: '1px solid #eeb50b'
+          }"
+          class="p-button-outlined p-button-rounded"
+          (click)="aceitar()"
+        ></button>
+      </div>
+    </ng-template>
+  </p-dialog>
+</div>
+
 <div class="login-container">
   <p-toast></p-toast>
   <button type="submit" pButton label="Voltar" icon="pi pi-arrow-left" (click)="voltar()"></button>
-  <h1>{{text.Consac}}</h1>
-  <h2>{{text.VI}}</h2>
+
+  <h1>{{ text.Consac }}</h1>
+  <h2>{{ text.VI }}</h2>
+
   <form (ngSubmit)="login()">
     <span class="p-float-label">
-      <input type="text" pInputText id="username" name="username" placeholder="Insira o nome da instituição" required>
+      <input type="text" pInputText id="username" name="username" placeholder="Insira o email da instituição" [(ngModel)]="email" required>
+      <label for="username">Email</label>
     </span>
+
     <span class="p-float-label">
-      <input type="password" pInputText id="password" name="password" placeholder={{placeholder.usuarioSenha}} required>
+      <input type="password" pInputText id="password" name="password" placeholder="{{ placeholder.usuarioSenha }}" [(ngModel)]="senha" required>
+      <label for="password">Senha</label>
     </span>
-    <button type="button" pButton pRipple (click)="login()" label="{{label.login}}" class="p-button-success"></button>
+
+    <button type="button" pButton pRipple (click)="login()" label="{{ label.login }}" class="p-button-success"></button>
+
+    <div class="button-redefinir">
+      <button type="button" pButton label="{{ label.redefinir }}" style="background: transparent; border: none;" (click)="redefinirSenha()"></button>
+    </div>
+
     <div class="register-button-container">
-      <button type="submit" pButton label={{label.cadastro}} style="background: transparent; border: none;" (click)="cadastrarInstituicao()"></button>
+      <button type="button" pButton label="{{ label.cadastro }}" style="background: transparent; border: none;" (click)="cadastrarInstituicao()"></button>
     </div>
   </form>
 </div>
-

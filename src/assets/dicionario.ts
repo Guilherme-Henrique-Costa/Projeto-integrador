@@ -20,6 +20,7 @@ export const label = {
   voltarParaInicio: 'VOLTAR PARA O INÍCIO',
   rejeitar: 'Rejeitar',
   aceitar: 'Aceitar',
+  redefinir: 'Esqueceu sua senha?'
 }
 
 export const frases = {

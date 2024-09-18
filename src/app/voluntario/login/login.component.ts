@@ -10,8 +10,8 @@ import { Text, placeholder, label, frases } from 'src/assets/dicionario';
   providers: [MessageService]
 })
 export class LoginComponent implements OnInit {
-  username: string = '';
-  password: string = '';
+  email: string = '';
+  senha: string = '';
 
   position!: string;
   displayPosition!: boolean;
@@ -31,30 +31,70 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     this.position = 'center';
     this.displayPosition = true;
-    // Intencionalmente vazio para uso futuro
+  }
+
+
+
+  login(): void {
+    const email = this.email;
+    const senha = this.senha;
+
+    // Verifica se o email é válido (contém "@" e algo antes e depois)
+    const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+    // Verifica se a senha tem pelo menos 3 caracteres
+    const senhaValida = senha.length >= 3;
+
+    // Apenas exibe erro se o email não for válido ou se a senha não cumprir as regras
+    if (emailValido && senhaValida) {
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Sucesso',
+        detail: 'Login feito com sucesso',
+        styleClass: 'toast-success'
+      });
+
+      setTimeout(() => {
+        this.router.navigate(['/menu']);
+      }, 1000);
+    } else {
+      // Determina qual mensagem de erro exibir
+      let erroMensagem = 'Email ou senha inválidos';
+      if (!emailValido) {
+        erroMensagem = 'O email inserido é inválido.';
+      } else if (!senhaValida) {
+        erroMensagem = 'A senha precisa ter no mínimo 3 caracteres.';
+      }
+
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Erro',
+        detail: erroMensagem,
+        styleClass: 'toast-error'
+      });
+    }
   }
 
   aceitar() {
+    this.displayPosition = false;
     this.router.navigate(['/login']);
   }
 
   rejeitar() {
+    this.displayPosition = false;
     this.router.navigate(['/cadastro-rejeitado']);
   }
 
-  login(): void {
-    this.messageService.add({
-      severity: 'sucesso',
-      summary: 'Sucesso',
-      detail: 'Login feito com sucesso',
-      styleClass: 'toast-success'});
-      this.router.navigate(['/menu']);
-  }
+
   cadastrar() {
     this.router.navigate(['/cadastro']);
   }
 
   voltar() {
     this.router.navigate(['/home']);
+  }
+
+  redefinirSenha() {
+    this.router.navigate(['/confirmar-senha']);
   }
 }

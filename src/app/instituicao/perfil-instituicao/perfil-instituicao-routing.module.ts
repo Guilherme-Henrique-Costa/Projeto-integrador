@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { MenuInstituicaoComponent } from './menu-instituicao.component';
+import { PerfilInstituicaoComponent } from './perfil-instituicao.component';
 
 const routes: Routes = [
-  { path: '', component: MenuInstituicaoComponent }
+  { path: '', component: PerfilInstituicaoComponent }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class MenuInstituicaoRoutingModule { }
+export class PerfilInstituicaoRoutingModule { }

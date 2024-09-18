@@ -28,7 +28,4 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 
-  politica() {
-    this.router.navigate(['/politica-privacidade']);
-  }
 }

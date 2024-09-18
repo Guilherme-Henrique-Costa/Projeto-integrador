@@ -1,16 +1,26 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { MenuItem } from 'primeng/api';
 
 @Component({
-  selector: 'app-cadastro-instituicao',
-  templateUrl: './cadastro-instituicao.component.html',
-  styleUrls: ['./cadastro-instituicao.component.css']
+  selector: 'app-perfil-instituicao',
+  templateUrl: './perfil-instituicao.component.html',
+  styleUrls: ['./perfil-instituicao.component.css']
 })
-export class CadastroInstituicaoComponent {
+export class PerfilInstituicaoComponent {
+  searchQuery: string = '';
+  sidebarOpen: boolean = true;
   cadastroForm: FormGroup;
-  items: MenuItem[] | undefined;
+
+  sidebarItems = [
+    { label: 'Perfil', icon: 'pi pi-user', route: '/perfil-instituicao' },
+    { label: 'Vagas', icon: 'pi pi-bookmark', route: '/vagas-instituicao' },
+    { label: 'Gestão', icon: 'pi pi-chart-line', route: '/gestao' },
+    { label: 'Mensagens', icon: 'pi pi-comments', route: '/mensagens-instituicao' },
+    { label: 'Ranking', icon: 'pi pi-star-fill', route: '/ranking' },
+    { label: 'Relatórios', icon: 'pi pi-copy', route: '/relatorios' },
+    { label: 'Sair', icon: 'pi pi-sign-out', route: '/login-instituicao' }
+  ];
 
   interestAreas: string[] = [
     'Auxilio a Pessoas com Deficiência',
@@ -24,8 +34,7 @@ export class CadastroInstituicaoComponent {
     'Direitos Humanos e Advocacia'
   ];
 
-  constructor(
-    private fb: FormBuilder,
+  constructor(private fb: FormBuilder,
     private router: Router,
   ) {
     this.cadastroForm = this.fb.group({
@@ -33,7 +42,7 @@ export class CadastroInstituicaoComponent {
         '',
         [
           Validators.required,
-          Validators.minLength(4),
+          Validators.minLength(3),
           Validators.maxLength(64),
           Validators.pattern('^[a-zA-ZÀ-ÿ\\s]*$') // Permite letras com acentos e espaços
         ]
@@ -62,7 +71,7 @@ export class CadastroInstituicaoComponent {
         '',
         [
           Validators.required,
-          Validators.minLength(3),
+          Validators.minLength(6),
           Validators.maxLength(20),
           Validators.pattern('^[a-zA-Z0-9!@#$%^&*()_+=-]*$') // Permite letras, números e caracteres especiais
         ]
@@ -79,7 +88,9 @@ export class CadastroInstituicaoComponent {
     });
   }
 
-  ngOnInit() {}
+  toggleSidebar(): void {
+    this.sidebarOpen = !this.sidebarOpen;
+  }
 
   onSubmit(): void {
     if (this.cadastroForm.valid) {
@@ -89,14 +100,6 @@ export class CadastroInstituicaoComponent {
       this.cadastroForm.markAllAsTouched(); // Marca todos os campos como 'tocados' para mostrar as mensagens de erro.
       console.error('Formulário inválido');
     }
-  }
-
-  voltar(): void {
-    this.router.navigate(['/login-instituicao']);
-  }
-
-  cadastrar(): void {
-    this.router.navigate(['/cadastro-instituicao']);
   }
 
   private cnpjValidator(control: AbstractControl): ValidationErrors | null {
@@ -168,9 +171,8 @@ export class CadastroInstituicaoComponent {
     return '';
   }
 
-
-  // Método auxiliar para gerar o rótulo correto dos campos
-  private getFieldLabel(field: string): string {
+   // Método auxiliar para gerar o rótulo correto dos campos
+   private getFieldLabel(field: string): string {
     const labels: { [key: string]: string } = {
       name: 'Nome',
       email: 'E-mail',
@@ -184,4 +186,11 @@ export class CadastroInstituicaoComponent {
     return labels[field] || field.charAt(0).toUpperCase() + field.slice(1);
   }
 
+  perfil(): void {
+    this.router.navigate(['/menu-instituicao']);
+  }
+
+  salvar(): void {
+    this.router.navigate(['/menu-instituicao']);
+  }
 }

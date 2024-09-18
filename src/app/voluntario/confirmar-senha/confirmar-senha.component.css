@@ -1,0 +1,83 @@
+/* Estilização principal */
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  background: linear-gradient(to bottom, #ff007f, #590fb7);
+  color: white;
+}
+
+.left-actions {
+  display: flex;
+  align-items: center;
+}
+
+.title {
+  flex-grow: 1;
+  text-align: center;
+  font-weight: bold;
+}
+
+.small-button {
+  padding: 4px 8px;
+  font-size: 12px;
+}
+
+.container {
+  width: 100%;
+  max-width: 400px;
+  margin: 100px auto;
+  padding: 10px;
+  background: linear-gradient(to bottom, #ff007f, #590fb7);
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+h2 {
+  color: white;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  color: white;
+  margin-bottom: 5px;
+  text-align: left;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+input[type="password"] {
+  background-color: white;
+  color: black;
+}
+
+.btn-confirm {
+  width: 100%;
+  padding: 10px;
+  font-size: 18px;
+  color: white;
+  background: #ff007f;
+  border: 2px solid transparent;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-confirm:hover {
+  background: transparent;
+  border: 2px solid #ff007f;
+}

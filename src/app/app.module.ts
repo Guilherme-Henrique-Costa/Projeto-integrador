@@ -20,8 +20,6 @@ import { CadastroInstituicaoComponent } from './instituicao/cadastro-instituicao
 import { PoliticaPrivacidadeComponent } from './politica-privacidade/politica-privacidade.component';
 import { ToastModule } from 'primeng/toast';
 import { DialogModule } from 'primeng/dialog';
-import { CadastroRejeitadoComponent } from './cadastro-rejeitado/cadastro-rejeitado.component';
-import { CommonModule } from '@angular/common';
 
 import { FormsModule,} from '@angular/forms';
 import { CardModule } from 'primeng/card';
@@ -34,6 +32,14 @@ import { RippleModule } from 'primeng/ripple';
 import { MenuComponent } from './voluntario/menu/menu.component';
 import { MenuInstituicaoComponent } from './instituicao/menu-instituicao/menu-instituicao.component';
 import { SidebarModule } from 'primeng/sidebar';
+import { ConfirmarSenhaComponent } from './voluntario/confirmar-senha/confirmar-senha.component';
+import { RatingModule } from 'primeng/rating';
+import { MessageService } from 'primeng/api';
+import { ConfirmarSenhaInstituicaoComponent } from './instituicao/confirmar-senha-instituicao/confirmar-senha-instituicao.component';
+import { PerfilInstituicaoComponent } from './instituicao/perfil-instituicao/perfil-instituicao.component';
+import { VagasInstituicaoComponent } from './instituicao/vagas-instituicao/vagas-instituicao.component';
+
+
 
 @NgModule({
   declarations: [
@@ -46,6 +52,10 @@ import { SidebarModule } from 'primeng/sidebar';
     PoliticaPrivacidadeComponent,
     MenuComponent,
     MenuInstituicaoComponent,
+    ConfirmarSenhaComponent,
+    ConfirmarSenhaInstituicaoComponent,
+    PerfilInstituicaoComponent,
+    VagasInstituicaoComponent
   ],
   imports: [
     BrowserModule,
@@ -67,10 +77,11 @@ import { SidebarModule } from 'primeng/sidebar';
     MenubarModule,
     CheckboxModule,
     RippleModule,
-    SidebarModule
+    SidebarModule,
+    RatingModule
 
   ],
-  providers: [],
+  providers: [MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

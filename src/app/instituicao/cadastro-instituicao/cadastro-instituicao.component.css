@@ -1,81 +1,129 @@
-/* Estilização geral do formulário */
+/* Estilos Globais */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body, html {
+  height: 100%;
+  background: linear-gradient(to bottom, #ff007f, #590fb7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Container Principal */
+.container {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+/* Toolbar */
 .toolbar {
-  background-color: hsl(278, 96%, 18%); /* Cor de fundo clara */
-  padding: 10px 15px; /* Espaçamento interno */
-  display: flex; /* Uso de Flexbox para alinhamento */
-  align-items: center; /* Alinha os itens verticalmente no centro */
-  justify-content: space-between; /* Distribui espaço entre os itens */
-  border-bottom: 1px solid #CCCCCC; /* Linha divisória na parte inferior da barra de ferramentas */
-  margin: -10px;
-}
-
-.toolbar .title {
-  font-size: 1.25rem; /* Tamanho da fonte para o título na barra de ferramentas */
-  color: #fcf6f6; /* Cor da fonte para o título */
-  font-weight: bold; /* Negrito para o título */
-}
-
-/* Estilos para botões ou outros controles dentro da .toolbar, se houver */
-.toolbar button {
-  padding: 6px 12px;
-  background-color: #C00088; /* Exemplo de cor de fundo para botões */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  background: linear-gradient(to bottom, #ff007f, #590fb7);
   color: white;
+  border-radius: 12px;
+}
+
+.left-actions {
+  display: flex;
+  align-items: center;
+}
+
+.title {
+  flex-grow: 1;
+  text-align: center;
+  font-weight: bold;
+}
+
+.small-button {
+  padding: 8px 12px;
+  font-size: 15px;
+  background-color: #ff007f;
+  color: #fff;
   border: none;
-  border-radius: 4px;
+  border-radius: 5px;
   cursor: pointer;
 }
 
-form.p-fluid {
-  width: 50%;
-  max-width: 500px;
-  margin: 0 auto;
-  margin-top: 25px;
-  padding: 35px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  background-color: #36085B;
+/* Formulário de Cadastro */
+.cadastro-container {
+  background-color: transparent;
 }
 
-/* Estilização para cada campo do formulário */
+.form-container {
+  background-color: #ff007f;
+  padding: 30px 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.form-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #fff;
+  background: linear-gradient(to bottom, #ff007f, #590fb7);
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 24px;
+}
+
+/* Campos do Formulário */
 .p-field {
-  margin-bottom: 35px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .p-field label {
-  display: block;
-  margin-bottom: 4px;
-  color: #fbfafa;
-  font-weight: 600;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #333;
 }
 
-/* Estilizando campos de entrada */
-input[pInputText] {
-  width: 100%;
+.p-field input,
+.p-field select,
+.p-field textarea {
+  width: 30%; /* Aumenta a largura dos inputs para 80% do contêiner */
   padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 1rem;
+  border: 1px solid #ff007f;
+  border-radius: 8px;
+  font-size: 16px;
+  background-color: #fff;
 }
 
-/* Estado de foco para destacar a borda do campo de entrada */
-input[pInputText]:focus, .p-password input:focus {
-  outline: none;
-  border-color: #80bdff;
-  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+.p-field textarea {
+  resize: none;
 }
 
-/* Estilizando o botão de envio */
-button.ui-button-primary {
-  width: 100%;
-  padding: 20px 30px;
+.error-message {
+  color: #ff007f;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+/* Botão de Submissão */
+.submit-button {
+  width: 50%; /* Aumenta a largura do botão para 80% do contêiner */
+  padding: 15px;
+  background-color: #ff007f;
+  color: white;
   border: none;
-  background-color: #C00088;
-  color: branco;
-  font-size: 1rem;
+  border-radius: 8px;
+  font-size: 18px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  margin-top: 20px;
+  text-align: center;
 }
 
-button.ui-button-primary:hover {
-  background-color: #C00088;
+.submit-button:hover {
+  background-color: #e6006f;
 }

@@ -1,64 +1,39 @@
-.container-cadastro-rejeitado {
-  background-repeat: no-repeat;
-  background-size: cover;
-  height: 100vh;
-  width: 100%;
-
-}
-
-.container-cadastro-rejeitado:before {
-  content: "";
-  background-color: rgba(0, 0, 0, 0.5);
-  border-radius: 10px 0px 0 10px;
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-}
-
-.container-image {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-top: 48px;
-
-}
-
-.container-image img {
-  width: 120px;
-}
-
-.container-textos {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  flex-direction: column;
-}
-
-.container-textos {
-  color: #FEFEFE;
-  font-size: 1.5rem;
+.container {
+  max-width: 600px;
+  margin: 100px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: #f9f9f9;
   text-align: center;
-  line-height: 2.5rem;
-  padding: 8px;
-  position: relative;
-  bottom: 100px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.btn-provar-vida {
-  background-color: var(--color-primary);
-  color: #ffffff;
-  width: 100%;
-
-}
-.btn-provar-vida:hover {
-  background-color: var(--color-primary);
-}
-.container-textos p{
-  margin-top: 32px;
-  font-size: 1.8rem;
+h1 {
+  color: #e74c3c;
+  font-size: 24px;
+  margin-bottom: 20px;
 }
 
+p {
+  font-size: 16px;
+  color: #333;
+  line-height: 1.6;
+  margin-bottom: 15px;
+}
+
+.btn-voltar {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-voltar:hover {
+  background-color: #0056b3;
+}

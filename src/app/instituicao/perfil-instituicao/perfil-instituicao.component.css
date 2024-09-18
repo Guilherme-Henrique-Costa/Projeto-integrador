@@ -1,0 +1,195 @@
+.perfil-container {
+  display: flex;
+  height: 100vh;
+  font-family: 'Roboto', sans-serif;
+}
+
+.custom-sidebar {
+  width: 250px;
+  transition: width 0.3s;
+}
+
+.custom-sidebar.closed {
+  width: 0;
+  overflow: hidden;
+}
+
+.main-content {
+  flex-grow: 1;
+  transition: margin-left 0.3s;
+  padding: 40px;
+  background-color: #f9f9f9;
+  overflow-y: auto;
+}
+
+.main-content.expanded {
+  margin-left: 0;
+}
+
+.toggle-sidebar-btn {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background-color: #ff0080;
+  border: none;
+  border-radius: 50%;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.toggle-sidebar-btn i {
+  font-size: 18px;
+}
+
+.toggle-sidebar-btn:hover {
+  background-color: #f0f0f0;
+}
+
+.closed .toggle-sidebar-btn {
+  right: -40px; /* Ajusta a posição do botão quando a sidebar está fechada */
+}
+
+/* Sidebar de Navegação */
+.custom-sidebar {
+  width: 250px;
+  background-color: #ffffff;
+  color: #333;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.cabeca {
+  padding: 50px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.cabeca-button {
+  background-color: transparent; /* Fundo transparente por padrão */
+  border: none; /* Remove a borda */
+  padding: 10px;
+  cursor: pointer;
+  color: #007bff; /* Cor do texto */
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.cabeca-button:hover {
+  background-color: transparent; /* Fundo transparente ao passar o mouse */
+  color: #ff0080; /* Opcional: muda a cor do texto ao passar o mouse */
+}
+
+
+.logo-text {
+  font-size: 24px;
+  font-weight: bold;
+  color: #007bff;
+}
+
+.corpo {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.menu-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu-list li {
+  margin: 10px 0;
+}
+
+.menu-list a {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  color: #333;
+  text-decoration: none;
+  transition: background-color 0.3s;
+}
+
+.menu-list a:hover {
+  background-color: #f0f0f0;
+}
+
+.rodape {
+  padding: 20px;
+  border-top: 1px solid #e0e0e0;
+  text-align: center;
+  font-weight: bold;
+}
+
+.profile-container {
+    width: 100%;
+    padding: 20px;
+    background: linear-gradient(to bottom, #ff0080, #8000ff);
+    color: white;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile-container h3 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea {
+    width: 300px;
+    padding: 10px;
+    border-radius: 20px;
+    border: none;
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #333;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+textarea:focus {
+    outline: none;
+}
+
+textarea {
+    height: 80px;
+}
+
+button {
+    margin-top: 15px;
+    padding: 10px;
+    border: none;
+    border-radius: 20px;
+    background-color: rgb(255, 0, 170);
+    color: #ffffff;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #ff0080;
+}
+
+small {
+    color: #ffcccb;
+    font-size: 12px;
+    margin-top: -10px;
+    margin-bottom: 10px;
+}

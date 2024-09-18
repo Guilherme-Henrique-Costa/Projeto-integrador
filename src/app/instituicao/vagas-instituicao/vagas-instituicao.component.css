@@ -1,4 +1,4 @@
-.app-container {
+.vagas-container {
   display: flex;
 }
 
@@ -149,48 +149,4 @@
 
 .search-button:hover {
   background-color: #0056b3;
-}
-
-/* Seções de Vagas, Ranking e Feedback */
-.vagas-section,
-.ranking-section,
-.feedback-section {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  margin-bottom: 30px;
-}
-
-.vagas-section h3,
-.ranking-section h3,
-.feedback-section h3 {
-  margin-bottom: 20px;
-  color: #333;
-  font-size: 20px;
-  border-bottom: 2px solid #007bff;
-  padding-bottom: 10px;
-}
-
-.vagas-section ul,
-.ranking-section ul,
-.feedback-section ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.vagas-section ul li,
-.ranking-section ul li,
-.feedback-section ul li {
-  padding: 10px 0;
-  border-bottom: 1px solid #eee;
-  font-size: 16px;
-  color: #555;
-}
-
-.vagas-section ul li:last-child,
-.ranking-section ul li:last-child,
-.feedback-section ul li:last-child {
-  border-bottom: none;
 }

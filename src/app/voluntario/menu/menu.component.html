@@ -1,48 +1,69 @@
 <div class="app-container">
-  <!-- Sidebar com conteúdo personalizado -->
-  <p-sidebar #sidebarRef [(visible)]="sidebarVisible">
-    <ng-template pTemplate="headless">
-      <div class="flex flex-column h-full">
-        <!-- Cabeçalho com logo -->
-        <div class="flex align-items-center justify-content-between px-4 pt-3">
-          <span class="logo-text">Consac</span>
-        </div>
-        <!-- Corpo da sidebar -->
-        <div class="overflow-y-auto">
-          <ul class="menu-list">
-            <li><a><i class="pi pi-home"></i> Dashboard</a></li>
-            <li><a><i class="pi pi-bookmark"></i> Bookmarks</a></li>
-            <li><a><i class="pi pi-chart-line"></i> Reports</a></li>
-            <li><a><i class="pi pi-users"></i> Team</a></li>
-            <li><a><i class="pi pi-comments"></i> Messages</a></li>
-            <li><a><i class="pi pi-calendar"></i> Calendar</a></li>
-            <li><a><i class="pi pi-cog"></i> Settings</a></li>
-          </ul>
-        </div>
-        <!-- Rodapé da sidebar -->
-        <div class="sidebar-footer">
-          <a class="user-info">
-            <span>Amy Elsner</span>
-          </a>
+  <!-- Botão para abrir/fechar a barra lateral -->
+  <button class="toggle-sidebar-btn" (click)="toggleSidebar()">
+    <i class="pi" [ngClass]="{'pi-chevron-left': sidebarOpen, 'pi-chevron-right': !sidebarOpen}"></i>
+  </button>
+
+  <!-- Sidebar de Navegação -->
+  <div class="custom-sidebar" [ngClass]="{'closed': !sidebarOpen}">
+    <div class="box">
+      <div class="cabeca">
+        <span class="logo-text">Menu Voluntário</span>
+      </div>
+      <div class="corpo">
+        <ul class="menu-list">
+          <li *ngFor="let item of sidebarItems">
+            <a [routerLink]="item.route">
+              <i [class]="item.icon"></i> {{ item.label }}
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="rodape">
+        <div class="user-info">
+          <span>Aluno</span>
         </div>
       </div>
-    </ng-template>
-  </p-sidebar>
-
-  <!-- Toolbar que encolhe quando a sidebar está visível -->
-  <div class="toolbar" [ngClass]="{'shrink': sidebarVisible}">
-    <h1>{{ sidebarVisible ? 'Menu Compacto' : 'Menu Completo' }}</h1>
-    <div class="p-toolbar-group-left">
-      <span class="p-input-icon-left">
-          <i class="pi pi-search"></i>
-          <input pInputText placeholder="Search" />
-      </span>
     </div>
   </div>
 
-  <div class="card flex justify-content-center">
-    <!-- Botão para abrir a sidebar -->
-    <p-button icon="pi pi-arrow-right" (click)="toggleSidebar()" aria-controls="sidebar"
-      [attr.aria-expanded]="sidebarVisible ? true : false"></p-button>
+  <!-- Conteúdo Principal -->
+  <div class="main-content" [ngClass]="{'expanded': !sidebarOpen}">
+    <!-- Barra de Busca -->
+    <div class="search-bar">
+      <input type="text" placeholder="Pesquisar" [(ngModel)]="searchQuery" />
+      <button class="search-button">
+        <i class="pi pi-search"></i>
+      </button>
+    </div>
+
+    <!-- Seção de Vagas -->
+    <div class="vagas-section">
+      <h3>Vagas</h3>
+      <ul>
+        <li *ngFor="let vaga of filteredVagasItems()">
+          <div>
+            <strong>{{ vaga.title }}</strong>
+            <p>{{ vaga.description }}</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Seção de Ranking -->
+    <div class="ranking-section">
+      <h3>Ranking</h3>
+      <ul>
+        <li *ngFor="let item of filteredRankingItems()">{{ item }}</li>
+      </ul>
+    </div>
+
+    <!-- Seção de Feedback -->
+    <div class="feedback-section">
+      <h3>Feedback</h3>
+      <ul>
+        <li *ngFor="let item of filteredFeedbackItems()">{{ item }}</li>
+      </ul>
+    </div>
   </div>
 </div>

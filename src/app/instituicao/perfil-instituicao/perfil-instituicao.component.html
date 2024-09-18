@@ -1,0 +1,88 @@
+<div class="perfil-container">
+  <!-- Sidebar de Navegação -->
+  <button class="toggle-sidebar-btn" (click)="toggleSidebar()">
+    <i class="pi" [ngClass]="{'pi-chevron-left': sidebarOpen, 'pi-chevron-right': !sidebarOpen}"></i>
+  </button>
+
+  <!-- Sidebar de Navegação -->
+  <div class="custom-sidebar" [ngClass]="{'closed': !sidebarOpen}">
+    <div class="box">
+      <div class="cabeca">
+        <button class="cabeca-button" (click)="perfil()">
+          <span class="logo-text">Perfil Instituição</span>
+        </button>
+      </div>
+      <div class="corpo">
+        <ul class="menu-list">
+          <li *ngFor="let item of sidebarItems">
+            <a [routerLink]="item.route">
+              <i [class]="item.icon"></i> {{ item.label }}
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="rodape">
+        <div class="user-info">
+          <span>Instituição</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Conteúdo Principal -->
+  <div class="main-content" [ngClass]="{'expanded': !sidebarOpen}">
+    <div class="profile-container">
+        <h3>Perfil</h3>
+        <form [formGroup]="cadastroForm" (ngSubmit)="onSubmit()">
+          <!--Campo Nome-->
+            <label for="name">Nome:</label>
+            <input type="text" id="name" formControlName="name">
+            <div *ngIf="cadastroForm.get('name')?.touched && cadastroForm.get('name')?.invalid">
+                <small>{{ getErrorMessage('name') }}</small>
+            </div>
+          <!--Campo E-mail-->
+            <label for="email">E-mail:</label>
+            <input type="email" id="email" formControlName="email">
+            <div *ngIf="cadastroForm.get('email')?.touched && cadastroForm.get('email')?.invalid">
+                <small>{{ getErrorMessage('email') }}</small>
+            </div>
+          <!--Campo CNPJ-->
+            <label for="cnpj">CNPJ:</label>
+            <input type="text" id="cnpj" formControlName="cnpj">
+            <div *ngIf="cadastroForm.get('cnpj')?.touched && cadastroForm.get('cnpj')?.invalid">
+                <small>{{ getErrorMessage('cnpj') }}</small>
+            </div>
+          <!--Campo Área de atuação-->
+            <div>
+            <label for="interestArea">Área de atuação:</label>
+        <select id="interestArea" formControlName="interestArea">
+          <option *ngFor="let area of interestAreas" [value]="area">{{ area }}</option>
+        </select>
+        <small *ngIf="cadastroForm.get('interestArea')?.invalid && cadastroForm.get('interestArea')?.touched" class="p-error">
+          {{ getErrorMessage('interestArea') }}
+        </small>
+      </div>
+          <!--Campo Senha-->
+            <label for="password">Senha:</label>
+            <input type="password" id="password" formControlName="password">
+            <div *ngIf="cadastroForm.get('password')?.touched && cadastroForm.get('password')?.invalid">
+                <small>{{ getErrorMessage('password') }}</small>
+            </div>
+          <!--Campo Confirmação de Senha-->
+            <label for="confirmPassword">Confirme sua senha:</label>
+            <input type="password" id="confirmPassword" formControlName="confirmPassword">
+            <div *ngIf="cadastroForm.get('confirmPassword')?.touched && cadastroForm.get('confirmPassword')?.invalid">
+                <small>{{ getErrorMessage('confirmPassword') }}</small>
+            </div>
+          <!--Campo Descrição-->
+            <label for="description">Descrição:</label>
+            <textarea id="description" formControlName="description"></textarea>
+            <div *ngIf="cadastroForm.get('description')?.touched && cadastroForm.get('description')?.invalid">
+                <small>{{ getErrorMessage('description') }}</small>
+            </div>
+          <!--Botão para Salvar as mudanças-->
+            <button type="submit" (click)="salvar()">Salvar mudanças</button>
+        </form>
+    </div>
+  </div>
+</div>

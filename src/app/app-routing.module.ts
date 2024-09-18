@@ -8,6 +8,11 @@ import { CadastroInstituicaoComponent } from './instituicao/cadastro-instituicao
 import { PoliticaPrivacidadeComponent } from './politica-privacidade/politica-privacidade.component';
 import { MenuComponent } from './voluntario/menu/menu.component';
 import { MenuInstituicaoComponent } from './instituicao/menu-instituicao/menu-instituicao.component';
+import { ConfirmarSenhaComponent } from './voluntario/confirmar-senha/confirmar-senha.component';
+import { CadastroRejeitadoComponent } from './cadastro-rejeitado/cadastro-rejeitado.component';
+import { ConfirmarSenhaInstituicaoComponent } from './instituicao/confirmar-senha-instituicao/confirmar-senha-instituicao.component';
+import { PerfilInstituicaoComponent } from './instituicao/perfil-instituicao/perfil-instituicao.component';
+import { VagasInstituicaoComponent } from './instituicao/vagas-instituicao/vagas-instituicao.component';
 
 const routes: Routes = [
   {
@@ -54,7 +59,31 @@ const routes: Routes = [
   {
     path: 'menu-instituicao',
     component: MenuInstituicaoComponent,
-  }
+  },
+
+  {
+    path: 'confirmar-senha',
+    component: ConfirmarSenhaComponent,
+  },
+
+  {
+    path: 'confirmar-senha-instituicao',
+    component: ConfirmarSenhaInstituicaoComponent,
+  },
+
+  { path: 'cadastro-rejeitado',
+    component: CadastroRejeitadoComponent,
+  },
+
+  {
+    path: 'perfil-instituicao',
+    component: PerfilInstituicaoComponent,
+  },
+
+  {
+    path: 'vagas-instituicao',
+    component: VagasInstituicaoComponent,
+  },
 
 ];
 

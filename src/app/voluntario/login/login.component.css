@@ -1,3 +1,26 @@
+.container-dialogo .title {
+  font-weight: bold;
+  color: #eeb50b;
+}
+
+.container-dialogo .link-politica {
+  color: #eeb50b;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.container-dialogo .footer {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 10px;
+}
+
+.container-dialogo .btn-rejeitar {
+  color: #000;
+  background: transparent;
+  border: 1px solid #000;
+}
+
 .login-container {
   display: flex;
   flex-direction: column;
@@ -42,11 +65,18 @@
   height: 50px;
 }
 
-.login-container .register-button-container {
+.login-container .button-redefinir {
   display: flex;
   justify-content: center;
   width: 100%;
   margin-top: 10px;
+}
+
+.login-container .register-button-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 3px;
 }
 
 .login-container .p-float-label input:focus {
