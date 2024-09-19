@@ -65,7 +65,7 @@
   font-size: 24px;
   font-weight: bold;
   color: #007bff;
-  margin-top: 10px; /* Adicionar margem para separar o texto do botão */
+  margin-top: 10px;
 }
 
 .corpo {
@@ -149,4 +149,59 @@
 
 .search-button:hover {
   background-color: #0056b3;
+}
+
+/* Formulário de Vagas */
+.vaga-form-container {
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.vaga-form-container h2 {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+form label {
+  display: block;
+  font-size: 14px;
+  color: #666;
+  margin-top: 10px;
+  text-align: left;
+}
+
+form input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.submit-btn {
+  background-color: #ff007f;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 20px;
+}
+
+.submit-btn:hover {
+  background-color: #d1006a;
+}
+
+/* Estilização para mensagens de erro */
+.error-message {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
 }
