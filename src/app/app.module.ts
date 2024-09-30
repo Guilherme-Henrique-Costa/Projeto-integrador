@@ -38,7 +38,7 @@ import { MessageService } from 'primeng/api';
 import { ConfirmarSenhaInstituicaoComponent } from './instituicao/confirmar-senha-instituicao/confirmar-senha-instituicao.component';
 import { PerfilInstituicaoComponent } from './instituicao/perfil-instituicao/perfil-instituicao.component';
 import { VagasInstituicaoComponent } from './instituicao/vagas-instituicao/vagas-instituicao.component';
-import { GestaoInstituicaoComponent } from './gestao-instituicao/gestao-instituicao.component';
+import { GestaoInstituicaoComponent } from './instituicao/gestao-instituicao/gestao-instituicao.component';
 
 
 

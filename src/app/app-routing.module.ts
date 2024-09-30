@@ -13,6 +13,7 @@ import { CadastroRejeitadoComponent } from './cadastro-rejeitado/cadastro-rejeit
 import { ConfirmarSenhaInstituicaoComponent } from './instituicao/confirmar-senha-instituicao/confirmar-senha-instituicao.component';
 import { PerfilInstituicaoComponent } from './instituicao/perfil-instituicao/perfil-instituicao.component';
 import { VagasInstituicaoComponent } from './instituicao/vagas-instituicao/vagas-instituicao.component';
+import { GestaoInstituicaoComponent } from './instituicao/gestao-instituicao/gestao-instituicao.component';
 
 const routes: Routes = [
   {
@@ -84,6 +85,11 @@ const routes: Routes = [
     path: 'vagas-instituicao',
     component: VagasInstituicaoComponent,
   },
+
+  {
+    path: 'gestao',
+    component: GestaoInstituicaoComponent,
+  }
 
 ];
 
