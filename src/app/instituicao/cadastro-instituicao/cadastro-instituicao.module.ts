@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 
 import { CadastroInstituicaoRoutingModule } from './cadastro-instituicao-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ProgressBarModule } from 'primeng/progressbar';
 
 
 @NgModule({
@@ -12,6 +13,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     CadastroInstituicaoRoutingModule,
     ReactiveFormsModule,
+    ProgressBarModule,
+
   ]
 })
 export class CadastroInstituicaoModule { }

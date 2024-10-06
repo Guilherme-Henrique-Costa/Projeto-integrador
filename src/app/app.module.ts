@@ -20,6 +20,7 @@ import { CadastroInstituicaoComponent } from './instituicao/cadastro-instituicao
 import { PoliticaPrivacidadeComponent } from './politica-privacidade/politica-privacidade.component';
 import { ToastModule } from 'primeng/toast';
 import { DialogModule } from 'primeng/dialog';
+import { ProgressBarModule } from 'primeng/progressbar';
 
 import { FormsModule,} from '@angular/forms';
 import { CardModule } from 'primeng/card';
@@ -39,6 +40,8 @@ import { ConfirmarSenhaInstituicaoComponent } from './instituicao/confirmar-senh
 import { PerfilInstituicaoComponent } from './instituicao/perfil-instituicao/perfil-instituicao.component';
 import { VagasInstituicaoComponent } from './instituicao/vagas-instituicao/vagas-instituicao.component';
 import { GestaoInstituicaoComponent } from './instituicao/gestao-instituicao/gestao-instituicao.component';
+import { HttpClientModule } from '@angular/common/http';
+import { LoginService } from './instituicao/login-instituicao/login-instituicao.service';
 
 
 
@@ -47,7 +50,6 @@ import { GestaoInstituicaoComponent } from './instituicao/gestao-instituicao/ges
     AppComponent,
     LoginComponent,
     CadastroComponent,
-    LoginInstituicaoComponent,
     HomeComponent,
     CadastroInstituicaoComponent,
     PoliticaPrivacidadeComponent,
@@ -57,7 +59,8 @@ import { GestaoInstituicaoComponent } from './instituicao/gestao-instituicao/ges
     ConfirmarSenhaInstituicaoComponent,
     PerfilInstituicaoComponent,
     VagasInstituicaoComponent,
-    GestaoInstituicaoComponent
+    GestaoInstituicaoComponent,
+    LoginInstituicaoComponent
   ],
   imports: [
     BrowserModule,
@@ -80,10 +83,12 @@ import { GestaoInstituicaoComponent } from './instituicao/gestao-instituicao/ges
     CheckboxModule,
     RippleModule,
     SidebarModule,
-    RatingModule
+    RatingModule,
+    HttpClientModule,
+    ProgressBarModule
 
   ],
-  providers: [MessageService],
+  providers: [MessageService,LoginService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Router } from '@angular/router';
+import { CadastroInstituicaoService, Instituicao } from './cadastro-instituicao.service';
 import { MenuItem } from 'primeng/api';
 
 @Component({
@@ -11,6 +12,7 @@ import { MenuItem } from 'primeng/api';
 export class CadastroInstituicaoComponent {
   cadastroForm: FormGroup;
   items: MenuItem[] | undefined;
+  forcaSenha: number = 0; // Variável para armazenar a força da senha
 
   interestAreas: string[] = [
     'Auxilio a Pessoas com Deficiência',
@@ -27,6 +29,7 @@ export class CadastroInstituicaoComponent {
   constructor(
     private fb: FormBuilder,
     private router: Router,
+    private cadastroService: CadastroInstituicaoService // Injeção do serviço
   ) {
     this.cadastroForm = this.fb.group({
       name: [
@@ -35,7 +38,7 @@ export class CadastroInstituicaoComponent {
           Validators.required,
           Validators.minLength(4),
           Validators.maxLength(64),
-          Validators.pattern('^[a-zA-ZÀ-ÿ\\s]*$') // Permite letras com acentos e espaços
+          Validators.pattern('^[a-zA-ZÀ-ÿ\\s]*$')
         ]
       ],
       email: [
@@ -45,7 +48,7 @@ export class CadastroInstituicaoComponent {
           Validators.minLength(4),
           Validators.maxLength(40),
           Validators.email,
-          Validators.pattern('^.{1,}@.{1,}$') // Garante que o email tenha um '@'
+          Validators.pattern('^.{1,}@.{1,}$')
         ]
       ],
       cnpj: [
@@ -54,28 +57,33 @@ export class CadastroInstituicaoComponent {
           Validators.required,
           Validators.minLength(14),
           Validators.maxLength(16),
-          Validators.pattern('^[0-9]*$'), // Aceita apenas números
-          this.cnpjValidator // Validação customizada do CNPJ
+          Validators.pattern('^[0-9]*$'),
+          this.cnpjValidator
         ]
       ],
       password: [
         '',
         [
           Validators.required,
-          Validators.minLength(3),
+          Validators.minLength(8),
           Validators.maxLength(20),
-          Validators.pattern('^[a-zA-Z0-9!@#$%^&*()_+=-]*$') // Permite letras, números e caracteres especiais
+          Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*()_+=-]).{8,20}$')
         ]
       ],
-      interestArea: ['', Validators.required], // Obrigatório
+      interestArea: ['', Validators.required],
       competence: ['', [Validators.required, Validators.maxLength(150)]],
       description: [
         '',
         [
           Validators.maxLength(250),
-          Validators.pattern('^[a-zA-ZÀ-ÿ0-9\\s.,!?]*$') // Permite letras, números, acentos e alguns caracteres especiais
+          Validators.pattern('^[a-zA-ZÀ-ÿ0-9\\s.,!?]*$')
         ]
       ]
+    });
+
+    // Assinatura para monitorar mudanças no campo de senha
+    this.cadastroForm.get('password')?.valueChanges.subscribe(value => {
+      this.forcaSenha = this.calcularForcaSenha(value);
     });
   }
 
@@ -83,12 +91,43 @@ export class CadastroInstituicaoComponent {
 
   onSubmit(): void {
     if (this.cadastroForm.valid) {
-      console.log(this.cadastroForm.value);
-      // Lógica de submissão, como enviar para uma API.
+      const instituicao: Instituicao = this.cadastroForm.value;
+
+      this.cadastroService.cadastrarInstituicao(instituicao).subscribe(
+        (response) => {
+          console.log('Instituição cadastrada com sucesso:', response);
+          this.router.navigate(['/menu-instituicao']);
+        },
+        (error) => {
+          console.error('Erro ao cadastrar a instituição:', error);
+        }
+      );
     } else {
-      this.cadastroForm.markAllAsTouched(); // Marca todos os campos como 'tocados' para mostrar as mensagens de erro.
+      this.cadastroForm.markAllAsTouched();
       console.error('Formulário inválido');
     }
+  }
+
+  calcularForcaSenha(senha: string): number {
+    let pontuacao = 0;
+
+    if (senha.length >= 8) {
+      pontuacao += 1;
+    }
+    if (/[a-z]/.test(senha)) {
+      pontuacao += 1; // Letra minúscula
+    }
+    if (/[A-Z]/.test(senha)) {
+      pontuacao += 1; // Letra maiúscula
+    }
+    if (/\d/.test(senha)) {
+      pontuacao += 1; // Número
+    }
+    if (/[!@#$%^&*()_+=-]/.test(senha)) {
+      pontuacao += 1; // Caractere especial
+    }
+
+    return pontuacao; // Retorna a pontuação da força da senha (0-5)
   }
 
   voltar(): void {
@@ -96,7 +135,7 @@ export class CadastroInstituicaoComponent {
   }
 
   cadastrar(): void {
-    this.router.navigate(['/cadastro-instituicao']);
+    this.router.navigate(['/']);
   }
 
   private cnpjValidator(control: AbstractControl): ValidationErrors | null {
@@ -165,11 +204,10 @@ export class CadastroInstituicaoComponent {
     if (control?.hasError('invalidCnpj')) {
       return `CNPJ inválido.`;
     }
+
     return '';
   }
 
-
-  // Método auxiliar para gerar o rótulo correto dos campos
   private getFieldLabel(field: string): string {
     const labels: { [key: string]: string } = {
       name: 'Nome',
@@ -183,5 +221,4 @@ export class CadastroInstituicaoComponent {
     };
     return labels[field] || field.charAt(0).toUpperCase() + field.slice(1);
   }
-
 }
