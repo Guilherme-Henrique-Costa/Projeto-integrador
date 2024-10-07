@@ -1,11 +1,10 @@
 <div class="cadastro-container">
-<div class="toolbar">
-  <div class="left-actions">
-    <button type="submit" pButton label="Voltar" (click)="voltar()" class="small-button"></button>
+  <div class="toolbar">
+    <div class="left-actions">
+      <button type="button" pButton label="Voltar" (click)="voltar()" class="small-button"></button>
+    </div>
+    <div class="title">CONSAC</div>
   </div>
-  <div class="title">CONSAC</div>
-</div>
-
 
   <div class="form-container">
     <h2>Cadastro Instituição</h2>
@@ -29,15 +28,6 @@
         </small>
       </div>
 
-      <!-- Campo CNPJ -->
-      <div class="p-field">
-        <label for="cnpj">CNPJ:</label>
-        <input pInputText id="cnpj" formControlName="cnpj" />
-        <small *ngIf="cadastroForm.get('cnpj')?.invalid && cadastroForm.get('cnpj')?.touched" class="p-error">
-          {{ getErrorMessage('cnpj') }}
-        </small>
-      </div>
-
       <!-- Área de Atuação -->
       <div class="p-field">
         <label for="interestArea">Área de atuação:</label>
@@ -50,33 +40,23 @@
       </div>
 
       <!-- Campo Senha -->
-<div class="p-field">
-  <label for="password">Senha:</label>
-  <input pPassword id="password" formControlName="password" />
-  <small *ngIf="cadastroForm.get('password')?.invalid && cadastroForm.get('password')?.touched" class="p-error">
-    {{ getErrorMessage('password') }}
-  </small>
+      <div class="p-field">
+        <label for="password">Senha:</label>
+        <input pPassword id="password" formControlName="password" />
+        <small *ngIf="cadastroForm.get('password')?.invalid && cadastroForm.get('password')?.touched" class="p-error">
+          {{ getErrorMessage('password') }}
+        </small>
 
-  <!-- Indicador de força da senha -->
-  <p-progressBar [value]="forcaSenha * 20"></p-progressBar>
-  <div class="senha-forca-texto">
-    <span *ngIf="forcaSenha === 0">Senha muito fraca</span>
-    <span *ngIf="forcaSenha === 1">Fraca</span>
-    <span *ngIf="forcaSenha === 2">Média</span>
-    <span *ngIf="forcaSenha === 3">Boa</span>
-    <span *ngIf="forcaSenha > 4">Forte</span>
-  </div>
-</div>
-
-<!-- Campo Confirmação de Senha -->
-<div class="p-field">
-  <label for="confirmPassword">Confirme sua senha:</label>
-  <input pPassword id="confirmPassword" formControlName="confirmPassword" />
-  <small *ngIf="cadastroForm.get('confirmPassword')?.invalid && cadastroForm.get('confirmPassword')?.touched" class="p-error">
-    {{ getErrorMessage('confirmPassword') }}
-  </small>
-</div>
-
+        <!-- Indicador de força da senha -->
+        <p-progressBar [value]="forcaSenha * 20"></p-progressBar>
+        <div class="senha-forca-texto">
+          <span *ngIf="forcaSenha === 0">Senha muito fraca</span>
+          <span *ngIf="forcaSenha === 1">Fraca</span>
+          <span *ngIf="forcaSenha === 2">Média</span>
+          <span *ngIf="forcaSenha === 3">Boa</span>
+          <span *ngIf="forcaSenha > 4">Forte</span>
+        </div>
+      </div>
 
       <!-- Campo Descrição -->
       <div class="p-field">
@@ -88,7 +68,7 @@
       </div>
 
       <!-- Botão de Cadastro -->
-      <button type="submit" pButton label="Cadastrar" (click)="cadastrar()"></button>
+      <button type="submit" pButton label="Cadastrar"></button>
     </form>
   </div>
 </div>

@@ -51,30 +51,63 @@
 
 <div class="login-container">
   <p-toast></p-toast>
-  <button type="submit" pButton label="Voltar" icon="pi pi-arrow-left" (click)="voltar()"></button>
+  <button type="button" pButton label="Voltar" icon="pi pi-arrow-left" (click)="voltar()"></button>
 
   <h1>{{ text.Consac }}</h1>
   <h2>{{ text.VI }}</h2>
 
   <form (ngSubmit)="login()">
     <span class="p-float-label">
-      <input type="text" pInputText id="username" name="username" placeholder="Insira o email da instituição" [(ngModel)]="email" required>
+      <input
+        type="text"
+        pInputText
+        id="username"
+        name="username"
+        placeholder="Insira o email da instituição"
+        [(ngModel)]="email"
+        required>
       <label for="username">Email</label>
     </span>
 
     <span class="p-float-label">
-      <input type="password" pInputText id="password" name="password" placeholder="{{ placeholder.usuarioSenha }}" [(ngModel)]="senha" required>
+      <input
+        type="password"
+        pInputText
+        id="password"
+        name="password"
+        placeholder="{{ placeholder.usuarioSenha }}"
+        [(ngModel)]="senha"
+        required>
       <label for="password">Senha</label>
     </span>
 
-    <button type="button" pButton pRipple (click)="login()" label="{{ label.login }}" class="p-button-success"></button>
+    <!-- Botão de Login -->
+    <button
+      type="submit"
+      pButton
+      pRipple
+      label="{{ label.login }}"
+      class="p-button-success">
+    </button>
 
     <div class="button-redefinir">
-      <button type="button" pButton label="{{ label.redefinir }}" style="background: transparent; border: none;" (click)="redefinirSenha()"></button>
+      <button
+        type="button"
+        pButton
+        label="{{ label.redefinir }}"
+        style="background: transparent; border: none;"
+        (click)="redefinirSenha()">
+      </button>
     </div>
 
     <div class="register-button-container">
-      <button type="button" pButton label="{{ label.cadastro }}" style="background: transparent; border: none;" (click)="cadastrarInstituicao()"></button>
+      <button
+        type="button"
+        pButton
+        label="{{ label.cadastro }}"
+        style="background: transparent; border: none;"
+        (click)="cadastrarInstituicao()">
+      </button>
     </div>
   </form>
 </div>

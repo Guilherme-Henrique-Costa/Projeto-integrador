@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
+import { LoginService, Usuario } from './login-instituicao.service';
 import { frases, label, placeholder, Text } from 'src/assets/dicionario';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-login-instituicao',
@@ -23,15 +25,32 @@ export class LoginInstituicaoComponent {
 
   constructor(
     private router: Router,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private loginService: LoginService // Injetar LoginService
   ) {}
 
   ngOnInit(): void {}
 
   login(): void {
+    // Validar email e senha localmente antes de enviar ao backend
     if (this.isEmailValido(this.email) && this.isSenhaValida(this.senha)) {
-      this.exibirMensagemSucesso('Login feito com sucesso');
-      this.redirecionarPara('/menu-instituicao', 1000);
+      // Fazer a requisição ao backend
+      this.loginService.login({ email: this.email, senha: this.senha }).subscribe(
+        (response: Usuario) => {
+          // Login bem-sucedido: Armazenar token e redirecionar
+          localStorage.setItem('userToken', response.token); // Armazena o token JWT
+          localStorage.setItem('userEmail', response.email); // Armazena informações do usuário
+
+          this.exibirMensagemSucesso('Login feito com sucesso');
+          this.redirecionarPara('/menu-instituicao', 1000);
+        },
+        (error: HttpErrorResponse) => { // Tipando o erro como HttpErrorResponse para tratar especificamente erros HTTP
+          // Tratar erro de autenticação
+          this.exibirMensagemErro('Erro ao realizar login. Verifique as credenciais.');
+          console.error('Erro de login:', error);
+        }
+      );
+
     } else {
       const erroMensagem = this.getMensagemErro(this.email, this.senha);
       this.exibirMensagemErro(erroMensagem);

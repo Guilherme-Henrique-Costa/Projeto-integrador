@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { CadastroInstituicaoService, Instituicao } from './cadastro-instituicao.service';
+import { CadastroInstituicaoService, PerfilInstituicao } from './cadastro-instituicao.service';
 import { MenuItem } from 'primeng/api';
 
 @Component({
@@ -31,6 +31,7 @@ export class CadastroInstituicaoComponent {
     private router: Router,
     private cadastroService: CadastroInstituicaoService // Injeção do serviço
   ) {
+    // Definição do formulário com validações
     this.cadastroForm = this.fb.group({
       name: [
         '',
@@ -45,20 +46,8 @@ export class CadastroInstituicaoComponent {
         '',
         [
           Validators.required,
-          Validators.minLength(4),
-          Validators.maxLength(40),
           Validators.email,
-          Validators.pattern('^.{1,}@.{1,}$')
-        ]
-      ],
-      cnpj: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(14),
-          Validators.maxLength(16),
-          Validators.pattern('^[0-9]*$'),
-          this.cnpjValidator
+          Validators.maxLength(40)
         ]
       ],
       password: [
@@ -71,7 +60,6 @@ export class CadastroInstituicaoComponent {
         ]
       ],
       interestArea: ['', Validators.required],
-      competence: ['', [Validators.required, Validators.maxLength(150)]],
       description: [
         '',
         [
@@ -81,7 +69,7 @@ export class CadastroInstituicaoComponent {
       ]
     });
 
-    // Assinatura para monitorar mudanças no campo de senha
+    // Monitorar mudanças no campo de senha para calcular a força
     this.cadastroForm.get('password')?.valueChanges.subscribe(value => {
       this.forcaSenha = this.calcularForcaSenha(value);
     });
@@ -89,25 +77,31 @@ export class CadastroInstituicaoComponent {
 
   ngOnInit() {}
 
+  // Método para submeter o formulário
   onSubmit(): void {
     if (this.cadastroForm.valid) {
-      const instituicao: Instituicao = this.cadastroForm.value;
+      const instituicao: PerfilInstituicao = this.cadastroForm.value;
 
-      this.cadastroService.cadastrarInstituicao(instituicao).subscribe(
-        (response) => {
+      console.log('Deu erro aqui')
+      // Chamando o serviço para cadastrar a instituição
+      this.cadastroService.cadastrarPerfilInstituicao(instituicao).subscribe(
+        (response: PerfilInstituicao) => {
           console.log('Instituição cadastrada com sucesso:', response);
+          // Redireciona para o menu após cadastro bem-sucedido
           this.router.navigate(['/menu-instituicao']);
         },
-        (error) => {
+        (error: any) => {
           console.error('Erro ao cadastrar a instituição:', error);
         }
       );
     } else {
+      // Marca todos os campos como tocados para exibir os erros
       this.cadastroForm.markAllAsTouched();
-      console.error('Formulário inválido');
+      console.error('Formulário inválido', this.cadastroForm.value);
     }
   }
 
+  // Método para calcular a força da senha
   calcularForcaSenha(senha: string): number {
     let pontuacao = 0;
 
@@ -130,54 +124,12 @@ export class CadastroInstituicaoComponent {
     return pontuacao; // Retorna a pontuação da força da senha (0-5)
   }
 
+  // Método para voltar à tela de login
   voltar(): void {
     this.router.navigate(['/login-instituicao']);
   }
 
-  cadastrar(): void {
-    this.router.navigate(['/']);
-  }
-
-  private cnpjValidator(control: AbstractControl): ValidationErrors | null {
-    const cnpj = control.value;
-    if (!cnpj) return null;
-
-    return this.validateCnpj(cnpj) ? null : { invalidCnpj: true };
-  }
-
-  private validateCnpj(cnpj: string): boolean {
-    cnpj = cnpj.replace(/[^\d]+/g, '');
-
-    if (cnpj.length !== 14) return false;
-
-    let tamanho = cnpj.length - 2;
-    let numeros = cnpj.substring(0, tamanho);
-    const digitos = cnpj.substring(tamanho);
-    let soma = 0;
-    let pos = tamanho - 7;
-
-    for (let i = tamanho; i >= 1; i--) {
-      soma += +numeros.charAt(tamanho - i) * pos--;
-      if (pos < 2) pos = 9;
-    }
-
-    let resultado = soma % 11 < 2 ? 0 : 11 - (soma % 11);
-    if (resultado !== +digitos.charAt(0)) return false;
-
-    tamanho++;
-    numeros = cnpj.substring(0, tamanho);
-    soma = 0;
-    pos = tamanho - 7;
-
-    for (let i = tamanho; i >= 1; i--) {
-      soma += +numeros.charAt(tamanho - i) * pos--;
-      if (pos < 2) pos = 9;
-    }
-
-    resultado = soma % 11 < 2 ? 0 : 11 - (soma % 11);
-    return resultado === +digitos.charAt(1);
-  }
-
+  // Método para obter a mensagem de erro apropriada para cada campo
   getErrorMessage(field: string): string {
     const control = this.cadastroForm.get(field);
 
@@ -201,20 +153,15 @@ export class CadastroInstituicaoComponent {
       return `E-mail deve ser válido e conter '@'.`;
     }
 
-    if (control?.hasError('invalidCnpj')) {
-      return `CNPJ inválido.`;
-    }
-
     return '';
   }
 
+  // Método auxiliar para obter o rótulo de cada campo
   private getFieldLabel(field: string): string {
     const labels: { [key: string]: string } = {
       name: 'Nome',
       email: 'E-mail',
-      cnpj: 'CNPJ',
       password: 'Senha',
-      confirmPassword: 'Confirme sua senha',
       interestArea: 'Área de atuação',
       competence: 'Competência',
       description: 'Descrição'
