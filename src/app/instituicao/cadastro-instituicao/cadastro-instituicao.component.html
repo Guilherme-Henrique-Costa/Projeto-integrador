@@ -12,10 +12,10 @@
 
       <!-- Campo Nome -->
       <div class="p-field">
-        <label for="name">Nome:</label>
-        <input pInputText id="name" formControlName="name" />
-        <small *ngIf="cadastroForm.get('name')?.invalid && cadastroForm.get('name')?.touched" class="p-error">
-          {{ getErrorMessage('name') }}
+        <label for="nome">Nome:</label>
+        <input pInputText id="nome" formControlName="nome" />
+        <small *ngIf="cadastroForm.get('nome')?.invalid && cadastroForm.get('nome')?.touched" class="p-error">
+          {{ getErrorMessage('nome') }}
         </small>
       </div>
 
@@ -25,6 +25,15 @@
         <input pInputText id="email" formControlName="email" />
         <small *ngIf="cadastroForm.get('email')?.invalid && cadastroForm.get('email')?.touched" class="p-error">
           {{ getErrorMessage('email') }}
+        </small>
+      </div>
+
+      <!-- Campo CNPJ -->
+      <div class="p-field">
+        <label for="cnpj">CNPJ:</label>
+        <input pInputText id="cnpj" formControlName="cnpj" />
+        <small *ngIf="cadastroForm.get('cnpj')?.invalid && cadastroForm.get('cnpj')?.touched" class="p-error">
+          {{ getErrorMessage('cnpj') }}
         </small>
       </div>
 
@@ -46,16 +55,6 @@
         <small *ngIf="cadastroForm.get('password')?.invalid && cadastroForm.get('password')?.touched" class="p-error">
           {{ getErrorMessage('password') }}
         </small>
-
-        <!-- Indicador de força da senha -->
-        <p-progressBar [value]="forcaSenha * 20"></p-progressBar>
-        <div class="senha-forca-texto">
-          <span *ngIf="forcaSenha === 0">Senha muito fraca</span>
-          <span *ngIf="forcaSenha === 1">Fraca</span>
-          <span *ngIf="forcaSenha === 2">Média</span>
-          <span *ngIf="forcaSenha === 3">Boa</span>
-          <span *ngIf="forcaSenha > 4">Forte</span>
-        </div>
       </div>
 
       <!-- Campo Descrição -->

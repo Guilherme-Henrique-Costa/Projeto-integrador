@@ -7,7 +7,6 @@ export interface Usuario {
   id: number;
   nome: string;
   email: string;
-  token: string; // Supondo que o backend retorne um token ao autenticar
 }
 
 @Injectable({
@@ -28,25 +27,8 @@ export class LoginService {
 
     return this.http.post<Usuario>(`${this.url}/login`, {}, { params }).pipe(
       tap((response: Usuario) => {
-        // Armazena o token e outras informações úteis localmente
-        localStorage.setItem('userToken', response.token);
+        // Não há mais token, armazenar apenas as informações úteis localmente, se necessário
         localStorage.setItem('userEmail', response.email);
-      }),
-      catchError(this.handleError)
-    );
-  }
-
-  // Método para registrar um novo usuário/instituição
-  register(nome: string, email: string, password: string, nascimento: string): Observable<string> {
-    const params = new HttpParams()
-      .set('nome', nome)
-      .set('email', email)
-      .set('password', password)
-      .set('nascimento', nascimento);
-
-    return this.http.post<string>(`${this.url}/register`, {}, { params }).pipe(
-      tap(response => {
-        console.log('Registro realizado com sucesso:', response);
       }),
       catchError(this.handleError)
     );
@@ -67,13 +49,12 @@ export class LoginService {
 
   // Método para logout: remove as informações de autenticação do localStorage
   logout(): void {
-    localStorage.removeItem('userToken');
     localStorage.removeItem('userEmail');
   }
 
   // Verifica se o usuário está logado
   isLoggedIn(): boolean {
-    return !!localStorage.getItem('userToken'); // Retorna verdadeiro se houver um token
+    return !!localStorage.getItem('userEmail'); // Retorna verdadeiro se houver um email armazenado
   }
 
   // Métodos para gerenciar a aceitação dos termos de privacidade (LGPD)

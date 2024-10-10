@@ -37,20 +37,18 @@ export class LoginInstituicaoComponent {
       // Fazer a requisição ao backend
       this.loginService.login({ email: this.email, senha: this.senha }).subscribe(
         (response: Usuario) => {
-          // Login bem-sucedido: Armazenar token e redirecionar
-          localStorage.setItem('userToken', response.token); // Armazena o token JWT
+          // Login bem-sucedido: Armazenar o email e redirecionar
           localStorage.setItem('userEmail', response.email); // Armazena informações do usuário
 
           this.exibirMensagemSucesso('Login feito com sucesso');
           this.redirecionarPara('/menu-instituicao', 1000);
         },
-        (error: HttpErrorResponse) => { // Tipando o erro como HttpErrorResponse para tratar especificamente erros HTTP
+        (error: HttpErrorResponse) => {
           // Tratar erro de autenticação
           this.exibirMensagemErro('Erro ao realizar login. Verifique as credenciais.');
           console.error('Erro de login:', error);
         }
       );
-
     } else {
       const erroMensagem = this.getMensagemErro(this.email, this.senha);
       this.exibirMensagemErro(erroMensagem);

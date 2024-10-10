@@ -1,33 +1,47 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 export interface PerfilInstituicao {
   id?: number;
-  name: string;           // Nome da instituição
-  email: string;          // E-mail da instituição
-  cnpj: string;           // CNPJ da instituição
-  password: string;       // Senha de acesso
-  interestArea: string;   // Área de interesse
-  competence: string;     // Competência específica
-  description: string;    // Descrição da instituição
+  nome: string;
+  cnpj: number;
+  email: string;
+  password: string;
+  interestArea: string;
+  description: string;
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class CadastroInstituicaoService {
-  private apiUrl = 'http://localhost:8080/api/v1/perfil-instituicao'; // URL base da API para cadastro de PerfilInstituicao
+  private apiUrl = 'http://localhost:8080/api/v1/perfil-instituicao';
 
   constructor(private http: HttpClient) {}
 
-  // Método para enviar os dados de cadastro para o back-end
+  private httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json'
+    })
+  };
+
   cadastrarPerfilInstituicao(perfilInstituicao: PerfilInstituicao): Observable<PerfilInstituicao> {
-    return this.http.post<PerfilInstituicao>(this.apiUrl, perfilInstituicao);
+    return this.http.post<PerfilInstituicao>(this.apiUrl, perfilInstituicao, this.httpOptions)
+      .pipe(
+        catchError(this.handleError)
+      );
   }
 
-  // Método opcional para validar se um CNPJ já está cadastrado (caso seja necessário)
-  verificarCnpj(cnpj: string): Observable<boolean> {
-    return this.http.get<boolean>(`${this.apiUrl}/verificar-cnpj?cnpj=${cnpj}`);
+  private handleError(error: HttpErrorResponse): Observable<never> {
+    let errorMessage = 'Ocorreu um erro desconhecido!';
+    if (error.error instanceof ErrorEvent) {
+      errorMessage = `Erro: ${error.error.message}`;
+    } else {
+      errorMessage = `Erro ${error.status}: ${error.message}`;
+    }
+    console.error(errorMessage);
+    return throwError(() => new Error(errorMessage));
   }
 }

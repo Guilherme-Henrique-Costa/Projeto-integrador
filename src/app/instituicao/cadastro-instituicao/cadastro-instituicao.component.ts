@@ -12,7 +12,7 @@ import { MenuItem } from 'primeng/api';
 export class CadastroInstituicaoComponent {
   cadastroForm: FormGroup;
   items: MenuItem[] | undefined;
-  forcaSenha: number = 0; // Variável para armazenar a força da senha
+  forcaSenha: number = 0;
 
   interestAreas: string[] = [
     'Auxilio a Pessoas com Deficiência',
@@ -29,17 +29,24 @@ export class CadastroInstituicaoComponent {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private cadastroService: CadastroInstituicaoService // Injeção do serviço
+    private cadastroService: CadastroInstituicaoService
   ) {
     // Definição do formulário com validações
     this.cadastroForm = this.fb.group({
-      name: [
+      nome: [
         '',
         [
           Validators.required,
           Validators.minLength(4),
           Validators.maxLength(64),
           Validators.pattern('^[a-zA-ZÀ-ÿ\\s]*$')
+        ]
+      ],
+      cnpj: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern('^\\d{14}$') // Exemplo de validação para CNPJ (14 dígitos)
         ]
       ],
       email: [
@@ -77,17 +84,15 @@ export class CadastroInstituicaoComponent {
 
   ngOnInit() {}
 
-  // Método para submeter o formulário
   onSubmit(): void {
     if (this.cadastroForm.valid) {
       const instituicao: PerfilInstituicao = this.cadastroForm.value;
 
-      console.log('Deu erro aqui')
+      console.log('Enviando dados do formulário');
       // Chamando o serviço para cadastrar a instituição
       this.cadastroService.cadastrarPerfilInstituicao(instituicao).subscribe(
         (response: PerfilInstituicao) => {
           console.log('Instituição cadastrada com sucesso:', response);
-          // Redireciona para o menu após cadastro bem-sucedido
           this.router.navigate(['/menu-instituicao']);
         },
         (error: any) => {
@@ -95,13 +100,11 @@ export class CadastroInstituicaoComponent {
         }
       );
     } else {
-      // Marca todos os campos como tocados para exibir os erros
       this.cadastroForm.markAllAsTouched();
       console.error('Formulário inválido', this.cadastroForm.value);
     }
   }
 
-  // Método para calcular a força da senha
   calcularForcaSenha(senha: string): number {
     let pontuacao = 0;
 
@@ -109,27 +112,25 @@ export class CadastroInstituicaoComponent {
       pontuacao += 1;
     }
     if (/[a-z]/.test(senha)) {
-      pontuacao += 1; // Letra minúscula
+      pontuacao += 1;
     }
     if (/[A-Z]/.test(senha)) {
-      pontuacao += 1; // Letra maiúscula
+      pontuacao += 1;
     }
     if (/\d/.test(senha)) {
-      pontuacao += 1; // Número
+      pontuacao += 1;
     }
     if (/[!@#$%^&*()_+=-]/.test(senha)) {
-      pontuacao += 1; // Caractere especial
+      pontuacao += 1;
     }
 
-    return pontuacao; // Retorna a pontuação da força da senha (0-5)
+    return pontuacao;
   }
 
-  // Método para voltar à tela de login
   voltar(): void {
     this.router.navigate(['/login-instituicao']);
   }
 
-  // Método para obter a mensagem de erro apropriada para cada campo
   getErrorMessage(field: string): string {
     const control = this.cadastroForm.get(field);
 
@@ -156,14 +157,13 @@ export class CadastroInstituicaoComponent {
     return '';
   }
 
-  // Método auxiliar para obter o rótulo de cada campo
   private getFieldLabel(field: string): string {
     const labels: { [key: string]: string } = {
-      name: 'Nome',
+      nome: 'Nome',
+      cnpj: 'CNPJ',
       email: 'E-mail',
       password: 'Senha',
       interestArea: 'Área de atuação',
-      competence: 'Competência',
       description: 'Descrição'
     };
     return labels[field] || field.charAt(0).toUpperCase() + field.slice(1);

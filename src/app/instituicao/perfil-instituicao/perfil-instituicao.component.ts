@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { PerfilInstituicao, PerfilInstituicaoService } from './perfil-instituicao.service';
 
 @Component({
   selector: 'app-perfil-instituicao',
@@ -36,55 +37,15 @@ export class PerfilInstituicaoComponent {
 
   constructor(private fb: FormBuilder,
     private router: Router,
+    private perfilInstituicaoService: PerfilInstituicaoService
   ) {
     this.cadastroForm = this.fb.group({
-      name: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(64),
-          Validators.pattern('^[a-zA-ZÀ-ÿ\\s]*$') // Permite letras com acentos e espaços
-        ]
-      ],
-      email: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(4),
-          Validators.maxLength(40),
-          Validators.email,
-          Validators.pattern('^.{1,}@.{1,}$') // Garante que o email tenha um '@'
-        ]
-      ],
-      cnpj: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(14),
-          Validators.maxLength(16),
-          Validators.pattern('^[0-9]*$'), // Aceita apenas números
-          this.cnpjValidator // Validação customizada do CNPJ
-        ]
-      ],
-      password: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(6),
-          Validators.maxLength(20),
-          Validators.pattern('^[a-zA-Z0-9!@#$%^&*()_+=-]*$') // Permite letras, números e caracteres especiais
-        ]
-      ],
+      name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(64)]],
+      email: ['', [Validators.required, Validators.email, Validators.maxLength(40)]],
+      cnpj: ['', [Validators.required, Validators.minLength(14), Validators.maxLength(16)]],
+      password: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(20)]],
       interestArea: ['', Validators.required], // Obrigatório
-      competence: ['', [Validators.required, Validators.maxLength(150)]],
-      description: [
-        '',
-        [
-          Validators.maxLength(250),
-          Validators.pattern('^[a-zA-ZÀ-ÿ0-9\\s.,!?]*$') // Permite letras, números, acentos e alguns caracteres especiais
-        ]
-      ]
+      description: ['', [Validators.maxLength(250)]]
     });
   }
 
@@ -94,52 +55,35 @@ export class PerfilInstituicaoComponent {
 
   onSubmit(): void {
     if (this.cadastroForm.valid) {
-      console.log(this.cadastroForm.value);
-      // Lógica de submissão, como enviar para uma API.
+      const perfilInstituicao: PerfilInstituicao = this.cadastroForm.value;
+
+      if (perfilInstituicao.id) {
+        // Se o perfil já existir, chama o método de atualização
+        this.perfilInstituicaoService.update(perfilInstituicao.id, perfilInstituicao).subscribe(
+          response => {
+            console.log('Perfil atualizado com sucesso:', response);
+            this.router.navigate(['/menu-instituicao']);
+          },
+          error => {
+            console.error('Erro ao atualizar o perfil:', error);
+          }
+        );
+      } else {
+        // Caso contrário, cria um novo perfil
+        this.perfilInstituicaoService.create(perfilInstituicao).subscribe(
+          response => {
+            console.log('Perfil criado com sucesso:', response);
+            this.router.navigate(['/menu-instituicao']);
+          },
+          error => {
+            console.error('Erro ao criar o perfil:', error);
+          }
+        );
+      }
     } else {
-      this.cadastroForm.markAllAsTouched(); // Marca todos os campos como 'tocados' para mostrar as mensagens de erro.
+      this.cadastroForm.markAllAsTouched();
       console.error('Formulário inválido');
     }
-  }
-
-  private cnpjValidator(control: AbstractControl): ValidationErrors | null {
-    const cnpj = control.value;
-    if (!cnpj) return null;
-
-    return this.validateCnpj(cnpj) ? null : { invalidCnpj: true };
-  }
-
-  private validateCnpj(cnpj: string): boolean {
-    cnpj = cnpj.replace(/[^\d]+/g, '');
-
-    if (cnpj.length !== 14) return false;
-
-    let tamanho = cnpj.length - 2;
-    let numeros = cnpj.substring(0, tamanho);
-    const digitos = cnpj.substring(tamanho);
-    let soma = 0;
-    let pos = tamanho - 7;
-
-    for (let i = tamanho; i >= 1; i--) {
-      soma += +numeros.charAt(tamanho - i) * pos--;
-      if (pos < 2) pos = 9;
-    }
-
-    let resultado = soma % 11 < 2 ? 0 : 11 - (soma % 11);
-    if (resultado !== +digitos.charAt(0)) return false;
-
-    tamanho++;
-    numeros = cnpj.substring(0, tamanho);
-    soma = 0;
-    pos = tamanho - 7;
-
-    for (let i = tamanho; i >= 1; i--) {
-      soma += +numeros.charAt(tamanho - i) * pos--;
-      if (pos < 2) pos = 9;
-    }
-
-    resultado = soma % 11 < 2 ? 0 : 11 - (soma % 11);
-    return resultado === +digitos.charAt(1);
   }
 
   getErrorMessage(field: string): string {
@@ -165,22 +109,17 @@ export class PerfilInstituicaoComponent {
       return `E-mail deve ser válido e conter '@'.`;
     }
 
-    if (control?.hasError('invalidCnpj')) {
-      return `CNPJ inválido.`;
-    }
     return '';
   }
 
-   // Método auxiliar para gerar o rótulo correto dos campos
-   private getFieldLabel(field: string): string {
+  // Método auxiliar para gerar o rótulo correto dos campos
+  private getFieldLabel(field: string): string {
     const labels: { [key: string]: string } = {
       name: 'Nome',
       email: 'E-mail',
       cnpj: 'CNPJ',
       password: 'Senha',
-      confirmPassword: 'Confirme sua senha',
       interestArea: 'Área de atuação',
-      competence: 'Competência',
       description: 'Descrição'
     };
     return labels[field] || field.charAt(0).toUpperCase() + field.slice(1);
