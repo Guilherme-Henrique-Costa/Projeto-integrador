@@ -38,15 +38,16 @@
       </div>
 
       <!-- Área de Atuação -->
-      <div class="p-field">
-        <label for="interestArea">Área de atuação:</label>
-        <select id="interestArea" formControlName="interestArea">
-          <option *ngFor="let area of interestAreas" [value]="area">{{ area }}</option>
-        </select>
-        <small *ngIf="cadastroForm.get('interestArea')?.invalid && cadastroForm.get('interestArea')?.touched" class="p-error">
-          {{ getErrorMessage('interestArea') }}
-        </small>
-      </div>
+<div class="p-field">
+  <label for="areaAtuacao">Área de atuação:</label>
+  <select id="areaAtuacao" formControlName="areaAtuacao">
+    <option *ngFor="let area of areaAtuacao" [value]="area">{{ area }}</option>
+  </select>
+  <small *ngIf="cadastroForm.get('areaAtuacao')?.invalid && cadastroForm.get('areaAtuacao')?.touched" class="p-error">
+    {{ getErrorMessage('areaAtuacao') }}
+  </small>
+</div>
+
 
       <!-- Campo Senha -->
       <div class="p-field">
@@ -67,7 +68,7 @@
       </div>
 
       <!-- Botão de Cadastro -->
-      <button type="submit" pButton label="Cadastrar"></button>
+      <button type="submit" pButton label="Cadastrar" (click)="cadastrar()"></button>
     </form>
   </div>
 </div>

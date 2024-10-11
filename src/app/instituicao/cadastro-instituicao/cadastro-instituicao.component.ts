@@ -14,7 +14,7 @@ export class CadastroInstituicaoComponent {
   items: MenuItem[] | undefined;
   forcaSenha: number = 0;
 
-  interestAreas: string[] = [
+  areaAtuacao: string[] = [
     'Auxilio a Pessoas com Deficiência',
     'Educação e Ensino',
     'Saúde e Bem-estar',
@@ -66,7 +66,7 @@ export class CadastroInstituicaoComponent {
           Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*()_+=-]).{8,20}$')
         ]
       ],
-      interestArea: ['', Validators.required],
+      areaAtuacao: ['', Validators.required],
       description: [
         '',
         [
@@ -88,7 +88,7 @@ export class CadastroInstituicaoComponent {
     if (this.cadastroForm.valid) {
       const instituicao: PerfilInstituicao = this.cadastroForm.value;
 
-      console.log('Enviando dados do formulário');
+      console.log('Enviando dados do formulário:', instituicao);
       // Chamando o serviço para cadastrar a instituição
       this.cadastroService.cadastrarPerfilInstituicao(instituicao).subscribe(
         (response: PerfilInstituicao) => {
@@ -102,8 +102,17 @@ export class CadastroInstituicaoComponent {
     } else {
       this.cadastroForm.markAllAsTouched();
       console.error('Formulário inválido', this.cadastroForm.value);
+
+      // Log de quais controles estão inválidos
+      Object.keys(this.cadastroForm.controls).forEach(key => {
+        const control = this.cadastroForm.get(key);
+        if (control?.invalid) {
+          console.error(`Campo inválido: ${key}`, control.errors);
+        }
+      });
     }
   }
+
 
   calcularForcaSenha(senha: string): number {
     let pontuacao = 0;
@@ -128,6 +137,10 @@ export class CadastroInstituicaoComponent {
   }
 
   voltar(): void {
+    this.router.navigate(['/login-instituicao']);
+  }
+
+  cadastrar(): void {
     this.router.navigate(['/login-instituicao']);
   }
 
@@ -163,7 +176,7 @@ export class CadastroInstituicaoComponent {
       cnpj: 'CNPJ',
       email: 'E-mail',
       password: 'Senha',
-      interestArea: 'Área de atuação',
+      areaAtuacao: 'Área de atuação',
       description: 'Descrição'
     };
     return labels[field] || field.charAt(0).toUpperCase() + field.slice(1);

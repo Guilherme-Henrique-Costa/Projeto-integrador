@@ -9,7 +9,7 @@ export interface PerfilInstituicao {
   cnpj: number;
   email: string;
   password: string;
-  interestArea: string;
+  areaAtuacao: string;
   description: string;
 }
 
