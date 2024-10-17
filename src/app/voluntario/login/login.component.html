@@ -49,8 +49,11 @@
   </p-dialog>
 </div>
 
+<!-- Contêiner principal de login -->
 <div class="login-container">
-  <p-toast></p-toast>
+  <p-toast></p-toast> <!-- Para exibir mensagens de sucesso e erro -->
+
+  <!-- Botão de voltar -->
   <button
     type="button"
     pButton
@@ -58,9 +61,15 @@
     icon="pi pi-arrow-left"
     (click)="voltar()"
   ></button>
+
+  <!-- Títulos principais -->
   <h1>{{ text.Consac }}</h1>
   <h2>{{ text.VI }}</h2>
+
+  <!-- Formulário de Login -->
   <form (ngSubmit)="login()">
+
+    <!-- Campo de Email -->
     <span class="p-float-label">
       <input
         type="text"
@@ -73,6 +82,13 @@
       />
       <label for="username">Email</label>
     </span>
+
+    <!-- Mensagem de erro para email inválido -->
+    <div *ngIf="!isEmailValido(email) && email" class="p-error">
+      <small>Email inválido.</small>
+    </div>
+
+    <!-- Campo de Senha -->
     <span class="p-float-label">
       <input
         type="password"
@@ -85,6 +101,13 @@
       />
       <label for="password">Senha</label>
     </span>
+
+    <!-- Mensagem de erro para senha inválida -->
+    <div *ngIf="!isSenhaValida(senha) && senha" class="p-error">
+      <small>A senha deve ter no mínimo 3 caracteres.</small>
+    </div>
+
+    <!-- Botão de Login -->
     <button
       type="submit"
       pButton
@@ -92,6 +115,8 @@
       [label]="label.login"
       class="p-button-success"
     ></button>
+
+    <!-- Botão de redefinir senha -->
     <div class="button-redefinir">
       <button
         type="button"
@@ -101,6 +126,8 @@
         (click)="redefinirSenha()"
       ></button>
     </div>
+
+    <!-- Botão de cadastrar-se -->
     <div class="register-button-container">
       <button
         type="button"

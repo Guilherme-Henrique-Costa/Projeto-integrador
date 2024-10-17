@@ -6,7 +6,7 @@ import { catchError } from 'rxjs/operators';
 export interface PerfilInstituicao {
   id?: number;
   nome: string;
-  cnpj: number;
+  cnpj: string; // Mantido como string
   email: string;
   password: string;
   areaAtuacao: string;
@@ -17,7 +17,7 @@ export interface PerfilInstituicao {
   providedIn: 'root'
 })
 export class CadastroInstituicaoService {
-  private apiUrl = 'http://localhost:8080/api/v1/perfil-instituicao';
+  private apiUrl = 'http://localhost:8080/api/v1/perfil-instituicao'; // URL do backend
 
   constructor(private http: HttpClient) {}
 
@@ -39,7 +39,22 @@ export class CadastroInstituicaoService {
     if (error.error instanceof ErrorEvent) {
       errorMessage = `Erro: ${error.error.message}`;
     } else {
-      errorMessage = `Erro ${error.status}: ${error.message}`;
+      switch (error.status) {
+        case 400:
+          errorMessage = 'Requisição inválida. Verifique os dados enviados.';
+          break;
+        case 403:
+          errorMessage = 'Acesso negado. Verifique suas credenciais.';
+          break;
+        case 404:
+          errorMessage = 'Recurso não encontrado.';
+          break;
+        case 500:
+          errorMessage = 'Erro interno do servidor. Tente novamente mais tarde.';
+          break;
+        default:
+          errorMessage = `Erro ${error.status}: ${error.message}`;
+      }
     }
     console.error(errorMessage);
     return throwError(() => new Error(errorMessage));

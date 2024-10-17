@@ -1,13 +1,6 @@
 <div class="cadastro-container">
-  <div class="toolbar">
-    <div class="left-actions">
-      <button type="button" pButton label="Voltar" (click)="voltar()" class="small-button"></button>
-    </div>
-    <div class="title">CONSAC</div>
-  </div>
-
   <div class="form-container">
-    <h2>Cadastro Instituição</h2>
+    <h2>CONSAC - Cadastro Instituição</h2>
     <form [formGroup]="cadastroForm" (ngSubmit)="onSubmit()">
 
       <!-- Campo Nome -->
@@ -38,16 +31,15 @@
       </div>
 
       <!-- Área de Atuação -->
-<div class="p-field">
-  <label for="areaAtuacao">Área de atuação:</label>
-  <select id="areaAtuacao" formControlName="areaAtuacao">
-    <option *ngFor="let area of areaAtuacao" [value]="area">{{ area }}</option>
-  </select>
-  <small *ngIf="cadastroForm.get('areaAtuacao')?.invalid && cadastroForm.get('areaAtuacao')?.touched" class="p-error">
-    {{ getErrorMessage('areaAtuacao') }}
-  </small>
-</div>
-
+      <div class="p-field">
+        <label for="areaAtuacao">Área de atuação:</label>
+        <select id="areaAtuacao" formControlName="areaAtuacao">
+          <option *ngFor="let area of areaAtuacao" [value]="area">{{ area }}</option>
+        </select>
+        <small *ngIf="cadastroForm.get('areaAtuacao')?.invalid && cadastroForm.get('areaAtuacao')?.touched" class="p-error">
+          {{ getErrorMessage('areaAtuacao') }}
+        </small>
+      </div>
 
       <!-- Campo Senha -->
       <div class="p-field">
@@ -68,7 +60,7 @@
       </div>
 
       <!-- Botão de Cadastro -->
-      <button type="submit" pButton label="Cadastrar" (click)="cadastrar()"></button>
+      <button type="submit" pButton label="Cadastrar"></button>
     </form>
   </div>
 </div>

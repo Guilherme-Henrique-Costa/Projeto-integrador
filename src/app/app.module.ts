@@ -40,6 +40,7 @@ import { ConfirmarSenhaInstituicaoComponent } from './instituicao/confirmar-senh
 import { PerfilInstituicaoComponent } from './instituicao/perfil-instituicao/perfil-instituicao.component';
 import { VagasInstituicaoComponent } from './instituicao/vagas-instituicao/vagas-instituicao.component';
 import { GestaoInstituicaoComponent } from './instituicao/gestao-instituicao/gestao-instituicao.component';
+import { CalendarModule } from 'primeng/calendar';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginService } from './instituicao/login-instituicao/login-instituicao.service';
 
@@ -85,7 +86,8 @@ import { LoginService } from './instituicao/login-instituicao/login-instituicao.
     SidebarModule,
     RatingModule,
     HttpClientModule,
-    ProgressBarModule
+    ProgressBarModule,
+    CalendarModule
 
   ],
   providers: [MessageService,LoginService],

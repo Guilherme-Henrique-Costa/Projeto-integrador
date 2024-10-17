@@ -57,6 +57,12 @@ export class LoginService {
     return !!localStorage.getItem('userEmail'); // Retorna verdadeiro se houver um email armazenado
   }
 
+  private isSenhaValida(senha: string): boolean {
+    return senha.length >= 6; // Exigir que a senha tenha no mínimo 6 caracteres
+  }
+
+
+
   // Métodos para gerenciar a aceitação dos termos de privacidade (LGPD)
   setAceite(aceite: boolean): void {
     this.aceiteLgpd = aceite;

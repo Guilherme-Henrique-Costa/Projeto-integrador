@@ -46,7 +46,7 @@ export class CadastroInstituicaoComponent {
         '',
         [
           Validators.required,
-          Validators.pattern('^\\d{14}$') // Exemplo de validação para CNPJ (14 dígitos)
+          Validators.pattern('^\\d{14}$') // Validação para CNPJ (14 dígitos)
         ]
       ],
       email: [
@@ -61,9 +61,9 @@ export class CadastroInstituicaoComponent {
         '',
         [
           Validators.required,
-          Validators.minLength(8),
-          Validators.maxLength(20),
-          Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*()_+=-]).{8,20}$')
+          Validators.minLength(6), // Senha precisa ter pelo menos 6 caracteres
+          Validators.maxLength(20), // No máximo 20 caracteres
+          Validators.pattern('^[a-zA-Z0-9!@#$%^&*()_+=-]*$') // Letras, números e caracteres especiais opcionais
         ]
       ],
       areaAtuacao: ['', Validators.required],
@@ -113,11 +113,10 @@ export class CadastroInstituicaoComponent {
     }
   }
 
-
   calcularForcaSenha(senha: string): number {
     let pontuacao = 0;
 
-    if (senha.length >= 8) {
+    if (senha.length >= 6) {
       pontuacao += 1;
     }
     if (/[a-z]/.test(senha)) {
@@ -137,10 +136,6 @@ export class CadastroInstituicaoComponent {
   }
 
   voltar(): void {
-    this.router.navigate(['/login-instituicao']);
-  }
-
-  cadastrar(): void {
     this.router.navigate(['/login-instituicao']);
   }
 

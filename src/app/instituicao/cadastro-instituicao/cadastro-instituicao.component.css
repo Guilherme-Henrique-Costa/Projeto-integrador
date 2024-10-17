@@ -6,70 +6,45 @@
   font-family: Arial, sans-serif;
 }
 
-body, html {
+html, body {
   height: 100%;
-  background: linear-gradient(to bottom, #ff007f, #590fb7);
+  margin: 0;
   display: flex;
   justify-content: center;
   align-items: center;
+  background: linear-gradient(to bottom, #43054e, #ec0089); /* Roxo-Escuro para Magenta */
 }
 
 /* Container Principal */
 .container {
   width: 100%;
-  max-width: 400px;
+  max-width: 600px;
   margin: 0 auto;
-}
-
-/* Toolbar */
-.toolbar {
+  padding: 20px;
+  height: 100%; /* Garantir que o container ocupe a altura total da tela */
   display: flex;
+  justify-content: center;
   align-items: center;
-  justify-content: space-between;
-  padding: 10px;
-  background: linear-gradient(to bottom, #ff007f, #590fb7);
-  color: white;
-  border-radius: 12px;
-}
-
-.left-actions {
-  display: flex;
-  align-items: center;
-}
-
-.title {
-  flex-grow: 1;
-  text-align: center;
-  font-weight: bold;
-}
-
-.small-button {
-  padding: 8px 12px;
-  font-size: 15px;
-  background-color: #ff007f;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
 }
 
 /* Formulário de Cadastro */
 .cadastro-container {
-  background-color: transparent;
+  width: 100%;
 }
 
 .form-container {
-  background-color: #ff007f;
+  background-color: #ec0089; /* Magenta */
   padding: 30px 20px;
   border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  width: 100%;
 }
 
 .form-container h2 {
   text-align: center;
   margin-bottom: 20px;
   color: #fff;
-  background: linear-gradient(to bottom, #ff007f, #590fb7);
+  background: linear-gradient(to bottom, #43054e, #662c92); /* Roxo-Escuro para Roxo */
   padding: 10px;
   border-radius: 8px;
   font-size: 24px;
@@ -80,50 +55,45 @@ body, html {
   margin-bottom: 20px;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: center;  /* Centraliza os elementos dentro de cada campo */
 }
 
 .p-field label {
   margin-bottom: 8px;
   font-weight: bold;
-  color: #333;
+  color: #fff;
 }
 
 .p-field input,
 .p-field select,
 .p-field textarea {
-  width: 30%; /* Aumenta a largura dos inputs para 80% do contêiner */
+  width: 50%; /* Expandir a largura dos inputs para 80% do container */
   padding: 10px;
-  border: 1px solid #ff007f;
+  border: 1px solid #bf0087; /* Lilás */
   border-radius: 8px;
   font-size: 16px;
   background-color: #fff;
+  text-align: center;
 }
 
 .p-field textarea {
   resize: none;
 }
 
-.error-message {
-  color: #ff007f;
-  font-size: 12px;
-  margin-top: 4px;
-}
-
 /* Botão de Submissão */
-.submit-button {
-  width: 50%; /* Aumenta a largura do botão para 80% do contêiner */
+button {
+  width: 80%; /* O botão ocupará 80% da largura para ficar consistente com os inputs */
   padding: 15px;
-  background-color: #ff007f;
+  background-color: #662c92; /* Roxo */
   color: white;
   border: none;
   border-radius: 8px;
   font-size: 18px;
   cursor: pointer;
   margin-top: 20px;
-  text-align: center;
+  align-self: center; /* Centraliza o botão */
 }
 
-.submit-button:hover {
-  background-color: #e6006f;
+button:hover {
+  background-color: #43054e; /* Roxo-Escuro */
 }

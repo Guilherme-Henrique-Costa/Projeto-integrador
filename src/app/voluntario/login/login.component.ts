@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
+import { LoginService, Voluntario } from './login.service';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Text, placeholder, label, frases } from 'src/assets/dicionario';
 
 @Component({
@@ -13,88 +15,118 @@ export class LoginComponent implements OnInit {
   email: string = '';
   senha: string = '';
 
-  position!: string;
-  displayPosition!: boolean;
+  position = 'center';
+  displayPosition = true;
 
   text = Text;
   placeholder = placeholder;
-  label = label;
-
   frasesAleatorias = frases;
-
+  label = label;
 
   constructor(
     private router: Router,
-    private messageService: MessageService
-  ) { }
+    private messageService: MessageService,
+    private loginService: LoginService // Injeção do LoginService
+  ) {}
 
-  ngOnInit(): void {
-    this.position = 'center';
-    this.displayPosition = true;
-  }
+  ngOnInit(): void {}
 
-
-
+  // login.component.ts
   login(): void {
-    const email = this.email;
-    const senha = this.senha;
-
-    // Verifica se o email é válido (contém "@" e algo antes e depois)
-    const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-
-    // Verifica se a senha tem pelo menos 3 caracteres
-    const senhaValida = senha.length >= 3;
-
-    // Apenas exibe erro se o email não for válido ou se a senha não cumprir as regras
-    if (emailValido && senhaValida) {
-      this.messageService.add({
-        severity: 'success',
-        summary: 'Sucesso',
-        detail: 'Login feito com sucesso',
-        styleClass: 'toast-success'
-      });
-
-      setTimeout(() => {
-        this.router.navigate(['/menu']);
-      }, 1000);
+    if (this.isEmailValido(this.email) && this.isSenhaValida(this.senha)) {
+      this.loginService.login({ email: this.email, password: this.senha }).subscribe(
+        (response: Voluntario) => {
+          if (response && response.email && response.id) {
+            this.exibirMensagemSucesso('Login feito com sucesso');
+            this.redirecionarPara('/menu', 1000);
+          } else {
+            this.exibirMensagemErro('Erro ao processar os dados do usuário.');
+          }
+        },
+        (error: HttpErrorResponse) => {
+          const errorMsg = this.getMensagemErroLogin(error.status);
+          this.exibirMensagemErro(errorMsg);
+          console.error('Erro de login:', error);
+        }
+      );
     } else {
-      // Determina qual mensagem de erro exibir
-      let erroMensagem = 'Email ou senha inválidos';
-      if (!emailValido) {
-        erroMensagem = 'O email inserido é inválido.';
-      } else if (!senhaValida) {
-        erroMensagem = 'A senha precisa ter no mínimo 3 caracteres.';
-      }
-
-      this.messageService.add({
-        severity: 'error',
-        summary: 'Erro',
-        detail: erroMensagem,
-        styleClass: 'toast-error'
-      });
+      const erroMensagem = this.getMensagemErro(this.email, this.senha);
+      this.exibirMensagemErro(erroMensagem);
     }
   }
 
-  aceitar() {
+
+
+  public isEmailValido(email: string): boolean {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  }
+
+  public isSenhaValida(senha: string): boolean {
+    return senha.length >= 3;
+  }
+
+  private getMensagemErro(email: string, senha: string): string {
+    if (!this.isEmailValido(email)) {
+      return 'O email inserido é inválido.';
+    } else if (!this.isSenhaValida(senha)) {
+      return 'A senha precisa ter no mínimo 3 caracteres.';
+    }
+    return 'Email ou senha inválidos';
+  }
+
+  getMensagemErroLogin(status: number): string {
+    switch (status) {
+      case 403:
+        return 'Credenciais inválidas. Verifique seu email e senha.';
+      case 500:
+        return 'Erro interno do servidor. Tente novamente mais tarde.';
+      default:
+        return 'Erro ao realizar login. Verifique as credenciais.';
+    }
+  }
+
+
+  private exibirMensagemSucesso(mensagem: string): void {
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Sucesso',
+      detail: mensagem,
+      styleClass: 'toast-success'
+    });
+  }
+
+  private exibirMensagemErro(mensagem: string): void {
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Erro',
+      detail: mensagem,
+      styleClass: 'toast-error'
+    });
+  }
+
+  private redirecionarPara(rota: string, delay: number = 0): void {
+    setTimeout(() => this.router.navigate([rota]), delay);
+  }
+
+  cadastrar(): void {
+    this.redirecionarPara('/cadastro');
+  }
+
+  voltar(): void {
+    this.redirecionarPara('/home');
+  }
+
+  redefinirSenha(): void {
+    this.redirecionarPara('/confirmar-senha');
+  }
+
+  aceitar(): void {
     this.displayPosition = false;
-    this.router.navigate(['/login']);
+    this.redirecionarPara('/login');
   }
 
-  rejeitar() {
+  rejeitar(): void {
     this.displayPosition = false;
-    this.router.navigate(['/cadastro-rejeitado']);
-  }
-
-
-  cadastrar() {
-    this.router.navigate(['/cadastro']);
-  }
-
-  voltar() {
-    this.router.navigate(['/home']);
-  }
-
-  redefinirSenha() {
-    this.router.navigate(['/confirmar-senha']);
+    this.redirecionarPara('/cadastro-rejeitado');
   }
 }
