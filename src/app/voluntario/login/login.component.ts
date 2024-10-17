@@ -31,40 +31,40 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  // login.component.ts
+  // Método de login para autenticar o voluntário
   login(): void {
     if (this.isEmailValido(this.email) && this.isSenhaValida(this.senha)) {
       this.loginService.login({ email: this.email, password: this.senha }).subscribe(
         (response: Voluntario) => {
-          if (response && response.email && response.id) {
-            this.exibirMensagemSucesso('Login feito com sucesso');
-            this.redirecionarPara('/menu', 1000);
+          console.log('Resposta do servidor:', response);  // Log para ver os dados recebidos
+          if (response && response.email && response.id && response.nome) {
+            localStorage.setItem('userEmail', response.email);
+            localStorage.setItem('userId', response.id.toString());
+            localStorage.setItem('userName', response.nome);  // Armazena o nome do voluntário
+            this.redirecionarPara('/menu', 1000); // Redireciona para o menu
           } else {
             this.exibirMensagemErro('Erro ao processar os dados do usuário.');
           }
         },
         (error: HttpErrorResponse) => {
-          const errorMsg = this.getMensagemErroLogin(error.status);
-          this.exibirMensagemErro(errorMsg);
-          console.error('Erro de login:', error);
+          console.error('Erro de login:', error); // Log de erro no login
+          this.exibirMensagemErro('Erro de login: ' + error.message);
         }
       );
-    } else {
-      const erroMensagem = this.getMensagemErro(this.email, this.senha);
-      this.exibirMensagemErro(erroMensagem);
-    }
   }
+}
 
-
-
+  // Validação de email
   public isEmailValido(email: string): boolean {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   }
 
+  // Validação de senha (mínimo de 3 caracteres)
   public isSenhaValida(senha: string): boolean {
     return senha.length >= 3;
   }
 
+  // Mensagem de erro caso email ou senha sejam inválidos
   private getMensagemErro(email: string, senha: string): string {
     if (!this.isEmailValido(email)) {
       return 'O email inserido é inválido.';
@@ -74,6 +74,7 @@ export class LoginComponent implements OnInit {
     return 'Email ou senha inválidos';
   }
 
+  // Mensagem de erro personalizada com base no status da resposta HTTP
   getMensagemErroLogin(status: number): string {
     switch (status) {
       case 403:
@@ -85,7 +86,7 @@ export class LoginComponent implements OnInit {
     }
   }
 
-
+  // Exibe uma mensagem de sucesso no login
   private exibirMensagemSucesso(mensagem: string): void {
     this.messageService.add({
       severity: 'success',
@@ -95,6 +96,7 @@ export class LoginComponent implements OnInit {
     });
   }
 
+  // Exibe uma mensagem de erro em caso de falha no login
   private exibirMensagemErro(mensagem: string): void {
     this.messageService.add({
       severity: 'error',
@@ -104,27 +106,33 @@ export class LoginComponent implements OnInit {
     });
   }
 
+  // Redireciona para uma rota específica após um delay (opcional)
   private redirecionarPara(rota: string, delay: number = 0): void {
     setTimeout(() => this.router.navigate([rota]), delay);
   }
 
+  // Redireciona para a página de cadastro
   cadastrar(): void {
     this.redirecionarPara('/cadastro');
   }
 
+  // Redireciona para a página inicial (home)
   voltar(): void {
     this.redirecionarPara('/home');
   }
 
+  // Redireciona para a página de redefinição de senha
   redefinirSenha(): void {
     this.redirecionarPara('/confirmar-senha');
   }
 
+  // Aceita as condições e redireciona para o login
   aceitar(): void {
     this.displayPosition = false;
     this.redirecionarPara('/login');
   }
 
+  // Rejeita as condições e redireciona para uma página de rejeição de cadastro
   rejeitar(): void {
     this.displayPosition = false;
     this.redirecionarPara('/cadastro-rejeitado');

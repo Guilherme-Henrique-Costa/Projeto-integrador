@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { MenuService } from './menu.service';
 
 @Component({
   selector: 'app-menu',
@@ -9,13 +10,15 @@ export class MenuComponent {
   searchQuery: string = '';
   sidebarOpen: boolean = true;
 
+  voluntarioNome: string = 'Aluno';
+
   sidebarItems = [
     { label: 'Perfil', icon: 'pi pi-user', route: '/perfil' },
     { label: 'Vagas', icon: 'pi pi-bookmark', route: '/vagas' },
     { label: 'Feedback', icon: 'pi pi-chart-line', route: '/feedback' },
     { label: 'Mensagens', icon: 'pi pi-comments', route: '/mensagens' },
     { label: 'Recompensa', icon: 'pi pi-star-fill', route: '/ranking' },
-    { label: 'Sair', icon: 'pi pi-sign-out', route: '/login' }
+    { label: 'Logout', icon: 'pi pi-sign-out', route: '/login' }
   ];
 
   rankingItems = [
@@ -42,6 +45,19 @@ export class MenuComponent {
     { title: 'Vaga 5', description: 'Desc. da Vaga' },
     { title: 'Vaga 6', description: 'Desc. da Vaga' },
   ];
+
+  constructor(private menuService: MenuService) {}
+
+  ngOnInit(): void {
+    const nomeSalvo = localStorage.getItem('userName');
+    console.log('Nome salvo no localStorage:', nomeSalvo);  // Adicione isso para ver o que está sendo recuperado
+
+    if (nomeSalvo) {
+      this.voluntarioNome = nomeSalvo;
+    } else {
+      this.voluntarioNome = 'Aluno'; // Nome padrão caso não seja encontrado
+    }
+  }
 
   toggleSidebar(): void {
     this.sidebarOpen = !this.sidebarOpen;

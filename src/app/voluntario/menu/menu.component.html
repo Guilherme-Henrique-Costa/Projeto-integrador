@@ -1,3 +1,4 @@
+<!-- menu.component.html -->
 <div class="app-container">
   <!-- Botão para abrir/fechar a barra lateral -->
   <button class="toggle-sidebar-btn" (click)="toggleSidebar()">
@@ -21,7 +22,8 @@
       </div>
       <div class="rodape">
         <div class="user-info">
-          <span>Aluno</span>
+          <!-- Exibe o nome do voluntário logado -->
+          <span>{{ voluntarioNome }}</span>
         </div>
       </div>
     </div>
