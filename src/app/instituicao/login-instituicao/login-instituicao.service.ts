@@ -14,12 +14,11 @@ export interface Usuario {
 })
 export class LoginService {
   private url = 'http://localhost:8080/api/v1/instituicao'; // URL base do backend
-
-  aceiteLgpd!: boolean;
+  aceiteLgpd!: boolean;  // Gerenciar aceitação dos termos de privacidade
 
   constructor(private http: HttpClient) {}
 
-  // Método para realizar o login do usuário
+  // Método para realizar o login da instituição
   login(user: { email: string; senha: string }): Observable<Usuario> {
     const params = new HttpParams()
       .set('email', user.email)
@@ -27,8 +26,9 @@ export class LoginService {
 
     return this.http.post<Usuario>(`${this.url}/login`, {}, { params }).pipe(
       tap((response: Usuario) => {
-        // Não há mais token, armazenar apenas as informações úteis localmente, se necessário
+        // Armazenar o nome e o email da instituição no localStorage
         localStorage.setItem('userEmail', response.email);
+        localStorage.setItem('userName', response.nome);
       }),
       catchError(this.handleError)
     );
@@ -38,10 +38,8 @@ export class LoginService {
   private handleError(error: any): Observable<never> {
     let errorMessage = 'Erro desconhecido!';
     if (error.error instanceof ErrorEvent) {
-      // Erro do lado do cliente
       errorMessage = `Erro: ${error.error.message}`;
     } else {
-      // Erro do lado do servidor
       errorMessage = `Erro ${error.status}: ${error.message}`;
     }
     return throwError(() => new Error(errorMessage));
@@ -50,6 +48,7 @@ export class LoginService {
   // Método para logout: remove as informações de autenticação do localStorage
   logout(): void {
     localStorage.removeItem('userEmail');
+    localStorage.removeItem('userName');
   }
 
   // Verifica se o usuário está logado
@@ -57,11 +56,10 @@ export class LoginService {
     return !!localStorage.getItem('userEmail'); // Retorna verdadeiro se houver um email armazenado
   }
 
+  // Método para validar se a senha tem pelo menos 6 caracteres
   private isSenhaValida(senha: string): boolean {
-    return senha.length >= 6; // Exigir que a senha tenha no mínimo 6 caracteres
+    return senha.length >= 6;
   }
-
-
 
   // Métodos para gerenciar a aceitação dos termos de privacidade (LGPD)
   setAceite(aceite: boolean): void {

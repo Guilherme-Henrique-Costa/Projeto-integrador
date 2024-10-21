@@ -31,22 +31,20 @@ export class LoginInstituicaoComponent {
 
   ngOnInit(): void {}
 
+  // Método de login para autenticar a instituição
   login(): void {
-    // Validar email e senha localmente antes de enviar ao backend
     if (this.isEmailValido(this.email) && this.isSenhaValida(this.senha)) {
-      // Fazer a requisição ao backend
       this.loginService.login({ email: this.email, senha: this.senha }).subscribe(
         (response: Usuario) => {
-          // Login bem-sucedido: Armazenar o email e redirecionar
-          localStorage.setItem('userEmail', response.email); // Armazena informações do usuário
-
+          // Login bem-sucedido: Armazenar o email e o nome no localStorage
+          localStorage.setItem('userEmail', response.email);
+          localStorage.setItem('userName', response.nome);
           this.exibirMensagemSucesso('Login feito com sucesso');
           this.redirecionarPara('/menu-instituicao', 1000);
         },
         (error: HttpErrorResponse) => {
           // Tratar erro de autenticação
           this.exibirMensagemErro('Erro ao realizar login. Verifique as credenciais.');
-          console.error('Erro de login:', error);
         }
       );
     } else {

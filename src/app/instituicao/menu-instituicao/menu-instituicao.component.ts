@@ -1,13 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-menu-instituicao',
   templateUrl: './menu-instituicao.component.html',
   styleUrls: ['./menu-instituicao.component.css']
 })
-export class MenuInstituicaoComponent {
+export class MenuInstituicaoComponent implements OnInit {
   searchQuery: string = '';
   sidebarOpen: boolean = true;
+
+  instituicaoNome: string = 'Instituição'; // Nome padrão, será substituído após o login
 
   sidebarItems = [
     { label: 'Perfil', icon: 'pi pi-user', route: '/perfil-instituicao' },
@@ -34,6 +36,16 @@ export class MenuInstituicaoComponent {
     '⭐⭐⭐⭐⭐ Guilherme',
     '⭐⭐⭐☆☆ Alexandre'
   ];
+
+  constructor() {}
+
+  ngOnInit(): void {
+    // Recupera o nome da instituição do localStorage
+    const nomeSalvo = localStorage.getItem('userName');
+    if (nomeSalvo) {
+      this.instituicaoNome = nomeSalvo; // Atualiza o nome da instituição no menu
+    }
+  }
 
   toggleSidebar(): void {
     this.sidebarOpen = !this.sidebarOpen;

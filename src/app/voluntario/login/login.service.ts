@@ -15,6 +15,8 @@ export interface Voluntario {
 export class LoginService {
   private url = 'http://localhost:8080/api/v1/voluntario'; // URL do backend
 
+  aceiteLgpd!: boolean;
+
   constructor(private http: HttpClient) {}
 
   // Método para realizar o login do voluntário
@@ -44,6 +46,15 @@ export class LoginService {
   // Verifica se o voluntário está logado
   isLoggedIn(): boolean {
     return !!localStorage.getItem('userEmail');
+  }
+
+  // Métodos para gerenciar a aceitação dos termos de privacidade (LGPD)
+  setAceite(aceite: boolean): void {
+    this.aceiteLgpd = aceite;
+  }
+
+  getAceite(): boolean {
+    return this.aceiteLgpd;
   }
 
   // Tratar erros da requisição HTTP
