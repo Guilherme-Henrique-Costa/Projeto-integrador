@@ -43,6 +43,7 @@ import { GestaoInstituicaoComponent } from './instituicao/gestao-instituicao/ges
 import { CalendarModule } from 'primeng/calendar';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginService } from './instituicao/login-instituicao/login-instituicao.service';
+import { VagasVoluntarioComponent } from './voluntario/vagas-voluntario/vagas-voluntario.component';
 
 
 
@@ -61,7 +62,8 @@ import { LoginService } from './instituicao/login-instituicao/login-instituicao.
     PerfilInstituicaoComponent,
     VagasInstituicaoComponent,
     GestaoInstituicaoComponent,
-    LoginInstituicaoComponent
+    LoginInstituicaoComponent,
+    VagasVoluntarioComponent
   ],
   imports: [
     BrowserModule,

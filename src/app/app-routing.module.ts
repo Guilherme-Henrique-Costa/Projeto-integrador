@@ -14,6 +14,7 @@ import { ConfirmarSenhaInstituicaoComponent } from './instituicao/confirmar-senh
 import { PerfilInstituicaoComponent } from './instituicao/perfil-instituicao/perfil-instituicao.component';
 import { VagasInstituicaoComponent } from './instituicao/vagas-instituicao/vagas-instituicao.component';
 import { GestaoInstituicaoComponent } from './instituicao/gestao-instituicao/gestao-instituicao.component';
+import { VagasVoluntarioComponent } from './voluntario/vagas-voluntario/vagas-voluntario.component';
 
 const routes: Routes = [
   {
@@ -89,7 +90,12 @@ const routes: Routes = [
   {
     path: 'gestao',
     component: GestaoInstituicaoComponent,
-  }
+  },
+
+  {
+    path: 'vagas',
+    component: VagasVoluntarioComponent
+  },
 
 ];
 

@@ -31,11 +31,7 @@
   <div class="main-content" [ngClass]="{'expanded': !sidebarOpen}">
     <!-- Barra de Busca -->
     <div class="search-bar">
-      <input
-        type="text"
-        placeholder="Pesquisar"
-        [(ngModel)]="searchQuery"
-      />
+      <input type="text" placeholder="Pesquisar" [(ngModel)]="searchQuery" />
       <button class="search-button">
         <i class="pi pi-search"></i>
       </button>
@@ -44,32 +40,38 @@
     <!-- Formulário de Vagas -->
     <p-toast></p-toast> <!-- Componente Toast para exibir mensagens -->
 
-<div class="vaga-form-container">
-  <h2>Publique sua vaga!</h2>
+    <div class="vaga-form-container">
+      <h2>Publique sua vaga!</h2>
 
-  <form [formGroup]="vagaForm" (ngSubmit)="onSubmit()">
-    <label for="cargo">Cargo:</label>
-    <input id="cargo" formControlName="cargo" placeholder="Descrição do Cargo" />
-    <div *ngIf="isFieldInvalid('cargo')" class="error-message">O campo Cargo é obrigatório.</div>
+      <form [formGroup]="vagaForm" (ngSubmit)="onSubmit()">
+        <label for="cargo">Cargo:</label>
+        <input id="cargo" formControlName="cargo" placeholder="Descrição do Cargo" />
+        <div *ngIf="isFieldInvalid('cargo')" class="error-message">O campo Cargo é obrigatório.</div>
 
-    <label for="localidade">Localidade de Trabalho:</label>
-    <input id="localidade" formControlName="localidade" placeholder="Descrição da Localidade" />
-    <div *ngIf="isFieldInvalid('localidade')" class="error-message">O campo Localidade de Trabalho é obrigatório.</div>
+        <label for="localidade">Localidade de Trabalho:</label>
+        <input id="localidade" formControlName="localidade" placeholder="Descrição da Localidade" />
+        <div *ngIf="isFieldInvalid('localidade')" class="error-message">O campo Localidade de Trabalho é obrigatório.
+        </div>
 
-    <label for="tipoVaga">Tipo de Vaga:</label>
-    <input id="tipoVaga" formControlName="tipoVaga" placeholder="Descrição do Tipo de Vaga" />
-    <div *ngIf="isFieldInvalid('tipoVaga')" class="error-message">O campo Tipo de Vaga é obrigatório.</div>
+        <label for="tipoVaga">Tipo de Vaga:</label>
+        <input id="tipoVaga" formControlName="tipoVaga" placeholder="Descrição do Tipo de Vaga" />
+        <div *ngIf="isFieldInvalid('tipoVaga')" class="error-message">
+          O campo Tipo de Vaga é obrigatório.
+        </div>
 
-    <label for="descricao">Descrição:</label>
-    <input id="descricao" formControlName="descricao" placeholder="Descrição da Vaga" />
-    <div *ngIf="isFieldInvalid('descricao')" class="error-message">O campo Descrição é obrigatório.</div>
+        <label for="descricao">Descrição:</label>
+        <input id="descricao" formControlName="descricao" placeholder="Descrição da Vaga" />
+        <div *ngIf="isFieldInvalid('descricao')" class="error-message">O campo Descrição é obrigatório.</div>
 
-    <label for="especificacoes">Especificações da vaga:</label>
-    <input id="especificacoes" formControlName="especificacoes" placeholder="Descrição de especificações" />
-    <div *ngIf="isFieldInvalid('especificacoes')" class="error-message">O campo Especificações da Vaga é obrigatório.</div>
+        <label for="especificacoes">Especificações da vaga (separadas por vírgula):</label>
+        <input id="especificacoes" formControlName="especificacoes" placeholder="Ex: Java, Spring Boot, REST API" />
+        <div *ngIf="isFieldInvalid('especificacoes')" class="error-message">
+          O campo Especificações é obrigatório.
+        </div>
 
-    <button type="submit" class="submit-btn">Publique!</button>
-  </form>
-</div>
+
+        <button type="submit" class="submit-btn">Publique!</button>
+      </form>
+    </div>
   </div>
 </div>

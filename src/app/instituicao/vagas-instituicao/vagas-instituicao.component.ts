@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
+import { VagasInstituicaoService, VagaInstituicao } from './vagas-instituicao.service';  // Importe o serviço e a interface
 
 @Component({
   selector: 'app-vagas-instituicao',
@@ -26,6 +27,7 @@ export class VagasInstituicaoComponent {
 
   constructor(
     private fb: FormBuilder,
+    private vagasInstituicaoService: VagasInstituicaoService,  // Injetando o serviço
     private router: Router,
     private messageService: MessageService
   ) {
@@ -33,10 +35,36 @@ export class VagasInstituicaoComponent {
     this.vagaForm = this.fb.group({
       cargo: ['', Validators.required],
       localidade: ['', Validators.required],
-      tipoVaga: ['', Validators.required],
       descricao: ['', Validators.required],
-      especificacoes: ['', Validators.required]
+      especificacoes: ['', Validators.required],
+      tipoVaga: ['', Validators.required]  // Adicione o campo tipoVaga aqui
     });
+  }
+
+  // Submeter o formulário
+  onSubmit(): void {
+    if (this.vagaForm.valid) {
+      // Converter a string 'especificacoes' para uma lista de strings
+      const formValue = this.vagaForm.value;
+      formValue.especificacoes = formValue.especificacoes.split(',').map((item: string) => item.trim());
+
+      const novaVaga: VagaInstituicao = formValue;
+      console.log('Dados enviados:', novaVaga);  // Verifique os dados convertidos
+
+      this.vagasInstituicaoService.cadastrarVaga(novaVaga).subscribe(
+        (response) => {
+          this.exibirMensagemSucesso('Vaga publicada com sucesso!');
+          this.vagaForm.reset();  // Limpa o formulário após o envio bem-sucedido
+        },
+        (error) => {
+          this.exibirMensagemErro('Erro ao publicar a vaga. Tente novamente.');
+          console.error('Erro na requisição:', error);  // Log para ver detalhes do erro
+        }
+      );
+    } else {
+      this.exibirMensagemErro(this.getMensagemErro());
+      this.vagaForm.markAllAsTouched(); // Marcar todos os campos como 'touched' para mostrar os erros
+    }
   }
 
   toggleSidebar(): void {
@@ -46,14 +74,14 @@ export class VagasInstituicaoComponent {
   // Exibe uma mensagem de erro se o campo for inválido e o usuário tentou enviar o formulário
   isFieldInvalid(field: string): boolean {
     return !!this.vagaForm.get(field)?.invalid &&
-           (!!this.vagaForm.get(field)?.touched || !!this.vagaForm.get(field)?.dirty);
+      (!!this.vagaForm.get(field)?.touched || !!this.vagaForm.get(field)?.dirty);
   }
 
   // Método que retorna a mensagem de erro baseada no campo que está inválido
   private getMensagemErro(): string {
     for (const field in this.vagaForm.controls) {
       const control = this.vagaForm.get(field);
-      if (control?.errors?.['required']) { // Correção aqui
+      if (control?.errors?.['required']) {
         return `O campo ${this.getFieldName(field)} é obrigatório.`;
       }
     }
@@ -63,9 +91,9 @@ export class VagasInstituicaoComponent {
   // Método que retorna o nome amigável do campo
   private getFieldName(field: string): string {
     const fieldNames: { [key: string]: string } = {
+      instituicao: 'Instituição',
       cargo: 'Cargo',
       localidade: 'Localidade de Trabalho',
-      tipoVaga: 'Tipo de Vaga',
       descricao: 'Descrição',
       especificacoes: 'Especificações da Vaga'
     };
@@ -92,27 +120,6 @@ export class VagasInstituicaoComponent {
     });
   }
 
-  onSubmit(): void {
-    if (this.vagaForm.valid) {
-      // Exibir mensagem de sucesso se o formulário estiver válido
-      this.exibirMensagemSucesso("Vaga publicada com sucesso!");
 
-      // Lógica para registrar a vaga (pode ser uma requisição a API ou outra lógica)
-      console.log(this.vagaForm.value);
 
-      // Resetar o formulário para preparar para a próxima vaga
-      this.vagaForm.reset({
-        cargo: '',
-        localidade: '',
-        tipoVaga: '',
-        descricao: '',
-        especificacoes: ''
-      });
-
-    } else {
-      // Exibir mensagem de erro se o formulário estiver inválido
-      this.exibirMensagemErro(this.getMensagemErro());
-      this.vagaForm.markAllAsTouched(); // Marcar todos os campos como 'touched' para mostrar os erros
-    }
-  }
 }

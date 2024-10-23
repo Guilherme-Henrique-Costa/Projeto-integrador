@@ -1,0 +1,235 @@
+.vagas-container {
+  display: flex;
+  height: 100vh;
+}
+
+/* Sidebar de navegação */
+.custom-sidebar {
+  width: 250px;
+  transition: width 0.3s;
+  background-color: #ffffff;
+  color: #333;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.custom-sidebar.closed {
+  width: 0;
+  overflow: hidden;
+}
+
+.box {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.cabeca {
+  padding: 40px;
+  border-bottom: 1px solid #e0e0e0;
+  text-align: center;
+}
+
+.logo-text {
+  font-size: 24px;
+  font-weight: bold;
+  color: #007bff;
+  margin-top: 10px;
+}
+
+.corpo {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.menu-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu-list li {
+  margin: 10px 0;
+}
+
+.menu-list a {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  color: #333;
+  text-decoration: none;
+  transition: background-color 0.3s;
+}
+
+.menu-list a:hover {
+  background-color: #f0f0f0;
+}
+
+.rodape {
+  padding: 20px;
+  border-top: 1px solid #e0e0e0;
+  text-align: center;
+  font-weight: bold;
+}
+
+.user-info {
+  color: #333;
+}
+
+/* Botão de alternância da sidebar */
+.toggle-sidebar-btn {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background-color: #fff;
+  border: none;
+  border-radius: 50%;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.toggle-sidebar-btn i {
+  font-size: 18px;
+}
+
+.toggle-sidebar-btn:hover {
+  background-color: #f0f0f0;
+}
+
+/* Conteúdo principal */
+.main-content {
+  flex-grow: 1;
+  padding: 40px;
+  background-color: #f9f9f9;
+  overflow-y: auto;
+  transition: margin-left 0.3s;
+}
+
+.main-content.expanded {
+  margin-left: 0;
+}
+
+/* Barra de pesquisa */
+.search-bar {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.search-bar input {
+  flex: 1;
+  padding: 10px 15px;
+  border: 1px solid #ccc;
+  border-radius: 25px;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.search-bar input:focus {
+  border-color: #007bff;
+}
+
+.search-button {
+  background-color: #007bff;
+  border: none;
+  color: #fff;
+  padding: 10px 15px;
+  margin-left: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s;
+}
+
+.search-button:hover {
+  background-color: #0056b3;
+}
+
+/* Lista de vagas */
+.vagas-list {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.vagas-list h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.vagas-list ul {
+  list-style: none;
+  padding: 0;
+}
+
+.vagas-list li {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.vagas-list li:hover {
+  background-color: #f0f0f0;
+}
+
+.vagas-list li i {
+  margin-right: 10px;
+}
+
+/* Detalhes da vaga selecionada */
+.vaga-detalhes {
+  background: linear-gradient(180deg, #ff4081 0%, #8e24aa 100%);
+  color: black;
+  padding: 20px;
+  border-radius: 25px;
+  text-align: center;
+  width: 300px;
+  margin: 0 auto; /* Centraliza o card */
+}
+
+.vaga-detalhes h2 {
+  font-size: 1.5em;
+  color: white;
+  margin-bottom: 20px;
+}
+
+.vaga-info {
+  background-color: white;
+  padding: 15px;
+  border-radius: 15px;
+  color: #333;
+  text-align: left;
+}
+
+.vaga-info p {
+  margin: 5px 0;
+}
+
+.vaga-info ul {
+  padding-left: 20px;
+  list-style: disc;
+}
+
+.vaga-detalhes button.apply-btn {
+  background-color: #ff4081;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 1em;
+  margin-top: 20px;
+}
+
+.vaga-detalhes button.apply-btn:hover {
+  background-color: #d6336c;
+}
