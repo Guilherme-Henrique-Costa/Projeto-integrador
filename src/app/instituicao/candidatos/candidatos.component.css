@@ -1,0 +1,152 @@
+.candidatos-container {
+  display: flex;
+}
+
+.custom-sidebar {
+  width: 250px;
+  transition: width 0.3s;
+}
+
+.custom-sidebar.closed {
+  width: 0;
+  overflow: hidden;
+}
+
+.main-content {
+  flex-grow: 1;
+  transition: margin-left 0.3s;
+}
+
+.main-content.expanded {
+  margin-left: 0;
+}
+
+.toggle-sidebar-btn {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background-color: #fff;
+  border: none;
+  border-radius: 50%;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.toggle-sidebar-btn i {
+  font-size: 18px;
+}
+
+.toggle-sidebar-btn:hover {
+  background-color: #f0f0f0;
+}
+
+.closed .toggle-sidebar-btn {
+  right: -40px; /* Ajusta a posição do botão quando a sidebar está fechada */
+}
+
+/* Sidebar de Navegação */
+.custom-sidebar {
+  width: 250px;
+  background-color: #ffffff;
+  color: #333;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.cabeca {
+  padding: 40px;
+  border-bottom: 1px solid #e0e0e0;
+  text-align: center;
+}
+
+.logo-text {
+  font-size: 24px;
+  font-weight: bold;
+  color: #007bff;
+  margin-top: 10px; /* Adicionar margem para separar o texto do botão */
+}
+
+.corpo {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.menu-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu-list li {
+  margin: 10px 0;
+}
+
+.menu-list a {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  color: #333;
+  text-decoration: none;
+  transition: background-color 0.3s;
+}
+
+.menu-list a:hover {
+  background-color: #f0f0f0;
+}
+
+.rodape {
+  padding: 20px;
+  border-top: 1px solid #e0e0e0;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* Conteúdo Principal */
+.main-content {
+  flex: 1;
+  padding: 40px;
+  background-color: #f9f9f9;
+  overflow-y: auto;
+}
+
+/* Barra de Busca */
+.search-bar {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.search-bar input {
+  flex: 1;
+  padding: 10px 15px;
+  border: 1px solid #ccc;
+  border-radius: 25px;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.search-bar input:focus {
+  border-color: #007bff;
+}
+
+.search-button {
+  background-color: #007bff;
+  border: none;
+  color: #fff;
+  padding: 10px 15px;
+  margin-left: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s;
+}
+
+.search-button:hover {
+  background-color: #0056b3;
+}

@@ -3,10 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-// Define a interface Vaga aqui mesmo
 export interface Vaga {
   id?: number;  // O ID é opcional porque novas vagas ainda não terão um ID
-  titulo: string;
   instituicao: string;
   cargo: string;
   localidade: string;
@@ -20,7 +18,8 @@ export interface Vaga {
 export class VagasVoluntarioService {
 
   // URL para a API de vagas específicas para voluntários
-  private vagasUrl = 'http://localhost:8080/api/vagasVoluntario';
+  private vagasUrl = 'http://localhost:8080/api/vagasInstituicao';
+  private candidaturasUrl = 'http://localhost:8080/api/candidaturas';  // Endpoint de candidatura
 
   private httpOptions = {
     headers: new HttpHeaders({
@@ -32,19 +31,31 @@ export class VagasVoluntarioService {
 
   constructor(private http: HttpClient) {}
 
-  // Método para buscar as vagas do backend
+  // Método para buscar as vagas da instituição (reutilizando o endpoint de instituição)
   getVagas(): Observable<Vaga[]> {
     return this.http.get<Vaga[]>(this.vagasUrl).pipe(
-      catchError(this.handleError)  // Adiciona tratamento de erros
+      catchError(this.handleError)
     );
   }
 
-  // Método para criar uma nova vaga
-  criarVaga(vaga: Vaga): Observable<Vaga> {
-    return this.http.post<Vaga>(this.vagasUrl, vaga, this.httpOptions).pipe(
-      catchError(this.handleError)  // Adiciona tratamento de erros
-    );
+  // Função para candidatar-se a uma vaga
+candidatarVaga(voluntarioId: number, vagaId: number): Observable<any> {
+  if (!voluntarioId || !vagaId) {
+    console.error('Voluntário ID ou Vaga ID estão inválidos');
+    return throwError('Voluntário ou vaga inválida');  // Lança um erro se os IDs forem inválidos
   }
+
+  const candidatura = {
+    voluntarioId,
+    vagaId,
+    dataCandidatura: new Date(), // Inclui a data atual
+  };
+
+  console.log('Enviando candidatura:', candidatura);
+  return this.http.post(this.candidaturasUrl, candidatura, this.httpOptions).pipe(
+    catchError(this.handleError)
+  );
+}
 
   // Função para definir o nome do voluntário
   setVoluntarioNome(nome: string): void {
@@ -60,7 +71,15 @@ export class VagasVoluntarioService {
 
   // Tratamento de erros para requisições HTTP
   private handleError(error: any): Observable<never> {
+    let errorMessage = 'Erro na comunicação com o servidor';
+
+    if (error.status === 400) {
+      errorMessage = 'Dados inválidos enviados. Verifique os campos.';
+    } else if (error.status === 500) {
+      errorMessage = 'Erro interno no servidor. Tente novamente mais tarde.';
+    }
+
     console.error('Ocorreu um erro na requisição:', error);
-    return throwError(() => new Error('Erro na comunicação com o servidor. Tente novamente mais tarde.'));
+    return throwError(() => new Error(errorMessage));
   }
 }

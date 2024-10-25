@@ -15,6 +15,8 @@ import { PerfilInstituicaoComponent } from './instituicao/perfil-instituicao/per
 import { VagasInstituicaoComponent } from './instituicao/vagas-instituicao/vagas-instituicao.component';
 import { GestaoInstituicaoComponent } from './instituicao/gestao-instituicao/gestao-instituicao.component';
 import { VagasVoluntarioComponent } from './voluntario/vagas-voluntario/vagas-voluntario.component';
+import { CandidatosComponent } from './instituicao/candidatos/candidatos.component';
+import { PerfilComponent } from './voluntario/perfil/perfil.component';
 
 const routes: Routes = [
   {
@@ -36,6 +38,11 @@ const routes: Routes = [
   {
     path: 'home',
     component: HomeComponent,
+  },
+
+  {
+    path: 'perfil',
+    component: PerfilComponent
   },
 
   {
@@ -95,6 +102,11 @@ const routes: Routes = [
   {
     path: 'vagas',
     component: VagasVoluntarioComponent
+  },
+
+  {
+    path: 'candidatos',
+    component: CandidatosComponent
   },
 
 ];

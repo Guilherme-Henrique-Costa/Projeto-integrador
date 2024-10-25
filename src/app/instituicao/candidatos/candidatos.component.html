@@ -1,0 +1,65 @@
+<div class="candidatos-container">
+  <!-- Botão para abrir/fechar a barra lateral -->
+  <button class="toggle-sidebar-btn" (click)="toggleSidebar()">
+   <i class="pi" [ngClass]="{'pi-chevron-left': sidebarOpen, 'pi-chevron-right': !sidebarOpen}"></i>
+ </button>
+
+ <!-- Sidebar de Navegação -->
+ <div class="custom-sidebar" [ngClass]="{'closed': !sidebarOpen}">
+   <div class="box">
+     <div class="cabeca">
+       <span class="logo-text">Menu Instituição</span>
+     </div>
+     <div class="corpo">
+       <ul class="menu-list">
+         <li *ngFor="let item of sidebarItems">
+           <a [routerLink]="item.route">
+             <i [class]="item.icon"></i> {{ item.label }}
+           </a>
+         </li>
+       </ul>
+     </div>
+     <div class="rodape">
+       <div class="user-info">
+         <h2>Instituião</h2>
+       </div>
+     </div>
+   </div>
+ </div>
+
+ <!-- Conteúdo Principal -->
+ <div class="main-content" [ngClass]="{'expanded': !sidebarOpen}">
+   <!-- Barra de Busca -->
+   <div class="search-bar">
+     <input
+       type="text"
+       placeholder="Pesquisar"
+       [(ngModel)]="searchQuery"
+     />
+     <button class="search-button">
+       <i class="pi pi-search"></i>
+     </button>
+   </div>
+
+   <h2>Vagas com candidatos</h2>
+   <ul>
+     <li *ngFor="let vaga of vagasComCandidatos" (click)="selecionarVaga(vaga)">
+       {{ vaga.cargo }} - {{ vaga.localidade }}
+     </li>
+   </ul>
+
+   <div *ngIf="vagaSelecionada">
+     <h2>Candidatos para a vaga {{ vagaSelecionada.cargo }}</h2>
+
+     <ul *ngIf="candidatos.length > 0; else noCandidatos">
+       <li *ngFor="let candidato of candidatos">
+         Voluntário ID: {{ candidato.voluntarioId }}, Data de Candidatura: {{ candidato.dataCandidatura | date }}
+       </li>
+     </ul>
+
+     <ng-template #noCandidatos>
+       <p>Nenhum candidato para esta vaga.</p>
+     </ng-template>
+   </div>
+ </div>
+</div>

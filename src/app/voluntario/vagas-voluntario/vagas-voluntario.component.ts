@@ -9,6 +9,7 @@ import { VagasVoluntarioService, Vaga } from './vagas-voluntario.service';  // I
 export class VagasVoluntarioComponent implements OnInit {
   searchQuery: string = '';
   sidebarOpen: boolean = true;
+  voluntarioId: number = 1;
 
   voluntarioNome: string = 'Aluno';
 
@@ -29,12 +30,16 @@ export class VagasVoluntarioComponent implements OnInit {
   ngOnInit(): void {
     this.carregarVagas();
     const nomeSalvo = localStorage.getItem('userName');
-    console.log('Nome salvo no localStorage:', nomeSalvo);  // Exibe o nome salvo no console
-
     if (nomeSalvo) {
       this.voluntarioNome = nomeSalvo;
     } else {
-      this.voluntarioNome = 'Aluno'; // Nome padrão se não encontrado
+      this.voluntarioNome = 'Aluno';
+    }
+
+    // Obter ID do voluntário do localStorage (caso esteja autenticado)
+    const idSalvo = localStorage.getItem('voluntarioId');
+    if (idSalvo) {
+      this.voluntarioId = parseInt(idSalvo, 10);  // Usar ID salvo
     }
   }
 
@@ -43,16 +48,15 @@ export class VagasVoluntarioComponent implements OnInit {
     this.sidebarOpen = !this.sidebarOpen;
   }
 
-   // Método que carrega as vagas do serviço
-   carregarVagas(): void {
+  // Método que carrega as vagas do serviço
+  carregarVagas(): void {
     this.vagasVoluntarioService.getVagas().subscribe(vagas => {
       this.vagas = vagas;  // Atribui as vagas recebidas à variável
-      console.log('Vagas carregadas:', vagas);  // Exibe as vagas no console
+      console.log('Vagas carregadas:', vagas);
     }, error => {
-      console.error('Erro ao carregar vagas:', error);  // Loga erros
+      console.error('Erro ao carregar vagas:', error);
     });
   }
-
 
   // Seleciona uma vaga para exibir os detalhes
   selecionarVaga(vaga: Vaga): void {
@@ -62,34 +66,25 @@ export class VagasVoluntarioComponent implements OnInit {
   // Função para filtrar as vagas com base na pesquisa
   get vagasFiltradas(): Vaga[] {
     return this.vagas.filter(vaga =>
-      vaga.titulo.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+      vaga.cargo.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
       vaga.instituicao.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-      vaga.cargo.toLowerCase().includes(this.searchQuery.toLowerCase())
+      vaga.localidade.toLowerCase().includes(this.searchQuery.toLowerCase())
     );
   }
 
-  // Método para criar uma nova vaga
-  criarVaga(): void {
-    const novaVaga: Vaga = {
-      titulo: 'Nova Vaga Exemplo',
-      instituicao: 'Instituição X',
-      cargo: 'Cargo Exemplo',
-      localidade: 'São Paulo - SP',
-      descricao: 'Descrição da vaga exemplo.',
-      especificacoes: ['Especificação 1', 'Especificação 2']
-    };
-
-    this.vagasVoluntarioService.criarVaga(novaVaga).subscribe(vagaCriada => {
-      console.log('Vaga criada com sucesso!', vagaCriada);
-      this.carregarVagas();  // Atualiza a lista de vagas
-    });
-  }
-
-  // Método para o botão "Candidatar-se!"
+  // Candidatar-se a uma vaga
   candidatarVaga(): void {
     if (this.vagaSelecionada) {
-      console.log(`Candidatando-se à vaga: ${this.vagaSelecionada.titulo}`);
-      // Aqui você pode adicionar a lógica para candidatar-se, por exemplo, enviar uma requisição ao backend.
+      const vagaId = this.vagaSelecionada.id || 0;
+
+      this.vagasVoluntarioService.candidatarVaga(this.voluntarioId, vagaId).subscribe(response => {
+        console.log('Candidatura enviada com sucesso!', response);
+        alert('Candidatura realizada com sucesso!');
+        this.vagaSelecionada = null; // Limpar seleção após candidatura
+      }, error => {
+        console.error('Erro ao enviar candidatura:', error);
+        alert('Erro ao realizar candidatura. Tente novamente.');
+      });
     }
   }
 }
