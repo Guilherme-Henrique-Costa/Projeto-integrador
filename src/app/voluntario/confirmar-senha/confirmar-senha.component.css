@@ -1,11 +1,12 @@
+
 /* Estilização principal */
 .toolbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 10px;
-  background: linear-gradient(to bottom, #ff007f, #590fb7);
-  color: white;
+  
+  color: rgb(214, 41, 41);
 }
 
 .left-actions {

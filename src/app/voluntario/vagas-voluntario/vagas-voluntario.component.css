@@ -100,11 +100,11 @@
 
 /* Conteúdo principal */
 .main-content {
-  flex-grow: 1;
-  padding: 40px;
-  background-color: #f9f9f9;
-  overflow-y: auto;
-  transition: margin-left 0.3s;
+  background: linear-gradient(to bottom, #EC0089, #892cdc 50%, #87007d);
+  padding: 20px;
+  border-radius: 10px;
+  color: white;
+  font-family: sans-serif;
 }
 
 .main-content.expanded {

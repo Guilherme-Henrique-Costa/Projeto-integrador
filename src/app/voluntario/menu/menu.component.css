@@ -64,7 +64,7 @@
 .logo-text {
   font-size: 24px;
   font-weight: bold;
-  color: #007bff;
+  color: #EC0089;
   margin-top: 10px; /* Adicionar margem para separar o texto do botão */
 }
 
@@ -105,10 +105,11 @@
 
 /* Conteúdo Principal */
 .main-content {
-  flex: 1;
-  padding: 40px;
-  background-color: #f9f9f9;
-  overflow-y: auto;
+  background: linear-gradient(to bottom, #EC0089, #892cdc 50%, #87007d);
+  padding: 20px;
+  border-radius: 10px;
+  color: white;
+  font-family: sans-serif;
 }
 
 /* Barra de Busca */
@@ -129,11 +130,11 @@
 }
 
 .search-bar input:focus {
-  border-color: #007bff;
+  border-color: #EC0089;
 }
 
 .search-button {
-  background-color: #007bff;
+  background-color: #EC0089;
   border: none;
   color: #fff;
   padding: 10px 15px;
@@ -168,7 +169,7 @@
   margin-bottom: 20px;
   color: #333;
   font-size: 20px;
-  border-bottom: 2px solid #007bff;
+  border-bottom: 2px solid #EC0089;
   padding-bottom: 10px;
 }
 

@@ -17,7 +17,7 @@
 
 .toolbar button {
   padding: 8px 14px; /* Maior espaçamento */
-  background-color: #007bff;
+  background-color: #EC0089;
   color: white;
   border: none;
   border-radius: 6px; /* Bordas mais arredondadas */
@@ -25,7 +25,7 @@
 }
 
 .toolbar button:hover {
-  background-color: #0056b3; /* Cor de fundo do botão ao passar o mouse */
+  background-color: #EC0089; /* Cor de fundo do botão ao passar o mouse */
 }
 
 /* Formulário principal */
@@ -64,7 +64,7 @@ input[pInputText], .p-password input, select {
 /* Foco nos campos de entrada */
 input[pInputText]:focus, .p-password input:focus, select:focus {
   outline: none;
-  border-color: #80bdff;
+  border-color: #EC0089;
   background-color: #ffffff;
   box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
