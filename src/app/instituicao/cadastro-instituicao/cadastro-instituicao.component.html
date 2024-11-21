@@ -1,66 +1,70 @@
-<div class="cadastro-container">
-  <div class="form-container">
-    <h2>CONSAC - Cadastro Instituição</h2>
-    <form [formGroup]="cadastroForm" (ngSubmit)="onSubmit()">
+<body class="full">
+  <div class="cadastro-container">
+    <div class="form-container">
+      <h2>CONSAC - Cadastro Instituição</h2>
+      <form [formGroup]="cadastroForm" (ngSubmit)="onSubmit()">
 
-      <!-- Campo Nome -->
-      <div class="p-field">
-        <label for="nome">Nome:</label>
-        <input pInputText id="nome" formControlName="nome" />
-        <small *ngIf="cadastroForm.get('nome')?.invalid && cadastroForm.get('nome')?.touched" class="p-error">
-          {{ getErrorMessage('nome') }}
-        </small>
-      </div>
+        <!-- Campo Nome -->
+        <div class="p-field">
+          <label for="nome">Nome:</label>
+          <input pInputText id="nome" formControlName="nome" />
+          <small *ngIf="cadastroForm.get('nome')?.invalid && cadastroForm.get('nome')?.touched" class="p-error">
+            {{ getErrorMessage('nome') }}
+          </small>
+        </div>
 
-      <!-- Campo E-mail -->
-      <div class="p-field">
-        <label for="email">E-mail:</label>
-        <input pInputText id="email" formControlName="email" />
-        <small *ngIf="cadastroForm.get('email')?.invalid && cadastroForm.get('email')?.touched" class="p-error">
-          {{ getErrorMessage('email') }}
-        </small>
-      </div>
+        <!-- Campo E-mail -->
+        <div class="p-field">
+          <label for="email">E-mail:</label>
+          <input pInputText id="email" formControlName="email" />
+          <small *ngIf="cadastroForm.get('email')?.invalid && cadastroForm.get('email')?.touched" class="p-error">
+            {{ getErrorMessage('email') }}
+          </small>
+        </div>
 
-      <!-- Campo CNPJ -->
-      <div class="p-field">
-        <label for="cnpj">CNPJ:</label>
-        <input pInputText id="cnpj" formControlName="cnpj" />
-        <small *ngIf="cadastroForm.get('cnpj')?.invalid && cadastroForm.get('cnpj')?.touched" class="p-error">
-          {{ getErrorMessage('cnpj') }}
-        </small>
-      </div>
+        <!-- Campo CNPJ -->
+        <div class="p-field">
+          <label for="cnpj">CNPJ:</label>
+          <input pInputText id="cnpj" formControlName="cnpj" />
+          <small *ngIf="cadastroForm.get('cnpj')?.invalid && cadastroForm.get('cnpj')?.touched" class="p-error">
+            {{ getErrorMessage('cnpj') }}
+          </small>
+        </div>
 
-      <!-- Área de Atuação -->
-      <div class="p-field">
-        <label for="areaAtuacao">Área de atuação:</label>
-        <select id="areaAtuacao" formControlName="areaAtuacao">
-          <option *ngFor="let area of areaAtuacao" [value]="area">{{ area }}</option>
-        </select>
-        <small *ngIf="cadastroForm.get('areaAtuacao')?.invalid && cadastroForm.get('areaAtuacao')?.touched" class="p-error">
-          {{ getErrorMessage('areaAtuacao') }}
-        </small>
-      </div>
+        <!-- Área de Atuação -->
+        <div class="p-field">
+          <label for="areaAtuacao">Área de atuação:</label>
+          <select id="areaAtuacao" formControlName="areaAtuacao">
+            <option *ngFor="let area of areaAtuacao" [value]="area">{{ area }}</option>
+          </select>
+          <small *ngIf="cadastroForm.get('areaAtuacao')?.invalid && cadastroForm.get('areaAtuacao')?.touched"
+            class="p-error">
+            {{ getErrorMessage('areaAtuacao') }}
+          </small>
+        </div>
 
-      <!-- Campo Senha -->
-      <div class="p-field">
-        <label for="password">Senha:</label>
-        <input pPassword id="password" formControlName="password" />
-        <small *ngIf="cadastroForm.get('password')?.invalid && cadastroForm.get('password')?.touched" class="p-error">
-          {{ getErrorMessage('password') }}
-        </small>
-      </div>
+        <!-- Campo Senha -->
+        <div class="p-field">
+          <label for="password">Senha:</label>
+          <input pPassword id="password" formControlName="password" />
+          <small *ngIf="cadastroForm.get('password')?.invalid && cadastroForm.get('password')?.touched" class="p-error">
+            {{ getErrorMessage('password') }}
+          </small>
+        </div>
 
-      <!-- Campo Descrição -->
-      <div class="p-field">
-        <label for="description">Descrição:</label>
-        <textarea pInputTextarea id="description" formControlName="description" rows="3"></textarea>
-        <small *ngIf="cadastroForm.get('description')?.invalid && cadastroForm.get('description')?.touched" class="p-error">
-          {{ getErrorMessage('description') }}
-        </small>
-      </div>
+        <!-- Campo Descrição -->
+        <div class="p-field">
+          <label for="description">Descrição:</label>
+          <textarea pInputTextarea id="description" formControlName="description" rows="3"></textarea>
+          <small *ngIf="cadastroForm.get('description')?.invalid && cadastroForm.get('description')?.touched"
+            class="p-error">
+            {{ getErrorMessage('description') }}
+          </small>
+        </div>
 
-      <!-- Botão de Cadastro -->
-      <button type="submit" pButton label="Cadastrar"></button>
-    </form>
+        <!-- Botão de Cadastro -->
+        <button type="submit" pButton label="Cadastrar"></button>
+      </form>
+    </div>
   </div>
-</div>
+</body>

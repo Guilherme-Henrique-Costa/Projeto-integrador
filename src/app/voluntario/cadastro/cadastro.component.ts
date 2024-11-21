@@ -64,7 +64,7 @@ export class CadastroComponent {
     if (idade < 16) {
       // Se a idade for menor que 16, exibimos uma mensagem de erro e não prosseguimos com o cadastro
       this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Idade mínima para cadastro é de 16 anos.' });
-      return; // Interrompe a execução se a idade for inválida
+      return;
     }
 
     if (this.cadastroForm.valid) {
@@ -78,7 +78,7 @@ export class CadastroComponent {
         this.router.navigate(['/login']);
         },
         error: (err) => {
-          console.error('Erro ao cadastrar:', err); // Mostra o erro no console
+          console.error('Erro ao cadastrar:', err);
           this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Ocorreu um erro ao realizar o cadastro. Tente novamente.' });
         }
       });
@@ -90,7 +90,7 @@ export class CadastroComponent {
 
   // Função para calcular a idade usando Moment.js
   calcularIdade(birthDate: string): number {
-    return moment().diff(moment(birthDate, 'YYYY-MM-DD'), 'years'); // Calcula a diferença em anos
+    return moment().diff(moment(birthDate, 'YYYY-MM-DD'), 'years');
   }
 
   voltar() {

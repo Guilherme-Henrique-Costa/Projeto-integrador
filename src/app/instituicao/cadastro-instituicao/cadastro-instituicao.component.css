@@ -7,21 +7,12 @@
 }
 
 html, body {
-  height: 100%;
   margin: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: linear-gradient(to bottom, #43054e, #ec0089); /* Roxo-Escuro para Magenta */
-}
-
-/* Container Principal */
-.container {
-  width: 100%;
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 20px;
-  height: 100%; /* Garantir que o container ocupe a altura total da tela */
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden; /* Remove o scroll da página */
+  background: linear-gradient(to bottom, #43054e, #ec0089);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -30,70 +21,109 @@ html, body {
 /* Formulário de Cadastro */
 .cadastro-container {
   width: 100%;
+  max-width: 500px;
+  padding: 10px; /* Reduzi o padding para evitar overflow */
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .form-container {
-  background-color: #ec0089; /* Magenta */
-  padding: 30px 20px;
+  width: 100%;
+  max-width: 400px;
+  background-color: rgba(236, 0, 137, 0.9);
+  padding: 20px; /* Reduzi o padding */
   border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  width: 100%;
 }
 
+/* Cabeçalho do Formulário */
 .form-container h2 {
   text-align: center;
-  margin-bottom: 20px;
-  color: #fff;
-  background: linear-gradient(to bottom, #43054e, #662c92); /* Roxo-Escuro para Roxo */
-  padding: 10px;
+  margin-bottom: 10px;
+  color: #fde100;
+  background: linear-gradient(to bottom, #43054e, #662c92);
+  padding: 8px;
   border-radius: 8px;
-  font-size: 24px;
+  font-size: 20px;
 }
 
 /* Campos do Formulário */
 .p-field {
-  margin-bottom: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;  /* Centraliza os elementos dentro de cada campo */
+  margin-bottom: 15px;
+  width: 100%;
 }
 
 .p-field label {
-  margin-bottom: 8px;
+  display: block;
+  margin-bottom: 5px;
   font-weight: bold;
-  color: #fff;
+  color: #fde100;
 }
 
 .p-field input,
 .p-field select,
 .p-field textarea {
-  width: 50%; /* Expandir a largura dos inputs para 80% do container */
-  padding: 10px;
-  border: 1px solid #bf0087; /* Lilás */
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #bf0087;
   border-radius: 8px;
-  font-size: 16px;
+  font-size: 14px;
   background-color: #fff;
-  text-align: center;
 }
 
 .p-field textarea {
   resize: none;
+  height: 80px;
 }
 
 /* Botão de Submissão */
 button {
-  width: 80%; /* O botão ocupará 80% da largura para ficar consistente com os inputs */
-  padding: 15px;
-  background-color: #662c92; /* Roxo */
+  width: 100%;
+  padding: 12px;
+  background-color: #662c92;
   color: white;
   border: none;
   border-radius: 8px;
-  font-size: 18px;
+  font-size: 16px;
   cursor: pointer;
-  margin-top: 20px;
-  align-self: center; /* Centraliza o botão */
+  transition: background-color 0.3s;
 }
 
 button:hover {
-  background-color: #43054e; /* Roxo-Escuro */
+  background-color: #43054e;
+}
+
+/* Responsividade para telas menores */
+@media (max-width: 768px) {
+  .cadastro-container {
+    padding: 5px;
+  }
+
+  .form-container {
+    padding: 15px;
+  }
+
+  .p-field input,
+  .p-field select,
+  .p-field textarea {
+    font-size: 12px;
+    padding: 6px;
+  }
+
+  button {
+    font-size: 14px;
+    padding: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .form-container h2 {
+    font-size: 18px;
+  }
+
+  button {
+    font-size: 12px;
+  }
 }

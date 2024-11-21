@@ -47,10 +47,9 @@
 }
 
 .closed .toggle-sidebar-btn {
-  right: -40px; /* Ajusta a posição do botão quando a sidebar está fechada */
+  right: -40px;
 }
 
-/* Sidebar de Navegação */
 .custom-sidebar {
   width: 250px;
   background-color: #ffffff;
@@ -66,25 +65,24 @@
 }
 
 .cabeca-button {
-  background-color: transparent; /* Fundo transparente por padrão */
-  border: none; /* Remove a borda */
+  background-color: transparent;
+  border: none;
   padding: 10px;
   cursor: pointer;
-  color: #007bff; /* Cor do texto */
+  color: #ff0080;
   font-size: 24px;
   font-weight: bold;
 }
 
 .cabeca-button:hover {
-  background-color: transparent; /* Fundo transparente ao passar o mouse */
-  color: #ff0080; /* Opcional: muda a cor do texto ao passar o mouse */
+  background-color: transparent;
+  color: #ff0080;
 }
-
 
 .logo-text {
   font-size: 24px;
   font-weight: bold;
-  color: #007bff;
+  color: #ff0080;
 }
 
 .corpo {
@@ -125,8 +123,8 @@
 .profile-container {
     width: 100%;
     padding: 20px;
-    background: linear-gradient(to bottom, #ff0080, #8000ff);
-    color: white;
+    background: white;
+    color: #333;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
@@ -155,7 +153,7 @@ textarea {
     width: 300px;
     padding: 10px;
     border-radius: 20px;
-    border: none;
+    border: 1px solid #ccc; /* Adiciona borda cinza clara */
     margin-bottom: 10px;
     font-size: 16px;
     color: #333;
@@ -166,6 +164,7 @@ input[type="email"]:focus,
 input[type="password"]:focus,
 textarea:focus {
     outline: none;
+    border: 1px solid #ff0080; /* Borda azul ao focar */
 }
 
 textarea {

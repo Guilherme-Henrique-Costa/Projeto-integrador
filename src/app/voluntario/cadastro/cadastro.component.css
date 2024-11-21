@@ -1,94 +1,148 @@
-/* Estilização geral do formulário */
+/* Estilos Globais */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+html, body {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: linear-gradient(to bottom, #43054e, #ec0089); /* Gradiente de fundo */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Barra de ferramentas */
 .toolbar {
-  background-color: #F8F9FA; /* Cor de fundo mais suave */
+  background-color: transparent;
   padding: 10px 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid #CCCCCC;
-  margin-bottom: 20px; /* Espaço extra abaixo da barra de ferramentas */
 }
 
 .toolbar .title {
-  font-size: 1.5rem; /* Aumentando o tamanho da fonte para o título */
-  color: #333;
+  font-size: 1.5rem;
+  color: #fde100;
   font-weight: bold;
 }
 
 .toolbar button {
-  padding: 8px 14px; /* Maior espaçamento */
-  background-color: #EC0089;
+  padding: 8px 14px;
+  background-color: #ec0089;
   color: white;
   border: none;
-  border-radius: 6px; /* Bordas mais arredondadas */
+  border-radius: 6px;
   cursor: pointer;
 }
 
 .toolbar button:hover {
-  background-color: #EC0089; /* Cor de fundo do botão ao passar o mouse */
+  background-color: #bf0087;
 }
 
-/* Formulário principal */
+/* Formulário de Cadastro */
 form.p-fluid {
-  width: 95%;
-  max-width: 600px; /* Aumentando a largura máxima */
-  margin: 0 auto;
-  padding: 25px;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  background-color: #ffffff;
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+  border-radius: 12px;
+  background-color: rgba(236, 0, 137, 0.9);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-/* Estilização dos campos */
+/* Estilização dos Campos */
 .p-field {
-  margin-bottom: 20px; /* Aumentando o espaçamento entre campos */
+  margin-bottom: 15px;
 }
 
 .p-field label {
   display: block;
-  margin-bottom: 6px;
-  color: #495057;
-  font-weight: 600;
-  font-size: 1.1rem; /* Tamanho da fonte dos rótulos */
+  margin-bottom: 5px;
+  color: #fde100;
+  font-weight: bold;
 }
 
-input[pInputText], .p-password input, select {
+.p-field input,
+.p-password input,
+.p-calendar input,
+select {
   width: 100%;
-  padding: 12px;
-  border: 1px solid #ced4da;
-  border-radius: 5px;
-  font-size: 1.1rem;
-  background-color: #f9f9f9;
+  padding: 10px;
+  border: 1px solid #bf0087;
+  border-radius: 8px;
+  font-size: 16px;
+  background-color: #fff;
+}
+
+/* Estilização do Calendário */
+.p-calendar .p-inputtext {
+  padding: 10px;
+  font-size: 16px;
 }
 
 /* Foco nos campos de entrada */
-input[pInputText]:focus, .p-password input:focus, select:focus {
+.p-field input:focus,
+.p-password input:focus,
+.p-calendar input:focus,
+select:focus {
   outline: none;
-  border-color: #EC0089;
-  background-color: #ffffff;
-  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  border-color: #ec0089;
+  box-shadow: 0 0 0 0.2rem rgba(236, 0, 137, 0.25);
 }
 
-/* Estilização do botão de envio */
+/* Botão de Submissão */
 button.ui-button-primary {
   width: 100%;
-  padding: 12px 18px;
-  border: none;
-  border-radius: 6px;
-  background-color: #28a745; /* Verde para sucesso */
+  padding: 15px;
+  background-color: #662c92;
   color: white;
-  font-size: 1.2rem;
-  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  font-size: 18px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s;
 }
 
 button.ui-button-primary:hover {
-  background-color: #218838;
+  background-color: #43054e;
 }
 
 /* Estilizando mensagens de erro */
 .p-error {
-  color: #dc3545; /* Vermelho para erro */
+  color: #dc3545;
   font-size: 0.875rem;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  form.p-fluid {
+    padding: 15px;
+  }
+
+  .p-field input,
+  .p-password input,
+  .p-calendar input,
+  select {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  button.ui-button-primary {
+    font-size: 16px;
+    padding: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .form-container h2 {
+    font-size: 18px;
+  }
+
+  button.ui-button-primary {
+    font-size: 14px;
+  }
 }
