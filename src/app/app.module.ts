@@ -46,6 +46,8 @@ import { LoginService } from './instituicao/login-instituicao/login-instituicao.
 import { VagasVoluntarioComponent } from './voluntario/vagas-voluntario/vagas-voluntario.component';
 import { CandidatosComponent } from './instituicao/candidatos/candidatos.component';
 import { PerfilComponent } from './voluntario/perfil/perfil.component';
+import { FeedbackComponent } from './voluntario/feedback/feedback.component';
+import { FeedbackInstituicaoComponent } from './instituicao/feedback-instituicao/feedback-instituicao.component';
 
 
 
@@ -68,6 +70,8 @@ import { PerfilComponent } from './voluntario/perfil/perfil.component';
     VagasVoluntarioComponent,
     CandidatosComponent,
     PerfilComponent,
+    FeedbackComponent,
+    FeedbackInstituicaoComponent,
   ],
   imports: [
     BrowserModule,

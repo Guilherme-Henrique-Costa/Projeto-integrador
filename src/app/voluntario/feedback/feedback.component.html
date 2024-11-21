@@ -38,4 +38,32 @@
     <i class="pi pi-search"></i>
   </button>
 </div>
-</div>
+
+  <div class="feedback-form">
+    <h2>Feedback</h2>
+    <p>Conte-nos a sua experiência!</p>
+    <textarea
+      placeholder="Descreva aqui sua experiência"
+      [(ngModel)]="feedbackText">
+    </textarea>
+    <p>Avalie a instituição (0 a 5 estrelas):</p>
+    <div class="stars">
+      <span
+        *ngFor="let star of stars; let i = index"
+        [class.filled]="i < institutionRating"
+        (click)="rateInstitution(i + 1)">
+        &#9733;
+      </span>
+    </div>
+    <p>Avalie sua experiência com o sistema (0 a 5 estrelas):</p>
+    <div class="stars">
+      <span
+        *ngFor="let star of stars; let i = index"
+        [class.filled]="i < systemRating"
+        (click)="rateSystem(i + 1)">
+        &#9733;
+      </span>
+    </div>
+    <button (click)="submitFeedback()">Enviar!</button>
+  </div>
+
