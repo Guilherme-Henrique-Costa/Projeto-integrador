@@ -1,4 +1,3 @@
-<!-- menu.component.html -->
 <div class="app-container">
   <!-- Botão para abrir/fechar a barra lateral -->
   <button class="toggle-sidebar-btn" (click)="toggleSidebar()">
@@ -8,9 +7,12 @@
   <!-- Sidebar de Navegação -->
   <div class="custom-sidebar" [ngClass]="{'closed': !sidebarOpen}">
     <div class="box">
+      <!-- Cabeçalho da Barra Lateral -->
       <div class="cabeca">
         <span class="logo-text">Menu Voluntário</span>
       </div>
+
+      <!-- Corpo da Barra Lateral -->
       <div class="corpo">
         <ul class="menu-list">
           <li *ngFor="let item of sidebarItems">
@@ -20,22 +22,84 @@
           </li>
         </ul>
       </div>
+
+      <!-- Rodapé da Barra Lateral -->
       <div class="rodape">
         <div class="user-info">
-          <!-- Exibe o nome do voluntário logado -->
-          <span>{{ voluntarioNome }}</span>
+          <span>{{ voluntarioNome }}</span> <!-- Nome do Voluntário Logado -->
         </div>
       </div>
     </div>
-</div>
+  </div>
 
-<!-- Conteúdo Principal -->
-<div class="main-content" [ngClass]="{'expanded': !sidebarOpen}">
-<!-- Barra de Busca -->
-<div class="search-bar">
-  <input type="text" placeholder="Pesquisar" [(ngModel)]="searchQuery" />
-  <button class="search-button">
-    <i class="pi pi-search"></i>
-  </button>
-</div>
+  <!-- Conteúdo Principal -->
+  <div class="main-content" [ngClass]="{'expanded': !sidebarOpen}">
+    <div class="perfil-container">
+      <h2>Perfil do Voluntário</h2>
+
+      <!-- Formulário de Perfil -->
+      <div class="form-container">
+        <h2>Perfil do Voluntário</h2>
+        <form [formGroup]="perfilForm" (ngSubmit)="onSubmit()">
+          <!-- Campo Nome -->
+          <div class="p-field">
+            <label for="nome">Nome Completo:</label>
+            <input id="nome" pInputText formControlName="nome" />
+          </div>
+
+          <!-- Campo E-mail -->
+          <div class="p-field">
+            <label for="email">E-mail:</label>
+            <input id="email" pInputText formControlName="email" />
+          </div>
+
+          <!-- Campo Celular -->
+          <div class="p-field">
+            <label for="celular">Celular:</label>
+            <input id="celular" pInputText formControlName="celular" />
+          </div>
+
+          <!-- Campo Endereço -->
+          <div class="p-field">
+            <label for="endereco">Endereço (CEP):</label>
+            <input id="endereco" pInputText formControlName="endereco" />
+          </div>
+
+          <!-- Campo Bairro -->
+          <div class="p-field">
+            <label for="bairro">Bairro:</label>
+            <input id="bairro" pInputText formControlName="bairro" />
+          </div>
+
+          <!-- Campo Áreas de Interesse -->
+          <div class="p-field">
+            <label for="areaInteresse">Áreas de Interesse:</label>
+            <select id="areaInteresse" formControlName="areaInteresse">
+              <option *ngFor="let area of areasDeInteresse" [value]="area">{{ area }}</option>
+            </select>
+          </div>
+
+          <!-- Campo Disponibilidade de Horário -->
+          <div class="p-field">
+            <label for="disponibilidadeHorario">Disponibilidade de Horário:</label>
+            <select id="disponibilidadeHorario" formControlName="disponibilidadeHorario">
+              <option value="manha-tarde">Manhã-Tarde</option>
+              <option value="tarde-noite">Tarde-Noite</option>
+              <option value="final-semana">Final de Semana</option>
+            </select>
+          </div>
+
+          <!-- Campo Competências -->
+          <div class="p-field">
+            <label for="competencia">Competências:</label>
+            <input id="competencia" pInputText formControlName="competencia" />
+          </div>
+
+          <!-- Botão de Salvar -->
+          <div class="p-field button-container">
+            <button type="submit" pButton label="Salvar Alterações"></button>
+          </div>
+        </form>
+    </div>
+  </div>
 </div>

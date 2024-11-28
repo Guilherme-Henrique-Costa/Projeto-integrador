@@ -1,9 +1,20 @@
+/* Container Principal */
 .app-container {
   display: flex;
+  height: 100vh; /* Preenche a altura total da tela */
+  width: 100vw; /* Preenche a largura total da tela */
+  overflow: hidden; /* Remove qualquer barra de rolagem extra */
 }
 
+/* Sidebar de Navegação */
 .custom-sidebar {
   width: 250px;
+  height: 100%; /* Ajusta a altura para ocupar toda a viewport */
+  background-color: #ffffff;
+  color: #333;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
   transition: width 0.3s;
 }
 
@@ -12,50 +23,7 @@
   overflow: hidden;
 }
 
-.main-content {
-  flex-grow: 1;
-  transition: margin-left 0.3s;
-}
-
-.main-content.expanded {
-  margin-left: 0;
-}
-
-.toggle-sidebar-btn {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  width: 50px;
-  background-color: #8e44ad;
-  border: none;
-  border-radius: 50%;
-  padding: 10px;
-  cursor: pointer;
-  z-index: 1000;
-}
-
-.toggle-sidebar-btn i {
-  font-size: 18px;
-}
-
-.toggle-sidebar-btn:hover {
-  background-color: #f0f0f0;
-}
-
-.closed .toggle-sidebar-btn {
-  right: -40px; /* Ajusta a posição do botão quando a sidebar está fechada */
-}
-
-/* Sidebar de Navegação */
-.custom-sidebar {
-  width: 250px;
-  background-color: #ffffff;
-  color: #333;
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-}
-
+/* Cabeçalho da Sidebar */
 .cabeca {
   padding: 40px;
   border-bottom: 1px solid #e0e0e0;
@@ -66,9 +34,10 @@
   font-size: 24px;
   font-weight: bold;
   color: #EC0089;
-  margin-top: 10px; /* Adicionar margem para separar o texto do botão */
+  margin-top: 10px;
 }
 
+/* Corpo da Sidebar */
 .corpo {
   flex: 1;
   overflow-y: auto;
@@ -97,6 +66,7 @@
   background-color: #f0f0f0;
 }
 
+/* Rodapé da Sidebar */
 .rodape {
   padding: 20px;
   border-top: 1px solid #e0e0e0;
@@ -104,13 +74,43 @@
   font-weight: bold;
 }
 
+/* Botão para Alternar a Sidebar */
+.toggle-sidebar-btn {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 50px;
+  height: 50px;
+  background-color: #8e44ad;
+  border: none;
+  border-radius: 50%;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.toggle-sidebar-btn i {
+  font-size: 18px;
+  color: white;
+}
+
+.toggle-sidebar-btn:hover {
+  background-color: #f0f0f0;
+}
+
 /* Conteúdo Principal */
 .main-content {
-  background: linear-gradient(to bottom, #EC0089, #892cdc 50%, #87007d);
+  flex-grow: 1; /* Ocupa todo o espaço restante */
   padding: 20px;
-  border-radius: 10px;
+  background: linear-gradient(to bottom, #EC0089, #892cdc 50%, #87007d);
   color: white;
   font-family: sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* Para alinhar o conteúdo ao topo */
+  overflow-y: auto; /* Habilita rolagem no conteúdo, se necessário */
+  border-radius: 10px;
 }
 
 /* Barra de Busca */
@@ -118,6 +118,8 @@
   display: flex;
   align-items: center;
   margin-bottom: 30px;
+  width: 100%; /* Ocupa toda a largura disponível */
+  max-width: 600px; /* Largura máxima para a barra de busca */
 }
 
 .search-bar input {
@@ -141,7 +143,8 @@
   padding: 10px 15px;
   margin-left: 10px;
   border-radius: 50%;
-  width: 60px;
+  width: 50px;
+  height: 50px;
   cursor: pointer;
   font-size: 18px;
   display: flex;
@@ -152,4 +155,46 @@
 
 .search-button:hover {
   background-color: #0056b3;
+}
+
+/* Estilização Responsiva */
+@media (max-width: 768px) {
+  .main-content {
+    padding: 15px;
+  }
+
+  .search-bar input {
+    font-size: 14px;
+  }
+
+  .search-button {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+
+  .custom-sidebar {
+    width: 200px;
+  }
+
+  .custom-sidebar.closed {
+    width: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .search-bar input {
+    font-size: 12px;
+    padding: 8px;
+  }
+
+  .search-button {
+    width: 35px;
+    height: 35px;
+    font-size: 14px;
+  }
+
+  .custom-sidebar {
+    width: 150px;
+  }
 }

@@ -1,11 +1,14 @@
 .vagas-container {
   display: flex;
   height: 100vh;
+  width: 100vw;
+  overflow: hidden;
 }
 
 /* Sidebar de navegação */
 .custom-sidebar {
   width: 250px;
+  height: 100%;
   transition: width 0.3s;
   background-color: #ffffff;
   color: #333;
@@ -34,7 +37,7 @@
 .logo-text {
   font-size: 24px;
   font-weight: bold;
-  color: #007bff;
+  color:  rgba(236, 0, 137, 0.9);
   margin-top: 10px;
 }
 
@@ -95,16 +98,19 @@
 }
 
 .toggle-sidebar-btn:hover {
-  background-color: #f0f0f0;
+  background-color: #fff;
 }
 
 /* Conteúdo principal */
 .main-content {
+  flex: 1; /* Faz o conteúdo principal ocupar todo o espaço restante */
   background: linear-gradient(to bottom, #EC0089, #892cdc 50%, #87007d);
   padding: 20px;
   border-radius: 10px;
   color: white;
   font-family: sans-serif;
+  display: flex;
+  flex-direction: column;
 }
 
 .main-content.expanded {
