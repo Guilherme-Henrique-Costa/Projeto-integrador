@@ -57,6 +57,14 @@ export class CadastroInstituicaoComponent {
           Validators.maxLength(40)
         ]
       ],
+      endereco: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(4),
+          Validators.maxLength(128)
+        ]
+      ],
       password: [
         '',
         [
@@ -72,6 +80,22 @@ export class CadastroInstituicaoComponent {
         [
           Validators.maxLength(250),
           Validators.pattern('^[a-zA-ZÀ-ÿ0-9\\s.,!?]*$')
+        ]
+      ],
+      nomeResponsavel: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(4),
+          Validators.maxLength(64),
+          Validators.pattern('^[a-zA-ZÀ-ÿ\\s]*$')
+        ]
+      ],
+      cpfResponsavel: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern('^\\d{11}$') // Validação para CPF (11 dígitos)
         ]
       ]
     });
@@ -170,9 +194,12 @@ export class CadastroInstituicaoComponent {
       nome: 'Nome',
       cnpj: 'CNPJ',
       email: 'E-mail',
+      endereco: 'Endereço',
       password: 'Senha',
       areaAtuacao: 'Área de atuação',
-      description: 'Descrição'
+      description: 'Descrição',
+      nomeResponsavel: 'Nome do Responsável',
+      cpfResponsavel: 'CPF do Responsável'
     };
     return labels[field] || field.charAt(0).toUpperCase() + field.slice(1);
   }

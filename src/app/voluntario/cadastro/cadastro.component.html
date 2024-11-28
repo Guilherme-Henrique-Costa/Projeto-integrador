@@ -1,68 +1,121 @@
-<div class="toolbar">
-  <div class="title">Cadastro de Voluntário</div>
-  <div class="actions">
-    <button type="button" pButton label="Voltar" (click)="voltar()"></button>
+<div class="page-container">
+  <div class="form-container">
+    <h2>CONSac - Cadastro Instituição</h2>
+    <form [formGroup]="cadastroForm" (ngSubmit)="onSubmit()" class="p-fluid">
+
+      <!-- Campo para Matrícula -->
+      <div class="p-field">
+        <label for="matricula">Matrícula:</label>
+        <input id="matricula" type="text" pInputText formControlName="matricula">
+        <div *ngIf="cadastroForm.get('matricula')?.invalid && cadastroForm.get('matricula')?.touched">
+          <small class="p-error">Matrícula é obrigatória.</small>
+        </div>
+      </div>
+
+      <!-- Campo para Nome -->
+      <div class="p-field">
+        <label for="nome">Nome Completo:</label>
+        <input id="nome" type="text" pInputText formControlName="nome">
+        <div *ngIf="cadastroForm.get('nome')?.invalid && cadastroForm.get('nome')?.touched">
+          <small class="p-error">Nome é obrigatório e deve ter no mínimo 3 caracteres.</small>
+        </div>
+      </div>
+
+      <!-- Campo para CPF -->
+      <div class="p-field">
+        <label for="cpf">CPF:</label>
+        <input id="cpf" type="text" pInputText formControlName="cpf">
+        <div *ngIf="cadastroForm.get('cpf')?.invalid && cadastroForm.get('cpf')?.touched">
+          <small class="p-error">CPF inválido.</small>
+        </div>
+      </div>
+
+      <!-- Campo para E-mail Institucional -->
+      <div class="p-field">
+        <label for="emailInstitucional">E-mail Institucional:</label>
+        <input id="emailInstitucional" type="email" pInputText formControlName="emailInstitucional">
+        <div *ngIf="cadastroForm.get('emailInstitucional')?.invalid && cadastroForm.get('emailInstitucional')?.touched">
+          <small class="p-error">E-mail institucional inválido.</small>
+        </div>
+      </div>
+
+      <!-- Campo para E-mail Particular -->
+      <div class="p-field">
+        <label for="emailParticular">E-mail Particular (Opcional):</label>
+        <input id="emailParticular" type="email" pInputText formControlName="emailParticular">
+      </div>
+
+      <!-- Campo para Celular -->
+      <div class="p-field">
+        <label for="celular">Celular:</label>
+        <input id="celular" type="text" pInputText formControlName="celular">
+        <div *ngIf="cadastroForm.get('celular')?.invalid && cadastroForm.get('celular')?.touched">
+          <small class="p-error">Celular inválido.</small>
+        </div>
+      </div>
+
+      <!-- Campo para Senha -->
+      <div class="p-field">
+        <label for="senha">Senha:</label>
+        <p-password [feedback]="false" formControlName="senha"></p-password>
+        <div *ngIf="cadastroForm.get('senha')?.invalid && cadastroForm.get('senha')?.touched">
+          <small class="p-error">Senha é obrigatória e deve ter no mínimo 6 caracteres.</small>
+        </div>
+      </div>
+
+      <!-- Campo para Data de Nascimento -->
+      <div class="p-field">
+        <label for="dataNascimento">Data de Nascimento:</label>
+        <p-calendar formControlName="dataNascimento" [showIcon]="true" dateFormat="yy-mm-dd"></p-calendar>
+        <div *ngIf="cadastroForm.get('dataNascimento')?.invalid && cadastroForm.get('dataNascimento')?.touched">
+          <small class="p-error">Data de nascimento é obrigatória.</small>
+        </div>
+      </div>
+
+      <!-- Campo para Endereço -->
+      <div class="p-field">
+        <label for="endereco">Endereço:</label>
+        <input id="endereco" type="text" pInputText formControlName="endereco">
+      </div>
+
+      <!-- Campo para Bairro -->
+      <div class="p-field">
+        <label for="bairro">Bairro:</label>
+        <input id="bairro" type="text" pInputText formControlName="bairro">
+      </div>
+
+      <!-- Campo para Disponibilidade de Horário -->
+      <div class="p-field">
+        <label for="disponibilidadeHorario">Disponibilidade de Horário:</label>
+        <select id="disponibilidadeHorario" formControlName="disponibilidadeHorario">
+          <option value="manha-tarde">Manhã-Tarde</option>
+          <option value="tarde-noite">Tarde-Noite</option>
+          <option value="final-semana">Final de Semana</option>
+        </select>
+        <div *ngIf="cadastroForm.get('disponibilidadeHorario')?.invalid && cadastroForm.get('disponibilidadeHorario')?.touched">
+          <small class="p-error">Disponibilidade de horário é obrigatória.</small>
+        </div>
+      </div>
+
+      <!-- Campo para Área de Interesse -->
+      <div class="p-field">
+        <label for="areaInteresse">Área de Interesse:</label>
+        <select id="areaInteresse" formControlName="areaInteresse">
+          <option *ngFor="let area of interestAreas" [value]="area">{{ area }}</option>
+        </select>
+        <div *ngIf="cadastroForm.get('areaInteresse')?.invalid && cadastroForm.get('areaInteresse')?.touched">
+          <small class="p-error">Área de Interesse é obrigatória.</small>
+        </div>
+      </div>
+
+      <!-- Campo para Competência -->
+      <div class="p-field">
+        <label for="competencia">Competência:</label>
+        <input id="competencia" type="text" pInputText formControlName="competencia">
+      </div>
+
+      <!-- Botão de Enviar Formulário -->
+      <button type="submit" label="Cadastrar" class="ui-button-primary">Cadastrar</button>
+    </form>
   </div>
 </div>
-
-<form [formGroup]="cadastroForm" (ngSubmit)="onSubmit()" class="p-fluid">
-
-  <!-- Campo para o nome -->
-  <div class="p-field">
-    <label for="nome">Nome</label>
-    <input id="nome" type="text" pInputText formControlName="nome">
-    <div *ngIf="cadastroForm.get('nome')?.invalid && cadastroForm.get('nome')?.touched">
-      <small class="p-error">Nome é obrigatório e deve ter no mínimo 3 caracteres.</small>
-    </div>
-  </div>
-
-  <!-- Campo para o e-mail -->
-  <div class="p-field">
-    <label for="email">E-mail</label>
-    <input id="email" type="email" pInputText formControlName="email">
-    <div *ngIf="cadastroForm.get('email')?.invalid && cadastroForm.get('email')?.touched">
-      <small class="p-error">E-mail inválido.</small>
-    </div>
-  </div>
-
-  <!-- Campo para a senha -->
-  <div class="p-field">
-    <label for="senha">Senha</label>
-    <p-password [feedback]="false" formControlName="senha"></p-password>
-    <div *ngIf="cadastroForm.get('senha')?.invalid && cadastroForm.get('senha')?.touched">
-      <small class="p-error">Senha é obrigatória e deve ter no mínimo 6 caracteres.</small>
-    </div>
-  </div>
-
-  <!-- Campo para a data de nascimento com calendário -->
-  <div class="p-field">
-    <label for="dataNascimento">Data de Nascimento</label>
-    <p-calendar formControlName="dataNascimento" [showIcon]="true" dateFormat="yy-mm-dd"></p-calendar>
-    <div *ngIf="cadastroForm.get('dataNascimento')?.invalid && cadastroForm.get('dataNascimento')?.touched">
-      <small class="p-error">Data de nascimento é obrigatória.</small>
-    </div>
-  </div>
-
-  <!-- Campo para a área de interesse -->
-  <div class="p-field">
-    <label for="areaInteresse">Área de Interesse:</label>
-    <select id="areaInteresse" formControlName="areaInteresse">
-      <option *ngFor="let area of interestAreas" [value]="area">{{ area }}</option>
-    </select>
-    <div *ngIf="cadastroForm.get('areaInteresse')?.invalid && cadastroForm.get('areaInteresse')?.touched" class="p-error">
-      Área de Interesse é obrigatória.
-    </div>
-  </div>
-
-  <!-- Campo para a competência -->
-  <div class="p-field">
-    <label for="competencia">Competência</label>
-    <input id="competencia" type="text" pInputText formControlName="competencia">
-  </div>
-
-  <!-- Botão de enviar formulário -->
-  <button type="submit" pButton label="Cadastrar" class="ui-button-primary"></button>
-</form>
-
-<!-- Componente PrimeNG para exibir mensagens de erro, como a idade mínima -->
-<p-toast></p-toast>

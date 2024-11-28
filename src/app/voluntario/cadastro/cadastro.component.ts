@@ -35,8 +35,22 @@ export class CadastroComponent {
   ) {
     // Criamos o formulário reativo com os campos e suas respectivas validações
     this.cadastroForm = this.fb.group({
+      matricula: ['', Validators.required], // Campo matrícula obrigatório
       nome: ['', [Validators.required, Validators.minLength(3)]], // Validação para nome
-      email: ['', [Validators.required, Validators.email]], // Validação para e-mail
+      cpf: ['', [Validators.required, Validators.pattern('\\d{11}')]], // Validação para CPF (apenas números)
+      emailInstitucional: ['', [Validators.required, Validators.email]], // Validação para e-mail institucional
+      emailParticular: ['', Validators.email], // E-mail particular opcional
+      celular: ['', [Validators.required, Validators.pattern('\\d{10,11}')]], // Celular obrigatório (10 ou 11 dígitos)
+      endereco: ['', Validators.required], // Endereço obrigatório
+      bairro: ['', Validators.required], // Bairro obrigatório
+      disponibilidadeHorario: ['', Validators.required], // Disponibilidade de horário obrigatória
+      local: ['', Validators.required], // Local do serviço obrigatório
+      horario: ['', Validators.required], // Horário do serviço obrigatório
+      periodoInicio: ['', Validators.required], // Período de início do serviço obrigatório
+      periodoFim: ['', Validators.required], // Período de fim do serviço obrigatório
+      dataNascimento: ['', Validators.required], // Validação para data de nascimento
+      areaInteresse: ['', Validators.required], // Validação para área de interesse (agora obrigatória)
+      competencia: [''], // Validação para competência
       senha: [
         '',
         [
@@ -44,13 +58,8 @@ export class CadastroComponent {
           Validators.minLength(6), // Senha precisa ter no mínimo 6 caracteres
           Validators.pattern('^[a-zA-Z0-9!@#$%^&*()_+=-]*$') // Letras, números e caracteres especiais opcionais
         ]
-      ],
-      dataNascimento: ['', Validators.required], // Validação para data de nascimento
-      areaInteresse: [''], // Validação para área de interesse
-      competencia: [''] // Validação para competência
+      ]
     });
-
-
   }
 
   // Função chamada ao submeter o formulário

@@ -4,9 +4,9 @@
       <h2>CONSAC - Cadastro Instituição</h2>
       <form [formGroup]="cadastroForm" (ngSubmit)="onSubmit()">
 
-        <!-- Campo Nome -->
+        <!-- Campo Razão Social -->
         <div class="p-field">
-          <label for="nome">Nome:</label>
+          <label for="nome">Razão Social:</label>
           <input pInputText id="nome" formControlName="nome" />
           <small *ngIf="cadastroForm.get('nome')?.invalid && cadastroForm.get('nome')?.touched" class="p-error">
             {{ getErrorMessage('nome') }}
@@ -43,6 +43,15 @@
           </small>
         </div>
 
+        <!-- Campo Endereço (via CEP) -->
+        <div class="p-field">
+          <label for="endereco">Endereço (via CEP):</label>
+          <input pInputText id="endereco" formControlName="endereco" />
+          <small *ngIf="cadastroForm.get('endereco')?.invalid && cadastroForm.get('endereco')?.touched" class="p-error">
+            {{ getErrorMessage('endereco') }}
+          </small>
+        </div>
+
         <!-- Campo Senha -->
         <div class="p-field">
           <label for="password">Senha:</label>
@@ -62,8 +71,33 @@
           </small>
         </div>
 
+        <!-- Divisão com Linha -->
+        <hr class="divider" />
+
+        <h3>Responsável pela Instituição</h3>
+
+        <!-- Campo Nome do Responsável -->
+        <div class="p-field">
+          <label for="nomeResponsavel">Nome Completo:</label>
+          <input pInputText id="nomeResponsavel" formControlName="nomeResponsavel" />
+          <small *ngIf="cadastroForm.get('nomeResponsavel')?.invalid && cadastroForm.get('nomeResponsavel')?.touched"
+            class="p-error">
+            {{ getErrorMessage('nomeResponsavel') }}
+          </small>
+        </div>
+
+        <!-- Campo CPF do Responsável -->
+        <div class="p-field">
+          <label for="cpfResponsavel">CPF:</label>
+          <input pInputText id="cpfResponsavel" formControlName="cpfResponsavel" />
+          <small *ngIf="cadastroForm.get('cpfResponsavel')?.invalid && cadastroForm.get('cpfResponsavel')?.touched"
+            class="p-error">
+            {{ getErrorMessage('cpfResponsavel') }}
+          </small>
+        </div>
+
         <!-- Botão de Cadastro -->
-        <button type="submit" pButton label="Cadastrar"></button>
+        <button type="submit" label="Cadastrar" class="ui-button-primary">Cadastrar</button>
       </form>
     </div>
   </div>

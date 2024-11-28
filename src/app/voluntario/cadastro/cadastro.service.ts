@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class CadastroService {
 
-  private apiUrl = 'http://localhost:8080/api/voluntarios'; // Certifique-se de que está correto
+  private apiUrl = 'http://localhost:8080/api/cadastro-voluntarios'; // Certifique-se de que está correto
 
   constructor(private http: HttpClient) { }
 
