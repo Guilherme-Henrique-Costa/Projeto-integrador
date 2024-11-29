@@ -8,10 +8,10 @@ import { PerfilService } from './perfil.service';
   styleUrls: ['./perfil.component.css']
 })
 export class PerfilComponent implements OnInit {
-  searchQuery: string = ''; // Pesquisa na barra de busca
-  sidebarOpen: boolean = true; // Controle do menu lateral
-  voluntarioNome: string = 'Aluno'; // Nome do voluntário logado
-  perfilForm: FormGroup; // Formulário de edição do perfil
+  searchQuery: string = '';
+  sidebarOpen: boolean = true;
+  voluntarioNome: string = 'Aluno';
+  perfilForm: FormGroup;
 
   // Lista de itens do menu lateral
   sidebarItems = [

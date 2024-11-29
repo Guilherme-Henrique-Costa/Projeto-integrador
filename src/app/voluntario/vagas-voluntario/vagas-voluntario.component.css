@@ -1,3 +1,4 @@
+/* Container Principal */
 .vagas-container {
   display: flex;
   height: 100vh;
@@ -10,8 +11,8 @@
   width: 250px;
   height: 100%;
   transition: width 0.3s;
-  background-color: #ffffff;
-  color: #333;
+  background-color: var(--roxo-escuro);
+  color: var(--branco);
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
@@ -30,14 +31,14 @@
 
 .cabeca {
   padding: 40px;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid var(--lilas);
   text-align: center;
 }
 
 .logo-text {
   font-size: 24px;
   font-weight: bold;
-  color:  rgba(236, 0, 137, 0.9);
+  color: var(--branco);
   margin-top: 10px;
 }
 
@@ -60,24 +61,20 @@
   display: flex;
   align-items: center;
   padding: 10px 20px;
-  color: #333;
+  color: var(--branco);
   text-decoration: none;
   transition: background-color 0.3s;
 }
 
 .menu-list a:hover {
-  background-color: #f0f0f0;
+  background-color: var(--lilas);
 }
 
 .rodape {
   padding: 20px;
-  border-top: 1px solid #e0e0e0;
+  border-top: 1px solid var(--lilas);
   text-align: center;
   font-weight: bold;
-}
-
-.user-info {
-  color: #333;
 }
 
 /* Botão de alternância da sidebar */
@@ -85,7 +82,7 @@
   position: absolute;
   top: 20px;
   left: 20px;
-  background-color: #fff;
+  background-color: var(--branco);
   border: none;
   border-radius: 50%;
   padding: 10px;
@@ -95,19 +92,20 @@
 
 .toggle-sidebar-btn i {
   font-size: 18px;
+  color: var(--roxo-escuro);
 }
 
 .toggle-sidebar-btn:hover {
-  background-color: #fff;
+  background-color: var(--cinza-claro);
 }
 
 /* Conteúdo principal */
 .main-content {
-  flex: 1; /* Faz o conteúdo principal ocupar todo o espaço restante */
-  background: linear-gradient(to bottom, #EC0089, #892cdc 50%, #87007d);
+  flex: 1;
+  background: linear-gradient(to bottom, var(--magenta), var(--lilas) 50%, var(--roxo));
   padding: 20px;
   border-radius: 10px;
-  color: white;
+  color: var(--branco);
   font-family: sans-serif;
   display: flex;
   flex-direction: column;
@@ -127,7 +125,7 @@
 .search-bar input {
   flex: 1;
   padding: 10px 15px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--lilas);
   border-radius: 25px;
   font-size: 16px;
   outline: none;
@@ -135,13 +133,13 @@
 }
 
 .search-bar input:focus {
-  border-color: #007bff;
+  border-color: var(--magenta);
 }
 
 .search-button {
-  background-color: #007bff;
+  background-color: var(--branco);
   border: none;
-  color: #fff;
+  color: var(--roxo);
   padding: 10px 15px;
   margin-left: 10px;
   border-radius: 50%;
@@ -154,12 +152,12 @@
 }
 
 .search-button:hover {
-  background-color: #0056b3;
+  background-color: var(--roxo);
 }
 
 /* Lista de vagas */
 .vagas-list {
-  background-color: white;
+  background-color: var(--branco);
   padding: 20px;
   border-radius: 10px;
 }
@@ -167,7 +165,7 @@
 .vagas-list h2 {
   text-align: center;
   margin-bottom: 20px;
-  color: #333;
+  color: var(--roxo);
 }
 
 .vagas-list ul {
@@ -184,7 +182,7 @@
 }
 
 .vagas-list li:hover {
-  background-color: #f0f0f0;
+  background-color: var(--cinza-claro);
 }
 
 .vagas-list li i {
@@ -193,26 +191,26 @@
 
 /* Detalhes da vaga selecionada */
 .vaga-detalhes {
-  background: linear-gradient(180deg, #ff4081 0%, #8e24aa 100%);
-  color: black;
+  background: linear-gradient(180deg, var(--magenta) 0%, var(--roxo) 100%);
+  color: var(--branco);
   padding: 20px;
   border-radius: 25px;
   text-align: center;
   width: 300px;
-  margin: 0 auto; /* Centraliza o card */
+  margin: 0 auto;
 }
 
 .vaga-detalhes h2 {
   font-size: 1.5em;
-  color: white;
+  color: var(--branco);
   margin-bottom: 20px;
 }
 
 .vaga-info {
-  background-color: white;
+  background-color: var(--branco);
   padding: 15px;
   border-radius: 15px;
-  color: #333;
+  color: var(--cinza-escuro);
   text-align: left;
 }
 
@@ -226,8 +224,8 @@
 }
 
 .vaga-detalhes button.apply-btn {
-  background-color: #ff4081;
-  color: white;
+  background-color: var(--magenta);
+  color: var(--branco);
   padding: 10px 15px;
   border: none;
   border-radius: 25px;
@@ -237,5 +235,5 @@
 }
 
 .vaga-detalhes button.apply-btn:hover {
-  background-color: #d6336c;
+  background-color: var(--lilas);
 }

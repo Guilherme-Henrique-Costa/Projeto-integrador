@@ -9,7 +9,7 @@
     <div class="box">
       <!-- Cabeçalho da Barra Lateral -->
       <div class="cabeca">
-        <span class="logo-text">Menu Voluntário</span>
+        <span class="logo-text">Perfil Voluntário</span>
       </div>
 
       <!-- Corpo da Barra Lateral -->
@@ -35,71 +35,93 @@
   <!-- Conteúdo Principal -->
   <div class="main-content" [ngClass]="{'expanded': !sidebarOpen}">
     <div class="perfil-container">
+      <!-- Título -->
       <h2>Perfil do Voluntário</h2>
 
-      <!-- Formulário de Perfil -->
-      <div class="form-container">
-        <h2>Perfil do Voluntário</h2>
-        <form [formGroup]="perfilForm" (ngSubmit)="onSubmit()">
-          <!-- Campo Nome -->
-          <div class="p-field">
-            <label for="nome">Nome Completo:</label>
-            <input id="nome" pInputText formControlName="nome" />
+      <!-- Formulário -->
+      <form [formGroup]="perfilForm" (ngSubmit)="onSubmit()" class="perfil-form">
+        <!-- Campo Nome -->
+        <div class="form-group">
+          <label for="nome">Nome Completo:</label>
+          <input id="nome" type="text" formControlName="nome" placeholder="Digite seu nome" />
+          <div *ngIf="perfilForm.get('nome')?.touched && perfilForm.get('nome')?.invalid" class="error-message">
+            {{ getErrorMessage('nome') }}
           </div>
+        </div>
 
-          <!-- Campo E-mail -->
-          <div class="p-field">
-            <label for="email">E-mail:</label>
-            <input id="email" pInputText formControlName="email" />
+        <!-- Campo E-mail -->
+        <div class="form-group">
+          <label for="email">E-mail:</label>
+          <input id="email" type="email" formControlName="email" placeholder="Digite seu e-mail" />
+          <div *ngIf="perfilForm.get('email')?.touched && perfilForm.get('email')?.invalid" class="error-message">
+            {{ getErrorMessage('email') }}
           </div>
+        </div>
 
-          <!-- Campo Celular -->
-          <div class="p-field">
-            <label for="celular">Celular:</label>
-            <input id="celular" pInputText formControlName="celular" />
+        <!-- Campo Celular -->
+        <div class="form-group">
+          <label for="celular">Celular:</label>
+          <input id="celular" type="text" formControlName="celular" placeholder="Digite seu celular" />
+          <div *ngIf="perfilForm.get('celular')?.touched && perfilForm.get('celular')?.invalid" class="error-message">
+            {{ getErrorMessage('celular') }}
           </div>
+        </div>
 
-          <!-- Campo Endereço -->
-          <div class="p-field">
-            <label for="endereco">Endereço (CEP):</label>
-            <input id="endereco" pInputText formControlName="endereco" />
+        <!-- Campo Endereço -->
+        <div class="form-group">
+          <label for="endereco">Endereço (CEP):</label>
+          <input id="endereco" type="text" formControlName="endereco" placeholder="Digite seu endereço" />
+          <div *ngIf="perfilForm.get('endereco')?.touched && perfilForm.get('endereco')?.invalid" class="error-message">
+            {{ getErrorMessage('endereco') }}
           </div>
+        </div>
 
-          <!-- Campo Bairro -->
-          <div class="p-field">
-            <label for="bairro">Bairro:</label>
-            <input id="bairro" pInputText formControlName="bairro" />
+        <!-- Campo Bairro -->
+        <div class="form-group">
+          <label for="bairro">Bairro:</label>
+          <input id="bairro" type="text" formControlName="bairro" placeholder="Digite seu bairro" />
+          <div *ngIf="perfilForm.get('bairro')?.touched && perfilForm.get('bairro')?.invalid" class="error-message">
+            {{ getErrorMessage('bairro') }}
           </div>
+        </div>
 
-          <!-- Campo Áreas de Interesse -->
-          <div class="p-field">
-            <label for="areaInteresse">Áreas de Interesse:</label>
-            <select id="areaInteresse" formControlName="areaInteresse">
-              <option *ngFor="let area of areasDeInteresse" [value]="area">{{ area }}</option>
-            </select>
+        <!-- Campo Áreas de Interesse -->
+        <div class="form-group">
+          <label for="areaInteresse">Áreas de Interesse:</label>
+          <select id="areaInteresse" formControlName="areaInteresse">
+            <option *ngFor="let area of areasDeInteresse" [value]="area">{{ area }}</option>
+          </select>
+          <div *ngIf="perfilForm.get('areaInteresse')?.touched && perfilForm.get('areaInteresse')?.invalid" class="error-message">
+            {{ getErrorMessage('areaInteresse') }}
           </div>
+        </div>
 
-          <!-- Campo Disponibilidade de Horário -->
-          <div class="p-field">
-            <label for="disponibilidadeHorario">Disponibilidade de Horário:</label>
-            <select id="disponibilidadeHorario" formControlName="disponibilidadeHorario">
-              <option value="manha-tarde">Manhã-Tarde</option>
-              <option value="tarde-noite">Tarde-Noite</option>
-              <option value="final-semana">Final de Semana</option>
-            </select>
+        <!-- Campo Disponibilidade de Horário -->
+        <div class="form-group">
+          <label for="disponibilidadeHorario">Disponibilidade de Horário:</label>
+          <select id="disponibilidadeHorario" formControlName="disponibilidadeHorario">
+            <option value="manha-tarde">Manhã-Tarde</option>
+            <option value="tarde-noite">Tarde-Noite</option>
+            <option value="final-semana">Final de Semana</option>
+          </select>
+          <div *ngIf="perfilForm.get('disponibilidadeHorario')?.touched && perfilForm.get('disponibilidadeHorario')?.invalid" class="error-message">
+            {{ getErrorMessage('disponibilidadeHorario') }}
           </div>
+        </div>
 
-          <!-- Campo Competências -->
-          <div class="p-field">
-            <label for="competencia">Competências:</label>
-            <input id="competencia" pInputText formControlName="competencia" />
+        <!-- Campo Competências -->
+        <div class="form-group">
+          <label for="competencia">Competências:</label>
+          <input id="competencia" type="text" formControlName="competencia" placeholder="Digite suas competências" />
+          <div *ngIf="perfilForm.get('competencia')?.touched && perfilForm.get('competencia')?.invalid" class="error-message">
+            {{ getErrorMessage('competencia') }}
           </div>
+        </div>
 
-          <!-- Botão de Salvar -->
-          <div class="p-field button-container">
-            <button type="submit" pButton label="Salvar Alterações"></button>
-          </div>
-        </form>
+        <!-- Botão Salvar -->
+        <button type="submit" class="save-btn" [disabled]="perfilForm.invalid">Salvar Alterações</button>
+      </form>
     </div>
+
   </div>
 </div>

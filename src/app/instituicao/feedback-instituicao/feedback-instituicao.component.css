@@ -1,10 +1,17 @@
+/* Container Principal */
 .app-container {
   display: flex;
 }
 
+/* Sidebar */
 .custom-sidebar {
   width: 250px;
   transition: width 0.3s;
+  background-color: var(--roxo-escuro);
+  color: var(--branco);
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
 }
 
 .custom-sidebar.closed {
@@ -12,61 +19,17 @@
   overflow: hidden;
 }
 
-.main-content {
-  flex-grow: 1;
-  transition: margin-left 0.3s;
-}
-
-.main-content.expanded {
-  margin-left: 0;
-}
-
-.toggle-sidebar-btn {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  width: 50px;
-  background-color: #8e44ad;
-  border: none;
-  border-radius: 50%;
-  padding: 10px;
-  cursor: pointer;
-  z-index: 1000;
-}
-
-.toggle-sidebar-btn i {
-  font-size: 18px;
-}
-
-.toggle-sidebar-btn:hover {
-  background-color: #f0f0f0;
-}
-
-.closed .toggle-sidebar-btn {
-  right: -40px; /* Ajusta a posição do botão quando a sidebar está fechada */
-}
-
-/* Sidebar de Navegação */
-.custom-sidebar {
-  width: 250px;
-  background-color: #ffffff;
-  color: #333;
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-}
-
 .cabeca {
   padding: 40px;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid var(--lilas);
   text-align: center;
 }
 
 .logo-text {
   font-size: 24px;
   font-weight: bold;
-  color: #EC0089;
-  margin-top: 10px; /* Adicionar margem para separar o texto do botão */
+  color: var(--branco);
+  margin-top: 10px;
 }
 
 .corpo {
@@ -88,28 +51,57 @@
   display: flex;
   align-items: center;
   padding: 10px 20px;
-  color: #333;
+  color: var(--branco);
   text-decoration: none;
   transition: background-color 0.3s;
 }
 
 .menu-list a:hover {
-  background-color: #f0f0f0;
+  background-color: var(--lilas);
 }
 
 .rodape {
   padding: 20px;
-  border-top: 1px solid #e0e0e0;
+  border-top: 1px solid var(--lilas);
   text-align: center;
   font-weight: bold;
+  color: var(--branco);
+}
+
+/* Botão para alternar a Sidebar */
+.toggle-sidebar-btn {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 50px;
+  background-color: var(--roxo);
+  border: none;
+  border-radius: 50%;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.toggle-sidebar-btn i {
+  font-size: 18px;
+  color: var(--branco);
+}
+
+.toggle-sidebar-btn:hover {
+  background-color: var(--lilas);
+}
+
+.closed .toggle-sidebar-btn {
+  right: -40px;
 }
 
 /* Conteúdo Principal */
 .main-content {
-  background: linear-gradient(to bottom, #EC0089, #892cdc 50%, #87007d);
+  flex-grow: 1;
+  background: linear-gradient(to bottom, var(--magenta), var(--lilas) 50%, var(--roxo));
   padding: 20px;
   border-radius: 10px;
-  color: white;
+  color: var(--branco);
   font-family: sans-serif;
 }
 
@@ -123,7 +115,7 @@
 .search-bar input {
   flex: 1;
   padding: 10px 15px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--lilas);
   border-radius: 25px;
   font-size: 16px;
   outline: none;
@@ -131,13 +123,13 @@
 }
 
 .search-bar input:focus {
-  border-color: #EC0089;
+  border-color: var(--magenta);
 }
 
 .search-button {
-  background-color: #EC0089;
+  background-color: var(--branco);
   border: none;
-  color: #fff;
+  color: var(--roxo);
   padding: 10px 15px;
   margin-left: 10px;
   border-radius: 50%;
@@ -151,22 +143,23 @@
 }
 
 .search-button:hover {
-  background-color: #0056b3;
+  background-color: var(--roxo);
 }
 
+/* Formulário de Feedback */
 .feedback-form {
   width: 50%;
   margin: 50px auto;
   padding: 20px;
-  border: 1px solid #ddd;
-  color: #000;
+  border: 1px solid var(--cinza-claro);
+  color: var(--cinza-escuro);
   border-radius: 8px;
-  background-color: #f8f8f8;
+  background-color: var(--cinza-claro);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 h2 {
-  color: #8e44ad;
+  color: var(--roxo);
   text-align: center;
   margin-bottom: 20px;
 }
@@ -175,7 +168,7 @@ textarea {
   width: 100%;
   height: 100px;
   margin-bottom: 20px;
-  border: 1px solid #000;
+  border: 1px solid var(--cinza-escuro);
   border-radius: 4px;
   padding: 10px;
   resize: none;
@@ -190,19 +183,19 @@ textarea {
 .stars span {
   font-size: 30px;
   cursor: pointer;
-  color: #ccc;
+  color: var(--roxo);
   transition: color 0.3s;
 }
 
 .stars span.filled {
-  color: #f39c12;
+  color: var(--destaque);
 }
 
 button {
   display: block;
   width: 100%;
-  background-color: #8e44ad;
-  color: #fff;
+  background-color: var(--roxo);
+  color: var(--branco);
   border: none;
   padding: 10px;
   border-radius: 4px;
@@ -213,5 +206,5 @@ button {
 }
 
 button:hover {
-  background-color: #732d91;
+  background-color: var(--roxo-escuro);
 }

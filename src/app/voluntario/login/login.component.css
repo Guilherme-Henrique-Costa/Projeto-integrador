@@ -1,47 +1,27 @@
-.container-dialogo .title {
-  font-weight: bold;
-  color: #eeb50b;
-}
-
-.container-dialogo .link-politica {
-  color: #eeb50b;
-  text-decoration: underline;
-  cursor: pointer;
-}
-
-.container-dialogo .footer {
-  display: flex;
-  justify-content: space-between;
-  padding-top: 10px;
-}
-
-.container-dialogo .btn-rejeitar {
-  color: #000;
-  background: transparent;
-  border: 1px solid #000;
-}
-
+/* Gradiente no fundo */
 .login-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-image: linear-gradient(to bottom, #EC0089, #43054E);
+  background: linear-gradient(to bottom, var(--magenta), var(--roxo-escuro));
   margin: -10px;
 }
 
+/* Títulos */
 .login-container h1 {
   margin-bottom: 10px;
-  color: white;
+  color: var(--branco);
   font-size: 50px;
 }
 
 .login-container h2 {
-  color: white;
-  font-size: small
+  color: var(--branco);
+  font-size: small;
 }
 
+/* Formulário */
 .login-container form {
   display: flex;
   flex-direction: column;
@@ -53,16 +33,24 @@
   width: 300px;
   border-radius: 10px;
   border: none;
+  background-color: var(--branco);
+  color: var(--roxo-escuro);
 }
 
+/* Botões */
 .login-container button {
   padding: 10px;
   cursor: pointer;
   border-radius: 10px;
-  background-color: #EC0089;
-  color: rgb(255, 255, 255);
+  background-color: var(--magenta);
+  color: var(--branco);
   border: none;
   height: 50px;
+  transition: background-color 0.3s ease;
+}
+
+.login-container button:hover {
+  background-color: var(--lilas);
 }
 
 .login-container .button-redefinir {
@@ -79,11 +67,46 @@
   margin-top: 3px;
 }
 
+/* Input focus */
 .login-container .p-float-label input:focus {
-  border-color: #666666;
+  border: 2px solid var(--lilas);
   outline: none;
 }
 
+/* Rótulos */
 .login-container .p-float-label label {
-  color: #555555;
+  color: var(--roxo-escuro);
+}
+
+/* Container de diálogo */
+.container-dialogo .title {
+  font-weight: bold;
+  color: var(--amarelo);
+}
+
+.container-dialogo .link-politica {
+  color: var(--amarelo);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.container-dialogo .footer {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 10px;
+}
+
+.container-dialogo .btn-rejeitar {
+  color: var(--cinza-escuro);
+  background: transparent;
+  border: 1px solid var(--cinza-escuro);
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 10px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.container-dialogo .btn-rejeitar:hover {
+  background-color: var(--cinza-escuro);
+  color: var(--branco);
 }

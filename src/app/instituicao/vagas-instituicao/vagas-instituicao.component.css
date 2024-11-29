@@ -1,10 +1,17 @@
+/* Container Principal */
 .vagas-container {
   display: flex;
 }
 
+/* Sidebar */
 .custom-sidebar {
   width: 250px;
   transition: width 0.3s;
+  background-color: var(--roxo-escuro);
+  color: var(--branco);
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
 }
 
 .custom-sidebar.closed {
@@ -12,59 +19,16 @@
   overflow: hidden;
 }
 
-.main-content {
-  flex-grow: 1;
-  transition: margin-left 0.3s;
-}
-
-.main-content.expanded {
-  margin-left: 0;
-}
-
-.toggle-sidebar-btn {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  background-color: #fff;
-  border: none;
-  border-radius: 50%;
-  padding: 10px;
-  cursor: pointer;
-  z-index: 1000;
-}
-
-.toggle-sidebar-btn i {
-  font-size: 18px;
-}
-
-.toggle-sidebar-btn:hover {
-  background-color: #f0f0f0;
-}
-
-.closed .toggle-sidebar-btn {
-  right: -40px; /* Ajusta a posição do botão quando a sidebar está fechada */
-}
-
-/* Sidebar de Navegação */
-.custom-sidebar {
-  width: 250px;
-  background-color: #ffffff;
-  color: #333;
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-}
-
 .cabeca {
   padding: 40px;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid var(--lilas);
   text-align: center;
 }
 
 .logo-text {
   font-size: 24px;
   font-weight: bold;
-  color: #007bff;
+  color: var(--branco);
   margin-top: 10px;
 }
 
@@ -87,29 +51,62 @@
   display: flex;
   align-items: center;
   padding: 10px 20px;
-  color: #333;
+  color: var(--branco);
   text-decoration: none;
   transition: background-color 0.3s;
 }
 
 .menu-list a:hover {
-  background-color: #f0f0f0;
+  background-color: var(--lilas);
 }
 
 .rodape {
   padding: 20px;
-  border-top: 1px solid #e0e0e0;
+  border-top: 1px solid var(--lilas);
   text-align: center;
   font-weight: bold;
+  color: var(--branco);
+}
+
+/* Botão para alternar a Sidebar */
+.toggle-sidebar-btn {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background-color: var(--branco);
+  border: none;
+  border-radius: 50%;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.toggle-sidebar-btn i {
+  font-size: 18px;
+  color: var(--roxo-escuro);
+}
+
+.toggle-sidebar-btn:hover {
+  background-color: var(--cinza-claro);
+}
+
+.closed .toggle-sidebar-btn {
+  right: -40px;
 }
 
 /* Conteúdo Principal */
 .main-content {
-  background: linear-gradient(to bottom, #EC0089, #892cdc 50%, #87007d);
+  flex-grow: 1;
+  background: linear-gradient(to bottom, var(--magenta), var(--lilas) 50%, var(--roxo));
   padding: 20px;
   border-radius: 10px;
-  color: white;
+  color: var(--branco);
   font-family: sans-serif;
+  transition: margin-left 0.3s;
+}
+
+.main-content.expanded {
+  margin-left: 0;
 }
 
 /* Barra de Busca */
@@ -122,7 +119,7 @@
 .search-bar input {
   flex: 1;
   padding: 10px 15px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--lilas);
   border-radius: 25px;
   font-size: 16px;
   outline: none;
@@ -130,13 +127,13 @@
 }
 
 .search-bar input:focus {
-  border-color: #007bff;
+  border-color: var(--magenta);
 }
 
 .search-button {
-  background-color: #007bff;
+  background-color: var(--branco);
   border: none;
-  color: #fff;
+  color: var(--roxo);
   padding: 10px 15px;
   margin-left: 10px;
   border-radius: 50%;
@@ -149,7 +146,7 @@
 }
 
 .search-button:hover {
-  background-color: #0056b3;
+  background-color: var(--roxo);
 }
 
 /* Formulário de Vagas */
@@ -157,7 +154,7 @@
   width: 100%;
   margin: 0 auto;
   padding: 20px;
-  background-color: #fff;
+  background-color: var(--branco);
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   text-align: center;
@@ -166,12 +163,13 @@
 .vaga-form-container h2 {
   font-size: 20px;
   margin-bottom: 20px;
+  color: var(--roxo-escuro);
 }
 
 form label {
   display: block;
   font-size: 14px;
-  color: #666;
+  color: var(--cinza-escuro);
   margin-top: 10px;
   text-align: left;
 }
@@ -180,29 +178,30 @@ form input {
   width: 100%;
   padding: 10px;
   margin-top: 5px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--cinza-claro);
   border-radius: 5px;
   font-size: 14px;
 }
 
 .submit-btn {
-  background-color: #ff007f;
-  color: white;
+  background-color: var(--magenta);
+  color: var(--branco);
   border: none;
   padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
   margin-top: 20px;
+  transition: background-color 0.3s;
 }
 
 .submit-btn:hover {
-  background-color: #d1006a;
+  background-color: var(--lilas);
 }
 
 /* Estilização para mensagens de erro */
 .error-message {
-  color: red;
+  color: var(--amarelo);
   font-size: 12px;
   margin-top: 5px;
 }

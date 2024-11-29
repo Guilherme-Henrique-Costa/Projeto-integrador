@@ -1,17 +1,27 @@
+/* Paleta de cores */
+:root {
+  --roxo-escuro: #43054e;
+  --roxo: #662c92;
+  --lilas: #bf0087;
+  --magenta: #ec0089;
+  --amarelo: #fde100;
+  --branco: #fff;
+}
+
 /* Container Principal */
 .app-container {
   display: flex;
-  height: 100vh; /* Preenche a altura total da tela */
-  width: 100vw; /* Preenche a largura total da tela */
-  overflow: hidden; /* Remove qualquer barra de rolagem extra */
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
 }
 
 /* Sidebar de Navegação */
 .custom-sidebar {
   width: 250px;
-  height: 100%; /* Ajusta a altura para ocupar toda a viewport */
-  background-color: #ffffff;
-  color: #333;
+  height: 100%;
+  background-color: var(--roxo-escuro);
+  color: var(--branco);
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
@@ -26,14 +36,14 @@
 /* Cabeçalho da Sidebar */
 .cabeca {
   padding: 40px;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid var(--lilas);
   text-align: center;
 }
 
 .logo-text {
   font-size: 24px;
   font-weight: bold;
-  color: #EC0089;
+  color: var(--branco);
   margin-top: 10px;
 }
 
@@ -57,21 +67,22 @@
   display: flex;
   align-items: center;
   padding: 10px 20px;
-  color: #333;
+  color: var(--branco);
   text-decoration: none;
   transition: background-color 0.3s;
 }
 
 .menu-list a:hover {
-  background-color: #f0f0f0;
+  background-color: var(--lilas);
 }
 
 /* Rodapé da Sidebar */
 .rodape {
   padding: 20px;
-  border-top: 1px solid #e0e0e0;
+  border-top: 1px solid var(--lilas);
   text-align: center;
   font-weight: bold;
+  color: var(--branco);
 }
 
 /* Botão para Alternar a Sidebar */
@@ -81,7 +92,7 @@
   left: 20px;
   width: 50px;
   height: 50px;
-  background-color: #8e44ad;
+  background-color: var(--magenta);
   border: none;
   border-radius: 50%;
   padding: 10px;
@@ -91,20 +102,102 @@
 
 .toggle-sidebar-btn i {
   font-size: 18px;
-  color: white;
+  color: var(--branco);
 }
 
 .toggle-sidebar-btn:hover {
-  background-color: #f0f0f0;
+  background-color: var(--roxo);
 }
 
 /* Conteúdo Principal */
 .main-content {
-  background: linear-gradient(to bottom, #EC0089, #892cdc 50%, #87007d);
+  flex-grow: 1;
   padding: 20px;
-  border-radius: 10px;
-  color: white;
+  background: linear-gradient(to bottom, var(--magenta), var(--lilas) 50%, var(--roxo));
+  color: var(--branco);
   font-family: sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  overflow-y: auto;
+  border-radius: 10px;
+}
+
+/* Formulário */
+.perfil-container {
+  width: 100%;
+  max-width: 500px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: var(--roxo-escuro);
+  border-radius: 10px;
+  color: var(--branco);
+  font-family: Arial, sans-serif;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.perfil-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.perfil-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.form-group label {
+  font-size: 14px;
+  margin-bottom: 5px;
+  color: var(--branco);
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-top: 5px;
+}
+
+.save-btn {
+  padding: 10px;
+  background-color: var(--magenta);
+  color: var(--branco);
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.save-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.save-btn:hover:not(:disabled) {
+  background-color: var(--lilas);
+}
+
+/* Mensagens de Erro */
+.error-message {
+  color: var(--amarelo);
+  font-size: 12px;
+  margin-top: 5px;
 }
 
 /* Barra de Busca */
@@ -112,14 +205,14 @@
   display: flex;
   align-items: center;
   margin-bottom: 30px;
-  width: 100%; /* Ocupa toda a largura disponível */
-  max-width: 600px; /* Largura máxima para a barra de busca */
+  width: 100%;
+  max-width: 600px;
 }
 
 .search-bar input {
   flex: 1;
   padding: 10px 15px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--roxo);
   border-radius: 25px;
   font-size: 16px;
   outline: none;
@@ -127,13 +220,13 @@
 }
 
 .search-bar input:focus {
-  border-color: #EC0089;
+  border-color: var(--magenta);
 }
 
 .search-button {
-  background-color: #EC0089;
+  background-color: var(--magenta);
   border: none;
-  color: #fff;
+  color: var(--branco);
   padding: 10px 15px;
   margin-left: 10px;
   border-radius: 50%;
@@ -148,7 +241,7 @@
 }
 
 .search-button:hover {
-  background-color: #0056b3;
+  background-color: var(--roxo);
 }
 
 /* Estilização Responsiva */
@@ -174,6 +267,10 @@
   .custom-sidebar.closed {
     width: 0;
   }
+
+  .perfil-container {
+    padding: 15px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -190,5 +287,10 @@
 
   .custom-sidebar {
     width: 150px;
+  }
+
+  .perfil-container {
+    padding: 10px;
+    margin: 20px auto;
   }
 }
