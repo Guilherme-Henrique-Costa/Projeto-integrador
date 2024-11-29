@@ -17,6 +17,16 @@ html, body {
   background: linear-gradient(to bottom, #43054e, #ec0089); /* Gradiente de fundo */
 }
 
+/* Conteúdo Principal */
+
+.main-content {
+  background: linear-gradient(to bottom, #EC0089, #892cdc 50%, #87007d);
+  padding: 20px;
+  border-radius: 10px;
+  color: white;
+  font-family: sans-serif;
+}
+
 /* Contêiner Principal */
 .page-container {
   display: flex;

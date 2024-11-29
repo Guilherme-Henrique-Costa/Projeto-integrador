@@ -100,17 +100,11 @@
 
 /* Conteúdo Principal */
 .main-content {
-  flex-grow: 1; /* Ocupa todo o espaço restante */
-  padding: 20px;
   background: linear-gradient(to bottom, #EC0089, #892cdc 50%, #87007d);
+  padding: 20px;
+  border-radius: 10px;
   color: white;
   font-family: sans-serif;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start; /* Para alinhar o conteúdo ao topo */
-  overflow-y: auto; /* Habilita rolagem no conteúdo, se necessário */
-  border-radius: 10px;
 }
 
 /* Barra de Busca */
