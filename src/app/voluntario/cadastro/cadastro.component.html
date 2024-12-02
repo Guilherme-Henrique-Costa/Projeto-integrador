@@ -1,6 +1,6 @@
 <div class="page-container">
   <div class="form-container">
-    <h2>CONSac - Cadastro Instituição</h2>
+    <h2>CONSac - Cadastro Voluntário</h2>
     <form [formGroup]="cadastroForm" (ngSubmit)="onSubmit()" class="p-fluid">
 
       <!-- Campo para Matrícula -->
@@ -84,6 +84,42 @@
         <input id="bairro" type="text" pInputText formControlName="bairro">
       </div>
 
+      <!-- Campo para Local -->
+      <div class="p-field">
+        <label for="local">Local:</label>
+        <input id="local" type="text" pInputText formControlName="local">
+        <div *ngIf="cadastroForm.get('local')?.invalid && cadastroForm.get('local')?.touched">
+          <small class="p-error">Local é obrigatório.</small>
+        </div>
+      </div>
+
+      <!-- Campo para Horário -->
+      <div class="p-field">
+        <label for="horario">Horário:</label>
+        <input id="horario" type="text" pInputText formControlName="horario">
+        <div *ngIf="cadastroForm.get('horario')?.invalid && cadastroForm.get('horario')?.touched">
+          <small class="p-error">Horário é obrigatório.</small>
+        </div>
+      </div>
+
+      <!-- Campo para Período Início -->
+      <div class="p-field">
+        <label for="periodoInicio">Período Início:</label>
+        <p-calendar formControlName="periodoInicio" [showIcon]="true" dateFormat="yy-mm-dd"></p-calendar>
+        <div *ngIf="cadastroForm.get('periodoInicio')?.invalid && cadastroForm.get('periodoInicio')?.touched">
+          <small class="p-error">Período de início é obrigatório.</small>
+        </div>
+      </div>
+
+      <!-- Campo para Período Fim -->
+      <div class="p-field">
+        <label for="periodoFim">Período Fim:</label>
+        <p-calendar formControlName="periodoFim" [showIcon]="true" dateFormat="yy-mm-dd"></p-calendar>
+        <div *ngIf="cadastroForm.get('periodoFim')?.invalid && cadastroForm.get('periodoFim')?.touched">
+          <small class="p-error">Período de fim é obrigatório.</small>
+        </div>
+      </div>
+
       <!-- Campo para Disponibilidade de Horário -->
       <div class="p-field">
         <label for="disponibilidadeHorario">Disponibilidade de Horário:</label>
@@ -92,7 +128,8 @@
           <option value="tarde-noite">Tarde-Noite</option>
           <option value="final-semana">Final de Semana</option>
         </select>
-        <div *ngIf="cadastroForm.get('disponibilidadeHorario')?.invalid && cadastroForm.get('disponibilidadeHorario')?.touched">
+        <div
+          *ngIf="cadastroForm.get('disponibilidadeHorario')?.invalid && cadastroForm.get('disponibilidadeHorario')?.touched">
           <small class="p-error">Disponibilidade de horário é obrigatória.</small>
         </div>
       </div>

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -14,4 +14,11 @@ export class CadastroService {
   cadastrarVoluntario(voluntario: any): Observable<any> {
     return this.http.post<any>(this.apiUrl, voluntario);
   }
+
+  verificarCpf(cpf: string): Observable<boolean> {
+    return this.http.get<{ existe: boolean }>(`${this.apiUrl}/verificar-cpf/${cpf}`).pipe(
+      map(response => response.existe)
+    );
+  }
+
 }
