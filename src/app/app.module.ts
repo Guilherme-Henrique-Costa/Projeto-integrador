@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { CadastroComponent } from './voluntario/cadastro/cadastro.component';
 
 // PrimeNG Components
+import { AccordionModule } from 'primeng/accordion';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { PasswordModule } from 'primeng/password';
@@ -97,7 +98,8 @@ import { FeedbackInstituicaoComponent } from './instituicao/feedback-instituicao
     RatingModule,
     HttpClientModule,
     ProgressBarModule,
-    CalendarModule
+    CalendarModule,
+    AccordionModule
 
   ],
   providers: [MessageService,LoginService],
