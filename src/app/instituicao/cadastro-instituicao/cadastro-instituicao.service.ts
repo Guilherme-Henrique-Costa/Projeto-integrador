@@ -3,35 +3,35 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-export interface PerfilInstituicao {
+export interface Instituicao {
   id?: number;
   nome: string;
-  cnpj: string; // Mantido como string
+  cnpj: string;
   email: string;
   password: string;
   areaAtuacao: string;
   description: string;
+  endereco: string;
+  nomeResponsavel: string;
+  cpfResponsavel: string;
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CadastroInstituicaoService {
-  private apiUrl = 'http://localhost:8080/api/v1/perfil-instituicao'; // URL do backend
+  private apiUrl = 'http://localhost:8080/api/v1/cadastro-instituicao';
 
   constructor(private http: HttpClient) {}
 
   private httpOptions = {
     headers: new HttpHeaders({
-      'Content-Type': 'application/json'
-    })
+      'Content-Type': 'application/json',
+    }),
   };
 
-  cadastrarPerfilInstituicao(perfilInstituicao: PerfilInstituicao): Observable<PerfilInstituicao> {
-    return this.http.post<PerfilInstituicao>(this.apiUrl, perfilInstituicao, this.httpOptions)
-      .pipe(
-        catchError(this.handleError)
-      );
+  cadastrarInstituicao(instituicao: Instituicao): Observable<Instituicao> {
+    return this.http.post<Instituicao>(this.apiUrl, instituicao, this.httpOptions).pipe(catchError(this.handleError));
   }
 
   private handleError(error: HttpErrorResponse): Observable<never> {
@@ -41,22 +41,22 @@ export class CadastroInstituicaoService {
     } else {
       switch (error.status) {
         case 400:
-          errorMessage = 'Requisição inválida. Verifique os dados enviados.';
+          errorMessage = 'Os dados enviados são inválidos. Por favor, revise o formulário.';
           break;
         case 403:
-          errorMessage = 'Acesso negado. Verifique suas credenciais.';
+          errorMessage = 'Acesso negado. Você não tem permissão para realizar esta operação.';
           break;
         case 404:
-          errorMessage = 'Recurso não encontrado.';
+          errorMessage = 'O recurso solicitado não foi encontrado. Verifique a URL.';
           break;
         case 500:
-          errorMessage = 'Erro interno do servidor. Tente novamente mais tarde.';
+          errorMessage = 'Erro no servidor. Tente novamente mais tarde.';
           break;
         default:
           errorMessage = `Erro ${error.status}: ${error.message}`;
       }
     }
-    console.error(errorMessage);
+    console.error('Erro capturado:', errorMessage);
     return throwError(() => new Error(errorMessage));
   }
 }

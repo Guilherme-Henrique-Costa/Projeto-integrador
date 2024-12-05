@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { CadastroInstituicaoService, PerfilInstituicao } from './cadastro-instituicao.service';
+import { CadastroInstituicaoService, Instituicao } from './cadastro-instituicao.service';
+import { InstituicaoValidators } from '../../validators/instituicao-validators';
 import { MenuItem } from 'primeng/api';
 
 @Component({
@@ -31,73 +32,16 @@ export class CadastroInstituicaoComponent {
     private router: Router,
     private cadastroService: CadastroInstituicaoService
   ) {
-    // Definição do formulário com validações
     this.cadastroForm = this.fb.group({
-      nome: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(4),
-          Validators.maxLength(64),
-          Validators.pattern('^[a-zA-ZÀ-ÿ\\s]*$')
-        ]
-      ],
-      cnpj: [
-        '',
-        [
-          Validators.required,
-          Validators.pattern('^\\d{14}$') // Validação para CNPJ (14 dígitos)
-        ]
-      ],
-      email: [
-        '',
-        [
-          Validators.required,
-          Validators.email,
-          Validators.maxLength(40)
-        ]
-      ],
-      endereco: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(4),
-          Validators.maxLength(128)
-        ]
-      ],
-      password: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(6), // Senha precisa ter pelo menos 6 caracteres
-          Validators.maxLength(20), // No máximo 20 caracteres
-          Validators.pattern('^[a-zA-Z0-9!@#$%^&*()_+=-]*$') // Letras, números e caracteres especiais opcionais
-        ]
-      ],
-      areaAtuacao: ['', Validators.required],
-      description: [
-        '',
-        [
-          Validators.maxLength(250),
-          Validators.pattern('^[a-zA-ZÀ-ÿ0-9\\s.,!?]*$')
-        ]
-      ],
-      nomeResponsavel: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(4),
-          Validators.maxLength(64),
-          Validators.pattern('^[a-zA-ZÀ-ÿ\\s]*$')
-        ]
-      ],
-      cpfResponsavel: [
-        '',
-        [
-          Validators.required,
-          Validators.pattern('^\\d{11}$') // Validação para CPF (11 dígitos)
-        ]
-      ]
+      nome: ['', InstituicaoValidators.nome],
+      cnpj: ['', InstituicaoValidators.cnpj],
+      email: ['', InstituicaoValidators.email],
+      endereco: ['', InstituicaoValidators.endereco],
+      password: ['', InstituicaoValidators.senha],
+      areaAtuacao: ['', InstituicaoValidators.areaAtuacao],
+      description: ['', InstituicaoValidators.descricao],
+      nomeResponsavel: ['', InstituicaoValidators.nomeResponsavel],
+      cpfResponsavel: ['', InstituicaoValidators.cpfResponsavel]
     });
 
     // Monitorar mudanças no campo de senha para calcular a força
@@ -110,12 +54,22 @@ export class CadastroInstituicaoComponent {
 
   onSubmit(): void {
     if (this.cadastroForm.valid) {
-      const instituicao: PerfilInstituicao = this.cadastroForm.value;
+      const instituicao: Instituicao = {
+        nome: this.cadastroForm.value.nome,
+        cnpj: this.cadastroForm.value.cnpj,
+        email: this.cadastroForm.value.email,
+        password: this.cadastroForm.value.password,
+        areaAtuacao: this.cadastroForm.value.areaAtuacao,
+        description: this.cadastroForm.value.description,
+        endereco: this.cadastroForm.value.endereco,
+        nomeResponsavel: this.cadastroForm.value.nomeResponsavel,
+        cpfResponsavel: this.cadastroForm.value.cpfResponsavel,
+      };
 
       console.log('Enviando dados do formulário:', instituicao);
-      // Chamando o serviço para cadastrar a instituição
-      this.cadastroService.cadastrarPerfilInstituicao(instituicao).subscribe(
-        (response: PerfilInstituicao) => {
+
+      this.cadastroService.cadastrarInstituicao(instituicao).subscribe(
+        (response: Instituicao) => {
           console.log('Instituição cadastrada com sucesso:', response);
           this.router.navigate(['/menu-instituicao']);
         },
@@ -127,7 +81,6 @@ export class CadastroInstituicaoComponent {
       this.cadastroForm.markAllAsTouched();
       console.error('Formulário inválido', this.cadastroForm.value);
 
-      // Log de quais controles estão inválidos
       Object.keys(this.cadastroForm.controls).forEach(key => {
         const control = this.cadastroForm.get(key);
         if (control?.invalid) {
