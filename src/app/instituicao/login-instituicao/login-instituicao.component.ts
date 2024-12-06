@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
-import { LoginService, Usuario } from './login-instituicao.service';
+import { LoginService, Instituicao } from './login-instituicao.service';
 import { frases, label, placeholder, Text } from 'src/assets/dicionario';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -35,21 +35,21 @@ export class LoginInstituicaoComponent {
   login(): void {
     if (this.isEmailValido(this.email) && this.isSenhaValida(this.senha)) {
       this.loginService.login({ email: this.email, senha: this.senha }).subscribe(
-        (response: Usuario) => {
-          // Login bem-sucedido: Armazenar o email e o nome no localStorage
-          localStorage.setItem('userEmail', response.email);
-          localStorage.setItem('userName', response.nome);
-          this.exibirMensagemSucesso('Login feito com sucesso');
+        (response: Instituicao) => {
+          // Login bem-sucedido
+          this.exibirMensagemSucesso('Login realizado com sucesso.');
           this.redirecionarPara('/menu-instituicao', 1000);
         },
         (error: HttpErrorResponse) => {
-          // Tratar erro de autenticação
-          this.exibirMensagemErro('Erro ao realizar login. Verifique as credenciais.');
+          const mensagemErro =
+            error.status === 401
+              ? 'Credenciais inválidas. Verifique o e-mail e a senha.'
+              : 'Erro ao realizar login. Tente novamente mais tarde.';
+          this.exibirMensagemErro(mensagemErro);
         }
       );
     } else {
-      const erroMensagem = this.getMensagemErro(this.email, this.senha);
-      this.exibirMensagemErro(erroMensagem);
+      this.exibirMensagemErro(this.getMensagemErro());
     }
   }
 
@@ -58,13 +58,13 @@ export class LoginInstituicaoComponent {
   }
 
   private isSenhaValida(senha: string): boolean {
-    return senha.length >= 3;
+    return senha.length >= 3; // Pode ajustar o comprimento mínimo conforme necessário
   }
 
-  private getMensagemErro(email: string, senha: string): string {
-    if (!this.isEmailValido(email)) {
+  private getMensagemErro(): string {
+    if (!this.isEmailValido(this.email)) {
       return 'O email inserido é inválido.';
-    } else if (!this.isSenhaValida(senha)) {
+    } else if (!this.isSenhaValida(this.senha)) {
       return 'A senha precisa ter no mínimo 3 caracteres.';
     }
     return 'Email ou senha inválidos';
@@ -75,7 +75,6 @@ export class LoginInstituicaoComponent {
       severity: 'success',
       summary: 'Sucesso',
       detail: mensagem,
-      styleClass: 'toast-success'
     });
   }
 
@@ -84,7 +83,6 @@ export class LoginInstituicaoComponent {
       severity: 'error',
       summary: 'Erro',
       detail: mensagem,
-      styleClass: 'toast-error'
     });
   }
 

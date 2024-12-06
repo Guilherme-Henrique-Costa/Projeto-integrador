@@ -44,10 +44,6 @@ export class CadastroInstituicaoComponent {
       cpfResponsavel: ['', InstituicaoValidators.cpfResponsavel]
     });
 
-    // Monitorar mudanças no campo de senha para calcular a força
-    this.cadastroForm.get('password')?.valueChanges.subscribe(value => {
-      this.forcaSenha = this.calcularForcaSenha(value);
-    });
   }
 
   ngOnInit() {}
@@ -88,32 +84,6 @@ export class CadastroInstituicaoComponent {
         }
       });
     }
-  }
-
-  calcularForcaSenha(senha: string): number {
-    let pontuacao = 0;
-
-    if (senha.length >= 6) {
-      pontuacao += 1;
-    }
-    if (/[a-z]/.test(senha)) {
-      pontuacao += 1;
-    }
-    if (/[A-Z]/.test(senha)) {
-      pontuacao += 1;
-    }
-    if (/\d/.test(senha)) {
-      pontuacao += 1;
-    }
-    if (/[!@#$%^&*()_+=-]/.test(senha)) {
-      pontuacao += 1;
-    }
-
-    return pontuacao;
-  }
-
-  voltar(): void {
-    this.router.navigate(['/login-instituicao']);
   }
 
   getErrorMessage(field: string): string {
