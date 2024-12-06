@@ -11,8 +11,8 @@ html, body {
   padding: 0;
   width: 100%;
   height: 100%;
-  overflow: hidden; /* Remove o scroll da página */
-  background: linear-gradient(to bottom, #43054e, #ec0089); /* Gradiente de fundo */
+  overflow: hidden;
+  background: linear-gradient(to bottom, var(--roxo-escuro), var(--magenta));
   display: flex;
   justify-content: center;
   align-items: center;
@@ -22,7 +22,7 @@ html, body {
 .cadastro-container {
   width: 100%;
   max-width: 500px;
-  padding: 10px; /* Reduzi o padding para evitar overflow */
+  padding: 10px;
   height: auto;
   display: flex;
   justify-content: center;
@@ -33,10 +33,10 @@ html, body {
 .form-container {
   width: 100%;
   max-width: 400px;
-  background-color: rgba(236, 0, 137, 0.9); /* Fundo rosa com opacidade */
+  background-color: rgba(236, 0, 137, 0.9);
   padding: 20px;
-  border-radius: 12px; /* Bordas arredondadas */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombra suave */
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
 }
@@ -45,8 +45,8 @@ html, body {
 .form-container h2 {
   text-align: center;
   margin-bottom: 15px;
-  color: #fff;
-  background: linear-gradient(to bottom, #43054e, #662c92);
+  color: var(--branco);
+  background: linear-gradient(to bottom, var(--roxo-escuro), var(--roxo));
   padding: 8px;
   border-radius: 8px;
   font-size: 20px;
@@ -56,7 +56,7 @@ html, body {
 .form-container h3 {
   margin-top: 20px;
   margin-bottom: 10px;
-  color: #fde100; /* Texto amarelo */
+  color: var(--amarelo);
   font-size: 18px;
   text-align: center;
 }
@@ -71,7 +71,7 @@ html, body {
   display: block;
   margin-bottom: 5px;
   font-weight: bold;
-  color: #fff;
+  color: var(--roxo); /* Títulos dos inputs na cor roxa */
 }
 
 .p-field input,
@@ -79,10 +79,10 @@ html, body {
 .p-field textarea {
   width: 100%;
   padding: 8px;
-  border: 1px solid #bf0087;
-  border-radius: 8px; /* Bordas arredondadas */
+  border: 1px solid var(--lilas);
+  border-radius: 8px;
   font-size: 14px;
-  background-color: #fff;
+  background-color: var(--branco);
 }
 
 .p-field textarea {
@@ -94,8 +94,8 @@ html, body {
 .divider {
   border: none;
   height: 2px;
-  background-color: #fde100; /* Cor da linha divisória */
-  margin: 20px 0; /* Espaçamento superior e inferior */
+  background-color: var(--amarelo);
+  margin: 20px 0;
 }
 
 /* Botão de Submissão */
@@ -103,8 +103,8 @@ button {
   width: 100%;
   padding: 12px;
   height: 50px;
-  background-color: #662c92;
-  color: white;
+  background-color: var(--roxo);
+  color: var(--branco);
   border: none;
   border-radius: 8px;
   font-size: 16px;
@@ -113,13 +113,42 @@ button {
 }
 
 button:hover {
-  background-color: #43054e;
+  background-color: var(--roxo-escuro);
+}
+
+button:focus {
+  outline: 2px solid var(--amarelo);
+  outline-offset: 2px;
 }
 
 /* Estilizando mensagens de erro */
 .p-error {
-  color: white; /* Muda a cor do texto do erro para branco */
-  font-size: 0.875rem; /* Mantém o tamanho consistente */
+  color: var(--destaque);
+  font-size: 0.875rem;
+}
+
+/* Estilos para p-accordion */
+p-accordion {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+p-accordionTab {
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+p-accordionTab button {
+  margin-top: 10px;
+}
+
+/* Efeitos de Foco nos Campos */
+input:focus,
+select:focus,
+textarea:focus {
+  outline: 2px solid var(--amarelo);
+  outline-offset: 2px;
 }
 
 /* Responsividade para telas menores */
@@ -152,5 +181,13 @@ button:hover {
 
   button {
     font-size: 12px;
+  }
+
+  p-accordionTab {
+    padding: 8px;
+  }
+
+  p-accordionTab h3 {
+    font-size: 16px;
   }
 }
