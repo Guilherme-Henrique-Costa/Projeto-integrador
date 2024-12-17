@@ -6,12 +6,18 @@ import { throwError } from 'rxjs';
 
 // Define a interface para VagaInstituicao
 export interface VagaInstituicao {
-  id?: number;  // O ID é opcional para novas vagas
+  id?: number;
   cargo: string;
   localidade: string;
   descricao: string;
   especificacoes: string[];
-}
+  tipoVaga: string;
+  area: string;
+  horario: string;
+  tempoVoluntariado: string;
+  disponibilidade: string;
+  instituicao: { id: number };
+  }
 
 @Injectable({
   providedIn: 'root'
@@ -25,18 +31,27 @@ export class VagasInstituicaoService {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
     }),
-    withCredentials: true,  // Necessário se estiver usando cookies ou autenticação
+    withCredentials: true,
   };
-
 
   constructor(private http: HttpClient) {}
 
-  // Método para cadastrar uma nova vaga da instituição
   cadastrarVaga(vaga: VagaInstituicao): Observable<VagaInstituicao> {
-    return this.http.post<VagaInstituicao>(this.vagasUrl, vaga, this.httpOptions).pipe(
-      catchError(this.handleError)
+    const payload = {
+      ...vaga,
+      instituicao: { id: vaga.instituicao.id },
+    };
+
+    console.log('Payload enviado:', payload);
+
+    return this.http.post<VagaInstituicao>(this.vagasUrl, payload, this.httpOptions).pipe(
+      catchError((error) => {
+        console.error('Erro na requisição:', error);
+        return throwError(() => new Error('Erro na comunicação com o servidor.'));
+      })
     );
   }
+
 
   // Método para listar todas as vagas cadastradas pela instituição (opcional)
   listarVagas(): Observable<VagaInstituicao[]> {
