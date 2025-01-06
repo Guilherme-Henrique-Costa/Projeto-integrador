@@ -29,6 +29,10 @@
   border-bottom: 1px solid var(--lilas);
 }
 
+.cabeca-button {
+  background-color: transparent;
+}
+
 .logo-text {
   font-size: 20px;
   font-weight: bold;

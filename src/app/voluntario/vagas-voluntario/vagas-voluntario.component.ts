@@ -1,20 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { VagasVoluntarioService, Vaga } from './vagas-voluntario.service';  // Importa o serviço e a interface
+import { VagasVoluntarioService, Vaga } from './vagas-voluntario.service'; // Serviço e Interface
 
 @Component({
   selector: 'app-vagas-voluntario',
   templateUrl: './vagas-voluntario.component.html',
-  styleUrls: ['./vagas-voluntario.component.css']
+  styleUrls: ['./vagas-voluntario.component.css'],
 })
 export class VagasVoluntarioComponent implements OnInit {
   searchQuery: string = '';
   sidebarOpen: boolean = true;
-  voluntarioId: number = 1;
-
-  voluntarioNome: string = 'Aluno';
-
   vagas: Vaga[] = [];
   vagaSelecionada: Vaga | null = null;
+  voluntarioId: number = 1;
+  voluntarioNome: string = 'Aluno';
 
   sidebarItems = [
     { label: 'Perfil', icon: 'pi pi-user', route: '/perfil' },
@@ -22,53 +20,60 @@ export class VagasVoluntarioComponent implements OnInit {
     { label: 'Feedback', icon: 'pi pi-chart-line', route: '/feedback' },
     { label: 'Mensagens', icon: 'pi pi-comments', route: '/mensagens' },
     { label: 'Recompensa', icon: 'pi pi-star-fill', route: '/ranking' },
-    { label: 'Logout', icon: 'pi pi-sign-out', route: '/login' }
+    { label: 'Logout', icon: 'pi pi-sign-out', route: '/login' },
   ];
 
   constructor(private vagasVoluntarioService: VagasVoluntarioService) {}
 
   ngOnInit(): void {
-    this.carregarVagas();
-    const nomeSalvo = localStorage.getItem('userName');
-    if (nomeSalvo) {
-      this.voluntarioNome = nomeSalvo;
-    } else {
-      this.voluntarioNome = 'Aluno';
-    }
-
-    // Obter ID do voluntário do localStorage (caso esteja autenticado)
-    const idSalvo = localStorage.getItem('voluntarioId');
-    if (idSalvo) {
-      this.voluntarioId = parseInt(idSalvo, 10);  // Usar ID salvo
-    }
+    this.carregarVagasDisponiveis();
+    this.recuperarDadosVoluntario();
   }
 
-  // Função para alternar a barra lateral (abrir/fechar)
+  // Alternar visibilidade da barra lateral
   toggleSidebar(): void {
     this.sidebarOpen = !this.sidebarOpen;
   }
 
-  // Método que carrega as vagas do serviço
-  carregarVagas(): void {
-    this.vagasVoluntarioService.getVagas().subscribe(vagas => {
-      this.vagas = vagas;  // Atribui as vagas recebidas à variável
-      console.log('Vagas carregadas:', vagas);
-    }, error => {
-      console.error('Erro ao carregar vagas:', error);
-    });
+  // Carregar vagas disponíveis do serviço
+  carregarVagasDisponiveis(): void {
+    this.vagasVoluntarioService.getVagasDisponiveis().subscribe(
+      (vagas) => {
+        this.vagas = vagas;
+        console.log('Vagas disponíveis carregadas:', vagas);
+      },
+      (error) => {
+        console.error('Erro ao carregar vagas disponíveis:', error);
+      }
+    );
   }
 
-  // Seleciona uma vaga para exibir os detalhes
+  // Recuperar dados do voluntário do localStorage
+  recuperarDadosVoluntario(): void {
+    const nomeSalvo = localStorage.getItem('userName');
+    this.voluntarioNome = nomeSalvo || 'Aluno';
+
+    const idSalvo = localStorage.getItem('voluntarioId');
+    if (idSalvo) {
+      this.voluntarioId = parseInt(idSalvo, 10);
+    }
+  }
+
+  // Selecionar uma vaga para exibir os detalhes
   selecionarVaga(vaga: Vaga): void {
     this.vagaSelecionada = vaga;
   }
 
-  // Função para filtrar as vagas com base na pesquisa
+  // Filtrar vagas baseadas no campo de pesquisa
   get vagasFiltradas(): Vaga[] {
-    return this.vagas.filter(vaga =>
-      vaga.cargo.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-      vaga.instituicao.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-      vaga.localidade.toLowerCase().includes(this.searchQuery.toLowerCase())
+    if (!this.searchQuery) return this.vagas;
+
+    const query = this.searchQuery.toLowerCase();
+    return this.vagas.filter(
+      (vaga) =>
+        vaga.cargo.toLowerCase().includes(query) ||
+        vaga.instituicao.toLowerCase().includes(query) ||
+        vaga.localidade.toLowerCase().includes(query)
     );
   }
 
@@ -77,14 +82,17 @@ export class VagasVoluntarioComponent implements OnInit {
     if (this.vagaSelecionada) {
       const vagaId = this.vagaSelecionada.id || 0;
 
-      this.vagasVoluntarioService.candidatarVaga(this.voluntarioId, vagaId).subscribe(response => {
-        console.log('Candidatura enviada com sucesso!', response);
-        alert('Candidatura realizada com sucesso!');
-        this.vagaSelecionada = null; // Limpar seleção após candidatura
-      }, error => {
-        console.error('Erro ao enviar candidatura:', error);
-        alert('Erro ao realizar candidatura. Tente novamente.');
-      });
+      this.vagasVoluntarioService.candidatarVaga(this.voluntarioId, vagaId).subscribe(
+        (response) => {
+          console.log('Candidatura enviada com sucesso!', response);
+          alert('Candidatura realizada com sucesso!');
+          this.vagaSelecionada = null;
+        },
+        (error) => {
+          console.error('Erro ao enviar candidatura:', error);
+          alert('Erro ao realizar candidatura. Tente novamente.');
+        }
+      );
     }
   }
 }

@@ -1,4 +1,3 @@
-<!-- menu.component.html -->
 <div class="app-container">
   <!-- Botão para abrir/fechar a barra lateral -->
   <button class="toggle-sidebar-btn" (click)="toggleSidebar()">
@@ -39,18 +38,33 @@
       </button>
     </div>
 
-    <!-- Seção de Vagas -->
-    <div class="vagas-section">
-      <h3>Vagas</h3>
-      <ul>
-        <li *ngFor="let vaga of filteredVagasItems()">
-          <div>
-            <strong>{{ vaga.title }}</strong>
-            <p>{{ vaga.description }}</p>
-          </div>
-        </li>
-      </ul>
-    </div>
+    <!-- Seção de Vagas Disponíveis -->
+<div class="vagas-disponiveis-section">
+  <h3>Vagas Disponíveis</h3>
+  <ul>
+    <li *ngFor="let vaga of vagasFiltradas">
+      <div>
+        <strong>{{ vaga.cargo }}</strong><br />
+        <p>Instituição: {{ vaga.instituicao }}</p>
+        <p>{{ vaga.descricao }}</p>
+        <p><strong>Localidade:</strong> {{ vaga.localidade }}</p>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<!-- Seção de Minhas Vagas -->
+<div class="vagas-section">
+  <h3>Minhas Vagas</h3>
+  <ul>
+    <li *ngFor="let vaga of vagasFiltradas">
+      <div>
+        <strong>{{ vaga.cargo }}</strong>
+        <p>{{ vaga.descricao }}</p>
+      </div>
+    </li>
+  </ul>
+</div>
 
     <!-- Seção de Ranking -->
     <div class="ranking-section">

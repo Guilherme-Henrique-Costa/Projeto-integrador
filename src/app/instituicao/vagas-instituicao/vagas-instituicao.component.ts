@@ -82,6 +82,10 @@ export class VagasInstituicaoComponent {
     this.sidebarOpen = !this.sidebarOpen;
   }
 
+  vagas(): void {
+    this.router.navigate(['/menu-instituicao']);
+  }
+
   // Verifica se um campo está inválido
   isFieldInvalid(field: string): boolean {
     return !!this.vagaForm.get(field)?.invalid &&
