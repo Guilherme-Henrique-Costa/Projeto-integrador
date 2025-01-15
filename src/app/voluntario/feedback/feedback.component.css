@@ -99,7 +99,6 @@
   flex-grow: 1;
   background: linear-gradient(to bottom, var(--magenta), var(--lilas) 50%, var(--roxo));
   padding: 20px;
-  border-radius: 10px;
   color: var(--branco);
   font-family: sans-serif;
   transition: margin-left 0.3s;
