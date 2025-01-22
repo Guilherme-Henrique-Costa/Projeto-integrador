@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-gestao-instituicao',
-  templateUrl: './gestao-instituicao.component.html',
-  styleUrls: ['./gestao-instituicao.component.css']
+  selector: 'app-ranking-instituicao',
+  templateUrl: './ranking-instituicao.component.html',
+  styleUrls: ['./ranking-instituicao.component.css']
 })
-export class GestaoInstituicaoComponent {
+export class RankingInstituicaoComponent {
   searchQuery: string = '';
   sidebarOpen: boolean = true;
 
@@ -22,6 +22,16 @@ export class GestaoInstituicaoComponent {
     { label: 'Relatórios', icon: 'pi pi-copy', route: '/relatorios-instituicao' },
     { label: 'Sair', icon: 'pi pi-sign-out', route: '/login-instituicao' }
   ];
+
+  constructor() {}
+
+  ngOnInit(): void {
+    // Recupera o nome da instituição do localStorage
+    const nomeSalvo = localStorage.getItem('userName');
+    if (nomeSalvo) {
+      this.instituicaoNome = nomeSalvo; // Atualiza o nome da instituição no menu
+    }
+  }
 
   toggleSidebar(): void {
     this.sidebarOpen = !this.sidebarOpen;

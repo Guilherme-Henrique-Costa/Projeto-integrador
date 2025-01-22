@@ -13,9 +13,9 @@ export class FeedbackInstituicaoComponent {
     { label: 'Candidatos', icon: 'pi pi-user', route: '/candidatos' },
     { label: 'Feedback', icon: 'pi pi-chart-line', route: '/feedback-instituicao'},
     { label: 'Gestão', icon: 'pi pi-chart-line', route: '/gestao' },
-    { label: 'Mensagens', icon: 'pi pi-comments', route: '/mensagens-instituicao' },
-    { label: 'Ranking', icon: 'pi pi-star-fill', route: '/ranking' },
-    { label: 'Relatórios', icon: 'pi pi-copy', route: '/relatorios' },
+    { label: 'Mensagens', icon: 'pi pi-comments', route: '/mensagem-instituicao' },
+    { label: 'Ranking', icon: 'pi pi-star-fill', route: '/ranking-instituicao' },
+    { label: 'Relatórios', icon: 'pi pi-copy', route: '/relatorios-instituicao' },
     { label: 'Sair', icon: 'pi pi-sign-out', route: '/login-instituicao' },
   ];
   instituicaoNome = 'Instituição XYZ';

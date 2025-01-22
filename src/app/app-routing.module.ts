@@ -19,6 +19,9 @@ import { CandidatosComponent } from './instituicao/candidatos/candidatos.compone
 import { PerfilComponent } from './voluntario/perfil/perfil.component';
 import { FeedbackComponent } from './voluntario/feedback/feedback.component';
 import { FeedbackInstituicaoComponent } from './instituicao/feedback-instituicao/feedback-instituicao.component';
+import { MensagemInstituicaoComponent } from './instituicao/mensagem-instituicao/mensagem-instituicao.component';
+import { RankingInstituicaoComponent } from './instituicao/ranking-instituicao/ranking-instituicao.component';
+import { RelatoriosInstituicaoComponent } from './instituicao/relatorios-instituicao/relatorios-instituicao.component';
 
 const routes: Routes = [
   {
@@ -119,6 +122,21 @@ const routes: Routes = [
   {
     path: 'feedback-instituicao',
     component: FeedbackInstituicaoComponent
+  },
+
+  {
+    path: 'mensagem-instituicao',
+    component: MensagemInstituicaoComponent
+  },
+
+  {
+    path: 'ranking-instituicao',
+    component: RankingInstituicaoComponent
+  },
+
+  {
+    path: 'relatorios-instituicao',
+    component: RelatoriosInstituicaoComponent
   },
 
 ];

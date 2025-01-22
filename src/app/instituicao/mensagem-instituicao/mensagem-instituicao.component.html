@@ -1,0 +1,51 @@
+<div class="app-container">
+  <!-- Sidebar de Navegação -->
+  <div class="custom-sidebar" [ngClass]="{'closed': !sidebarOpen}">
+    <!-- Botão para abrir/fechar a barra lateral -->
+    <button class="toggle-sidebar-btn" (click)="toggleSidebar()">
+      <i class="pi" [ngClass]="{'pi-chevron-left': sidebarOpen, 'pi-chevron-right': !sidebarOpen}"></i>
+    </button>
+
+    <div class="box">
+      <div class="cabeca">
+        <span class="logo-text">Mensagem Instituição</span>
+      </div>
+      <div class="corpo">
+        <ul class="menu-list">
+          <li *ngFor="let item of sidebarItems">
+            <a [routerLink]="item.route">
+              <i [class]="item.icon"></i> {{ item.label }}
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="rodape">
+        <div class="user-info">
+          <span>{{ instituicaoNome }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Conteúdo Principal -->
+  <div class="main-content" [ngClass]="{'expanded': !sidebarOpen}">
+    <!-- Barra de Busca -->
+<div class="search-bar">
+  <input type="text" placeholder="Pesquisar" [(ngModel)]="searchQuery" />
+  <button class="search-button">
+    <i class="pi pi-search"></i>
+  </button>
+</div>
+
+ <!-- Lista de Mensagens -->
+ <div class="mensagens-container">
+  <h3>Mensagens</h3>
+  <ul class="mensagens-list">
+    <li *ngFor="let mensagem of mensagens">
+      <div class="mensagem-item">
+        <i class="pi pi-user icon"></i>
+        <span>{{ mensagem }}</span>
+      </div>
+    </li>
+  </ul>
+</div>
