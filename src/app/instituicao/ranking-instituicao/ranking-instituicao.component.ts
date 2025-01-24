@@ -23,6 +23,14 @@ export class RankingInstituicaoComponent {
     { label: 'Sair', icon: 'pi pi-sign-out', route: '/login-instituicao' }
   ];
 
+  ranking = [
+    { posicao: 1, nome: 'Fulano' },
+    { posicao: 2, nome: 'Sicrano' },
+    { posicao: 3, nome: 'Zé da Silva' },
+    { posicao: 4, nome: 'Beltrano' },
+    { posicao: 5, nome: 'Armando' }
+  ];
+
   constructor() {}
 
   ngOnInit(): void {

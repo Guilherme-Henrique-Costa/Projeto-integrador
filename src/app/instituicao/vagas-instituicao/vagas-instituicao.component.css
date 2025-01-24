@@ -190,7 +190,7 @@ form input, form select, form textarea {
   width: 100%;
   padding: 10px;
   margin-top: 5px;
-  border: 1px solid var(--cinza-claro);
+  border: 1px solid var(--roxo);
   border-radius: 5px;
   font-size: 14px;
   outline: none;

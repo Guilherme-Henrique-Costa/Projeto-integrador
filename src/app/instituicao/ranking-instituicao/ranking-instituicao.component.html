@@ -8,7 +8,7 @@
 
     <div class="box">
       <div class="cabeca">
-        <span class="logo-text">Mensagem Instituição</span>
+        <span class="logo-text">Ranking Instituição</span>
       </div>
       <div class="corpo">
         <ul class="menu-list">
@@ -27,12 +27,26 @@
     </div>
   </div>
 
-  <!-- Conteúdo Principal -->
-  <div class="main-content" [ngClass]="{'expanded': !sidebarOpen}">
+   <!-- Conteúdo Principal -->
+   <div class="main-content">
     <!-- Barra de Busca -->
-<div class="search-bar">
-  <input type="text" placeholder="Pesquisar" [(ngModel)]="searchQuery" />
-  <button class="search-button">
-    <i class="pi pi-search"></i>
-  </button>
-</div>
+    <div class="search-bar">
+      <input type="text" placeholder="Pesquisar" [(ngModel)]="searchQuery" />
+      <button class="search-button">
+        <i class="pi pi-search"></i>
+      </button>
+    </div>
+
+    <!-- Lista de Ranking -->
+    <div class="ranking-container">
+      <h3>Ranking</h3>
+      <ul class="ranking-list">
+        <li *ngFor="let item of ranking">
+          <div class="ranking-item">
+            <span class="ranking-posicao">{{ item.posicao }}º</span>
+            <i class="pi pi-medal icon"></i>
+            <span class="ranking-nome">{{ item.nome }}</span>
+          </div>
+        </li>
+      </ul>
+    </div>

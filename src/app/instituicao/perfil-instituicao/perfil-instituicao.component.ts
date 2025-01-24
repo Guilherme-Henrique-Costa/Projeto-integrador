@@ -13,6 +13,8 @@ export class PerfilInstituicaoComponent {
   sidebarOpen: boolean = true;
   cadastroForm: FormGroup;
 
+  instituicaoNome: string = 'Instituição'; // Nome padrão, será substituído após o login
+
   sidebarItems = [
     { label: 'Perfil', icon: 'pi pi-user', route: '/perfil-instituicao' },
     { label: 'Vagas', icon: 'pi pi-bookmark', route: '/vagas-instituicao' },
@@ -49,6 +51,14 @@ export class PerfilInstituicaoComponent {
       interestArea: ['', Validators.required], // Obrigatório
       description: ['', [Validators.maxLength(250)]]
     });
+  }
+
+  ngOnInit(): void {
+    // Recupera o nome da instituição do localStorage
+    const nomeSalvo = localStorage.getItem('userName');
+    if (nomeSalvo) {
+      this.instituicaoNome = nomeSalvo; // Atualiza o nome da instituição no menu
+    }
   }
 
   toggleSidebar(): void {

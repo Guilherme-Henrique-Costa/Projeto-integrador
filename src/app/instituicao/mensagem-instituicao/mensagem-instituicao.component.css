@@ -71,8 +71,8 @@
 /* Botão para alternar a Sidebar */
 .toggle-sidebar-btn {
   position: absolute;
-  top: 20px;
-  left: 20px;
+  top: 10px;
+  left: 10px;
   background-color: var(--branco);
   border: none;
   border-radius: 50%;
@@ -98,7 +98,8 @@
 .search-bar {
   display: flex;
   align-items: center;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
+  margin-top: 20px;
 }
 
 .search-bar input {
@@ -139,7 +140,6 @@
 .mensagens-container {
   background-color: #ffffff;
   width: 100%;
-  max-width: 400px;
   padding: 20px;
   border-radius: 15px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
@@ -175,4 +175,8 @@
 .icon {
   margin-right: 10px;
   color: #333333;
+}
+
+.main-content {
+  width: 100%;
 }
