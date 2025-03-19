@@ -28,6 +28,7 @@ import { CardModule } from 'primeng/card';
 import { InputMaskModule } from 'primeng/inputmask';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { TriStateCheckboxModule } from 'primeng/tristatecheckbox';
+import { MultiSelectModule } from 'primeng/multiselect';
 import { MenubarModule } from 'primeng/menubar';
 import { CheckboxModule } from 'primeng/checkbox';
 import { RippleModule } from 'primeng/ripple';
@@ -105,7 +106,8 @@ import { RelatoriosInstituicaoComponent } from './instituicao/relatorios-institu
     HttpClientModule,
     ProgressBarModule,
     CalendarModule,
-    AccordionModule
+    AccordionModule,
+    MultiSelectModule,
 
   ],
   providers: [MessageService,LoginService],

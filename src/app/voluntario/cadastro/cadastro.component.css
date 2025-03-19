@@ -33,20 +33,19 @@ body {
 .page-container {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   width: 100%;
   height: 100%;
   padding: 10px;
   background: linear-gradient(to bottom, var(--roxo-escuro), var(--magenta));
   background-attachment: fixed; /* Gradiente permanece fixo */
   background-size: cover; /* Garante que o gradiente preencha a tela */
-  overflow: hidden;
+  overflow-y: auto;
 }
 
 /* Contêiner do formulário */
 .form-container {
-  width: 100%;
-  max-width: 420px;
+  width: 40%;
   background-color: rgba(236, 0, 137, 0.9); /* Fundo rosa com opacidade */
   padding: 25px;
   border-radius: 12px;
@@ -136,6 +135,12 @@ button:hover {
 
 button:active {
   transform: translateY(0);
+}
+
+.radio-group, .checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Espaçamento entre opções */
 }
 
 /* Estilização do Accordion */
