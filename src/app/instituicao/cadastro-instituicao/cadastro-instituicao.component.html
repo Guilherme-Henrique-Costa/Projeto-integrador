@@ -1,15 +1,16 @@
 <p-toast position="top-right"></p-toast>
-
-<body class="full">
+<div class="full">
   <div class="cadastro-container">
     <div class="form-container">
       <h2>CONSAC - Cadastro Instituição</h2>
-      <form [formGroup]="cadastroForm" (ngSubmit)="onSubmit()">
 
-        <p-accordion>
+      <form [formGroup]="cadastroForm" (ngSubmit)="onSubmit()">
+        <p-accordion [multiple]="false" [activeIndex]="[1]">
+
           <!-- Informações da Instituição -->
           <p-accordionTab header="Informações da Instituição">
             <!-- Campo Razão Social -->
+            <div class="grupo-campos">
             <div class="p-field">
               <label for="nome">Razão Social:</label>
               <input pInputText id="nome" formControlName="nome" />
@@ -36,57 +37,173 @@
               </small>
             </div>
 
-            <!-- Área de Atuação -->
             <div class="p-field">
-              <label for="areaAtuacao">Área de atuação:</label>
-              <select id="areaAtuacao" formControlName="areaAtuacao">
-                <option *ngFor="let area of areaAtuacao" [value]="area">{{ area }}</option>
-              </select>
-              <small *ngIf="cadastroForm.get('areaAtuacao')?.invalid && cadastroForm.get('areaAtuacao')?.touched"
-                class="p-error">
-                {{ getErrorMessage('areaAtuacao') }}
-              </small>
+              <label for="telefoneContato">Telefone:</label>
+              <input pInputText id="telefoneContato" formControlName="telefoneContato" />
             </div>
 
-            <!-- Campo Endereço (via CEP) -->
             <div class="p-field">
-              <label for="endereco">Endereço (via CEP):</label>
+              <label for="endereco">Endereço:</label>
               <input pInputText id="endereco" formControlName="endereco" />
-              <small *ngIf="cadastroForm.get('endereco')?.invalid && cadastroForm.get('endereco')?.touched" class="p-error">
-                {{ getErrorMessage('endereco') }}
-              </small>
+            </div>
+            </div>
+          </p-accordionTab>
+
+          <!-- Contato para Voluntariado -->
+          <p-accordionTab header="Contato para Voluntariado">
+            <div class="grupo-campos">
+            <div class="p-field">
+              <label for="nomeContatoVoluntariado">Nome do contato:</label>
+              <input pInputText id="nomeContatoVoluntariado" formControlName="nomeContatoVoluntariado" />
+            </div>
+
+            <div class="p-field">
+              <label for="funcaoContatoVoluntariado">Função do contato:</label>
+              <input pInputText id="funcaoContato" formControlName="funcaoContato"/>
+            </div>
+
+            <div class="p-field">
+              <label for="telefoneContatoVoluntariado">Telefone:</label>
+              <input pInputText id="telefoneContatoVoluntariado" formControlName="telefoneContatoVoluntariado" />
+            </div>
+          </div>
+          </p-accordionTab>
+
+          <!-- Status da Instituição -->
+        <p-accordionTab header="Status da Instituição">
+          <div class="grupo-campos">
+          <div class="p-field">
+            <label>A entidade é sem fins lucrativos?</label>
+            <p-radioButton name="semFinsLucrativos" value="Sim" formControlName="semFinsLucrativos" label="Sim"></p-radioButton>
+            <p-radioButton name="semFinsLucrativos" value="Não" formControlName="semFinsLucrativos" label="Não"></p-radioButton>
+          </div>
+          <div class="p-field">
+            <label>A entidade é constituída formalmente?</label>
+            <p-radioButton name="constituidaFormalmente" value="Sim" formControlName="constituidaFormalmente" label="Sim"></p-radioButton>
+            <p-radioButton name="constituidaFormalmente" value="Não" formControlName="constituidaFormalmente" label="Não"></p-radioButton>
+          </div>
+          <div class="p-field">
+            <label>A entidade encontra-se em atividade?</label>
+            <p-radioButton name="emAtividade" value="Sim" formControlName="emAtividade" label="Sim"></p-radioButton>
+            <p-radioButton name="emAtividade" value="Não" formControlName="emAtividade" label="Não"></p-radioButton>
+          </div>
+        </div>
+        </p-accordionTab>
+
+        <!-- Relacionamento com o CEUB -->
+        <p-accordionTab header="Relacionamento com o CEUB">
+          <div class="grupo-campos">
+          <div class="p-field">
+            <label>A entidade tem interesse em recursos humanos voluntários?</label>
+            <p-radioButton name="interesseRH" value="Sim" formControlName="interesseRH" label="Sim"></p-radioButton>
+            <p-radioButton name="interesseRH" value="Não" formControlName="interesseRH" label="Não"></p-radioButton>
+          </div>
+          <div class="p-field">
+            <label>A entidade está disposta a prestar informações para o CEUB?</label>
+            <p-radioButton name="prestarInfosCEUB" value="Sim" formControlName="prestarInfosCEUB" label="Sim"></p-radioButton>
+            <p-radioButton name="prestarInfosCEUB" value="Não" formControlName="prestarInfosCEUB" label="Não"></p-radioButton>
+          </div>
+          <div class="p-field">
+            <label>A entidade está disposta a ser avaliada pelo CEUB quanto ao seu sistema de
+              voluntariado?</label>
+            <p-radioButton name="avaliadaCEUB" value="Sim" formControlName="avaliadaCEUB" label="Sim"></p-radioButton>
+            <p-radioButton name="avaliadaCEUB" value="Não" formControlName="avaliadaCEUB" label="Não"></p-radioButton>
+          </div>
+          </div>
+        </p-accordionTab>
+
+        <p-accordionTab header="Horários Disponíveis">
+          <div class="tabela-horarios">
+            <table>
+              <thead>
+                <tr>
+                  <th>Dia</th>
+                  <th>Manhã</th>
+                  <th>Tarde</th>
+                  <th>Noite</th>
+                  <th>Nenhum</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let dia of diasSemana">
+                  <td>{{ dia }}</td>
+                  <td><input type="checkbox" [(ngModel)]="horarios[dia].manha" name="{{dia}}-manha" /></td>
+                  <td><input type="checkbox" [(ngModel)]="horarios[dia].tarde" name="{{dia}}-tarde" /></td>
+                  <td><input type="checkbox" [(ngModel)]="horarios[dia].noite" name="{{dia}}-noite" /></td>
+                  <td><input type="checkbox" [(ngModel)]="horarios[dia].nenhum" name="{{dia}}-nenhum" /></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </p-accordionTab>
+
+          <!--Causas e Habilidades-->
+          <p-accordionTab header="Causas e Habilidades">
+            <div class="grupo-campos">
+            <div class="p-field">
+              <label>Quais causas os voluntários podem trabalhar?</label>
+              <p-multiSelect [options]="causasOptions" formControlName="causasApoio"></p-multiSelect>
+            </div>
+            <div class="p-field">
+              <label>Quais habilidades o voluntário deve possuir?</label>
+              <p-multiSelect [options]="habilidadesOptions" formControlName="habilidadesRequeridas"></p-multiSelect>
+            </div>
             </div>
           </p-accordionTab>
 
           <!-- Credenciais -->
           <p-accordionTab header="Credenciais">
-            <!-- Campo Senha -->
+            <div class="grupo-campos">
             <div class="p-field">
               <label for="password">Senha:</label>
               <input pPassword id="password" formControlName="password" />
-              <small *ngIf="cadastroForm.get('password')?.invalid && cadastroForm.get('password')?.touched" class="p-error">
+              <small *ngIf="cadastroForm.get('password')?.invalid && cadastroForm.get('password')?.touched"
+                class="p-error">
                 {{ getErrorMessage('password') }}
               </small>
             </div>
+          </div>
+          </p-accordionTab>
 
-            <!-- Campo Descrição -->
+            <!-- Motivos e Informações Adicionais -->
+          <p-accordionTab header="Informações Adicionais">
+            <div class="grupo-campos">
             <div class="p-field">
-              <label for="description">Descrição:</label>
-              <textarea pInputTextarea id="description" formControlName="description" rows="3"></textarea>
-              <small *ngIf="cadastroForm.get('description')?.invalid && cadastroForm.get('description')?.touched"
-                class="p-error">
-                {{ getErrorMessage('description') }}
-              </small>
+              <label for="motivoInteresseVoluntarios">Por que a entidade tem interesse em receber voluntários?</label>
+              <textarea pInputTextarea id="motivoInteresseVoluntarios" formControlName="motivoInteresseVoluntarios" rows="4"></textarea>
+            </div>
+
+            <div class="p-field">
+              <label for="enderecoTrabalhoVoluntario">Endereço completo de realização do trabalho voluntário:</label>
+              <textarea pInputTextarea id="enderecoTrabalhoVoluntario" formControlName="enderecoTrabalhoVoluntario" rows="4"></textarea>
+            </div>
+
+            <div class="p-field">
+              <label for="horasMensaisVoluntario">Quantas horas por mês cada voluntário deverá disponibilizar?</label>
+              <input pInputText id="horasMensaisVoluntario" formControlName="horasMensaisVoluntario" />
+            </div>
+
+            <div class="p-field">
+              <label for="contatosRepassadosVoluntarios">Contatos a serem repassados aos voluntários:</label>
+              <textarea pInputTextarea id="contatosRepassadosVoluntarios" formControlName="contatosRepassadosVoluntarios" rows="4"></textarea>
+            </div>
+
+            <div class="p-field">
+              <label for="comentariosSugestoes">Comentários e sugestões para o CEUB:</label>
+              <textarea pInputTextarea id="comentariosSugestoes" formControlName="comentariosSugestoes" rows="4"></textarea>
+            </div>
             </div>
           </p-accordionTab>
 
+
           <!-- Responsável pela Instituição -->
           <p-accordionTab header="Responsável pela Instituição">
-            <!-- Campo Nome do Responsável -->
+            <div class="grupo-campos">
             <div class="p-field">
               <label for="nomeResponsavel">Nome Completo:</label>
               <input pInputText id="nomeResponsavel" formControlName="nomeResponsavel" />
-              <small *ngIf="cadastroForm.get('nomeResponsavel')?.invalid && cadastroForm.get('nomeResponsavel')?.touched"
+              <small
+                *ngIf="cadastroForm.get('nomeResponsavel')?.invalid && cadastroForm.get('nomeResponsavel')?.touched"
                 class="p-error">
                 {{ getErrorMessage('nomeResponsavel') }}
               </small>
@@ -101,6 +218,7 @@
                 {{ getErrorMessage('cpfResponsavel') }}
               </small>
             </div>
+            </div>
           </p-accordionTab>
         </p-accordion>
 
@@ -109,4 +227,4 @@
       </form>
     </div>
   </div>
-</body>
+</div>

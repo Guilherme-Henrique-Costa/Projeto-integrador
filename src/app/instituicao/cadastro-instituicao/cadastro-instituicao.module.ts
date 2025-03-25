@@ -5,6 +5,8 @@ import { CommonModule } from '@angular/common';
 import { CadastroInstituicaoRoutingModule } from './cadastro-instituicao-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ProgressBarModule } from 'primeng/progressbar';
+import { AccordionModule } from 'primeng/accordion';
+import { CheckboxModule } from 'primeng/checkbox';
 
 
 @NgModule({
@@ -14,6 +16,8 @@ import { ProgressBarModule } from 'primeng/progressbar';
     CadastroInstituicaoRoutingModule,
     ReactiveFormsModule,
     ProgressBarModule,
+    AccordionModule,
+    CheckboxModule,
 
   ]
 })

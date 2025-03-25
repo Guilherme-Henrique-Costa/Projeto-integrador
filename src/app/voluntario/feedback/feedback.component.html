@@ -31,39 +31,56 @@
 
 <!-- Conteúdo Principal -->
 <div class="main-content" [ngClass]="{'expanded': !sidebarOpen}">
-<!-- Barra de Busca -->
-<div class="search-bar">
-  <input type="text" placeholder="Pesquisar" [(ngModel)]="searchQuery" />
-  <button class="search-button">
-    <i class="pi pi-search"></i>
-  </button>
-</div>
+  <div class="search-bar">
+    <input type="text" placeholder="Pesquisar" [(ngModel)]="searchQuery" />
+    <button class="search-button"><i class="pi pi-search"></i></button>
+  </div>
 
   <div class="feedback-form">
     <h2>Feedback</h2>
     <p>Conte-nos a sua experiência!</p>
-    <textarea
-      placeholder="Descreva aqui sua experiência"
-      [(ngModel)]="feedbackText">
-    </textarea>
-    <p>Avalie a instituição (0 a 5 estrelas):</p>
+
+    <textarea [(ngModel)]="feedbackText" placeholder="Descreva aqui sua experiência"></textarea>
+
+    <div class="form-group">
+      <label>Quais foram as principais necessidades e demandas que o trabalho voluntário procurou atender?</label>
+      <textarea [(ngModel)]="necessidades"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Quais foram as principais atividades realizadas durante o desenvolvimento do trabalho voluntário?</label>
+      <textarea [(ngModel)]="atividades"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Quais foram os principais desafios que você enfrentou ao trabalhar como voluntário?</label>
+      <textarea [(ngModel)]="desafios"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Quais foram os dias e horários em que você realizou o trabalho voluntário?</label>
+      <textarea [(ngModel)]="horarios"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Como essa experiência impactou sua visão sobre sua atuação profissional e ética?</label>
+      <textarea [(ngModel)]="impacto"></textarea>
+    </div>
+
+    <p>Avalie a instituição:</p>
     <div class="stars">
-      <span
-        *ngFor="let star of stars; let i = index"
-        [class.filled]="i < institutionRating"
-        (click)="rateInstitution(i + 1)">
+      <span *ngFor="let star of stars; let i = index" [class.filled]="i < institutionRating" (click)="rateInstitution(i + 1)">
         &#9733;
       </span>
     </div>
-    <p>Avalie sua experiência com o sistema (0 a 5 estrelas):</p>
+
+    <p>Avalie o sistema:</p>
     <div class="stars">
-      <span
-        *ngFor="let star of stars; let i = index"
-        [class.filled]="i < systemRating"
-        (click)="rateSystem(i + 1)">
+      <span *ngFor="let star of stars; let i = index" [class.filled]="i < systemRating" (click)="rateSystem(i + 1)">
         &#9733;
       </span>
     </div>
+
     <button (click)="submitFeedback()">Enviar!</button>
   </div>
-
+</div>

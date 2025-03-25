@@ -6,27 +6,34 @@
   font-family: Arial, sans-serif;
 }
 
-html, body {
+.full {
   margin: 0;
   padding: 0;
   width: 100%;
   height: 100%;
-  overflow: hidden;
+  overflow-y: auto;
   background: linear-gradient(to bottom, var(--roxo-escuro), var(--magenta));
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
 }
 
 /* Contêiner Principal */
 .cadastro-container {
   width: 100%;
-  max-width: 500px;
+  max-width: 600px;
   padding: 10px;
   height: auto;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.grupo-campos {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* espaçamento entre os campos */
+  margin-bottom: 20px;
 }
 
 /* Contêiner do Formulário */
@@ -90,6 +97,45 @@ html, body {
   height: 80px;
 }
 
+/* Tabela de Horários */
+.tabela-horarios {
+  margin-top: 10px;
+  overflow-x: auto;
+}
+
+.tabela-horarios table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: var(--branco);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.tabela-horarios th,
+.tabela-horarios td {
+  padding: 10px;
+  text-align: center;
+  border: 1px solid var(--lilas);
+}
+
+.tabela-horarios th {
+  background-color: var(--roxo-claro);
+  color: var(--branco);
+  font-weight: bold;
+}
+
+.tabela-horarios td:first-child {
+  font-weight: bold;
+  background-color: var(--magenta);
+  color: var(--branco);
+}
+
+p-checkbox {
+  display: flex;
+  justify-content: center;
+}
+
 /* Linha Divisória */
 .divider {
   border: none;
@@ -151,7 +197,7 @@ textarea:focus {
   outline-offset: 2px;
 }
 
-/* Responsividade para telas menores */
+/* Responsividade */
 @media (max-width: 768px) {
   .cadastro-container {
     padding: 5px;
@@ -171,6 +217,15 @@ textarea:focus {
   button {
     font-size: 14px;
     padding: 10px;
+  }
+
+  .tabela-horarios table {
+    font-size: 12px;
+  }
+
+  .tabela-horarios th,
+  .tabela-horarios td {
+    padding: 6px;
   }
 }
 

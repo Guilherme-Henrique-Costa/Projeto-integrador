@@ -15,6 +15,12 @@ export class FeedbackComponent {
 
   voluntarioNome: string = 'Aluno';
 
+  necessidades: string = '';
+  atividades: string = '';
+  desafios: string = '';
+  horarios: string = '';
+  impacto: string = '';
+
   sidebarItems = [
     { label: 'Perfil', icon: 'pi pi-user', route: '/perfil' },
     { label: 'Vagas', icon: 'pi pi-bookmark', route: '/vagas' },
@@ -44,8 +50,12 @@ export class FeedbackComponent {
       feedbackText: this.feedbackText,
       institutionRating: this.institutionRating,
       systemRating: this.systemRating,
+      necessidades: this.necessidades,
+      atividades: this.atividades,
+      desafios: this.desafios,
+      horarios: this.horarios,
+      impacto: this.impacto
     });
     alert('Feedback enviado com sucesso!');
   }
-
 }
