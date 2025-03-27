@@ -22,6 +22,9 @@ import { PoliticaPrivacidadeComponent } from './politica-privacidade/politica-pr
 import { ToastModule } from 'primeng/toast';
 import { DialogModule } from 'primeng/dialog';
 import { ProgressBarModule } from 'primeng/progressbar';
+import { StepsModule } from 'primeng/steps';
+
+
 
 import { FormsModule,} from '@angular/forms';
 import { CardModule } from 'primeng/card';
@@ -108,6 +111,7 @@ import { RelatoriosInstituicaoComponent } from './instituicao/relatorios-institu
     CalendarModule,
     AccordionModule,
     MultiSelectModule,
+    StepsModule,
 
   ],
   providers: [MessageService,LoginService],

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CadastroInstituicaoService, Instituicao } from './cadastro-instituicao.service';
 import { InstituicaoValidators } from '../../validators/instituicao-validators';
@@ -12,13 +12,10 @@ import { MenuItem } from 'primeng/api';
 })
 export class CadastroInstituicaoComponent {
   cadastroForm: FormGroup;
-  horarios: any = {};
+  steps: MenuItem[] = [];
+  activeStepIndex: number = 0;
 
-  diasSemana: string[] = [
-    'Segunda-feira', 'Terça-feira', 'Quarta-feira',
-    'Quinta-feira', 'Sexta-feira', 'Sábado', 'Domingo'
-  ];
-
+  // Opções para seleção de causas e habilidades
   causasOptions: string[] = [
     'Capacitação Profissional', 'Combate à Pobreza', 'Consumo Consciente', 'Crianças e Jovens',
     'Cultura, Esportes e Artes', 'Defesa de Direitos', 'Educação', 'Idoso', 'Meio Ambiente',
@@ -30,28 +27,13 @@ export class CadastroInstituicaoComponent {
     'Gastronomia', 'Gestão', 'Idiomas', 'Informática/Eletrônica', 'Saúde/Psicologia',
     'Todas as Habilidades', 'Outro'
   ];
-  areaAtuacao: string[] = [
-    'Auxilio a Pessoas com Deficiência',
-    'Educação e Ensino',
-    'Saúde e Bem-estar',
-    'Proteção Ambiental',
-    'Apoio a Idosos',
-    'Apoio a Crianças e Adolescentes',
-    'Artes e Cultura',
-    'Alimentação e Nutrição',
-    'Direitos Humanos e Advocacia'
-  ];
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private cadastroService: CadastroInstituicaoService
   ) {
-
-    this.diasSemana.forEach(dia => {
-      this.horarios[dia] = { manha: false, tarde: false, noite: false, nenhum: false };
-    });
-
+    // Inicialização do formulário
     this.cadastroForm = this.fb.group({
       nome: ['', [Validators.required, Validators.minLength(3)]],
       cnpj: ['', [Validators.required, InstituicaoValidators.cnpj]],
@@ -83,8 +65,75 @@ export class CadastroInstituicaoComponent {
       contatosRepassadosVoluntarios: ['', Validators.required],
       comentariosSugestoes: [''],
     });
+
+    // Etapas do p-steps
+    this.steps = [
+      { label: 'Informações Básicas' },
+      { label: 'Contato Voluntariado' },
+      { label: 'Status da Instituição' },
+      { label: 'Relacionamento com o CEUB' },
+      { label: 'Causas e Habilidades' },
+      { label: 'Credenciais' },
+      { label: 'Informações Adicionais' },
+      { label: 'Responsável' },
+    ];
   }
 
+  // Avança para a próxima etapa se válida
+  nextStep() {
+    if (this.activeStepIndex < this.steps.length - 1) {
+      this.activeStepIndex++;
+    }
+  }
+
+  // Volta para a etapa anterior
+  prevStep() {
+    if (this.activeStepIndex > 0) {
+      this.activeStepIndex--;
+    }
+  }
+
+  // Validação da etapa atual do stepper
+  isCurrentStepValid(): boolean {
+    switch (this.activeStepIndex) {
+      case 0:
+        return (this.cadastroForm.get('nome')?.valid ?? false) &&
+               (this.cadastroForm.get('cnpj')?.valid ?? false) &&
+               (this.cadastroForm.get('email')?.valid ?? false) &&
+               (this.cadastroForm.get('telefoneContato')?.valid ?? false) &&
+               (this.cadastroForm.get('endereco')?.valid ?? false);
+      case 1:
+        return (this.cadastroForm.get('nomeContatoVoluntariado')?.valid ?? false) &&
+               (this.cadastroForm.get('funcaoContatoVoluntariado')?.valid ?? false) &&
+               (this.cadastroForm.get('telefoneContatoVoluntariado')?.valid ?? false);
+      case 2:
+        return (this.cadastroForm.get('semFinsLucrativos')?.valid ?? false) &&
+               (this.cadastroForm.get('constituidaFormalmente')?.valid ?? false) &&
+               (this.cadastroForm.get('emAtividade')?.valid ?? false) &&
+               (this.cadastroForm.get('sedeDesvinculada')?.valid ?? false) &&
+               (this.cadastroForm.get('prestadoraServicos')?.valid ?? false);
+      case 3:
+        return (this.cadastroForm.get('interesseRH')?.valid ?? false) &&
+               (this.cadastroForm.get('prestarInfosCEUB')?.valid ?? false) &&
+               (this.cadastroForm.get('avaliadaCEUB')?.valid ?? false);
+      case 4:
+        return (this.cadastroForm.get('causasApoio')?.valid ?? false) &&
+               (this.cadastroForm.get('habilidadesRequeridas')?.valid ?? false);
+      case 5:
+        return (this.cadastroForm.get('senha')?.valid ?? false);
+      case 6:
+        return (this.cadastroForm.get('motivoInteresseVoluntarios')?.valid ?? false) &&
+               (this.cadastroForm.get('enderecoTrabalhoVoluntario')?.valid ?? false) &&
+               (this.cadastroForm.get('horasMensaisVoluntario')?.valid ?? false) &&
+               (this.cadastroForm.get('contatosRepassadosVoluntarios')?.valid ?? false);
+      case 7:
+        return (this.cadastroForm.get('responsavelPreenchimento')?.valid ?? false);
+      default:
+        return false;
+    }
+  }
+
+  // Submissão final do formulário
   onSubmit(): void {
     if (this.cadastroForm.valid) {
       const instituicao: Instituicao = { ...this.cadastroForm.value };
@@ -104,6 +153,7 @@ export class CadastroInstituicaoComponent {
     }
   }
 
+  // Log de erros no console
   private logErros() {
     Object.keys(this.cadastroForm.controls).forEach(key => {
       const control = this.cadastroForm.get(key);
@@ -113,6 +163,7 @@ export class CadastroInstituicaoComponent {
     });
   }
 
+  // Mensagens de erro para cada campo
   getErrorMessage(field: string): string {
     const control = this.cadastroForm.get(field);
     if (!control) return '';
@@ -136,6 +187,7 @@ export class CadastroInstituicaoComponent {
     return '';
   }
 
+  // Rótulos dos campos
   private getFieldLabel(field: string): string {
     const labels: { [key: string]: string } = {
       nome: 'Nome',

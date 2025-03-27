@@ -1,248 +1,183 @@
-/* Estilos Globais */
+/* Paleta de Cores */
+:root {
+  --roxo-escuro: #43054e;
+  --roxo: #662c92;
+  --lilas: #bf0087;
+  --magenta: #ec0089;
+  --amarelo: #fde100;
+  --branco: #ffffff;
+  --cinza-claro: #f5f5f5;
+  --cinza-medio: #cccccc;
+  --cinza-escuro: #333333;
+  --destaque: #ff4d6d;
+}
+
+/* Reset */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Arial, sans-serif;
 }
 
-.full {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  overflow-y: auto;
-  background: linear-gradient(to bottom, var(--roxo-escuro), var(--magenta));
+/* Container Principal */
+.cadastro-container {
   display: flex;
   justify-content: center;
   align-items: flex-start;
+  padding: 40px 20px;
+  background: linear-gradient(to bottom, var(--roxo-escuro), var(--magenta));
+  min-height: 100vh;
 }
 
-/* Contêiner Principal */
-.cadastro-container {
+/* Formulário */
+.form-container {
   width: 100%;
-  max-width: 600px;
-  padding: 10px;
-  height: auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  max-width: 800px;
+  background-color: var(--branco);
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
 }
 
-.grupo-campos {
-  display: flex;
-  flex-direction: column;
-  gap: 10px; /* espaçamento entre os campos */
+/* Título */
+.form-container h2 {
+  text-align: center;
+  color: var(--roxo);
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+/* Campos */
+.p-field {
   margin-bottom: 20px;
 }
 
-/* Contêiner do Formulário */
-.form-container {
-  width: 100%;
-  max-width: 400px;
-  background-color: rgba(236, 0, 137, 0.9);
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  display: flex;
-  flex-direction: column;
-}
-
-/* Cabeçalho do Formulário */
-.form-container h2 {
-  text-align: center;
-  margin-bottom: 15px;
-  color: var(--branco);
-  background: linear-gradient(to bottom, var(--roxo-escuro), var(--roxo));
-  padding: 8px;
-  border-radius: 8px;
-  font-size: 20px;
-}
-
-/* Subtítulos Secundários */
-.form-container h3 {
-  margin-top: 20px;
-  margin-bottom: 10px;
-  color: var(--amarelo);
-  font-size: 18px;
-  text-align: center;
-}
-
-/* Campos do Formulário */
-.p-field {
-  margin-bottom: 15px;
-  width: 100%;
-}
-
 .p-field label {
+  font-weight: bold;
   display: block;
   margin-bottom: 5px;
-  font-weight: bold;
-  color: var(--roxo); /* Títulos dos inputs na cor roxa */
+  color: var(--roxo);
 }
 
 .p-field input,
 .p-field select,
 .p-field textarea {
   width: 100%;
-  padding: 8px;
+  padding: 10px;
+  font-size: 15px;
   border: 1px solid var(--lilas);
   border-radius: 8px;
-  font-size: 14px;
-  background-color: var(--branco);
+  background-color: var(--cinza-claro);
+  color: var(--cinza-escuro);
 }
 
 .p-field textarea {
   resize: none;
-  height: 80px;
+  height: 100px;
 }
 
-/* Tabela de Horários */
-.tabela-horarios {
-  margin-top: 10px;
-  overflow-x: auto;
+/* Erros */
+.p-error {
+  color: var(--destaque);
+  font-size: 0.9rem;
+  margin-top: 4px;
 }
 
-.tabela-horarios table {
-  width: 100%;
-  border-collapse: collapse;
-  border-radius: 8px;
-  overflow: hidden;
-  background-color: var(--branco);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-}
-
-.tabela-horarios th,
-.tabela-horarios td {
-  padding: 10px;
-  text-align: center;
-  border: 1px solid var(--lilas);
-}
-
-.tabela-horarios th {
-  background-color: var(--roxo-claro);
-  color: var(--branco);
-  font-weight: bold;
-}
-
-.tabela-horarios td:first-child {
-  font-weight: bold;
-  background-color: var(--magenta);
-  color: var(--branco);
-}
-
-p-checkbox {
+/* Botões */
+.botoes-navegacao {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
+  margin-top: 30px;
+  gap: 10px;
 }
 
-/* Linha Divisória */
-.divider {
-  border: none;
-  height: 2px;
-  background-color: var(--amarelo);
-  margin: 20px 0;
-}
-
-/* Botão de Submissão */
-button {
-  width: 100%;
+.botoes-navegacao button {
+  flex: 1;
   padding: 12px;
-  height: 50px;
-  background-color: var(--roxo);
-  color: var(--branco);
-  border: none;
-  border-radius: 8px;
   font-size: 16px;
+  border-radius: 8px;
+  border: none;
   cursor: pointer;
+  background-color: var(--roxo);
+  color: white;
+  font-weight: bold;
   transition: background-color 0.3s;
 }
 
-button:hover {
+.botoes-navegacao button:hover {
   background-color: var(--roxo-escuro);
 }
 
-button:focus {
-  outline: 2px solid var(--amarelo);
-  outline-offset: 2px;
+.botoes-navegacao button:disabled {
+  background-color: gray;
+  cursor: not-allowed;
 }
 
-/* Estilizando mensagens de erro */
-.p-error {
-  color: var(--destaque);
-  font-size: 0.875rem;
-}
-
-/* Estilos para p-accordion */
-p-accordion {
-  margin-top: 15px;
-  margin-bottom: 15px;
-}
-
-p-accordionTab {
-  padding: 10px;
+button {
+  padding: 12px 20px;
+  font-size: 15px;
+  font-weight: bold;
+  border: none;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  color: var(--branco);
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
 }
 
-p-accordionTab button {
-  margin-top: 10px;
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
-/* Efeitos de Foco nos Campos */
-input:focus,
-select:focus,
-textarea:focus {
-  outline: 2px solid var(--amarelo);
-  outline-offset: 2px;
+button.voltar {
+  background-color: var(--cinza-medio);
 }
 
-/* Responsividade */
+button.proximo {
+  background-color: var(--roxo);
+}
+
+button.proximo:hover {
+  background-color: var(--roxo-escuro);
+}
+
+button.finalizar {
+  background-color: var(--amarelo);
+  color: var(--cinza-escuro);
+}
+
+/* Steps */
+.p-steps {
+  margin-bottom: 30px;
+}
+
+.p-steps .p-steps-item .p-menuitem-link {
+  background: var(--cinza-claro);
+  border-radius: 8px;
+  padding: 10px 15px;
+  color: var(--cinza-escuro);
+  transition: all 0.3s ease;
+}
+
+.p-steps .p-steps-item.p-highlight .p-menuitem-link {
+  background: var(--lilas);
+  color: var(--branco);
+  font-weight: bold;
+}
+
+/* Responsivo */
 @media (max-width: 768px) {
-  .cadastro-container {
-    padding: 5px;
-  }
-
   .form-container {
-    padding: 15px;
-  }
-
-  .p-field input,
-  .p-field select,
-  .p-field textarea {
-    font-size: 12px;
-    padding: 6px;
+    padding: 20px;
   }
 
   button {
-    font-size: 14px;
-    padding: 10px;
+    width: 100%;
+    margin-bottom: 10px;
   }
 
-  .tabela-horarios table {
-    font-size: 12px;
-  }
-
-  .tabela-horarios th,
-  .tabela-horarios td {
-    padding: 6px;
-  }
-}
-
-@media (max-width: 480px) {
-  .form-container h2 {
-    font-size: 18px;
-  }
-
-  button {
-    font-size: 12px;
-  }
-
-  p-accordionTab {
-    padding: 8px;
-  }
-
-  p-accordionTab h3 {
-    font-size: 16px;
+  .botoes-navegacao {
+    flex-direction: column;
+    gap: 10px;
   }
 }
