@@ -1,138 +1,224 @@
 <p-toast position="top-right"></p-toast>
-<p-steps [model]="steps" [(activeIndex)]="activeStepIndex" [readonly]="true"></p-steps>
 
 <div class="cadastro-container">
   <div class="form-container">
     <h2>Cadastro Instituição</h2>
+
     <form [formGroup]="cadastroForm" (ngSubmit)="onSubmit()">
+      <p-accordion [multiple]="false" [activeIndex]="[0]">
+        <!-- Etapa 1 -->
+        <p-accordionTab header="Informações da Instituição">
+          <div class="p-field">
+            <label>Razão Social:</label>
+            <input pInputText formControlName="nome" />
+          </div>
+          <div class="p-field">
+            <label>E-mail:</label>
+            <input pInputText formControlName="email" />
+          </div>
+          <div class="p-field">
+            <label>CNPJ:</label>
+            <input pInputText formControlName="cnpj" />
+          </div>
+          <div class="p-field">
+            <label>Telefone:</label>
+            <input pInputText formControlName="telefoneContato" />
+          </div>
+          <div class="p-field">
+            <label>Endereço:</label>
+            <input pInputText formControlName="endereco" />
+          </div>
+        </p-accordionTab>
 
-      <!-- Etapa 1 Informações Básicas-->
-      <div *ngIf="activeStepIndex === 0">
-        <div class="p-field"><label>Razão Social:</label>
-          <input pInputText formControlName="nome" />
-        </div>
-        <div class="p-field"><label>E-mail:</label>
-          <input pInputText formControlName="email" />
-        </div>
-        <div class="p-field"><label>CNPJ:</label>
-          <input pInputText formControlName="cnpj" />
-        </div>
-        <div class="p-field"><label>Telefone:</label>
-          <input pInputText formControlName="telefoneContato" />
-        </div>
-        <div class="p-field"><label>Endereço:</label>
-          <input pInputText formControlName="endereco" />
-        </div>
+        <!-- Etapa 2 -->
+        <p-accordionTab header="Contato da Instituição">
+          <div class="p-field">
+            <label>Nome do contato:</label>
+            <input pInputText formControlName="nomeContatoVoluntariado" />
+          </div>
+          <div class="p-field">
+            <label>Função do contato:</label>
+            <input pInputText formControlName="funcaoContatoVoluntariado" />
+          </div>
+          <div class="p-field">
+            <label>Telefone:</label>
+            <input pInputText formControlName="telefoneContatoVoluntariado" />
+          </div>
+        </p-accordionTab>
+
+        <!-- Etapa 3 -->
+        <p-accordionTab header="Status da Instituição">
+          <div class="p-field">
+            <label>É sem fins lucrativos?</label>
+            <p-radioButton
+              name="semFinsLucrativos"
+              value="Sim"
+              formControlName="semFinsLucrativos"
+              label="Sim"
+            ></p-radioButton>
+            <p-radioButton
+              name="semFinsLucrativos"
+              value="Não"
+              formControlName="semFinsLucrativos"
+              label="Não"
+            ></p-radioButton>
+          </div>
+          <div class="p-field">
+            <label>Constituída formalmente?</label>
+            <p-radioButton
+              name="constituidaFormalmente"
+              value="Sim"
+              formControlName="constituidaFormalmente"
+              label="Sim"
+            ></p-radioButton>
+            <p-radioButton
+              name="constituidaFormalmente"
+              value="Não"
+              formControlName="constituidaFormalmente"
+              label="Não"
+            ></p-radioButton>
+          </div>
+          <div class="p-field">
+            <label>Em atividade?</label>
+            <p-radioButton
+              name="emAtividade"
+              value="Sim"
+              formControlName="emAtividade"
+              label="Sim"
+            ></p-radioButton>
+            <p-radioButton
+              name="emAtividade"
+              value="Não"
+              formControlName="emAtividade"
+              label="Não"
+            ></p-radioButton>
+          </div>
+        </p-accordionTab>
+
+        <!-- Etapa 4 -->
+        <p-accordionTab header="CEUB">
+          <div class="p-field">
+            <label>Interesse em RH voluntário?</label>
+            <p-radioButton
+              name="interesseRH"
+              value="Sim"
+              formControlName="interesseRH"
+              label="Sim"
+            ></p-radioButton>
+            <p-radioButton
+              name="interesseRH"
+              value="Não"
+              formControlName="interesseRH"
+              label="Não"
+            ></p-radioButton>
+          </div>
+          <div class="p-field">
+            <label>Disposto a prestar informações?</label>
+            <p-radioButton
+              name="prestarInfosCEUB"
+              value="Sim"
+              formControlName="prestarInfosCEUB"
+              label="Sim"
+            ></p-radioButton>
+            <p-radioButton
+              name="prestarInfosCEUB"
+              value="Não"
+              formControlName="prestarInfosCEUB"
+              label="Não"
+            ></p-radioButton>
+          </div>
+          <div class="p-field">
+            <label>Disposto a ser avaliado?</label>
+            <p-radioButton
+              name="avaliadaCEUB"
+              value="Sim"
+              formControlName="avaliadaCEUB"
+              label="Sim"
+            ></p-radioButton>
+            <p-radioButton
+              name="avaliadaCEUB"
+              value="Não"
+              formControlName="avaliadaCEUB"
+              label="Não"
+            ></p-radioButton>
+          </div>
+        </p-accordionTab>
+
+        <!-- Etapa 5 -->
+        <p-accordionTab header="Causas e Habilidades">
+          <div class="p-field">
+            <label>Causas de apoio:</label>
+            <p-multiSelect
+              [options]="causasOptions"
+              formControlName="causasApoio"
+            ></p-multiSelect>
+          </div>
+          <div class="p-field">
+            <label>Habilidades requeridas:</label>
+            <p-multiSelect
+              [options]="habilidadesOptions"
+              formControlName="habilidadesRequeridas"
+            ></p-multiSelect>
+          </div>
+        </p-accordionTab>
+
+        <!-- Etapa 6 -->
+        <p-accordionTab header="Informações Adicionais">
+          <div class="p-field">
+            <label>Motivo do interesse por voluntários:</label>
+            <textarea
+              pInputTextarea
+              formControlName="motivoInteresseVoluntarios"
+            ></textarea>
+          </div>
+          <div class="p-field">
+            <label>Endereço do trabalho voluntário:</label>
+            <textarea
+              pInputTextarea
+              formControlName="enderecoTrabalhoVoluntario"
+            ></textarea>
+          </div>
+          <div class="p-field">
+            <label>Horas mensais esperadas:</label>
+            <input pInputText formControlName="horasMensaisVoluntario" />
+          </div>
+          <div class="p-field">
+            <label>Contatos a repassar aos voluntários:</label>
+            <textarea
+              pInputTextarea
+              formControlName="contatosRepassadosVoluntarios"
+            ></textarea>
+          </div>
+          <div class="p-field">
+            <label>Comentários/Sugestões:</label>
+            <textarea
+              pInputTextarea
+              formControlName="comentariosSugestoes"
+            ></textarea>
+          </div>
+        </p-accordionTab>
+
+        <!-- Etapa 7 -->
+        <p-accordionTab header="Responsável">
+          <div class="p-field">
+            <label>Responsável pelo preenchimento:</label>
+            <input pInputText formControlName="responsavelPreenchimento" />
+          </div>
+        </p-accordionTab>
+
+        <!-- Etapa 8 -->
+        <p-accordionTab header="Credenciais">
+          <div class="p-field">
+            <label>Senha:</label>
+            <input pPassword formControlName="password" />
+          </div>
+        </p-accordionTab>
+
+        
+          <div class="button-container">
+        <button type="submit" label="Cadastrar" class="ui-button-primary">Cadastrar</button>
       </div>
-
-      <!-- Etapa 2 Contato Voluntariado-->
-      <div *ngIf="activeStepIndex === 1">
-        <div class="p-field"><label>Nome do contato:</label>
-          <input pInputText formControlName="nomeContatoVoluntariado" />
-        </div>
-        <div class="p-field"><label>Função do contato:</label>
-          <input pInputText formControlName="funcaoContatoVoluntariado" />
-        </div>
-        <div class="p-field"><label>Telefone:</label>
-          <input pInputText formControlName="telefoneContatoVoluntariado" />
-        </div>
-      </div>
-
-      <!-- Etapa 3 Status-->
-      <div *ngIf="activeStepIndex === 2">
-        <div class="p-field"><label>É sem fins lucrativos?</label>
-          <p-radioButton name="semFinsLucrativos" value="Sim" formControlName="semFinsLucrativos"
-            label="Sim"></p-radioButton>
-          <p-radioButton name="semFinsLucrativos" value="Não" formControlName="semFinsLucrativos"
-            label="Não"></p-radioButton>
-        </div>
-        <div class="p-field"><label>Constituída formalmente?</label>
-          <p-radioButton name="constituidaFormalmente" value="Sim" formControlName="constituidaFormalmente"
-            label="Sim"></p-radioButton>
-          <p-radioButton name="constituidaFormalmente" value="Não" formControlName="constituidaFormalmente"
-            label="Não"></p-radioButton>
-        </div>
-        <div class="p-field"><label>Em atividade?</label>
-          <p-radioButton name="emAtividade" value="Sim" formControlName="emAtividade" label="Sim"></p-radioButton>
-          <p-radioButton name="emAtividade" value="Não" formControlName="emAtividade" label="Não"></p-radioButton>
-        </div>
-      </div>
-
-      <!-- Etapa 4 CEUB-->
-      <div *ngIf="activeStepIndex === 3">
-        <div class="p-field"><label>Interesse em RH voluntário?</label>
-          <p-radioButton name="interesseRH" value="Sim" formControlName="interesseRH" label="Sim"></p-radioButton>
-          <p-radioButton name="interesseRH" value="Não" formControlName="interesseRH" label="Não"></p-radioButton>
-        </div>
-        <div class="p-field"><label>Disposto a prestar informações?</label>
-          <p-radioButton name="prestarInfosCEUB" value="Sim" formControlName="prestarInfosCEUB"
-            label="Sim"></p-radioButton>
-          <p-radioButton name="prestarInfosCEUB" value="Não" formControlName="prestarInfosCEUB"
-            label="Não"></p-radioButton>
-        </div>
-        <div class="p-field"><label>Disposto a ser avaliado?</label>
-          <p-radioButton name="avaliadaCEUB" value="Sim" formControlName="avaliadaCEUB" label="Sim"></p-radioButton>
-          <p-radioButton name="avaliadaCEUB" value="Não" formControlName="avaliadaCEUB" label="Não"></p-radioButton>
-        </div>
-      </div>
-
-      <!-- Etapa 5 Causas e Habilidades-->
-      <div *ngIf="activeStepIndex === 4">
-        <div class="p-field"><label>Causas de apoio:</label>
-          <p-multiSelect [options]="causasOptions" formControlName="causasApoio"></p-multiSelect>
-        </div>
-        <div class="p-field"><label>Habilidades requeridas:</label>
-          <p-multiSelect [options]="habilidadesOptions" formControlName="habilidadesRequeridas"></p-multiSelect>
-        </div>
-      </div>
-
-      <!-- Etapa 6 Informações Adicionais-->
-      <div *ngIf="activeStepIndex === 5">
-        <div class="p-field"><label>Motivo do interesse por voluntários:</label>
-          <textarea pInputTextarea formControlName="motivoInteresseVoluntarios"></textarea>
-        </div>
-        <div class="p-field"><label>Endereço do trabalho voluntário:</label>
-          <textarea pInputTextarea formControlName="enderecoTrabalhoVoluntario"></textarea>
-        </div>
-        <div class="p-field"><label>Horas mensais esperadas:</label>
-          <input pInputText formControlName="horasMensaisVoluntario" />
-        </div>
-        <div class="p-field"><label>Contatos a repassar aos voluntários:</label>
-          <textarea pInputTextarea formControlName="contatosRepassadosVoluntarios"></textarea>
-        </div>
-        <div class="p-field"><label>Comentários/Sugestões:</label>
-          <textarea pInputTextarea formControlName="comentariosSugestoes"></textarea>
-        </div>
-      </div>
-
-      <!-- Etapa 7 Responsável-->
-      <div *ngIf="activeStepIndex === 6">
-        <div class="p-field"><label>Responsável pelo preenchimento:</label>
-          <input pInputText formControlName="responsavelPreenchimento" />
-        </div>
-      </div>
-
-      <!-- Etapa 8 Credenciais-->
-      <div *ngIf="activeStepIndex === 7">
-        <div class="p-field"><label>Senha:</label>
-          <input pPassword formControlName="senha" />
-        </div>
-      </div>
-
-      <!-- Etapa 9 Confirmaçã-->
-      <div *ngIf="activeStepIndex === 8" class="confirmation">
-        <p>Confirme os dados preenchidos e clique em "Cadastrar".</p>
-        <button type="submit" pButton label="Cadastrar" class="p-button-success"></button>
-      </div>
-
+      </p-accordion>
     </form>
-
-    <!-- Botões de navegação -->
-    <div class="botoes-navegacao">
-      <button type="button" class="voltar" (click)="prevStep()">Voltar</button>
-      <button type="button" class="proximo" (click)="nextStep()"
-        *ngIf="activeStepIndex < steps.length - 1">Próximo</button>
-      <button type="submit" class="finalizar" *ngIf="activeStepIndex === steps.length - 1">Finalizar</button>
-    </div>
   </div>
 </div>

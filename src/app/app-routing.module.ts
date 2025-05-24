@@ -22,6 +22,7 @@ import { FeedbackInstituicaoComponent } from './instituicao/feedback-instituicao
 import { MensagemInstituicaoComponent } from './instituicao/mensagem-instituicao/mensagem-instituicao.component';
 import { RankingInstituicaoComponent } from './instituicao/ranking-instituicao/ranking-instituicao.component';
 import { RelatoriosInstituicaoComponent } from './instituicao/relatorios-instituicao/relatorios-instituicao.component';
+import { ChatPessoalComponent } from './instituicao/chat-pessoal/chat-pessoal.component';
 
 const routes: Routes = [
   {
@@ -47,7 +48,7 @@ const routes: Routes = [
 
   {
     path: 'perfil',
-    component: PerfilComponent
+    component: PerfilComponent,
   },
 
   {
@@ -85,9 +86,7 @@ const routes: Routes = [
     component: ConfirmarSenhaInstituicaoComponent,
   },
 
-  { path: 'cadastro-rejeitado',
-    component: CadastroRejeitadoComponent,
-  },
+  { path: 'cadastro-rejeitado', component: CadastroRejeitadoComponent },
 
   {
     path: 'perfil-instituicao',
@@ -106,43 +105,52 @@ const routes: Routes = [
 
   {
     path: 'vagas',
-    component: VagasVoluntarioComponent
+    component: VagasVoluntarioComponent,
   },
 
   {
     path: 'candidatos',
-    component: CandidatosComponent
+    component: CandidatosComponent,
   },
 
   {
     path: 'feedback',
-    component: FeedbackComponent
+    component: FeedbackComponent,
   },
 
   {
     path: 'feedback-instituicao',
-    component: FeedbackInstituicaoComponent
+    component: FeedbackInstituicaoComponent,
   },
 
   {
     path: 'mensagem-instituicao',
-    component: MensagemInstituicaoComponent
+    component: MensagemInstituicaoComponent,
   },
 
   {
     path: 'ranking-instituicao',
-    component: RankingInstituicaoComponent
+    component: RankingInstituicaoComponent,
   },
 
   {
     path: 'relatorios-instituicao',
-    component: RelatoriosInstituicaoComponent
+    component: RelatoriosInstituicaoComponent,
   },
 
+  {
+    path: 'chat-pessoal',
+    component: ChatPessoalComponent,
+  },
+
+  {
+    path: 'mensagem-instituicao/chat/:nome',
+    component: ChatPessoalComponent,
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

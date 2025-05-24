@@ -1,4 +1,4 @@
-<div class="app-container">
+<div class="chat-container">
   <!-- Sidebar de Navegação -->
   <div class="custom-sidebar" [ngClass]="{ closed: !sidebarOpen }">
     <!-- Botão para abrir/fechar a barra lateral -->
@@ -42,25 +42,38 @@
         <i class="pi pi-search"></i>
       </button>
     </div>
-
-    <!-- Lista de Mensagens -->
-    <div class="mensagens-container">
-      <h3>Mensagens</h3>
-      <ul class="mensagens-list">
-        <li *ngFor="let mensagem of mensagens">
-          <a [routerLink]="['/mensagem-instituicao/chat', mensagem]">
-            <div class="mensagem-item">
-              <i class="pi pi-user icon"></i>
-              <span>{{ mensagem }}</span>
-            </div>
-          </a>
-        </li>
-      </ul>
+    <div class="chat-header">
+      <i class="pi pi-user icon"></i>
+      <span>{{ nomeUsuario }}</span>
     </div>
 
-    <!-- Botão Nova Mensagem Flutuante -->
-    <button class="nova-mensagem-float" [routerLink]="['/mensagem-instituicao/chat', 'Novo']">
-      <i class="pi pi-comment"></i>
-    </button>
+    <div class="chat-body">
+      <div
+        *ngFor="let msg of mensagens"
+        [ngClass]="{
+          'mensagem-usuario': msg.remetente === 'usuario',
+          'mensagem-bot': msg.remetente === 'instituicao'
+        }"
+        class="mensagem-bolha"
+      >
+        <p>{{ msg.texto }}</p>
+      </div>
+    </div>
+
+    <div class="chat-input">
+      <input
+        type="text"
+        placeholder="Escreva sua mensagem!"
+        [(ngModel)]="novaMensagem"
+        (keydown.enter)="enviarMensagem()"
+      />
+      <button
+        class="send-button"
+        (click)="enviarMensagem()"
+        [disabled]="!novaMensagem.trim()"
+      >
+        <i class="pi pi-send"></i>
+      </button>
+    </div>
   </div>
 </div>

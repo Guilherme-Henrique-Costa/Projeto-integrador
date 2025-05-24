@@ -83,86 +83,52 @@
   margin-top: 4px;
 }
 
-/* Botões */
-.botoes-navegacao {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 30px;
-  gap: 10px;
-}
-
-.botoes-navegacao button {
-  flex: 1;
-  padding: 12px;
-  font-size: 16px;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-  background-color: var(--roxo);
-  color: white;
-  font-weight: bold;
-  transition: background-color 0.3s;
-}
-
-.botoes-navegacao button:hover {
-  background-color: var(--roxo-escuro);
-}
-
-.botoes-navegacao button:disabled {
-  background-color: gray;
-  cursor: not-allowed;
-}
-
+/* Botão de submissão */
 button {
-  padding: 12px 20px;
-  font-size: 15px;
-  font-weight: bold;
+  width: 100%;
+  padding: 15px;
+  background-color: var(--roxo);
+  color: var(--branco);
   border: none;
   border-radius: 8px;
-  color: var(--branco);
+  font-size: 16px;
+  font-weight: bold;
   cursor: pointer;
-  transition: all 0.3s ease-in-out;
+  transition: background-color 0.3s, transform 0.2s;
 }
 
-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-button.voltar {
-  background-color: var(--cinza-medio);
-}
-
-button.proximo {
-  background-color: var(--roxo);
-}
-
-button.proximo:hover {
+button:hover {
   background-color: var(--roxo-escuro);
+  transform: translateY(-2px);
 }
 
-button.finalizar {
-  background-color: var(--amarelo);
-  color: var(--cinza-escuro);
+button:active {
+  transform: translateY(0);
 }
 
-/* Steps */
-.p-steps {
-  margin-bottom: 30px;
-}
-
-.p-steps .p-steps-item .p-menuitem-link {
-  background: var(--cinza-claro);
-  border-radius: 8px;
-  padding: 10px 15px;
-  color: var(--cinza-escuro);
-  transition: all 0.3s ease;
-}
-
-.p-steps .p-steps-item.p-highlight .p-menuitem-link {
+/* Estilização do Accordion */
+.p-accordion .p-accordion-header {
   background: var(--lilas);
   color: var(--branco);
   font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  margin-bottom: 5px;
+}
+
+.p-accordion .p-accordion-header:hover {
+  background: var(--magenta);
+}
+
+.p-accordion .p-accordion-header-active {
+  background: var(--roxo);
+}
+
+.p-accordion .p-accordion-content {
+  background: var(--cinza-claro);
+  border-radius: 8px;
+  padding: 15px;
+  color: var(--cinza-escuro);
 }
 
 /* Responsivo */

@@ -9,18 +9,36 @@ export interface Instituicao {
   cnpj: string;
   email: string;
   password: string;
-  areaAtuacao: string;
   description: string;
+  telefoneContato: string;
   endereco: string;
-  nomeResponsavel: string;
-  cpfResponsavel: string;
+  areaAtuacao: string[];
+  causasApoio: string[];
+  habilidadesRequeridas: string[];
+  responsavelPreenchimento: string;
+  nomeContatoVoluntariado: string;
+  funcaoContatoVoluntariado: string;
+  telefoneContatoVoluntariado: string;
+  semFinsLucrativos: string;
+  constituidaFormalmente: string;
+  emAtividade: string;
+  sedeDesvinculada: string;
+  prestadoraServicos: string;
+  interesseRH: string;
+  prestarInfosCEUB: string;
+  avaliadaCEUB: string;
+  motivoInteresseVoluntarios: string;
+  enderecoTrabalhoVoluntario: string;
+  horasMensaisVoluntario: string;
+  contatosRepassadosVoluntarios: string;
+  comentariosSugestoes: string;
 }
 
 @Injectable({
   providedIn: 'root',
 })
 export class CadastroInstituicaoService {
-  private apiUrl = 'http://localhost:8080/api/v1/cadastro-instituicao';
+  private apiUrl = 'http://localhost:8080/api/v1/instituicao/register';
 
   constructor(private http: HttpClient) {}
 
@@ -30,8 +48,10 @@ export class CadastroInstituicaoService {
     }),
   };
 
-  cadastrarInstituicao(instituicao: Instituicao): Observable<Instituicao> {
-    return this.http.post<Instituicao>(this.apiUrl, instituicao, this.httpOptions).pipe(catchError(this.handleError));
+  cadastrarInstituicao(instituicao: Instituicao): Observable<any> {
+    return this.http
+      .post<any>(this.apiUrl, instituicao, this.httpOptions)
+      .pipe(catchError(this.handleError));
   }
 
   private handleError(error: HttpErrorResponse): Observable<never> {

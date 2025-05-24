@@ -22,7 +22,6 @@ import { PoliticaPrivacidadeComponent } from './politica-privacidade/politica-pr
 import { ToastModule } from 'primeng/toast';
 import { DialogModule } from 'primeng/dialog';
 import { ProgressBarModule } from 'primeng/progressbar';
-import { StepsModule } from 'primeng/steps';
 
 
 
@@ -56,6 +55,7 @@ import { FeedbackInstituicaoComponent } from './instituicao/feedback-instituicao
 import { MensagemInstituicaoComponent } from './instituicao/mensagem-instituicao/mensagem-instituicao.component';
 import { RankingInstituicaoComponent } from './instituicao/ranking-instituicao/ranking-instituicao.component';
 import { RelatoriosInstituicaoComponent } from './instituicao/relatorios-instituicao/relatorios-instituicao.component';
+import { ChatPessoalComponent } from './instituicao/chat-pessoal/chat-pessoal.component';
 
 
 
@@ -83,6 +83,7 @@ import { RelatoriosInstituicaoComponent } from './instituicao/relatorios-institu
     MensagemInstituicaoComponent,
     RankingInstituicaoComponent,
     RelatoriosInstituicaoComponent,
+    ChatPessoalComponent,
   ],
   imports: [
     BrowserModule,
@@ -111,7 +112,6 @@ import { RelatoriosInstituicaoComponent } from './instituicao/relatorios-institu
     CalendarModule,
     AccordionModule,
     MultiSelectModule,
-    StepsModule,
 
   ],
   providers: [MessageService,LoginService],

@@ -4,13 +4,34 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
 export interface Instituicao {
-  id: number;
+   id?: number;
   nome: string;
-  email: string;
   cnpj: string;
+  email: string;
+  password: string;
+  description: string;
+  telefoneContato: string;
   endereco: string;
-  nomeResponsavel: string;
-  cpfResponsavel: string;
+  areaAtuacao: string[];
+  causasApoio: string[];
+  habilidadesRequeridas: string[];
+  responsavelPreenchimento: string;
+  nomeContatoVoluntariado: string;
+  funcaoContatoVoluntariado: string;
+  telefoneContatoVoluntariado: string;
+  semFinsLucrativos: string;
+  constituidaFormalmente: string;
+  emAtividade: string;
+  sedeDesvinculada: string;
+  prestadoraServicos: string;
+  interesseRH: string;
+  prestarInfosCEUB: string;
+  avaliadaCEUB: string;
+  motivoInteresseVoluntarios: string;
+  enderecoTrabalhoVoluntario: string;
+  horasMensaisVoluntario: string;
+  contatosRepassadosVoluntarios: string;
+  comentariosSugestoes: string;
 }
 
 @Injectable({
