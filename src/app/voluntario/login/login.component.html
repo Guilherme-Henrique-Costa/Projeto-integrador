@@ -77,14 +77,14 @@
         id="username"
         name="username"
         placeholder="Insira o email do voluntário"
-        [(ngModel)]="email"
+        [(ngModel)]="emailInstitucional"
         required
       />
       <label for="username">Email Institucional</label>
     </span>
 
     <!-- Mensagem de erro para email inválido -->
-    <div *ngIf="!isEmailValido(email) && email" class="p-error">
+    <div *ngIf="!isEmailValido(emailInstitucional) && emailInstitucional" class="p-error">
       <small>Email inválido.</small>
     </div>
 

@@ -44,18 +44,19 @@ export class LoginService {
   constructor(private http: HttpClient) {}
 
   // Método para realizar o login da instituição
-  login(user: { email: string; senha: string }): Observable<Instituicao> {
-    return this.http.post<Instituicao>(`${this.url}/login`, {
-      email: user.email,
-      password: user.senha
-    }).pipe(
-      tap((response: Instituicao) => {
-        localStorage.setItem('userEmail', response.email);
-        localStorage.setItem('userName', response.nome);
-      }),
-      catchError(this.handleError)
-    );
-  }
+  login(user: { email: string; senha: string }): Observable<string> {
+  return this.http.post<string>(`${this.url}/login`, {
+    email: user.email,
+    password: user.senha
+  }).pipe(
+    tap((token: string) => {
+      localStorage.setItem('token', token);  // salva JWT
+      localStorage.setItem('userEmail', user.email);  // opcional
+    }),
+    catchError(this.handleError)
+  );
+}
+
 
 
   // Método para registrar uma instituição

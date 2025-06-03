@@ -6,7 +6,7 @@ import { catchError, tap } from 'rxjs/operators';
 export interface Voluntario {
   id: number;
   nome: string;
-  email: string;
+  emailInstitucional: string;
 }
 
 @Injectable({
@@ -20,19 +20,19 @@ export class LoginService {
   constructor(private http: HttpClient) {}
 
   // Método para realizar o login do voluntário
-  login(user: { email: string; password: string }): Observable<Voluntario> {
+    login(user: { emailInstitucional: string; password: string }): Observable<Voluntario> {
     return this.http.post<Voluntario>(`${this.url}/login`, user).pipe(
-      tap((response: Voluntario) => {
-        console.log('Resposta do servidor:', response); // Adicione isto para depuração
-        if (response && response.email && response.id && response.nome) {
-          localStorage.setItem('userEmail', response.email);
-          localStorage.setItem('userId', response.id.toString());
-          localStorage.setItem('userName', response.nome);
-        } else {
-          throw new Error('Resposta de login incompleta');
-        }
+      tap(response => {
+        localStorage.setItem('userEmail', response.emailInstitucional);
+        localStorage.setItem('userId', response.id.toString());
+        localStorage.setItem('userName', response.nome);
       }),
-      catchError(this.handleError)
+      catchError((error: HttpErrorResponse) => {
+        let msg = error.status === 403
+          ? 'Credenciais inválidas. Verifique seu email e senha.'
+          : `Erro ${error.status}: ${error.message}`;
+        return throwError(() => new Error(msg));
+      })
     );
   }
 

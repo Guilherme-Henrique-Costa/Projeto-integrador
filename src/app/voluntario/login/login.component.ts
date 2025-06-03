@@ -12,7 +12,7 @@ import { Text, placeholder, label, frases } from 'src/assets/dicionario';
   providers: [MessageService]
 })
 export class LoginComponent implements OnInit {
-  email: string = '';
+  emailInstitucional: string = '';
   senha: string = '';
 
   position = 'center';
@@ -33,26 +33,31 @@ export class LoginComponent implements OnInit {
 
   // Método de login para autenticar o voluntário
   login(): void {
-    if (this.isEmailValido(this.email) && this.isSenhaValida(this.senha)) {
-      this.loginService.login({ email: this.email, password: this.senha }).subscribe(
+    if (this.emailInstitucional && this.senha) {
+      this.loginService.login({ emailInstitucional: this.emailInstitucional, password: this.senha }).subscribe(
         (response: Voluntario) => {
-          console.log('Resposta do servidor:', response);  // Log para ver os dados recebidos
-          if (response && response.email && response.id && response.nome) {
-            localStorage.setItem('userEmail', response.email);
-            localStorage.setItem('userId', response.id.toString());
-            localStorage.setItem('userName', response.nome);  // Armazena o nome do voluntário
-            this.redirecionarPara('/menu', 1000); // Redireciona para o menu
+          if (response && response.emailInstitucional && response.id && response.nome) {
+            this.router.navigate(['/menu']);
           } else {
-            this.exibirMensagemErro('Erro ao processar os dados do usuário.');
+            this.showError('Erro ao processar os dados do usuário.');
           }
         },
         (error: HttpErrorResponse) => {
-          console.error('Erro de login:', error); // Log de erro no login
-          this.exibirMensagemErro('Erro de login: ' + error.message);
+          this.showError(error.message);
         }
       );
+    } else {
+      this.showError('Preencha todos os campos.');
+    }
   }
-}
+
+  showError(mensagem: string): void {
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Erro',
+      detail: mensagem
+    });
+  }
 
   // Validação de email
   public isEmailValido(email: string): boolean {

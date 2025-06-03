@@ -45,7 +45,7 @@ body {
 
 /* Contêiner do formulário */
 .form-container {
-  width: 40%;
+  width: 60%;
   background-color: rgba(236, 0, 137, 0.9); /* Fundo rosa com opacidade */
   padding: 25px;
   border-radius: 12px;
@@ -195,20 +195,5 @@ button:active {
 
   .p-accordion .p-accordion-header {
     font-size: 14px;
-  }
-}
-
-@media (max-width: 480px) {
-  .form-container h2 {
-    font-size: 18px;
-  }
-
-  button {
-    font-size: 12px;
-    padding: 10px;
-  }
-
-  .p-accordion .p-accordion-header {
-    font-size: 12px;
   }
 }

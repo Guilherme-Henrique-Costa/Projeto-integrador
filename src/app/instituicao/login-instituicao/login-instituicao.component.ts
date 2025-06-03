@@ -33,25 +33,26 @@ export class LoginInstituicaoComponent {
 
   // Método de login para autenticar a instituição
   login(): void {
-    if (this.isEmailValido(this.email) && this.isSenhaValida(this.senha)) {
-      this.loginService.login({ email: this.email, senha: this.senha }).subscribe(
-        (response: Instituicao) => {
-          // Login bem-sucedido
-          this.exibirMensagemSucesso('Login realizado com sucesso.');
-          this.redirecionarPara('/menu-instituicao', 1000);
-        },
-        (error: HttpErrorResponse) => {
-          const mensagemErro =
-            error.status === 401
-              ? 'Credenciais inválidas. Verifique o e-mail e a senha.'
-              : 'Erro ao realizar login. Tente novamente mais tarde.';
-          this.exibirMensagemErro(mensagemErro);
-        }
-      );
-    } else {
-      this.exibirMensagemErro(this.getMensagemErro());
-    }
+  if (this.isEmailValido(this.email) && this.isSenhaValida(this.senha)) {
+    this.loginService.login({ email: this.email, senha: this.senha }).subscribe(
+      (token: string) => {
+        localStorage.setItem('token', token); // salva o JWT
+
+        this.exibirMensagemSucesso('Login realizado com sucesso.');
+        this.redirecionarPara('/menu-instituicao', 1000);
+      },
+      (error: HttpErrorResponse) => {
+        const mensagemErro =
+          error.status === 401
+            ? 'Credenciais inválidas. Verifique o e-mail e a senha.'
+            : 'Erro ao realizar login. Tente novamente mais tarde.';
+        this.exibirMensagemErro(mensagemErro);
+      }
+    );
+  } else {
+    this.exibirMensagemErro(this.getMensagemErro());
   }
+}
 
   private isEmailValido(email: string): boolean {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);

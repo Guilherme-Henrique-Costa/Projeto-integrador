@@ -7,37 +7,70 @@
     <!-- Início do Formulário com formGroup -->
     <form [formGroup]="cadastroForm" (ngSubmit)="onSubmit()">
       <p-accordion [multiple]="false" [activeIndex]="[0]">
-
         <!-- Informações Pessoais -->
         <p-accordionTab header="Informações Pessoais">
           <div class="p-field">
             <label for="matricula">Matrícula:</label>
-            <input id="matricula" type="text" pInputText formControlName="matricula" />
-            <div *ngIf="cadastroForm.get('matricula')?.invalid && cadastroForm.get('matricula')?.touched">
-              <small class="p-error">Matrícula deve conter exatamente 8 números.</small>
+            <input
+              id="matricula"
+              type="text"
+              pInputText
+              formControlName="matricula"
+            />
+            <div
+              *ngIf="
+                cadastroForm.get('matricula')?.invalid &&
+                cadastroForm.get('matricula')?.touched
+              "
+            >
+              <small class="p-error"
+                >Matrícula deve conter exatamente 8 números.</small
+              >
             </div>
           </div>
 
           <div class="p-field">
             <label for="nome">Nome Completo:</label>
             <input id="nome" type="text" pInputText formControlName="nome" />
-            <div *ngIf="cadastroForm.get('nome')?.invalid && cadastroForm.get('nome')?.touched">
-              <small class="p-error">Nome é obrigatório e deve conter pelo menos 3 caracteres.</small>
+            <div
+              *ngIf="
+                cadastroForm.get('nome')?.invalid &&
+                cadastroForm.get('nome')?.touched
+              "
+            >
+              <small class="p-error"
+                >Nome é obrigatório e deve conter pelo menos 3
+                caracteres.</small
+              >
             </div>
           </div>
 
           <div class="p-field">
             <label for="cpf">CPF:</label>
             <input id="cpf" type="text" pInputText formControlName="cpf" />
-            <div *ngIf="cadastroForm.get('cpf')?.invalid && cadastroForm.get('cpf')?.touched">
+            <div
+              *ngIf="
+                cadastroForm.get('cpf')?.invalid &&
+                cadastroForm.get('cpf')?.touched
+              "
+            >
               <small class="p-error">CPF inválido.</small>
             </div>
           </div>
 
           <div class="p-field">
             <label for="dataNascimento">Data de Nascimento:</label>
-            <p-calendar formControlName="dataNascimento" [showIcon]="true" dateFormat="yy-mm-dd"></p-calendar>
-            <div *ngIf="cadastroForm.get('dataNascimento')?.invalid && cadastroForm.get('dataNascimento')?.touched">
+            <p-calendar
+              formControlName="dataNascimento"
+              [showIcon]="true"
+              dateFormat="yy-mm-dd"
+            ></p-calendar>
+            <div
+              *ngIf="
+                cadastroForm.get('dataNascimento')?.invalid &&
+                cadastroForm.get('dataNascimento')?.touched
+              "
+            >
               <small class="p-error">Data de nascimento é obrigatória.</small>
             </div>
           </div>
@@ -45,17 +78,39 @@
           <div class="p-field">
             <label>Gênero:</label>
             <div class="radio-group">
-              <p-radioButton name="genero" value="Feminino" formControlName="genero" label="Feminino"></p-radioButton>
-              <p-radioButton name="genero" value="Masculino" formControlName="genero" label="Masculino"></p-radioButton>
-              <p-radioButton name="genero" value="Prefiro não declarar" formControlName="genero" label="Prefiro não declarar"></p-radioButton>
+              <p-radioButton
+                name="genero"
+                value="Feminino"
+                formControlName="genero"
+                label="Feminino"
+              ></p-radioButton>
+              <p-radioButton
+                name="genero"
+                value="Masculino"
+                formControlName="genero"
+                label="Masculino"
+              ></p-radioButton>
+              <p-radioButton
+                name="genero"
+                value="Prefiro não declarar"
+                formControlName="genero"
+                label="Prefiro não declarar"
+              ></p-radioButton>
             </div>
           </div>
 
           <div class="p-field">
             <label for="senha">Senha:</label>
             <p-password [feedback]="false" formControlName="senha"></p-password>
-            <div *ngIf="cadastroForm.get('senha')?.invalid && cadastroForm.get('senha')?.touched">
-              <small class="p-error">Senha é obrigatória e deve ter no mínimo 6 caracteres.</small>
+            <div
+              *ngIf="
+                cadastroForm.get('senha')?.invalid &&
+                cadastroForm.get('senha')?.touched
+              "
+            >
+              <small class="p-error"
+                >Senha é obrigatória e deve ter no mínimo 6 caracteres.</small
+              >
             </div>
           </div>
         </p-accordionTab>
@@ -65,11 +120,30 @@
           <div class="p-field">
             <label>Qual é a sua atividade no CEUB?</label>
             <div class="checkbox-group">
-              <p-checkbox name="atividadeCEUB" value="Aluno" formControlName="atividadeCEUB" label="Aluno"></p-checkbox>
-              <p-checkbox name="atividadeCEUB" value="Professor" formControlName="atividadeCEUB" label="Professor"></p-checkbox>
-              <p-checkbox name="atividadeCEUB" value="Colaborador" formControlName="atividadeCEUB" label="Colaborador"></p-checkbox>
-              <p-checkbox name="atividadeCEUB" value="Egresso" formControlName="atividadeCEUB" label="Egresso"></p-checkbox>
-              <p-inputText formControlName="atividadeOutro" placeholder="Outro"></p-inputText>
+              <p-checkbox
+                name="atividadeCEUB"
+                value="Aluno"
+                formControlName="atividadeCEUB"
+                label="Aluno"
+              ></p-checkbox>
+              <p-checkbox
+                name="atividadeCEUB"
+                value="Professor"
+                formControlName="atividadeCEUB"
+                label="Professor"
+              ></p-checkbox>
+              <p-checkbox
+                name="atividadeCEUB"
+                value="Colaborador"
+                formControlName="atividadeCEUB"
+                label="Colaborador"
+              ></p-checkbox>
+              <p-checkbox
+                name="atividadeCEUB"
+                value="Egresso"
+                formControlName="atividadeCEUB"
+                label="Egresso"
+              ></p-checkbox>
             </div>
           </div>
         </p-accordionTab>
@@ -78,21 +152,48 @@
         <p-accordionTab header="Contato">
           <div class="p-field">
             <label for="emailInstitucional">E-mail Institucional:</label>
-            <input id="emailInstitucional" type="email" pInputText formControlName="emailInstitucional" />
-            <div *ngIf="cadastroForm.get('emailInstitucional')?.invalid && cadastroForm.get('emailInstitucional')?.touched">
-              <small class="p-error">E-mail inválido ou domínio não permitido.</small>
+            <input
+              id="emailInstitucional"
+              type="email"
+              pInputText
+              formControlName="emailInstitucional"
+            />
+            <div
+              *ngIf="
+                cadastroForm.get('emailInstitucional')?.invalid &&
+                cadastroForm.get('emailInstitucional')?.touched
+              "
+            >
+              <small class="p-error"
+                >E-mail inválido ou domínio não permitido.</small
+              >
             </div>
           </div>
 
           <div class="p-field">
             <label for="emailParticular">E-mail Particular (Opcional):</label>
-            <input id="emailParticular" type="email" pInputText formControlName="emailParticular" />
+            <input
+              id="emailParticular"
+              type="email"
+              pInputText
+              formControlName="emailParticular"
+            />
           </div>
 
           <div class="p-field">
             <label for="celular">Celular:</label>
-            <input id="celular" type="text" pInputText formControlName="celular" />
-            <div *ngIf="cadastroForm.get('celular')?.invalid && cadastroForm.get('celular')?.touched">
+            <input
+              id="celular"
+              type="text"
+              pInputText
+              formControlName="celular"
+            />
+            <div
+              *ngIf="
+                cadastroForm.get('celular')?.invalid &&
+                cadastroForm.get('celular')?.touched
+              "
+            >
               <small class="p-error">Celular inválido.</small>
             </div>
           </div>
@@ -101,9 +202,22 @@
         <!-- Cidade e UF -->
         <p-accordionTab header="Residência">
           <div class="p-field">
-            <label for="cidadeUF">Qual a cidade e a UF da sua residência?</label>
-            <input id="cidadeUF" type="text" pInputText formControlName="cidadeUF" placeholder="Ex.: Taguatinga - DF" />
-            <div *ngIf="cadastroForm.get('cidadeUF')?.invalid && cadastroForm.get('cidadeUF')?.touched">
+            <label for="cidadeUF"
+              >Qual a cidade e a UF da sua residência?</label
+            >
+            <input
+              id="cidadeUF"
+              type="text"
+              pInputText
+              formControlName="cidadeUF"
+              placeholder="Ex.: Taguatinga - DF"
+            />
+            <div
+              *ngIf="
+                cadastroForm.get('cidadeUF')?.invalid &&
+                cadastroForm.get('cidadeUF')?.touched
+              "
+            >
               <small class="p-error">Esse campo é obrigatório.</small>
             </div>
           </div>
@@ -111,40 +225,48 @@
 
         <!-- Disponibilidade -->
         <p-accordionTab header="Disponibilidade de Horário">
-          <div class="tabela-horarios">
-            <table>
-              <tr>
-                <th></th>
-                <th>Manhã</th>
-                <th>Tarde</th>
-                <th>Noite</th>
-                <th>Nenhum</th>
-              </tr>
-              <tr *ngFor="let dia of ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo']">
-                <td>{{ dia }}</td>
-                <td><p-checkbox formControlName="{{ dia + 'Manha' }}"></p-checkbox></td>
-                <td><p-checkbox formControlName="{{ dia + 'Tarde' }}"></p-checkbox></td>
-                <td><p-checkbox formControlName="{{ dia + 'Noite' }}"></p-checkbox></td>
-                <td><p-checkbox formControlName="{{ dia + 'Nenhum' }}"></p-checkbox></td>
-              </tr>
-            </table>
+          <div class="p-field">
+            <label for="disponibilidadeSemanal">Disponibilidade Semanal:</label>
+            <p-multiSelect
+              [options]="diasHorasOptions"
+              formControlName="disponibilidadeSemanal"
+              optionLabel="label"
+              optionValue="value"
+              display="chip"
+            ></p-multiSelect>
           </div>
 
           <div class="p-field">
             <label for="horario">Horário:</label>
-            <input id="horario" type="time" pInputText formControlName="horario" />
-            <div *ngIf="cadastroForm.get('horario')?.invalid && cadastroForm.get('horario')?.touched">
+            <input
+              id="horario"
+              type="time"
+              pInputText
+              formControlName="horario"
+            />
+            <div
+              *ngIf="
+                cadastroForm.get('horario')?.invalid &&
+                cadastroForm.get('horario')?.touched
+              "
+            >
               <small class="p-error">Horário é obrigatório.</small>
             </div>
           </div>
-
         </p-accordionTab>
 
         <!-- Motivação -->
         <p-accordionTab header="Motivação">
           <div class="p-field">
-            <label for="motivacao">Por que você deseja realizar trabalho voluntário?</label>
-            <textarea id="motivacao" rows="4" pInputTextarea formControlName="motivacao"></textarea>
+            <label for="motivacao"
+              >Por que você deseja realizar trabalho voluntário?</label
+            >
+            <textarea
+              id="motivacao"
+              rows="4"
+              pInputTextarea
+              formControlName="motivacao"
+            ></textarea>
           </div>
         </p-accordionTab>
 
@@ -152,26 +274,42 @@
         <p-accordionTab header="Causas e Habilidades">
           <div class="p-field">
             <label>Quais causas você gostaria de apoiar?</label>
-            <p-multiSelect [options]="causasOptions" formControlName="causas"></p-multiSelect>
+            <p-multiSelect
+              [options]="causasOptions"
+              formControlName="causas"
+            ></p-multiSelect>
           </div>
           <div class="p-field">
             <label>Quais habilidades você possui?</label>
-            <p-multiSelect [options]="habilidadesOptions" formControlName="habilidades"></p-multiSelect>
+            <p-multiSelect
+              [options]="habilidadesOptions"
+              formControlName="habilidades"
+            ></p-multiSelect>
           </div>
         </p-accordionTab>
 
         <!-- Comentários e Sugestões -->
         <p-accordionTab header="Comentários e Sugestões">
           <div class="p-field">
-            <label for="comentarios">Deixe aqui seus comentários e sugestões para o Centro de Voluntariado:</label>
-            <textarea id="comentarios" rows="4" pInputTextarea formControlName="comentarios"></textarea>
+            <label for="comentarios"
+              >Deixe aqui seus comentários e sugestões para o Centro de
+              Voluntariado:</label
+            >
+            <textarea
+              id="comentarios"
+              rows="4"
+              pInputTextarea
+              formControlName="comentarios"
+            ></textarea>
           </div>
         </p-accordionTab>
       </p-accordion>
 
       <!-- Botão de Enviar Formulário -->
       <div class="button-container">
-        <button type="submit" label="Cadastrar" class="ui-button-primary">Cadastrar</button>
+        <button type="submit" label="Cadastrar" class="ui-button-primary">
+          Cadastrar
+        </button>
       </div>
     </form>
   </div>

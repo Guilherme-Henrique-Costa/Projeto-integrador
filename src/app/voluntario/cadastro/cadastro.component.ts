@@ -45,6 +45,30 @@ export class CadastroComponent {
     'Todas as Habilidades'
   ];
 
+  diasHorasOptions = [
+    { label: 'Segunda - Manhã', value: 'Segunda-Manha' },
+    { label: 'Segunda - Tarde', value: 'Segunda-Tarde' },
+    { label: 'Segunda - Noite', value: 'Segunda-Noite' },
+    { label: 'Terça - Manhã', value: 'Terça-Manha' },
+    { label: 'Terça - Tarde', value: 'Terça-Tarde' },
+    { label: 'Terça - Noite', value: 'Terça-Noite' },
+    { label: 'Quarta - Manhã', value: 'Quarta-Manha' },
+    { label: 'Quarta - Tarde', value: 'Quarta-Tarde' },
+    { label: 'Quarta - Noite', value: 'Quarta-Noite' },
+    { label: 'Quinta - Manhã', value: 'Quinta-Manha' },
+    { label: 'Quinta - Tarde', value: 'Quinta-Tarde' },
+    { label: 'Quinta - Noite', value: 'Quinta-Noite' },
+    { label: 'Sexta - Manhã', value: 'Sexta-Manha' },
+    { label: 'Sexta - Tarde', value: 'Sexta-Tarde' },
+    { label: 'Sexta - Noite', value: 'Sexta-Noite' },
+    { label: 'Sábado - Manhã', value: 'Sábado-Manha' },
+    { label: 'Sábado - Tarde', value: 'Sábado-Tarde' },
+    { label: 'Sábado - Noite', value: 'Sábado-Noite' },
+    { label: 'Domingo - Manhã', value: 'Domingo-Manha' },
+    { label: 'Domingo - Tarde', value: 'Domingo-Tarde' },
+    { label: 'Domingo - Noite', value: 'Domingo-Noite' }
+  ];
+
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -54,52 +78,33 @@ export class CadastroComponent {
     this.cadastroForm = this.fb.group({
       matricula: ['', [AngularValidators.required, Validators.matricula]],
       nome: ['', [AngularValidators.required, Validators.nomeCompleto]],
-      cpf: ['', [AngularValidators.required, Validators.cpf]], // Mantive o validador do CPF básico
+      cpf: ['', [AngularValidators.required, Validators.cpf]],
       dataNascimento: ['', [AngularValidators.required, Validators.idadeMinima(16)]],
       genero: ['', AngularValidators.required],
       senha: ['', [AngularValidators.required, AngularValidators.minLength(6), Validators.forcaSenha]],
       atividadeCEUB: [[], AngularValidators.required],
-      atividadeOutro: ['', this.atividadeOutroValidator()],
       emailInstitucional: ['', [AngularValidators.required, AngularValidators.email, Validators.emailProvedor]],
       emailParticular: ['', AngularValidators.email],
       celular: ['', [AngularValidators.required, Validators.celular]],
-      cidadeUF: ['', [AngularValidators.required]],
-      disponibilidadeHorario: ['', AngularValidators.required],
+      cidadeUF: ['', AngularValidators.required],
       horario: ['', AngularValidators.required],
       motivacao: ['', AngularValidators.required],
       causas: [[], AngularValidators.required],
       habilidades: [[], AngularValidators.required],
       comentarios: [''],
-      ...this.initDisponibilidadeHorarios()
+      disponibilidadeSemanal: [[], AngularValidators.required]
     });
-  }
-
-  atividadeOutroValidator() {
-    return (formGroup: FormGroup) => {
-      const atividadeCEUB = formGroup.get('atividadeCEUB')?.value || [];
-      const atividadeOutro = formGroup.get('atividadeOutro');
-      if (atividadeCEUB.includes('Outro') && !atividadeOutro?.value) {
-        atividadeOutro?.setErrors({ required: true });
-      } else {
-        atividadeOutro?.setErrors(null);
-      }
-    };
-  }
-
-  initDisponibilidadeHorarios() {
-    const dias = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'];
-    const horarios: any = {};
-    dias.forEach(dia => {
-      horarios[dia + 'Manha'] = [false];
-      horarios[dia + 'Tarde'] = [false];
-      horarios[dia + 'Noite'] = [false];
-      horarios[dia + 'Nenhum'] = [false];
-    });
-    return horarios;
   }
 
   onSubmit(): void {
     if (!this.cadastroForm.valid) {
+      this.cadastroForm.markAllAsTouched();
+      Object.keys(this.cadastroForm.controls).forEach(key => {
+        const control = this.cadastroForm.get(key);
+        if (control?.invalid) {
+          console.warn(`Campo inválido: ${key}`, control.errors);
+        }
+      });
       this.messageService.add({
         severity: 'error',
         summary: 'Erro',
