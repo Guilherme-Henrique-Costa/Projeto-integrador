@@ -1,5 +1,13 @@
 import { Component } from '@angular/core';
 
+interface Voluntario {
+  nome: string;
+  email: string;
+  telefone: string;
+  areaInteresse: string;
+  disponibilidade: string;
+}
+
 @Component({
   selector: 'app-gestao-instituicao',
   templateUrl: './gestao-instituicao.component.html',
@@ -8,8 +16,8 @@ import { Component } from '@angular/core';
 export class GestaoInstituicaoComponent {
   searchQuery: string = '';
   sidebarOpen: boolean = true;
-
-  instituicaoNome: string = 'Instituição'; // Nome padrão, será substituído após o login
+  instituicaoNome: string = 'Instituição';
+  voluntarioSelecionado: Voluntario | null = null;
 
   sidebarItems = [
     { label: 'Perfil', icon: 'pi pi-user', route: '/perfil-instituicao' },
@@ -23,8 +31,17 @@ export class GestaoInstituicaoComponent {
     { label: 'Sair', icon: 'pi pi-sign-out', route: '/login-instituicao' }
   ];
 
+  voluntarios: Voluntario[] = [
+    { nome: 'Ana Souza', email: 'ana@email.com', telefone: '61 99999-1111', areaInteresse: 'Educação', disponibilidade: 'Manhãs' },
+    { nome: 'Carlos Lima', email: 'carlos@email.com', telefone: '61 88888-2222', areaInteresse: 'Meio Ambiente', disponibilidade: 'Tardes' },
+    { nome: 'Fernanda Rocha', email: 'fernanda@email.com', telefone: '61 77777-3333', areaInteresse: 'Saúde', disponibilidade: 'Finais de Semana' }
+  ];
+
   toggleSidebar(): void {
     this.sidebarOpen = !this.sidebarOpen;
   }
 
+  selecionarVoluntario(voluntario: Voluntario): void {
+    this.voluntarioSelecionado = voluntario;
+  }
 }

@@ -6,12 +6,12 @@
 /* Sidebar */
 .custom-sidebar {
   width: 250px;
-  transition: width 0.3s;
   background-color: var(--roxo-escuro);
   color: var(--branco);
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
+  transition: width 0.3s;
 }
 
 .custom-sidebar.closed {
@@ -65,7 +65,6 @@
   border-top: 1px solid var(--lilas);
   text-align: center;
   font-weight: bold;
-  color: var(--branco);
 }
 
 /* Botão para alternar a Sidebar */
@@ -147,75 +146,35 @@
 .search-button:hover {
   background-color: var(--roxo);
 }
-/* Conteúdo da tela */
-.gestao-container {
-  display: flex;
-  gap: 20px;
-}
 
-.gestao-sidebar {
-  width: 200px;
-  padding: 15px;
-  background: linear-gradient(to bottom, var(--magenta), var(--roxo));
-  border-radius: 20px 0 0 20px;
-  color: var(--branco);
-}
-
-.gestao-detalhes {
-  flex: 1;
-  background: var(--branco);
-  color: var(--cinza-escuro);
-  border-radius: 10px;
-  padding: 20px;
-  font-size: 14px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.gestao-detalhes h3 {
-  color: var(--roxo-escuro);
-  font-size: 18px;
-  margin-bottom: 10px;
-}
-
-.gestao-detalhes h4 {
-  margin-top: 20px;
-  margin-bottom: 10px;
-  color: var(--roxo);
-}
-
-.competencias {
-  padding-left: 18px;
-  margin: 0 0 20px 0;
-}
-
-.competencias li {
-  margin-bottom: 8px;
-  line-height: 1.4;
-}
-
-textarea {
-  width: 100%;
-  border: 1px solid var(--cinza-claro);
+.historico-container {
+  padding: 1rem;
+  background-color: var(--roxo);
   border-radius: 8px;
-  padding: 10px;
-  font-family: inherit;
-  resize: none;
-  margin-top: 5px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-.btn-enviar {
-  margin-top: 15px;
-  padding: 10px 20px;
-  background-color: var(--magenta);
-  color: var(--branco);
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: background 0.3s;
+.card {
+  background-color: #fafafa;
+  border-left: 5px solid #673ab7;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 4px;
 }
 
-.btn-enviar:hover {
-  background-color: var(--lilas);
+.card h3 {
+  margin: 0 0 0.5rem 0;
+  color: #333;
 }
 
+.card p {
+  margin: 0;
+  color: #666;
+}
+
+.semHistorico {
+  font-style: italic;
+  color: #999;
+  padding: 1rem;
+  text-align: center;
+}

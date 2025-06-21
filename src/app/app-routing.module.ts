@@ -14,7 +14,6 @@ import { ConfirmarSenhaInstituicaoComponent } from './instituicao/confirmar-senh
 import { PerfilInstituicaoComponent } from './instituicao/perfil-instituicao/perfil-instituicao.component';
 import { VagasInstituicaoComponent } from './instituicao/vagas-instituicao/vagas-instituicao.component';
 import { GestaoInstituicaoComponent } from './instituicao/gestao-instituicao/gestao-instituicao.component';
-import { VagasVoluntarioComponent } from './voluntario/vagas-voluntario/vagas-voluntario.component';
 import { CandidatosComponent } from './instituicao/candidatos/candidatos.component';
 import { PerfilComponent } from './voluntario/perfil/perfil.component';
 import { FeedbackComponent } from './voluntario/feedback/feedback.component';
@@ -23,6 +22,7 @@ import { MensagemInstituicaoComponent } from './instituicao/mensagem-instituicao
 import { RankingInstituicaoComponent } from './instituicao/ranking-instituicao/ranking-instituicao.component';
 import { RelatoriosInstituicaoComponent } from './instituicao/relatorios-instituicao/relatorios-instituicao.component';
 import { ChatPessoalComponent } from './instituicao/chat-pessoal/chat-pessoal.component';
+import { AgendaComponent } from './voluntario/agenda/agenda.component';
 
 const routes: Routes = [
   {
@@ -104,9 +104,10 @@ const routes: Routes = [
   },
 
   {
-    path: 'vagas',
-    component: VagasVoluntarioComponent,
-  },
+  path: 'vagas',
+  loadChildren: () =>
+    import('./voluntario/vagas-voluntario/vagas-voluntario.module').then(m => m.VagasVoluntarioModule)
+},
 
   {
     path: 'candidatos',
@@ -147,6 +148,12 @@ const routes: Routes = [
     path: 'mensagem-instituicao/chat/:nome',
     component: ChatPessoalComponent,
   },
+
+  {
+    path: 'agenda',
+    component: AgendaComponent,
+  },
+
 ];
 
 @NgModule({

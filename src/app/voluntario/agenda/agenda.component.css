@@ -6,12 +6,12 @@
 /* Sidebar */
 .custom-sidebar {
   width: 250px;
-  transition: width 0.3s;
   background-color: var(--roxo-escuro);
   color: var(--branco);
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
+  transition: width 0.3s;
 }
 
 .custom-sidebar.closed {
@@ -65,7 +65,6 @@
   border-top: 1px solid var(--lilas);
   text-align: center;
   font-weight: bold;
-  color: var(--branco);
 }
 
 /* Botão para alternar a Sidebar */
@@ -102,6 +101,7 @@
   color: var(--branco);
   font-family: sans-serif;
   transition: margin-left 0.3s;
+  min-height: 90vh;
 }
 
 .main-content.expanded {
@@ -147,75 +147,89 @@
 .search-button:hover {
   background-color: var(--roxo);
 }
-/* Conteúdo da tela */
-.gestao-container {
-  display: flex;
-  gap: 20px;
-}
 
-.gestao-sidebar {
-  width: 200px;
-  padding: 15px;
-  background: linear-gradient(to bottom, var(--magenta), var(--roxo));
-  border-radius: 20px 0 0 20px;
-  color: var(--branco);
-}
-
-.gestao-detalhes {
-  flex: 1;
-  background: var(--branco);
-  color: var(--cinza-escuro);
+/* Container principal */
+.calendar-container {
+  padding: 1.5rem;
+  background-color: white;
   border-radius: 10px;
-  padding: 20px;
-  font-size: 14px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+  max-width: 1200px;
+  margin: 2rem auto;
+  min-height: 750px;
+  border: 1px solid #dcdcdc;
 }
 
-.gestao-detalhes h3 {
-  color: var(--roxo-escuro);
-  font-size: 18px;
-  margin-bottom: 10px;
-}
-
-.gestao-detalhes h4 {
-  margin-top: 20px;
-  margin-bottom: 10px;
-  color: var(--roxo);
-}
-
-.competencias {
-  padding-left: 18px;
-  margin: 0 0 20px 0;
-}
-
-.competencias li {
-  margin-bottom: 8px;
-  line-height: 1.4;
-}
-
-textarea {
+/* Força largura total */
+mwl-calendar-month-view {
+  display: block;
   width: 100%;
-  border: 1px solid var(--cinza-claro);
-  border-radius: 8px;
-  padding: 10px;
-  font-family: inherit;
-  resize: none;
-  margin-top: 5px;
 }
 
-.btn-enviar {
-  margin-top: 15px;
-  padding: 10px 20px;
-  background-color: var(--magenta);
-  color: var(--branco);
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: background 0.3s;
+/* Cabeçalho dos dias da semana */
+.calendar-container ::ng-deep .cal-day-headers .cal-header {
+  background-color: #f4f4f4;
+  border-bottom: 1px solid #dcdcdc;
+  padding: 0.8rem 0;
+  font-weight: 600;
+  font-size: 1rem;
+  text-align: center;
+  color: #333;
 }
 
-.btn-enviar:hover {
-  background-color: var(--lilas);
+/* Células do mês */
+.calendar-container ::ng-deep .cal-cell {
+  border-right: 1px solid #e5e5e5;
+  border-bottom: 1px solid #e5e5e5;
+  padding: 6px;
+  min-height: 110px;
+  background-color: #fff;
+  position: relative;
 }
 
+/* Número do dia no canto superior direito */
+.calendar-container ::ng-deep .cal-day-number {
+  font-weight: 500;
+  font-size: 0.95rem;
+  color: #555;
+  text-align: right;
+  padding-right: 4px;
+}
+
+/* Estilo base de evento */
+.calendar-container ::ng-deep .cal-event {
+  display: block;
+  margin-top: 4px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: white;
+  padding: 3px 6px;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Cores específicas dos eventos */
+.calendar-container ::ng-deep .cal-event-red {
+  background-color: #d32f2f;
+}
+
+.calendar-container ::ng-deep .cal-event-blue {
+  background-color: #1976d2;
+}
+
+.calendar-container ::ng-deep .cal-event-green {
+  background-color: #388e3c;
+}
+
+.calendar-container ::ng-deep .cal-event-yellow {
+  background-color: #fbc02d;
+  color: #333;
+}
+
+/* Remove borda direita da última célula da semana */
+.calendar-container ::ng-deep .cal-cell:last-child {
+  border-right: none;
+}

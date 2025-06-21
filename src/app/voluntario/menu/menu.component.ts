@@ -15,13 +15,15 @@ export class MenuComponent implements OnInit {
   vagasDisponiveis: Vaga[] = []; // Lista de vagas carregadas do backend
 
   sidebarItems = [
-    { label: 'Perfil', icon: 'pi pi-user', route: '/perfil' },
-    { label: 'Vagas', icon: 'pi pi-bookmark', route: '/vagas' },
-    { label: 'Feedback', icon: 'pi pi-chart-line', route: '/feedback' },
-    { label: 'Mensagens', icon: 'pi pi-comments', route: '/mensagens' },
-    { label: 'Recompensa', icon: 'pi pi-star-fill', route: '/ranking' },
-    { label: 'Logout', icon: 'pi pi-sign-out', route: '/login' }
-  ];
+  { label: 'Perfil', icon: 'pi pi-user', route: '/perfil' },
+  { label: 'Vagas', icon: 'pi pi-bookmark', route: '/vagas' },
+  { label: 'Histórico', icon: 'pi pi-history', route: '/vagas-voluntario/historico' },
+  { label: 'Agenda', icon: 'pi pi-calendar', route: '/agenda' },
+  { label: 'Feedback', icon: 'pi pi-chart-line', route: '/feedback' },
+  { label: 'Mensagens', icon: 'pi pi-comments', route: '/mensagens' },
+  { label: 'Recompensa', icon: 'pi pi-star-fill', route: '/ranking' },
+  { label: 'Logout', icon: 'pi pi-sign-out', route: '/login' },
+];
 
   rankingItems = [
     '🥇 1º Guilherme',
