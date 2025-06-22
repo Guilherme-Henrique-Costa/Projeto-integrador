@@ -23,6 +23,8 @@ import { RankingInstituicaoComponent } from './instituicao/ranking-instituicao/r
 import { RelatoriosInstituicaoComponent } from './instituicao/relatorios-instituicao/relatorios-instituicao.component';
 import { ChatPessoalComponent } from './instituicao/chat-pessoal/chat-pessoal.component';
 import { AgendaComponent } from './voluntario/agenda/agenda.component';
+import { MensagemComponent } from './voluntario/mensagem/mensagem.component';
+import { ChatVoluntarioComponent } from './voluntario/chat-voluntario/chat-voluntario.component';
 
 const routes: Routes = [
   {
@@ -104,10 +106,12 @@ const routes: Routes = [
   },
 
   {
-  path: 'vagas',
-  loadChildren: () =>
-    import('./voluntario/vagas-voluntario/vagas-voluntario.module').then(m => m.VagasVoluntarioModule)
-},
+    path: 'vagas',
+    loadChildren: () =>
+      import('./voluntario/vagas-voluntario/vagas-voluntario.module').then(
+        (m) => m.VagasVoluntarioModule
+      ),
+  },
 
   {
     path: 'candidatos',
@@ -154,6 +158,12 @@ const routes: Routes = [
     component: AgendaComponent,
   },
 
+  {
+    path: 'mensagens',
+    component: MensagemComponent,
+  },
+
+  { path: 'mensagens/chat/:nome', component: ChatVoluntarioComponent },
 ];
 
 @NgModule({

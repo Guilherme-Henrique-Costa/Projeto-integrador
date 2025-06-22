@@ -1,5 +1,5 @@
 export const Text = {
-  Consac: 'CONSAC',
+  ceub: 'CEUB',
   VI: 'Voluntáriado Inteligente',
   politicaDePrivacidade: 'Política de Privacidade',
   dadosColetados: 'Dados coletados',

@@ -15,15 +15,16 @@ export class PerfilComponent implements OnInit {
 
   // Lista de itens do menu lateral
   sidebarItems = [
-  { label: 'Perfil', icon: 'pi pi-user', route: '/perfil' },
-  { label: 'Vagas', icon: 'pi pi-bookmark', route: '/vagas' },
-  { label: 'Histórico', icon: 'pi pi-history', route: '/vagas-voluntario/historico' },
-  { label: 'Agenda', icon: 'pi pi-calendar', route: '/agenda' },
-  { label: 'Feedback', icon: 'pi pi-chart-line', route: '/feedback' },
-  { label: 'Mensagens', icon: 'pi pi-comments', route: '/mensagens' },
-  { label: 'Recompensa', icon: 'pi pi-star-fill', route: '/ranking' },
-  { label: 'Logout', icon: 'pi pi-sign-out', route: '/login' },
-];
+    { label: 'Perfil', icon: 'pi pi-user', route: '/perfil' },
+    { label: 'Vagas', icon: 'pi pi-bookmark', route: '/vagas' },
+    { label: 'Minhas Vagas', icon: 'pi pi-briefcase', route: '/vagas/minhas-vagas' },
+    { label: 'Histórico', icon: 'pi pi-history', route: '/vagas/historico' },
+    { label: 'Agenda', icon: 'pi pi-calendar', route: '/agenda' },
+    { label: 'Feedback', icon: 'pi pi-chart-line', route: '/feedback' },
+    { label: 'Mensagens', icon: 'pi pi-comments', route: '/mensagens' },
+    { label: 'Recompensa', icon: 'pi pi-star-fill', route: '/ranking' },
+    { label: 'Logout', icon: 'pi pi-sign-out', route: '/login' },
+  ];
 
   // Lista de áreas de interesse
   areasDeInteresse: string[] = [

@@ -58,6 +58,8 @@ import { SidebarModule } from 'primeng/sidebar';
 import { RatingModule } from 'primeng/rating';
 import { AgendaComponent } from './voluntario/agenda/agenda.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
+import { MensagemComponent } from './voluntario/mensagem/mensagem.component';
+import { ChatVoluntarioComponent } from './voluntario/chat-voluntario/chat-voluntario.component';
 
 @NgModule({
   declarations: [
@@ -85,6 +87,8 @@ import { FullCalendarModule } from '@fullcalendar/angular';
     RelatoriosInstituicaoComponent,
     ChatPessoalComponent,
     AgendaComponent,
+    MensagemComponent,
+    ChatVoluntarioComponent,
   ],
   imports: [
     BrowserModule,

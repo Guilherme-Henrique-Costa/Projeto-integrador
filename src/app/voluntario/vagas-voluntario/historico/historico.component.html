@@ -1,32 +1,4 @@
 <router-outlet></router-outlet>
-<div class="app-container">
-  <!-- Botão para abrir/fechar a barra lateral -->
-  <button class="toggle-sidebar-btn" (click)="toggleSidebar()">
-    <i class="pi" [ngClass]="{'pi-chevron-left': sidebarOpen, 'pi-chevron-right': !sidebarOpen}"></i>
-  </button>
-
-  <!-- Sidebar -->
-  <div class="custom-sidebar" [ngClass]="{'closed': !sidebarOpen}">
-    <div class="box">
-      <div class="cabeca">
-        <span class="logo-text">Menu Voluntário</span>
-      </div>
-      <div class="corpo">
-        <ul class="menu-list">
-          <li *ngFor="let item of sidebarItems">
-            <a [routerLink]="item.route">
-              <i [class]="item.icon"></i> {{ item.label }}
-            </a>
-          </li>
-        </ul>
-      </div>
-      <div class="rodape">
-        <div class="user-info">
-          <span>{{ voluntarioNome }}</span>
-        </div>
-      </div>
-    </div>
-  </div>
 
   <!-- Conteúdo Principal -->
 <div class="main-content" [ngClass]="{'expanded': !sidebarOpen}">

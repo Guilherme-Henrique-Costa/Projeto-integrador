@@ -77,6 +77,13 @@ export class VagasVoluntarioService {
     return nomeSalvo ? nomeSalvo : this.voluntarioNome;
   }
 
+  getMinhasVagas(voluntarioId: number): Observable<Vaga[]> {
+  const url = `http://localhost:8080/api/vagasCandidatadas/${voluntarioId}`;
+  return this.http.get<Vaga[]>(url).pipe(
+    catchError(this.handleError)
+  );
+}
+
   // Tratamento de erros para requisições HTTP
   private handleError(error: any): Observable<never> {
     let errorMessage = 'Erro na comunicação com o servidor';

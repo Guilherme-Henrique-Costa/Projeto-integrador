@@ -1,1 +1,31 @@
-<p>minhas-vagas works!</p>
+<!-- Conteúdo principal -->
+  <div class="main-content" [ngClass]="{'expanded': !sidebarOpen}">
+    <div class="search-bar">
+      <input type="text" placeholder="Pesquisar vaga..." [(ngModel)]="searchQuery" />
+      <button class="search-button">
+        <i class="pi pi-search"></i>
+      </button>
+    </div>
+
+    <div class="vagas-list">
+      <h2>Minhas Vagas</h2>
+
+      <div *ngIf="vagasFiltradas.length > 0; else nenhumaVaga">
+        <ul>
+          <li *ngFor="let vaga of vagasFiltradas">
+            <i class="pi pi-briefcase"></i> {{ vaga.cargo }}
+            <div class="vaga-detalhes">
+              <p><strong>Instituição:</strong> {{ vaga.instituicao }}</p>
+              <p><strong>Local:</strong> {{ vaga.localidade }}</p>
+              <p><strong>Descrição:</strong> {{ vaga.descricao }}</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <ng-template #nenhumaVaga>
+        <p>Você ainda não se candidatou a nenhuma vaga.</p>
+      </ng-template>
+    </div>
+  </div>
+

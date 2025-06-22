@@ -1,11 +1,10 @@
-<router-outlet></router-outlet>
 <div class="vagas-container">
-  <!-- Botão para abrir/fechar a barra lateral -->
+  <!-- Botão para alternar sidebar -->
   <button class="toggle-sidebar-btn" (click)="toggleSidebar()">
     <i class="pi" [ngClass]="{'pi-chevron-left': sidebarOpen, 'pi-chevron-right': !sidebarOpen}"></i>
   </button>
 
-  <!-- Sidebar de Navegação -->
+  <!-- Sidebar -->
   <div class="custom-sidebar" [ngClass]="{'closed': !sidebarOpen}">
     <div class="box">
       <div class="cabeca">
@@ -21,48 +20,52 @@
         </ul>
       </div>
       <div class="rodape">
-        <div class="user-info">
-          <!-- Exibe o nome do voluntário logado -->
-          <span>{{ voluntarioNome }}</span>
-        </div>
+        <span>{{ voluntarioNome }}</span>
       </div>
     </div>
   </div>
 
-  <!-- Conteúdo Principal -->
+  <!-- Conteúdo principal -->
   <div class="main-content" [ngClass]="{'expanded': !sidebarOpen}">
-    <!-- Barra de Busca -->
-    <div class="search-bar">
-      <input type="text" placeholder="Pesquisar" [(ngModel)]="searchQuery" />
-      <button class="search-button">
-        <i class="pi pi-search"></i>
-      </button>
-    </div>
 
-    <!-- Lista de Vagas -->
-    <div class="vagas-list" *ngIf="!vagaSelecionada">
-      <h2>Voluntarie-se!</h2>
-      <ul>
-        <li *ngFor="let vaga of vagasFiltradas" (click)="selecionarVaga(vaga)">
-          <i class="pi pi-briefcase"></i> {{ vaga.cargo }} <!-- Usando cargo ao invés de título -->
-        </li>
-      </ul>
-    </div>
+    <!-- Vagas disponíveis: exibido apenas se a rota for /vagas -->
+    <ng-container *ngIf="rotaAtual === '/vagas'">
+      <!-- Barra de busca -->
+      <div class="search-bar">
+        <input type="text" placeholder="Pesquisar" [(ngModel)]="searchQuery" />
+        <button class="search-button">
+          <i class="pi pi-search"></i>
+        </button>
+      </div>
 
-    <!-- Detalhes da Vaga Selecionada -->
-    <div class="vaga-detalhes" *ngIf="vagaSelecionada">
-      <h2>Voluntarie-se!</h2>
-      <div class="vaga-info">
-        <p><strong>Instituição:</strong> {{ vagaSelecionada.instituicao }}</p>
-        <p><strong>Cargo:</strong> {{ vagaSelecionada.cargo }}</p>
-        <p><strong>Localidade de Trabalho:</strong> {{ vagaSelecionada.localidade }}</p>
-        <p><strong>Descrição:</strong> {{ vagaSelecionada.descricao }}</p>
-        <p><strong>Especificações de vaga:</strong></p>
+      <!-- Lista de vagas -->
+      <div class="vagas-list" *ngIf="!vagaSelecionada">
+        <h2>Voluntarie-se!</h2>
         <ul>
-          <li *ngFor="let especificacao of vagaSelecionada.especificacoes">{{ especificacao }}</li>
+          <li *ngFor="let vaga of vagasFiltradas" (click)="selecionarVaga(vaga)">
+            <i class="pi pi-briefcase"></i> {{ vaga.cargo }}
+          </li>
         </ul>
       </div>
-      <button class="apply-btn" (click)="candidatarVaga()">Candidatar-se!</button>
-    </div>
+
+      <!-- Detalhes da vaga -->
+      <div class="vaga-detalhes" *ngIf="vagaSelecionada">
+        <h2>Voluntarie-se!</h2>
+        <div class="vaga-info">
+          <p><strong>Instituição:</strong> {{ vagaSelecionada.instituicao }}</p>
+          <p><strong>Cargo:</strong> {{ vagaSelecionada.cargo }}</p>
+          <p><strong>Localidade de Trabalho:</strong> {{ vagaSelecionada.localidade }}</p>
+          <p><strong>Descrição:</strong> {{ vagaSelecionada.descricao }}</p>
+          <p><strong>Especificações de vaga:</strong></p>
+          <ul>
+            <li *ngFor="let especificacao of vagaSelecionada.especificacoes">{{ especificacao }}</li>
+          </ul>
+        </div>
+        <button class="apply-btn" (click)="candidatarVaga()">Candidatar-se!</button>
+      </div>
+    </ng-container>
+
+    <!-- Conteúdo de Minhas Vagas e Histórico -->
+    <router-outlet *ngIf="rotaAtual !== '/vagas'"></router-outlet>
   </div>
 </div>

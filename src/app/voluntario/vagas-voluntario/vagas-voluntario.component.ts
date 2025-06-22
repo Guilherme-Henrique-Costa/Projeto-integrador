@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { VagasVoluntarioService, Vaga } from './vagas-voluntario.service'; // Serviço e Interface
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-vagas-voluntario',
@@ -13,10 +14,12 @@ export class VagasVoluntarioComponent implements OnInit {
   vagaSelecionada: Vaga | null = null;
   voluntarioId: number = 1;
   voluntarioNome: string = 'Aluno';
+  rotaAtual: string = '';
 
   sidebarItems = [
   { label: 'Perfil', icon: 'pi pi-user', route: '/perfil' },
-  { label: 'Vagas', icon: 'pi pi-bookmark', route: '/vagas' },
+  { label: 'Vagas', icon: 'pi pi-bookmark', route: '/vagas' }, // vagas disponíveis
+  { label: 'Minhas Vagas', icon: 'pi pi-briefcase', route: '/vagas/minhas-vagas' }, // NOVO
   { label: 'Histórico', icon: 'pi pi-history', route: '/vagas/historico' },
   { label: 'Agenda', icon: 'pi pi-calendar', route: '/agenda' },
   { label: 'Feedback', icon: 'pi pi-chart-line', route: '/feedback' },
@@ -26,11 +29,17 @@ export class VagasVoluntarioComponent implements OnInit {
 ];
 
 
-  constructor(private vagasVoluntarioService: VagasVoluntarioService) {}
+  constructor(private vagasVoluntarioService: VagasVoluntarioService,
+  private router: Router,
+  private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.carregarVagasDisponiveis();
     this.recuperarDadosVoluntario();
+
+    this.router.events.subscribe(() => {
+    this.rotaAtual = this.router.url;
+  });
   }
 
   // Alternar visibilidade da barra lateral

@@ -1,14 +1,19 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-historico',
-  templateUrl: './historico.component.html',
-  styleUrls: ['./historico.component.css']
+  selector: 'app-mensagem',
+  templateUrl: './mensagem.component.html',
+  styleUrls: ['./mensagem.component.css']
 })
-export class HistoricoComponent {
+export class MensagemComponent {
+  sidebarOpen = true;
   searchQuery: string = '';
-  sidebarOpen: boolean = true;
-  voluntarioNome: string = 'Aluno';
+  voluntarioNome: string = 'Aluno'; // pode ser carregado via localStorage
+
+  instituicoes: string[] = [
+    'Instituição 1', 'Instituição 2', 'Instituição 3',
+    'Instituição 4', 'Instituição 5', 'Instituição 6'
+  ];
 
   sidebarItems = [
     { label: 'Perfil', icon: 'pi pi-user', route: '/perfil' },
@@ -25,20 +30,5 @@ export class HistoricoComponent {
   toggleSidebar(): void {
     this.sidebarOpen = !this.sidebarOpen;
   }
-
-  historicoVagas = [
-  {
-    titulo: 'Mutirão no Parque',
-    data: '25/06/2025',
-    descricao: 'Atividade de limpeza e plantio de árvores.',
-    status: 'Concluída'
-  },
-  {
-    titulo: 'Apoio em Escola',
-    data: '15/06/2025',
-    descricao: 'Auxílio em atividades recreativas com crianças.',
-    status: 'Concluída'
-  }
-];
 
 }
