@@ -1,0 +1,145 @@
+.app-container {
+  display: flex;
+}
+
+/* Sidebar */
+.custom-sidebar {
+  width: 250px;
+  background-color: var(--roxo-escuro);
+  color: var(--branco);
+  display: flex;
+  flex-direction: column;
+  transition: width 0.3s;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.custom-sidebar.closed {
+  width: 0;
+  overflow: hidden;
+}
+
+.cabeca {
+  padding: 40px;
+  border-bottom: 1px solid var(--lilas);
+  text-align: center;
+}
+
+.logo-text {
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--branco);
+}
+
+.corpo {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.menu-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu-list li {
+  margin: 10px 0;
+}
+
+.menu-list a {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  color: var(--branco);
+  text-decoration: none;
+  transition: background-color 0.3s;
+}
+
+.menu-list a:hover {
+  background-color: var(--lilas);
+}
+
+.rodape {
+  padding: 20px;
+  border-top: 1px solid var(--lilas);
+  text-align: center;
+  font-weight: bold;
+}
+
+/* Botão toggle */
+.toggle-sidebar-btn {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background-color: var(--branco);
+  border: none;
+  border-radius: 50%;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.toggle-sidebar-btn i {
+  font-size: 18px;
+  color: var(--roxo-escuro);
+}
+
+.toggle-sidebar-btn:hover {
+  background-color: var(--cinza-claro);
+}
+
+/* Conteúdo principal */
+.main-content {
+  flex-grow: 1;
+  background: linear-gradient(to bottom, var(--magenta), var(--lilas) 50%, var(--roxo));
+  padding: 20px;
+  color: var(--branco);
+  font-family: sans-serif;
+}
+
+.main-content.expanded {
+  margin-left: 0;
+}
+
+/* Recompensa */
+.recompensa-container {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+  color: #333;
+  text-align: center;
+  max-width: 600px;
+  margin: auto;
+}
+
+.recompensa-container h2 {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.recompensa-container h3 {
+  font-size: 22px;
+  margin-bottom: 20px;
+  color: var(--roxo-escuro);
+}
+
+.recompensa-container .icone {
+  font-size: 32px;
+  margin-bottom: 20px;
+  color: var(--lilas);
+}
+
+.recompensa-container .mensagem {
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.recompensa-container button {
+  margin-top: 10px;
+}
+
+.mensagem-sucesso {
+  margin-top: 15px;
+  color: green;
+  font-weight: bold;
+}

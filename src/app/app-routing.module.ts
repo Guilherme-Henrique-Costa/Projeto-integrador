@@ -164,6 +164,16 @@ const routes: Routes = [
   },
 
   { path: 'mensagens/chat/:nome', component: ChatVoluntarioComponent },
+
+  { path: 'minha-jornada',
+    loadChildren: () => import('./voluntario/minha-jornada/minha-jornada.module').then(m => m.MinhaJornadaModule)},
+
+  { path: 'recompensa',
+    loadChildren: () => import('./voluntario/recompensa/recompensa.module').then(m => m.RecompensaModule)},
+
+  { path: 'certificados',
+    loadChildren: () => import('./voluntario/certificados/certificados.module').then(m => m.CertificadosModule)}
+
 ];
 
 @NgModule({

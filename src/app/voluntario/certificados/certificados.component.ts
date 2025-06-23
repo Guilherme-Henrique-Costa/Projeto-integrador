@@ -1,14 +1,13 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-historico',
-  templateUrl: './historico.component.html',
-  styleUrls: ['./historico.component.css']
+  selector: 'app-certificados',
+  templateUrl: './certificados.component.html',
+  styleUrls: ['./certificados.component.css']
 })
-export class HistoricoComponent {
-  searchQuery: string = '';
-  sidebarOpen: boolean = true;
-  voluntarioNome: string = 'Aluno';
+export class CertificadosComponent {
+  sidebarOpen = true;
+  voluntarioNome = 'Fulano';
 
   sidebarItems = [
     { label: 'Perfil', icon: 'pi pi-user', route: '/perfil' },
@@ -24,23 +23,26 @@ export class HistoricoComponent {
     { label: 'Logout', icon: 'pi pi-sign-out', route: '/login' }
   ];
 
+  certificados = [
+    {
+      titulo: 'Apoio em Evento Comunitário',
+      data: '10/03/2025',
+      instituicao: 'Instituto Esperança',
+      url: 'https://example.com/certificado1.pdf'
+    },
+    {
+      titulo: 'Voluntário de Comunicação',
+      data: '25/04/2025',
+      instituicao: 'Projeto Vozes',
+      url: 'https://example.com/certificado2.pdf'
+    }
+  ];
+
   toggleSidebar(): void {
     this.sidebarOpen = !this.sidebarOpen;
   }
 
-  historicoVagas = [
-  {
-    titulo: 'Mutirão no Parque',
-    data: '25/06/2025',
-    descricao: 'Atividade de limpeza e plantio de árvores.',
-    status: 'Concluída'
-  },
-  {
-    titulo: 'Apoio em Escola',
-    data: '15/06/2025',
-    descricao: 'Auxílio em atividades recreativas com crianças.',
-    status: 'Concluída'
+  visualizarCertificado(url: string): void {
+    window.open(url, '_blank');
   }
-];
-
 }

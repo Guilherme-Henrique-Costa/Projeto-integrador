@@ -61,6 +61,7 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 import { MensagemComponent } from './voluntario/mensagem/mensagem.component';
 import { ChatVoluntarioComponent } from './voluntario/chat-voluntario/chat-voluntario.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -89,6 +90,7 @@ import { ChatVoluntarioComponent } from './voluntario/chat-voluntario/chat-volun
     AgendaComponent,
     MensagemComponent,
     ChatVoluntarioComponent,
+  
   ],
   imports: [
     BrowserModule,

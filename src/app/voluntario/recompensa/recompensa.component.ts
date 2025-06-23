@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-historico',
-  templateUrl: './historico.component.html',
-  styleUrls: ['./historico.component.css']
+  selector: 'app-recompensa',
+  templateUrl: './recompensa.component.html',
+  styleUrls: ['./recompensa.component.css']
 })
-export class HistoricoComponent {
-  searchQuery: string = '';
-  sidebarOpen: boolean = true;
-  voluntarioNome: string = 'Aluno';
+export class RecompensaComponent {
+  sidebarOpen = true;
+  recompensaRecebida: boolean = false;
+  voluntarioNome: string = 'Fulano'; // Pode vir do localStorage futuramente
 
   sidebarItems = [
     { label: 'Perfil', icon: 'pi pi-user', route: '/perfil' },
@@ -28,19 +28,7 @@ export class HistoricoComponent {
     this.sidebarOpen = !this.sidebarOpen;
   }
 
-  historicoVagas = [
-  {
-    titulo: 'Mutirão no Parque',
-    data: '25/06/2025',
-    descricao: 'Atividade de limpeza e plantio de árvores.',
-    status: 'Concluída'
-  },
-  {
-    titulo: 'Apoio em Escola',
-    data: '15/06/2025',
-    descricao: 'Auxílio em atividades recreativas com crianças.',
-    status: 'Concluída'
+  receberRecompensa(): void {
+    this.recompensaRecebida = true;
   }
-];
-
 }

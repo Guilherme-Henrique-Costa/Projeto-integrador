@@ -22,7 +22,9 @@ export class PerfilComponent implements OnInit {
     { label: 'Agenda', icon: 'pi pi-calendar', route: '/agenda' },
     { label: 'Feedback', icon: 'pi pi-chart-line', route: '/feedback' },
     { label: 'Mensagens', icon: 'pi pi-comments', route: '/mensagens' },
-    { label: 'Recompensa', icon: 'pi pi-star-fill', route: '/ranking' },
+    { label: 'Recompensa', icon: 'pi pi-star-fill', route: '/recompensa' },
+    { label: 'Certificados', icon: 'pi pi-file', route: '/certificados' },
+    { label: 'Minha Jornada', icon: 'pi pi-map-marker', route: '/minha-jornada' },
     { label: 'Logout', icon: 'pi pi-sign-out', route: '/login' },
   ];
 

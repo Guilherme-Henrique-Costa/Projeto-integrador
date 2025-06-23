@@ -1,13 +1,12 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-historico',
-  templateUrl: './historico.component.html',
-  styleUrls: ['./historico.component.css']
+  selector: 'app-minha-jornada',
+  templateUrl: './minha-jornada.component.html',
+  styleUrls: ['./minha-jornada.component.css']
 })
-export class HistoricoComponent {
-  searchQuery: string = '';
-  sidebarOpen: boolean = true;
+export class MinhaJornadaComponent {
+  sidebarOpen = true;
   voluntarioNome: string = 'Aluno';
 
   sidebarItems = [
@@ -28,19 +27,10 @@ export class HistoricoComponent {
     this.sidebarOpen = !this.sidebarOpen;
   }
 
-  historicoVagas = [
-  {
-    titulo: 'Mutirão no Parque',
-    data: '25/06/2025',
-    descricao: 'Atividade de limpeza e plantio de árvores.',
-    status: 'Concluída'
-  },
-  {
-    titulo: 'Apoio em Escola',
-    data: '15/06/2025',
-    descricao: 'Auxílio em atividades recreativas com crianças.',
-    status: 'Concluída'
-  }
-];
-
+  // Dados simulados
+  jornadas = [
+    { titulo: 'Apoio em Eventos', data: '05/02/2025', impacto: 'Organização de 3 eventos sociais com 80+ participantes.' },
+    { titulo: 'Mentoria para Jovens', data: '14/03/2025', impacto: '5 mentorias individuais concluídas com sucesso.' },
+    { titulo: 'Distribuição de Alimentos', data: '28/04/2025', impacto: 'Auxílio na entrega de 120 cestas básicas.' }
+  ];
 }

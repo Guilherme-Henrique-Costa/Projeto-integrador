@@ -1,0 +1,41 @@
+<div class="app-container">
+  <!-- Botão para abrir/fechar a barra lateral -->
+  <button class="toggle-sidebar-btn" (click)="toggleSidebar()">
+    <i class="pi" [ngClass]="{'pi-chevron-left': sidebarOpen, 'pi-chevron-right': !sidebarOpen}"></i>
+  </button>
+
+  <!-- Sidebar -->
+  <div class="custom-sidebar" [ngClass]="{ 'closed': !sidebarOpen }">
+    <div class="box">
+      <div class="cabeca">
+        <span class="logo-text">Voluntário</span>
+      </div>
+      <div class="corpo">
+        <ul class="menu-list">
+          <li *ngFor="let item of sidebarItems">
+            <a [routerLink]="item.route">
+              <i [class]="item.icon"></i> {{ item.label }}
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="rodape">
+        <span>{{ voluntarioNome }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Conteúdo principal -->
+  <div class="main-content" [ngClass]="{ expanded: !sidebarOpen }">
+    <div class="certificados-container">
+      <h2>Meus Certificados</h2>
+      <div *ngFor="let cert of certificados" class="certificado-card">
+        <h3>{{ cert.titulo }}</h3>
+        <p><strong>Data:</strong> {{ cert.data }}</p>
+        <p><strong>Instituição:</strong> {{ cert.instituicao }}</p>
+        <button pButton type="button" label="Visualizar" icon="pi pi-eye"
+                (click)="visualizarCertificado(cert.url)"></button>
+      </div>
+    </div>
+  </div>
+</div>
