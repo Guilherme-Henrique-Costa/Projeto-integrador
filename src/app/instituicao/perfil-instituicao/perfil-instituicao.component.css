@@ -3,13 +3,13 @@
   display: flex;
   height: 100vh;
   font-family: 'Roboto', sans-serif;
-  background: linear-gradient(to right, var(--roxo-escuro), var(--magenta));
+  background: linear-gradient(to bottom, var(--magenta), var(--lilas) 50%, var(--roxo));
   color: var(--branco);
 }
 
 /* Sidebar */
 .custom-sidebar {
-  width: 210px;
+  width: 250px;
   transition: width 0.3s;
   background-color: var(--roxo-escuro);
   color: var(--branco);
@@ -24,25 +24,27 @@
 }
 
 .cabeca {
-  padding: 20px;
-  text-align: center;
+  padding: 40px;
   border-bottom: 1px solid var(--lilas);
-}
-
-.cabeca-button {
-  background-color: transparent;
+  text-align: center;
 }
 
 .logo-text {
-  font-size: 20px;
+  font-size: 24px;
   font-weight: bold;
   color: var(--branco);
+  margin-top: 10px;
+}
+
+.corpo {
+  flex: 1;
+  overflow-y: auto;
 }
 
 .menu-list {
   list-style: none;
   padding: 0;
-  margin:  0;
+  margin: 0;
 }
 
 .menu-list li {
@@ -66,28 +68,35 @@
   padding: 20px;
   border-top: 1px solid var(--lilas);
   text-align: center;
-  font-size: 14px;
+  font-weight: bold;
+  color: var(--branco);
 }
-/* Botão de Toggle da Sidebar */
+
+/* Botão para alternar a Sidebar */
 .toggle-sidebar-btn {
-  width: 40px;
-  height: 40px;
-  background-color: var(--magenta);
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background-color: var(--branco);
   border: none;
   border-radius: 50%;
+  padding: 6px;
   cursor: pointer;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   z-index: 1000;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .toggle-sidebar-btn i {
-  font-size: 20px;
-  color: var(--branco);
-  transition: transform 0.3s ease;
+  font-size: 18px;
+  color: var(--roxo-escuro);
 }
 
 .toggle-sidebar-btn:hover {
-  background-color: var(--lilas);
+  background-color: var(--cinza-claro);
 }
 
 /* Conteúdo Principal */
@@ -100,6 +109,48 @@
   overflow-y: auto;
 }
 
+/* Barra de Busca (páginas que usam) */
+.search-bar {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.search-bar input {
+  flex: 1;
+  max-width: 85%;
+  padding: 10px 15px;
+  border: 1px solid var(--lilas);
+  border-radius: 25px;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.search-bar input:focus {
+  border-color: var(--magenta);
+}
+
+.search-button {
+  background-color: var(--branco);
+  border: none;
+  color: var(--roxo);
+  padding: 10px;
+  margin-left: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s;
+}
+
+.search-button:hover {
+  background-color: var(--roxo);
+}
+
+/* Formulário de Perfil */
 .profile-container {
   width: 100%;
   max-width: 600px;
@@ -128,7 +179,8 @@ label {
 
 input[type="text"],
 input[type="email"],
-select {
+select,
+textarea {
   width: 100%;
   padding: 10px;
   border: none;
@@ -142,7 +194,8 @@ select {
 
 input[type="text"]:focus,
 input[type="email"]:focus,
-select:focus {
+select:focus,
+textarea:focus {
   outline: none;
   border: 1px solid var(--magenta);
 }
@@ -182,5 +235,9 @@ button:hover {
   button {
     font-size: 14px;
     padding: 8px;
+  }
+
+  .search-bar input {
+    max-width: 70%;
   }
 }

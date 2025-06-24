@@ -20,7 +20,6 @@ import { FeedbackComponent } from './voluntario/feedback/feedback.component';
 import { FeedbackInstituicaoComponent } from './instituicao/feedback-instituicao/feedback-instituicao.component';
 import { MensagemInstituicaoComponent } from './instituicao/mensagem-instituicao/mensagem-instituicao.component';
 import { RankingInstituicaoComponent } from './instituicao/ranking-instituicao/ranking-instituicao.component';
-import { RelatoriosInstituicaoComponent } from './instituicao/relatorios-instituicao/relatorios-instituicao.component';
 import { ChatPessoalComponent } from './instituicao/chat-pessoal/chat-pessoal.component';
 import { AgendaComponent } from './voluntario/agenda/agenda.component';
 import { MensagemComponent } from './voluntario/mensagem/mensagem.component';
@@ -139,8 +138,10 @@ const routes: Routes = [
   },
 
   {
-    path: 'relatorios-instituicao',
-    component: RelatoriosInstituicaoComponent,
+  path: 'relatorios-instituicao',
+  loadChildren: () =>
+    import('./instituicao/relatorios-instituicao/relatorios-instituicao.module')
+      .then((m) => m.RelatoriosInstituicaoModule)
   },
 
   {

@@ -85,7 +85,6 @@ import { ChatVoluntarioComponent } from './voluntario/chat-voluntario/chat-volun
     FeedbackInstituicaoComponent,
     MensagemInstituicaoComponent,
     RankingInstituicaoComponent,
-    RelatoriosInstituicaoComponent,
     ChatPessoalComponent,
     AgendaComponent,
     MensagemComponent,

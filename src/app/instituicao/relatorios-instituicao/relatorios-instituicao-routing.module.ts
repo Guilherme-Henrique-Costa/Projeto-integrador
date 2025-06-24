@@ -4,7 +4,7 @@ import { RelatoriosInstituicaoComponent } from './relatorios-instituicao.compone
 
 const routes: Routes = [
   {
-    path: 'relatorios-instituicao',
+    path: '',
     component: RelatoriosInstituicaoComponent
   }
 ];

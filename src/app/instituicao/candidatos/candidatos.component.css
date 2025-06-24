@@ -1,6 +1,10 @@
 /* Container Principal */
 .candidatos-container {
   display: flex;
+  height: 100vh;
+  font-family: 'Roboto', sans-serif;
+  background: linear-gradient(to bottom, var(--magenta), var(--lilas) 50%, var(--roxo));
+  color: var(--branco);
 }
 
 /* Sidebar */
@@ -68,17 +72,28 @@
   color: var(--branco);
 }
 
+.user-info {
+  font-size: 16px;
+  font-weight: bold;
+  font-family: 'Roboto', sans-serif;
+}
+
 /* Botão para alternar a Sidebar */
 .toggle-sidebar-btn {
-  position: absolute;
-  top: 20px;
-  left: 20px;
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  width: 36px;
+  height: 36px;
   background-color: var(--branco);
   border: none;
   border-radius: 50%;
-  padding: 10px;
+  padding: 6px;
   cursor: pointer;
   z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .toggle-sidebar-btn i {
@@ -97,10 +112,8 @@
 /* Conteúdo Principal */
 .main-content {
   flex-grow: 1;
-  background: linear-gradient(to bottom, var(--magenta), var(--lilas) 50%, var(--roxo));
   padding: 20px;
-  color: var(--branco);
-  font-family: sans-serif;
+  overflow-y: auto;
 }
 
 /* Barra de Busca */

@@ -1,33 +1,35 @@
 <div class="perfil-container">
   <!-- Sidebar -->
   <div class="custom-sidebar" [ngClass]="{'closed': !sidebarOpen}">
-  <!-- Botão de alternância da Sidebar -->
-  <button class="toggle-sidebar-btn" (click)="toggleSidebar()">
-    <i class="pi" [ngClass]="{'pi-chevron-left': sidebarOpen, 'pi-chevron-right': !sidebarOpen}"></i>
-  </button>
-  
-  <div class="box">
-    <div class="cabeca">
-      <button class="cabeca-button" (click)="perfil()">
+    
+    <!-- Botão de alternância da Sidebar -->
+    <button class="toggle-sidebar-btn" (click)="toggleSidebar()">
+      <i class="pi" [ngClass]="{'pi-chevron-left': sidebarOpen, 'pi-chevron-right': !sidebarOpen}"></i>
+    </button>
+
+    <div class="box">
+      <div class="cabeca">
         <span class="logo-text">Perfil Instituição</span>
-      </button>
-    </div>
-    <div class="corpo">
-      <ul class="menu-list">
-        <li *ngFor="let item of sidebarItems">
-          <a [routerLink]="item.route">
-            <i [class]="item.icon"></i> {{ item.label }}
-          </a>
-        </li>
-      </ul>
-    </div>
-    <div class="rodape">
-      <div class="user-info">
-        <span>Instituição</span>
       </div>
-    </div>
-  </div>
-</div>
+
+      <div class="corpo">
+        <ul class="menu-list">
+          <li *ngFor="let item of sidebarItems">
+            <a [routerLink]="item.route">
+              <i [class]="item.icon"></i> {{ item.label }}
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="rodape">
+        <div class="user-info">
+          <span>Instituição</span>
+        </div>
+      </div>
+    </div> <!-- fecha .box -->
+
+  </div> <!-- fecha .custom-sidebar -->
 
   <!-- Conteúdo Principal -->
   <div class="main-content" [ngClass]="{'expanded': !sidebarOpen}">
@@ -89,5 +91,5 @@
         <button type="submit" [disabled]="cadastroForm.invalid">Salvar mudanças</button>
       </form>
     </div>
-  </div>
-</div>
+  </div> <!-- fecha .main-content -->
+</div> <!-- fecha .perfil-container -->

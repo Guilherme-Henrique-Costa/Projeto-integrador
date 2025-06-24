@@ -1,4 +1,3 @@
-/* Paleta de cores */
 :root {
   --roxo-escuro: #43054e;
   --roxo: #662c92;
@@ -8,21 +7,22 @@
   --branco: #fff;
   --cinza-claro: #f0f0f0;
   --cinza-escuro: #333;
-  --destaque: #f39c12;
 }
 
-/* -------- Container Principal -------- */
 .vagas-container {
   display: flex;
+  height: 100vh;
+  font-family: 'Roboto', sans-serif;
+  background: linear-gradient(to bottom, var(--magenta), var(--lilas) 50%, var(--roxo));
+  color: var(--branco);
 }
 
-/* -------- Sidebar -------- */
+/* Sidebar */
 .custom-sidebar {
   width: 250px;
   transition: width 0.3s;
   background-color: var(--roxo-escuro);
   color: var(--branco);
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
 }
@@ -38,20 +38,11 @@
   text-align: center;
 }
 
-.cabeca-button {
-  background-color: transparent;
-}
-
 .logo-text {
   font-size: 24px;
   font-weight: bold;
   color: var(--branco);
   margin-top: 10px;
-}
-
-.corpo {
-  flex: 1;
-  overflow-y: auto;
 }
 
 .menu-list {
@@ -82,10 +73,9 @@
   border-top: 1px solid var(--lilas);
   text-align: center;
   font-weight: bold;
-  color: var(--branco);
 }
 
-/* -------- Botão para alternar a Sidebar -------- */
+/* Botão toggle */
 .toggle-sidebar-btn {
   position: absolute;
   top: 20px;
@@ -93,7 +83,12 @@
   background-color: var(--branco);
   border: none;
   border-radius: 50%;
-  padding: 10px;
+  padding: 6px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
   z-index: 1000;
 }
@@ -107,97 +102,61 @@
   background-color: var(--cinza-claro);
 }
 
-/* -------- Conteúdo Principal -------- */
+/* Conteúdo principal */
 .main-content {
   flex-grow: 1;
-  background: linear-gradient(to bottom, var(--magenta), var(--lilas) 50%, var(--roxo));
-  padding: 20px;
-  color: var(--branco);
-  font-family: 'Arial', sans-serif;
-  transition: margin-left 0.3s;
-}
-
-.main-content.expanded {
-  margin-left: 0;
-}
-
-/* -------- Barra de Busca -------- */
-.search-bar {
+  padding: 80px 40px 40px;
   display: flex;
-  align-items: center;
-  margin-bottom: 30px;
-}
-
-.search-bar input {
-  flex: 1;
-  padding: 10px 15px;
-  border: 1px solid var(--lilas);
-  border-radius: 25px;
-  font-size: 16px;
-  outline: none;
-  transition: border-color 0.3s;
-}
-
-.search-bar input:focus {
-  border-color: var(--magenta);
-}
-
-.search-button {
-  background-color: var(--branco);
-  border: none;
-  color: var(--roxo);
-  padding: 10px 15px;
-  margin-left: 10px;
-  border-radius: 50%;
-  cursor: pointer;
-  font-size: 18px;
-  display: flex;
-  align-items: center;
   justify-content: center;
-  transition: background-color 0.3s;
+  align-items: center;
+  overflow-y: auto;
 }
 
-.search-button:hover {
-  background-color: var(--roxo);
+/* Formulário */
+.vaga-form-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
-/* -------- Formulário de Vagas -------- */
 .vaga-form-container {
   width: 100%;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: var(--branco);
+  max-width: 600px;
+  padding: 40px;
+  background: var(--branco);
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  text-align: center;
+  color: var(--cinza-escuro);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
 .vaga-form-container h2 {
-  font-size: 20px;
-  margin-bottom: 20px;
   color: var(--roxo-escuro);
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 form label {
   display: block;
-  font-size: 14px;
-  color: var(--cinza-escuro);
-  margin-top: 10px;
-  text-align: left;
+  margin-bottom: 5px;
+  font-weight: 600;
 }
 
-form input, form select, form textarea {
+form input,
+form select,
+form textarea {
   width: 100%;
   padding: 10px;
-  margin-top: 5px;
-  border: 1px solid var(--roxo);
+  margin-bottom: 15px;
+  border: 1px solid var(--lilas);
   border-radius: 5px;
   font-size: 14px;
-  outline: none;
 }
 
-form input:focus, form select:focus, form textarea:focus {
+form input:focus,
+form select:focus,
+form textarea:focus {
   border-color: var(--magenta);
+  outline: none;
 }
 
 .submit-btn {
@@ -206,9 +165,9 @@ form input:focus, form select:focus, form textarea:focus {
   border: none;
   padding: 10px 20px;
   border-radius: 5px;
-  cursor: pointer;
   font-size: 16px;
-  margin-top: 20px;
+  font-weight: bold;
+  cursor: pointer;
   transition: background-color 0.3s;
 }
 
@@ -216,9 +175,9 @@ form input:focus, form select:focus, form textarea:focus {
   background-color: var(--lilas);
 }
 
-/* -------- Mensagens de Erro -------- */
 .error-message {
   color: var(--amarelo);
   font-size: 12px;
-  margin-top: 5px;
+  margin-top: -10px;
+  margin-bottom: 10px;
 }
