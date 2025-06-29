@@ -20,14 +20,14 @@ export class GestaoInstituicaoComponent {
   voluntarioSelecionado: Voluntario | null = null;
 
   sidebarItems = [
+    { label: 'Menu', icon: 'pi pi-compass', route: '/menu-instituicao'},
     { label: 'Perfil', icon: 'pi pi-user', route: '/perfil-instituicao' },
     { label: 'Vagas', icon: 'pi pi-bookmark', route: '/vagas-instituicao' },
     { label: 'Candidatos', icon: 'pi pi-user', route: '/candidatos'},
-    { label: 'Feedback', icon: 'pi pi-chart-line', route: '/feedback-instituicao' },
+    { label: 'Feedback', icon: 'pi pi-inbox', route: '/feedback-instituicao' },
     { label: 'Gestão', icon: 'pi pi-chart-line', route: '/gestao' },
     { label: 'Mensagens', icon: 'pi pi-comments', route: '/mensagem-instituicao' },
     { label: 'Ranking', icon: 'pi pi-star-fill', route: '/ranking-instituicao' },
-    { label: 'Relatórios', icon: 'pi pi-copy', route: '/relatorios-instituicao' },
     { label: 'Sair', icon: 'pi pi-sign-out', route: '/login-instituicao' }
   ];
 

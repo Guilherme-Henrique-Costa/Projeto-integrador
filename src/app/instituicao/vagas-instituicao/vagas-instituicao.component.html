@@ -1,31 +1,25 @@
 <div class="vagas-container">
-  <!-- Botão para abrir/fechar a barra lateral -->
-  <button class="toggle-sidebar-btn" (click)="toggleSidebar()">
-    <i class="pi" [ngClass]="{'pi-chevron-left': sidebarOpen, 'pi-chevron-right': !sidebarOpen}"></i>
-  </button>
-
-  <!-- Sidebar -->
-  <div class="custom-sidebar" [ngClass]="{'closed': !sidebarOpen}">
-    <div class="box">
-      <div class="cabeca">
-        <span class="logo-text">Vagas Instituição</span>
-      </div>
-      <div class="corpo">
-        <ul class="menu-list">
-          <li *ngFor="let item of sidebarItems">
-            <a [routerLink]="item.route">
-              <i [class]="item.icon"></i> {{ item.label }}
-            </a>
-          </li>
-        </ul>
-      </div>
-      <div class="rodape">
-        <div class="user-info">
-          <span>Instituição</span>
-        </div>
-      </div>
+  <!-- Sidebar de Navegação -->
+<div class="custom-sidebar">
+  <div class="cabeca">
+    <span class="logo-text">Instituição</span>
+  </div>
+  <div class="corpo">
+    <ul class="menu-list">
+      <li *ngFor="let item of sidebarItems">
+        <a [routerLink]="item.route">
+          <i [class]="item.icon"></i> {{ item.label }}
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div class="rodape">
+    <div class="user-info">
+      <span>Instituição</span>
     </div>
   </div>
+</div>
+
 
   <!-- Conteúdo Principal -->
   <div class="main-content" [ngClass]="{'expanded': !sidebarOpen}">

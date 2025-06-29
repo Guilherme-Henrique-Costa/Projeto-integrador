@@ -1,34 +1,27 @@
 <div class="app-container">
   <!-- Sidebar de Navegação -->
-  <div class="custom-sidebar" [ngClass]="{'closed': !sidebarOpen}">
-    <!-- Botão para abrir/fechar a barra lateral -->
-    <button class="toggle-sidebar-btn" (click)="toggleSidebar()">
-      <i class="pi" [ngClass]="{'pi-chevron-left': sidebarOpen, 'pi-chevron-right': !sidebarOpen}"></i>
-    </button>
-
-    <div class="box">
-      <div class="cabeca">
-        <span class="logo-text">Ranking Instituição</span>
-      </div>
-      <div class="corpo">
-        <ul class="menu-list">
-          <li *ngFor="let item of sidebarItems">
-            <a [routerLink]="item.route">
-              <i [class]="item.icon"></i> {{ item.label }}
-            </a>
-          </li>
-        </ul>
-      </div>
-      <div class="rodape">
-        <div class="user-info">
-          <span>{{ instituicaoNome }}</span>
-        </div>
+  <div class="custom-sidebar">
+    <div class="cabeca">
+      <span class="logo-text">Instituição</span>
+    </div>
+    <div class="corpo">
+      <ul class="menu-list">
+        <li *ngFor="let item of sidebarItems">
+          <a [routerLink]="item.route">
+            <i [class]="item.icon"></i> {{ item.label }}
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="rodape">
+      <div class="user-info">
+        <span>Instituição</span>
       </div>
     </div>
   </div>
 
-   <!-- Conteúdo Principal -->
-   <div class="main-content">
+  <!-- Conteúdo Principal -->
+  <div class="main-content">
     <!-- Barra de Busca -->
     <div class="search-bar">
       <input type="text" placeholder="Pesquisar" [(ngModel)]="searchQuery" />
@@ -37,16 +30,20 @@
       </button>
     </div>
 
-    <!-- Lista de Ranking -->
-    <div class="ranking-container">
-      <h3>Ranking</h3>
-      <ul class="ranking-list">
-        <li *ngFor="let item of ranking">
-          <div class="ranking-item">
-            <span class="ranking-posicao">{{ item.posicao }}º</span>
-            <i class="pi pi-medal icon"></i>
-            <span class="ranking-nome">{{ item.nome }}</span>
-          </div>
-        </li>
-      </ul>
+    <!-- Centralizar ranking sem afetar a barra -->
+    <div class="ranking-wrapper">
+      <div class="ranking-container">
+        <h3>Ranking</h3>
+        <ul class="ranking-list">
+          <li *ngFor="let item of ranking">
+            <div class="ranking-item">
+              <span class="ranking-posicao">{{ item.posicao }}º</span>
+              <i class="pi pi-medal icon"></i>
+              <span class="ranking-nome">{{ item.nome }}</span>
+            </div>
+          </li>
+        </ul>
+      </div>
     </div>
+  </div>
+</div>

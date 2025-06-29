@@ -1,20 +1,11 @@
 <div class="chat-container">
   <!-- Sidebar de Navegação -->
   <div class="custom-sidebar" [ngClass]="{ closed: !sidebarOpen }">
-    <!-- Botão para abrir/fechar a barra lateral -->
-    <button class="toggle-sidebar-btn" (click)="toggleSidebar()">
-      <i
-        class="pi"
-        [ngClass]="{
-          'pi-chevron-left': sidebarOpen,
-          'pi-chevron-right': !sidebarOpen
-        }"
-      ></i>
-    </button>
+    
 
     <div class="box">
       <div class="cabeca">
-        <span class="logo-text">Mensagem Instituição</span>
+        <span class="logo-text">Instituição</span>
       </div>
       <div class="corpo">
         <ul class="menu-list">
@@ -27,7 +18,7 @@
       </div>
       <div class="rodape">
         <div class="user-info">
-          <span>{{ instituicaoNome }}</span>
+          <span>Instituição</span>
         </div>
       </div>
     </div>

@@ -3,20 +3,16 @@
   display: flex;
 }
 
-/* Sidebar */
+/* Sidebar fixa padrão */
 .custom-sidebar {
   width: 250px;
-  transition: width 0.3s;
+  height: 100vh;
   background-color: var(--roxo-escuro);
   color: var(--branco);
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-}
-
-.custom-sidebar.closed {
-  width: 0;
-  overflow: hidden;
+  font-family: 'Roboto', sans-serif;
 }
 
 .cabeca {
@@ -26,7 +22,7 @@
 }
 
 .logo-text {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: bold;
   color: var(--branco);
   margin-top: 10px;
@@ -54,6 +50,7 @@
   color: var(--branco);
   text-decoration: none;
   transition: background-color 0.3s;
+  font-size: 16px;
 }
 
 .menu-list a:hover {
@@ -65,34 +62,10 @@
   border-top: 1px solid var(--lilas);
   text-align: center;
   font-weight: bold;
+  font-size: 14px;
   color: var(--branco);
 }
 
-/* Botão para alternar a Sidebar */
-.toggle-sidebar-btn {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  background-color: var(--branco);
-  border: none;
-  border-radius: 50%;
-  padding: 10px;
-  cursor: pointer;
-  z-index: 1000;
-}
-
-.toggle-sidebar-btn i {
-  font-size: 18px;
-  color: var(--roxo-escuro);
-}
-
-.toggle-sidebar-btn:hover {
-  background-color: var(--cinza-claro);
-}
-
-.closed .toggle-sidebar-btn {
-  right: -40px;
-}
 
 /* Conteúdo Principal */
 .main-content {
@@ -101,6 +74,7 @@
   padding: 20px;
   color: var(--branco);
   font-family: sans-serif;
+  text-decoration: none;
   transition: margin-left 0.3s;
 }
 
@@ -112,8 +86,7 @@
 .search-bar {
   display: flex;
   align-items: center;
-  margin-bottom: 20px;
-  margin-top: 20px;
+  margin-bottom: 30px;
 }
 
 .search-bar input {
@@ -137,7 +110,6 @@
   padding: 10px 15px;
   margin-left: 10px;
   border-radius: 50%;
-  width: 60px;
   cursor: pointer;
   font-size: 18px;
   display: flex;
@@ -152,7 +124,7 @@
 
 /* Mensagens */
 .mensagens-container {
-  background-color: #ffffff;
+  background-color: var(--branco);
   width: 100%;
   padding: 20px;
   border-radius: 15px;
@@ -160,9 +132,10 @@
 }
 
 .mensagens-container h3 {
+  font-size: 20px;
   margin-bottom: 10px;
   text-align: center;
-  color: #333333;
+  color: var(--roxo-escuro);
 }
 
 .mensagens-list {
@@ -176,19 +149,23 @@
   align-items: center;
   padding: 10px;
   margin-bottom: 10px;
-  background-color: #eeeeee;
+  font-family: 'Roboto', sans-serif;
+  text-decoration: none;
+  color: var(--roxo-escuro);
+  background-color: var(--branco);
+  border: 1px solid var(--lilas);
   border-radius: 25px;
   cursor: pointer;
   transition: background-color 0.3s;
 }
 
 .mensagem-item:hover {
-  background-color: #dddddd;
+  background-color: var(--branco);
 }
 
 .icon {
   margin-right: 10px;
-  color: #333333;
+  color: var(--roxo-escuro);
 }
 
 

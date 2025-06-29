@@ -16,24 +16,24 @@
   display: flex;
   height: 100vh;
   width: 100%;
-  background: var(--branco);
+  background: var(--magenta);
   overflow: hidden;
 }
 
-/* Sidebar */
+/* Sidebar fixa padrão */
 .custom-sidebar {
   width: 250px;
-  transition: width 0.3s;
+  height: 100vh;
   background-color: var(--roxo-escuro);
   color: var(--branco);
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-}
-
-.custom-sidebar.closed {
-  width: 0;
-  overflow: hidden;
+  font-family: 'Roboto', sans-serif;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 1000;
 }
 
 .cabeca {
@@ -43,7 +43,7 @@
 }
 
 .logo-text {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: bold;
   color: var(--branco);
   margin-top: 10px;
@@ -71,6 +71,7 @@
   color: var(--branco);
   text-decoration: none;
   transition: background-color 0.3s;
+  font-size: 16px;
 }
 
 .menu-list a:hover {
@@ -82,43 +83,21 @@
   border-top: 1px solid var(--lilas);
   text-align: center;
   font-weight: bold;
+  font-size: 14px;
   color: var(--branco);
-}
-
-.toggle-sidebar-btn {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  background-color: var(--branco);
-  border: none;
-  border-radius: 50%;
-  padding: 10px;
-  cursor: pointer;
-  z-index: 1000;
-}
-
-.toggle-sidebar-btn i {
-  font-size: 18px;
-  color: var(--roxo-escuro);
-}
-
-.toggle-sidebar-btn:hover {
-  background-color: var(--cinza-claro);
-}
-
-.closed .toggle-sidebar-btn {
-  right: -40px;
 }
 
 /* Área principal do chat */
 .main-content {
   flex-grow: 1;
+  margin-left: 250px;
   display: flex;
   flex-direction: column;
   height: 100vh;
   overflow: hidden;
 }
 
+/* Barra de pesquisa */
 .search-bar {
   display: flex;
   align-items: center;
@@ -140,7 +119,7 @@
 
 .search-button {
   background-color: var(--branco);
-  border: none;
+  border: 1px solid var(--lilas);
   color: var(--roxo);
   padding: 10px 15px;
   margin-left: 10px;
@@ -155,10 +134,12 @@
 .search-button:hover {
   background-color: var(--roxo);
   color: var(--branco);
+  border: 1px solid var(--lilas)
 }
 
+/* Cabeçalho e corpo do chat */
 .chat-header {
-  background: linear-gradient(to right, var(--roxo-escuro), var(--magenta));
+  background: var(--roxo-escuro);
   color: var(--branco);
   padding: 16px;
   font-weight: bold;
@@ -175,7 +156,7 @@
   display: flex;
   flex-direction: column;
   overflow-y: auto;
-  background-color: var(--cinza-claro);
+  background: var(--cinza-claro);
 }
 
 .mensagem-bolha {
@@ -189,14 +170,14 @@
 
 .mensagem-usuario {
   align-self: flex-end;
-  background-color: var(--lilas);
+  background-color: var(--roxo);
   color: var(--branco);
 }
 
 .mensagem-bot {
   align-self: flex-start;
-  background-color: var(--amarelo);
-  color: var(--cinza-escuro);
+  background-color: var(--magenta);
+  color: var(--branco);
 }
 
 .chat-input {
@@ -255,5 +236,9 @@
 
   .chat-input input {
     font-size: 13px;
+  }
+
+  .main-content {
+    margin-left: 0; /* sidebar pode se adaptar ou ser colapsada se necessário */
   }
 }
