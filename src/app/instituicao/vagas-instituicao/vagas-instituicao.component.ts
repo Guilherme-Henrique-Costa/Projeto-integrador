@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { VagasInstituicaoService, VagaInstituicao } from './vagas-instituicao.service'; // Serviço e Interface
+import { GeocodingService } from 'src/app/services/geocoding.service';
+
 
 @Component({
   selector: 'app-vagas-instituicao',
@@ -31,51 +33,71 @@ export class VagasInstituicaoComponent {
     private fb: FormBuilder,
     private vagasInstituicaoService: VagasInstituicaoService,
     private router: Router,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private geocodingService: GeocodingService,
   ) {
     this.vagaForm = this.fb.group({
-      cargo: ['', Validators.required],
-      localidade: ['', Validators.required],
-      descricao: ['', Validators.required],
-      especificacoes: ['', Validators.required],
-      tipoVaga: ['', Validators.required],
-      area: ['', Validators.required],
-      horario: ['', Validators.required],
-      tempoVoluntariado: ['', Validators.required],
-      disponibilidade: ['', Validators.required],
-    });
+    cargo: ['', Validators.required],
+    localidade: ['', Validators.required],
+    descricao: ['', Validators.required],
+    especificacoes: ['', Validators.required],
+    tipoVaga: ['', Validators.required],
+    area: ['', Validators.required],
+    horario: ['', Validators.required],
+    tempoVoluntariado: ['', Validators.required],
+    disponibilidade: ['', Validators.required],
+  });
   }
 
   // Submeter o formulário
   onSubmit(): void {
-    if (this.vagaForm.valid) {
-      const formValue = this.vagaForm.value;
-      formValue.especificacoes = formValue.especificacoes
-        .split(',')
-        .map((item: string) => item.trim());
+  console.log('[VagasComponent] Submissão iniciada.');
 
-      const novaVaga: VagaInstituicao = {
-        ...formValue,
-        instituicao: { id: 1 }, // Substitua dinamicamente com o ID correto
-      };
+  if (this.vagaForm.valid) {
+    const formValue = this.vagaForm.value;
+    formValue.especificacoes = formValue.especificacoes
+      .split(',')
+      .map((item: string) => item.trim());
 
-      console.log('Dados enviados:', novaVaga);
+    console.log('[VagasComponent] Valores do formulário:', formValue);
 
-      this.vagasInstituicaoService.cadastrarVaga(novaVaga).subscribe(
-        () => {
-          this.exibirMensagemSucesso('Vaga publicada com sucesso!');
-          this.vagaForm.reset();
-        },
-        (error) => {
-          this.exibirMensagemErro('Erro ao publicar a vaga. Tente novamente.');
-          console.error('Erro na requisição:', error);
-        }
-      );
-    } else {
-      this.exibirMensagemErro(this.getMensagemErro());
-      this.vagaForm.markAllAsTouched();
-    }
+    this.geocodingService.buscarCoordenadas(formValue.localidade).subscribe({
+      next: (coords) => {
+        console.log('[VagasComponent] Coordenadas obtidas com sucesso:', coords);
+
+        const novaVaga: VagaInstituicao = {
+          ...formValue,
+          instituicao: { id: 1 }, // substituir dinamicamente
+          latitude: coords.latitude,
+          longitude: coords.longitude,
+          cidade: formValue.localidade
+        };
+
+        console.log('[VagasComponent] Vaga final montada para envio:', novaVaga);
+
+        this.vagasInstituicaoService.cadastrarVaga(novaVaga).subscribe(
+          () => {
+            console.log('[VagasComponent] Vaga cadastrada com sucesso.');
+            this.exibirMensagemSucesso('Vaga publicada com sucesso!');
+            this.vagaForm.reset();
+          },
+          (error) => {
+            console.error('[VagasComponent] Erro ao cadastrar vaga:', error);
+            this.exibirMensagemErro('Erro ao publicar a vaga. Tente novamente.');
+          }
+        );
+      },
+      error: (err) => {
+        console.error('[VagasComponent] Erro ao obter coordenadas:', err);
+        this.exibirMensagemErro('Endereço inválido. Verifique o campo Localidade.');
+      }
+    });
+  } else {
+    console.warn('[VagasComponent] Formulário inválido.');
+    this.exibirMensagemErro(this.getMensagemErro());
+    this.vagaForm.markAllAsTouched();
   }
+}
 
 
   toggleSidebar(): void {

@@ -32,25 +32,36 @@ export class CandidatosComponent implements OnInit {
   }
 
   carregarVagasComCandidatos(): void {
-    this.candidatosService.listarVagasComCandidatos().subscribe(vagas => {
+  console.log('[carregarVagasComCandidatos] Chamando serviço...');
+  this.candidatosService.listarVagasComCandidatos().subscribe(
+    vagas => {
+      console.log('[carregarVagasComCandidatos] Vagas retornadas:', vagas);
       this.vagasComCandidatos = vagas;
-    }, error => {
-      console.error('Erro ao carregar vagas com candidatos:', error);
-    });
-  }
+    },
+    error => {
+      console.error('[carregarVagasComCandidatos] Erro ao buscar vagas com candidatos:', error);
+    }
+  );
+}
 
-  selecionarVaga(vaga: Vaga): void {
-    this.vagaSelecionada = vaga;
-    this.carregarCandidatos(vaga.id);
-  }
+selecionarVaga(vaga: Vaga): void {
+  console.log('[selecionarVaga] Vaga selecionada:', vaga);
+  this.vagaSelecionada = vaga;
+  this.carregarCandidatos(vaga.id);
+}
 
-  carregarCandidatos(vagaId: number): void {
-    this.candidatosService.listarCandidatos(vagaId).subscribe(candidatos => {
+carregarCandidatos(vagaId: number): void {
+  console.log('[carregarCandidatos] Buscando candidatos para vagaId:', vagaId);
+  this.candidatosService.listarCandidatos(vagaId).subscribe(
+    candidatos => {
+      console.log('[carregarCandidatos] Candidatos recebidos:', candidatos);
       this.candidatos = candidatos;
-    }, error => {
-      console.error('Erro ao carregar candidatos:', error);
-    });
-  }
+    },
+    error => {
+      console.error('[carregarCandidatos] Erro ao buscar candidatos:', error);
+    }
+  );
+}
 
   toggleSidebar(): void {
     this.sidebarOpen = !this.sidebarOpen;

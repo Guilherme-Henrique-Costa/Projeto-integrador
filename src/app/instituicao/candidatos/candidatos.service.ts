@@ -4,8 +4,10 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 export interface Candidatura {
-  voluntarioId: number;
+   voluntarioId: number;
   vagaId: number;
+  nomeVoluntario: string;
+  emailVoluntario: string;
   dataCandidatura: Date;
   status: string;
 }
@@ -21,8 +23,8 @@ export interface Vaga {
   providedIn: 'root'
 })
 export class CandidatosService {
-  private candidatosUrl = 'http://localhost:8080/api/candidaturas/vaga';  // Endpoint para listar candidatos por vaga
-  private vagasComCandidatosUrl = 'http://localhost:8080/api/vagasInstituicao/com-candidatos';  // Endpoint para listar vagas com candidatos
+  private candidatosUrl = 'http://localhost:8080/api/v1/candidaturas/vaga';  // Endpoint para listar candidatos por vaga
+  private vagasComCandidatosUrl = 'http://localhost:8080/api/v1/vagasInstituicao/com-candidatos';  // Endpoint para listar vagas com candidatos
 
   private httpOptions = {
     headers: new HttpHeaders({
@@ -34,10 +36,12 @@ export class CandidatosService {
 
   // Método para listar candidatos de uma vaga específica
   listarCandidatos(vagaId: number): Observable<Candidatura[]> {
-    return this.http.get<Candidatura[]>(`${this.candidatosUrl}/${vagaId}`, this.httpOptions).pipe(
-      catchError(this.handleError)
-    );
-  }
+  const url = `${this.candidatosUrl}/${vagaId}`;
+  console.log('[CandidatosService] GET', url);
+  return this.http.get<Candidatura[]>(url, this.httpOptions).pipe(
+    catchError(this.handleError)
+  );
+}
 
   // Método para listar vagas com candidatos
   listarVagasComCandidatos(): Observable<Vaga[]> {

@@ -46,7 +46,8 @@
 
       <ul *ngIf="candidatos.length > 0; else noCandidatos">
         <li *ngFor="let candidato of candidatos">
-          Voluntário ID: {{ candidato.voluntarioId }}, Data de Candidatura: {{ candidato.dataCandidatura | date }}
+          {{ candidato.nomeVoluntario }} ({{ candidato.emailVoluntario }}) –
+          Candidatado em: {{ candidato.dataCandidatura | date: 'dd/MM/yyyy' }}
         </li>
       </ul>
 

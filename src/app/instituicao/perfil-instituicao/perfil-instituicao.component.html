@@ -48,34 +48,11 @@
           <small>{{ getErrorMessage('cnpj') }}</small>
         </div>
 
-        <!-- Campo Área de Atuação -->
-        <label for="interestArea">Área de atuação:</label>
-        <select id="interestArea" formControlName="interestArea">
-          <option *ngFor="let area of interestAreas" [value]="area">{{ area }}</option>
-        </select>
-        <div *ngIf="cadastroForm.get('interestArea')?.touched && cadastroForm.get('interestArea')?.invalid">
-          <small>{{ getErrorMessage('interestArea') }}</small>
-        </div>
-
         <!-- Campo Senha -->
         <label for="password">Senha:</label>
         <input type="password" id="password" formControlName="password" placeholder="Digite a senha" />
         <div *ngIf="cadastroForm.get('password')?.touched && cadastroForm.get('password')?.invalid">
           <small>{{ getErrorMessage('password') }}</small>
-        </div>
-
-        <!-- Campo Confirmação de Senha -->
-        <label for="confirmPassword">Confirme sua senha:</label>
-        <input type="password" id="confirmPassword" formControlName="confirmPassword" placeholder="Confirme a senha" />
-        <div *ngIf="cadastroForm.get('confirmPassword')?.touched && cadastroForm.get('confirmPassword')?.invalid">
-          <small>{{ getErrorMessage('confirmPassword') }}</small>
-        </div>
-
-        <!-- Campo Descrição -->
-        <label for="description">Descrição:</label>
-        <textarea id="description" formControlName="description" placeholder="Digite uma breve descrição"></textarea>
-        <div *ngIf="cadastroForm.get('description')?.touched && cadastroForm.get('description')?.invalid">
-          <small>{{ getErrorMessage('description') }}</small>
         </div>
 
         <!-- Botão para Salvar -->

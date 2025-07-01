@@ -22,33 +22,24 @@
 
 
   <!-- Conteúdo Principal -->
-  <div class="main-content" [ngClass]="{ expanded: !sidebarOpen }">
-    <!-- Barra de Busca -->
-    <div class="search-bar">
-      <input type="text" placeholder="Pesquisar" [(ngModel)]="searchQuery" />
-      <button class="search-button">
-        <i class="pi pi-search"></i>
-      </button>
+<div class="main-content" [ngClass]="{ expanded: !sidebarOpen }">
+  <div class="mensagens-container">
+    <h3>Chat com {{ nomeVoluntario }}</h3>
+
+    <!-- Lista de mensagens -->
+    <div class="chat-box" #chatContainer>
+      <div *ngFor="let msg of mensagensReais"
+           [ngClass]="msg.ehUsuario ? 'bolha-esquerda' : 'bolha-direita'"
+           class="bolha">
+        <div class="conteudo">{{ msg.mensagemVoluntario }}</div>
+        <div class="timestamp">{{ msg.dataHora | date: 'shortTime' }}</div>
+      </div>
     </div>
 
-    <!-- Lista de Mensagens -->
-    <div class="mensagens-container">
-      <h3>Mensagens</h3>
-      <ul class="mensagens-list">
-        <li *ngFor="let mensagem of mensagens">
-          <a [routerLink]="['/mensagem-instituicao/chat', mensagem]">
-            <div class="mensagem-item">
-              <i class="pi pi-user icon"></i>
-              <span>{{ mensagem }}</span>
-            </div>
-          </a>
-        </li>
-      </ul>
+    <!-- Campo de envio -->
+    <div class="chat-input">
+      <input [(ngModel)]="novaMensagem" placeholder="Digite sua mensagem..." />
+      <button (click)="enviarMensagemInstituicao()">Enviar</button>
     </div>
-
-    <!-- Botão Nova Mensagem Flutuante -->
-    <button class="nova-mensagem-float" [routerLink]="['/mensagem-instituicao/chat', 'Novo']">
-      <i class="pi pi-comment"></i>
-    </button>
   </div>
 </div>

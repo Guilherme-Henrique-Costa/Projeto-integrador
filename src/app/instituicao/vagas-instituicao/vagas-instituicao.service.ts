@@ -16,8 +16,12 @@ export interface VagaInstituicao {
   horario: string;
   tempoVoluntariado: string;
   disponibilidade: string;
+  cidade: string;
+  latitude: number;
+  longitude: number;
   instituicao: { id: number };
-  }
+}
+
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +29,7 @@ export interface VagaInstituicao {
 export class VagasInstituicaoService {
 
   // URL da API do backend
-  private vagasUrl = 'http://localhost:8080/api/vagasInstituicao';  // Certifique-se de que este endpoint está correto
+  private vagasUrl = 'http://localhost:8080/api/v1/vagasInstituicao';  // Certifique-se de que este endpoint está correto
 
   private httpOptions = {
     headers: new HttpHeaders({
@@ -42,11 +46,11 @@ export class VagasInstituicaoService {
       instituicao: { id: vaga.instituicao.id },
     };
 
-    console.log('Payload enviado:', payload);
+    console.log('[VagasService] Enviando payload para criação da vaga:', payload);
 
     return this.http.post<VagaInstituicao>(this.vagasUrl, payload, this.httpOptions).pipe(
       catchError((error) => {
-        console.error('Erro na requisição:', error);
+        console.error('[VagasService] Erro ao cadastrar vaga:', error);
         return throwError(() => new Error('Erro na comunicação com o servidor.'));
       })
     );

@@ -19,58 +19,41 @@ export class PerfilInstituicaoService {
 
   constructor(private http: HttpClient) {}
 
-  // Obter todos os perfis de instituições
   findAll(): Observable<PerfilInstituicao[]> {
     return this.http.get<PerfilInstituicao[]>(`${this.apiUrl}/all`)
-      .pipe(
-        catchError(this.handleError)
-      );
+      .pipe(catchError(this.handleError));
   }
 
-  // Obter perfil de instituição pelo ID
   findById(id: number): Observable<PerfilInstituicao> {
     return this.http.get<PerfilInstituicao>(`${this.apiUrl}/${id}`)
-      .pipe(
-        catchError(this.handleError)
-      );
+      .pipe(catchError(this.handleError));
   }
 
-  // Criar novo perfil de instituição
   create(perfilInstituicao: PerfilInstituicao): Observable<PerfilInstituicao> {
     return this.http.post<PerfilInstituicao>(this.apiUrl, perfilInstituicao)
-      .pipe(
-        catchError(this.handleError)
-      );
+      .pipe(catchError(this.handleError));
   }
 
-  // Atualizar perfil de instituição existente
   update(id: number, perfilInstituicao: PerfilInstituicao): Observable<PerfilInstituicao> {
     return this.http.put<PerfilInstituicao>(`${this.apiUrl}/${id}`, perfilInstituicao)
-      .pipe(
-        catchError(this.handleError)
-      );
+      .pipe(catchError(this.handleError));
   }
 
-  // Deletar perfil de instituição
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`)
-      .pipe(
-        catchError(this.handleError)
-      );
+      .pipe(catchError(this.handleError));
   }
 
-  // Tratamento de erros
+  findByEmail(email: string): Observable<PerfilInstituicao> {
+    return this.http.get<PerfilInstituicao>(`${this.apiUrl}/email`, {
+      params: { email }
+    }).pipe(catchError(this.handleError));
+  }
+
   private handleError(error: HttpErrorResponse): Observable<never> {
-    let errorMessage = 'Ocorreu um erro desconhecido!';
-
-    if (error.error instanceof ErrorEvent) {
-      // Erro do lado do cliente
-      errorMessage = `Erro: ${error.error.message}`;
-    } else {
-      // Erro do lado do servidor
-      errorMessage = `Erro ${error.status}: ${error.message}`;
-    }
-
+    const errorMessage = error.error instanceof ErrorEvent
+      ? `Erro: ${error.error.message}`
+      : `Erro ${error.status}: ${error.message}`;
     console.error(errorMessage);
     return throwError(() => new Error(errorMessage));
   }

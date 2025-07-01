@@ -27,45 +27,47 @@
       <div class="vaga-form-container">
         <h2>Publique sua vaga!</h2>
         <form [formGroup]="vagaForm" (ngSubmit)="onSubmit()">
+
           <label for="cargo">Cargo:</label>
           <input id="cargo" formControlName="cargo" placeholder="Descrição do Cargo" />
           <div *ngIf="isFieldInvalid('cargo')" class="error-message">O campo Cargo é obrigatório.</div>
 
           <label for="localidade">Localidade de Trabalho:</label>
-          <input id="localidade" formControlName="localidade" placeholder="Descrição da Localidade" />
-          <div *ngIf="isFieldInvalid('localidade')" class="error-message">O campo Localidade de Trabalho é obrigatório.</div>
+          <input id="localidade" formControlName="localidade" placeholder="Ex: Brasília, DF" />
+          <div *ngIf="isFieldInvalid('localidade')" class="error-message">O campo Localidade é obrigatório.</div>
 
           <label for="tipoVaga">Tipo de Vaga:</label>
-          <input id="tipoVaga" formControlName="tipoVaga" placeholder="Descrição do Tipo de Vaga" />
+          <input id="tipoVaga" formControlName="tipoVaga" placeholder="Presencial, Remota..." />
           <div *ngIf="isFieldInvalid('tipoVaga')" class="error-message">O campo Tipo de Vaga é obrigatório.</div>
 
           <label for="descricao">Descrição:</label>
-          <input id="descricao" formControlName="descricao" placeholder="Descrição da Vaga" />
+          <input id="descricao" formControlName="descricao" placeholder="Descrição detalhada da vaga" />
           <div *ngIf="isFieldInvalid('descricao')" class="error-message">O campo Descrição é obrigatório.</div>
 
           <label for="especificacoes">Especificações da vaga:</label>
-          <input id="especificacoes" formControlName="especificacoes" placeholder="Ex: Java, Spring Boot" />
+          <input id="especificacoes" formControlName="especificacoes" placeholder="Ex: Java, Atendimento, Photoshop..." />
           <div *ngIf="isFieldInvalid('especificacoes')" class="error-message">O campo Especificações é obrigatório.</div>
 
           <label for="horario">Horário:</label>
-          <input id="horario" formControlName="horario" placeholder="Ex: 08:00 - 12:00" />
+          <input id="horario" formControlName="horario" placeholder="Ex: 08h - 12h" />
           <div *ngIf="isFieldInvalid('horario')" class="error-message">O campo Horário é obrigatório.</div>
 
           <label for="tempoVoluntariado">Tempo de Voluntariado:</label>
-          <input id="tempoVoluntariado" formControlName="tempoVoluntariado" placeholder="Ex: 6 meses" />
+          <input id="tempoVoluntariado" formControlName="tempoVoluntariado" placeholder="Ex: 3 meses" />
           <div *ngIf="isFieldInvalid('tempoVoluntariado')" class="error-message">O campo Tempo de Voluntariado é obrigatório.</div>
 
           <label for="area">Área de Atuação:</label>
-          <input id="area" formControlName="area" placeholder="Ex: Saúde, Educação" />
+          <input id="area" formControlName="area" placeholder="Ex: Saúde, Educação, Meio Ambiente" />
           <div *ngIf="isFieldInvalid('area')" class="error-message">O campo Área é obrigatório.</div>
 
           <label for="disponibilidade">Disponibilidade:</label>
-          <input id="disponibilidade" formControlName="disponibilidade" placeholder="Ex: Manhã, Tarde" />
+          <input id="disponibilidade" formControlName="disponibilidade" placeholder="Ex: Manhã, Fins de Semana..." />
           <div *ngIf="isFieldInvalid('disponibilidade')" class="error-message">O campo Disponibilidade é obrigatório.</div>
 
           <button type="submit" class="submit-btn">Publique!</button>
         </form>
       </div>
+      </div>
+      </div>
     </div>
-  </div>
-</div>
+

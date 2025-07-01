@@ -38,7 +38,7 @@ export interface Instituicao {
   providedIn: 'root',
 })
 export class CadastroInstituicaoService {
-  private apiUrl = 'http://localhost:8080/api/v1/instituicao/register';
+  private apiUrl = 'http://localhost:8080/api/v1/instituicao';
 
   constructor(private http: HttpClient) {}
 
