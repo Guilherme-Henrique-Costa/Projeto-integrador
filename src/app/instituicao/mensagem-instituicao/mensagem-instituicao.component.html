@@ -1,45 +1,47 @@
 <div class="app-container">
   <!-- Sidebar de Navegação -->
-<div class="custom-sidebar">
-  <div class="cabeca">
-    <span class="logo-text">Instituição</span>
-  </div>
-  <div class="corpo">
-    <ul class="menu-list">
-      <li *ngFor="let item of sidebarItems">
-        <a [routerLink]="item.route">
-          <i [class]="item.icon"></i> {{ item.label }}
-        </a>
-      </li>
-    </ul>
-  </div>
-  <div class="rodape">
-    <div class="user-info">
-      <span>Instituição</span>
+  <div class="custom-sidebar">
+    <div class="cabeca">
+      <span class="logo-text">Instituição</span>
     </div>
-  </div>
-</div>
-
-
-  <!-- Conteúdo Principal -->
-<div class="main-content" [ngClass]="{ expanded: !sidebarOpen }">
-  <div class="mensagens-container">
-    <h3>Chat com {{ nomeVoluntario }}</h3>
-
-    <!-- Lista de mensagens -->
-    <div class="chat-box" #chatContainer>
-      <div *ngFor="let msg of mensagensReais"
-           [ngClass]="msg.ehUsuario ? 'bolha-esquerda' : 'bolha-direita'"
-           class="bolha">
-        <div class="conteudo">{{ msg.mensagemVoluntario }}</div>
-        <div class="timestamp">{{ msg.dataHora | date: 'shortTime' }}</div>
+    <div class="corpo">
+      <ul class="menu-list">
+        <li *ngFor="let item of sidebarItems">
+          <a [routerLink]="item.route">
+            <i [class]="item.icon"></i> {{ item.label }}
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="rodape">
+      <div class="user-info">
+        <span>Instituição</span>
       </div>
     </div>
+  </div>
 
-    <!-- Campo de envio -->
-    <div class="chat-input">
-      <input [(ngModel)]="novaMensagem" placeholder="Digite sua mensagem..." />
-      <button (click)="enviarMensagemInstituicao()">Enviar</button>
+  <!-- Conteúdo Principal -->
+  <div class="main-content" [ngClass]="{ expanded: !sidebarOpen }">
+    <div class="mensagens-container">
+      <h3>Chat com {{ nomeVoluntario }}</h3>
+
+      <!-- Lista de mensagens -->
+      <div class="chat-box" #chatContainer>
+        <div *ngFor="let msg of mensagensReais"
+             [ngClass]="msg.ehUsuario ? 'bolha-esquerda' : 'bolha-direita'"
+             class="bolha">
+          <div class="conteudo">{{ msg.mensagemVoluntario }}</div>
+          <div class="timestamp">{{ msg.dataHora | date: 'shortTime' }}</div>
+        </div>
+      </div>
+
+      <!-- Campo de envio -->
+      <div class="chat-input">
+        <input [(ngModel)]="novaMensagem" placeholder="Digite sua mensagem..." />
+        <button (click)="enviarMensagemInstituicao()">
+          <i class="pi pi-send"></i>
+        </button>
+      </div>
     </div>
   </div>
 </div>

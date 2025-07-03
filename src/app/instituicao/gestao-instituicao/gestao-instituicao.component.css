@@ -1,31 +1,28 @@
-/* Container Principal */
 .app-container {
   display: flex;
+  height: 100vh;
+  font-family: 'Roboto', sans-serif;
 }
 
-/* Sidebar fixa padrão */
 .custom-sidebar {
   width: 250px;
-  height: 100vh;
   background-color: var(--roxo-escuro);
   color: var(--branco);
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  font-family: 'Roboto', sans-serif;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
 }
 
 .cabeca {
   padding: 40px;
-  border-bottom: 1px solid var(--lilas);
   text-align: center;
+  border-bottom: 1px solid var(--lilas);
 }
 
 .logo-text {
   font-size: 20px;
   font-weight: bold;
   color: var(--branco);
-  margin-top: 10px;
 }
 
 .corpo {
@@ -35,8 +32,8 @@
 
 .menu-list {
   list-style: none;
-  padding: 0;
   margin: 0;
+  padding: 0;
 }
 
 .menu-list li {
@@ -49,8 +46,8 @@
   padding: 10px 20px;
   color: var(--branco);
   text-decoration: none;
-  transition: background-color 0.3s;
   font-size: 16px;
+  transition: background-color 0.3s;
 }
 
 .menu-list a:hover {
@@ -59,111 +56,101 @@
 
 .rodape {
   padding: 20px;
-  border-top: 1px solid var(--lilas);
   text-align: center;
-  font-weight: bold;
+  border-top: 1px solid var(--lilas);
   font-size: 14px;
-  color: var(--branco);
+  font-weight: bold;
 }
 
-
-/* Conteúdo Principal */
 .main-content {
   flex-grow: 1;
-  background: linear-gradient(to bottom, var(--magenta), var(--lilas) 50%, var(--roxo));
-  padding: 20px;
+  background: linear-gradient(to bottom, var(--magenta), var(--lilas), var(--roxo));
+  padding: 2rem;
   color: var(--branco);
-  font-family: sans-serif;
-  transition: margin-left 0.3s;
+  overflow-y: auto;
 }
 
-.main-content.expanded {
-  margin-left: 0;
-}
-
-/* Barra de Busca */
 .search-bar {
   display: flex;
   align-items: center;
-  margin-bottom: 30px;
+  margin-bottom: 2rem;
 }
 
 .search-bar input {
   flex: 1;
-  padding: 10px 15px;
+  padding: 0.75rem 1rem;
+  border-radius: 50px;
   border: 1px solid var(--lilas);
-  border-radius: 25px;
-  font-size: 16px;
-  outline: none;
-  transition: border-color 0.3s;
-}
-
-.search-bar input:focus {
-  border-color: var(--magenta);
+  font-size: 1rem;
 }
 
 .search-button {
-  background-color: var(--branco);
+  margin-left: 0.5rem;
+  padding: 0.6rem 0.8rem;
   border: none;
+  background-color: var(--branco);
   color: var(--roxo);
-  padding: 10px 15px;
-  margin-left: 10px;
   border-radius: 50%;
+  font-size: 1.2rem;
   cursor: pointer;
-  font-size: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background-color 0.3s;
+  transition: background 0.3s;
 }
 
 .search-button:hover {
-  background-color: var(--roxo);
+  background-color: var(--lilas);
 }
-/* Conteúdo da tela */
+
 .gestao-container {
   display: flex;
-  gap: 20px;
+  gap: 2rem;
 }
 
 .gestao-sidebar {
-  width: 300px;
-  padding: 15px;
+  width: 280px;
   background: var(--branco);
-  border-radius: 20px;
   color: var(--roxo-escuro);
+  padding: 1rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.lista-voluntarios {
+  list-style: none;
+  padding: 0;
+}
+
+.item-voluntario {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.item-voluntario:hover {
+  background-color: var(--cinza-claro);
 }
 
 .gestao-detalhes {
   flex: 1;
   background: var(--branco);
   color: var(--cinza-escuro);
-  border-radius: 10px;
-  padding: 20px;
-  font-size: 14px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
 }
 
 .gestao-detalhes h3 {
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
   color: var(--roxo-escuro);
-  font-size: 18px;
-  margin-bottom: 10px;
-}
-
-.gestao-detalhes h4 {
-  margin-top: 20px;
-  margin-bottom: 10px;
-  color: var(--roxo);
 }
 
 .competencias {
-  padding-left: 18px;
-  margin: 0 0 20px 0;
-}
-
-.competencias li {
-  margin-bottom: 8px;
-  line-height: 1.4;
+  padding-left: 1.5rem;
+  margin: 1rem 0;
 }
 
 textarea {
@@ -171,24 +158,22 @@ textarea {
   border: 1px solid var(--cinza-claro);
   border-radius: 8px;
   padding: 10px;
-  font-family: inherit;
   resize: none;
-  margin-top: 5px;
+  margin-top: 1rem;
 }
 
 .btn-enviar {
-  margin-top: 15px;
-  padding: 10px 20px;
+  margin-top: 1rem;
+  padding: 0.75rem 1.5rem;
   background-color: var(--magenta);
   color: var(--branco);
   border: none;
   border-radius: 8px;
   cursor: pointer;
   font-weight: bold;
-  transition: background 0.3s;
+  transition: background-color 0.3s;
 }
 
 .btn-enviar:hover {
   background-color: var(--lilas);
 }
-

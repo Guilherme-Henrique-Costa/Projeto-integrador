@@ -1,85 +1,111 @@
-/* Estilos para o diálogo de privacidade */
-.container-dialogo .title {
-  font-weight: bold;
-  color: #eeb50b;
-}
-
-.container-dialogo .link-politica {
-  color: #eeb50b;
-  text-decoration: underline;
-  cursor: pointer;
-}
-
-.container-dialogo .footer {
+.login-page {
+  min-height: 100vh;
   display: flex;
-  justify-content: space-between;
-  padding-top: 10px;
-}
-
-.container-dialogo .btn-rejeitar {
-  color: #000;
-  background: transparent;
-  border: 1px solid #000;
-}
-
-/* Estilos para o formulário de login */
-.login-container {
-  display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
-  margin: -10px;
-  background-image: linear-gradient(to bottom, #EC0089, #43054E);
+  background: linear-gradient(to bottom, var(--magenta), var(--roxo-escuro));
+  padding: 2rem;
 }
 
-.login-container h1 {
-  margin-bottom: 10px;
-  color: white;
-  font-size: 50px;
-}
-
-.login-container h2 {
-  color: white;
-  font-size: small;
-}
-
-.login-container form {
-  display: flex;
-  flex-direction: column;
-}
-
-.login-container .p-float-label input {
-  margin-bottom: 10px;
-  padding: 10px;
-  width: 300px;
-  border-radius: 10px;
-  border: none;
-}
-
-.login-container button {
-  padding: 10px;
-  cursor: pointer;
-  border-radius: 10px;
-  background-color: #EC0089;
-  color: white;
-  border: none;
-  height: 50px;
-}
-
-.login-container .button-redefinir,
-.login-container .register-button-container {
-  display: flex;
-  justify-content: center;
+.login-card {
+  background: var(--branco);
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
   width: 100%;
-  margin-top: 10px;
+  max-width: 400px;
+  text-align: center;
+  position: relative;
 }
 
-.login-container .p-float-label input:focus {
-  border-color: #666666;
+.btn-voltar {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  background: transparent;
+  color: var(--roxo-escuro);
+  border: none;
+}
+
+.titulo {
+  color: var(--roxo);
+  font-size: 2rem;
+  margin-bottom: 0.25rem;
+}
+
+.subtitulo {
+  color: var(--cinza-escuro);
+  margin-bottom: 2rem;
+}
+
+.login-form .p-float-label {
+  margin-bottom: 1.25rem;
+  width: 100%;
+}
+
+.login-form input {
+  border-radius: 0.5rem;
+  border: 1px solid #ccc;
+  padding: 0.75rem;
+  width: 100%;
+  font-size: 1rem;
+}
+
+.login-form input:focus {
+  border-color: var(--magenta);
+  box-shadow: 0 0 0 2px rgba(236, 0, 137, 0.2);
   outline: none;
 }
 
-.login-container .p-float-label label {
-  color: #555555;
+.btn-login {
+  background: var(--magenta);
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  width: 100%;
+  font-weight: bold;
+  margin-top: 0.5rem;
+}
+
+.btn-login:hover {
+  background: var(--lilas);
+}
+
+.login-links {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.link-btn {
+  background: transparent;
+  color: var(--roxo);
+  border: none;
+  font-size: 0.9rem;
+  text-decoration: underline;
+}
+
+.privacy-dialog .link-privacidade {
+  color: var(--destaque);
+  text-decoration: underline;
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 1rem;
+}
+
+.btn-rejeitar {
+  background: transparent;
+  color: var(--cinza-escuro);
+  border: 1px solid var(--cinza-escuro);
+  border-radius: 1rem;
+}
+
+.btn-aceitar {
+  background: var(--destaque);
+  color: var(--branco);
+  border: 1px solid var(--destaque);
+  border-radius: 1rem;
 }

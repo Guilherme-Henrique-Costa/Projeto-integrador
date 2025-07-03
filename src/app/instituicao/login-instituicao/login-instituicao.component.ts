@@ -115,7 +115,7 @@ export class LoginInstituicaoComponent {
   }
 
   redefinirSenha(): void {
-    this.redirecionarPara('/confirmar-senha');
+    this.redirecionarPara('/confirmar-senha-instituicao');
   }
 
   aceitar(): void {

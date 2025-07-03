@@ -1,25 +1,24 @@
 <div class="vagas-container">
   <!-- Sidebar de Navegação -->
-<div class="custom-sidebar">
-  <div class="cabeca">
-    <span class="logo-text">Instituição</span>
-  </div>
-  <div class="corpo">
-    <ul class="menu-list">
-      <li *ngFor="let item of sidebarItems">
-        <a [routerLink]="item.route">
-          <i [class]="item.icon"></i> {{ item.label }}
-        </a>
-      </li>
-    </ul>
-  </div>
-  <div class="rodape">
-    <div class="user-info">
-      <span>Instituição</span>
+  <div class="custom-sidebar">
+    <div class="cabeca">
+      <span class="logo-text">Instituição</span>
+    </div>
+    <div class="corpo">
+      <ul class="menu-list">
+        <li *ngFor="let item of sidebarItems">
+          <a [routerLink]="item.route">
+            <i [class]="item.icon"></i> {{ item.label }}
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="rodape">
+      <div class="user-info">
+        <span>Instituição</span>
+      </div>
     </div>
   </div>
-</div>
-
 
   <!-- Conteúdo Principal -->
   <div class="main-content" [ngClass]="{'expanded': !sidebarOpen}">
@@ -64,10 +63,11 @@
           <input id="disponibilidade" formControlName="disponibilidade" placeholder="Ex: Manhã, Fins de Semana..." />
           <div *ngIf="isFieldInvalid('disponibilidade')" class="error-message">O campo Disponibilidade é obrigatório.</div>
 
-          <button type="submit" class="submit-btn">Publique!</button>
+          <button type="submit" class="submit-btn" [disabled]="!vagaForm.dirty || vagaForm.invalid">
+            Publique!
+          </button>
         </form>
       </div>
-      </div>
-      </div>
     </div>
-
+  </div>
+</div>

@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-feedback-instituicao',
   templateUrl: './feedback-instituicao.component.html',
   styleUrls: ['./feedback-instituicao.component.css']
 })
-export class FeedbackInstituicaoComponent {
+export class FeedbackInstituicaoComponent implements OnInit {
   sidebarOpen = true;
   sidebarItems = [
     { label: 'Menu', icon: 'pi pi-compass', route: '/menu-instituicao'},
@@ -18,12 +18,32 @@ export class FeedbackInstituicaoComponent {
     { label: 'Ranking', icon: 'pi pi-star-fill', route: '/ranking-instituicao' },
     { label: 'Sair', icon: 'pi pi-sign-out', route: '/login-instituicao' },
   ];
+
   instituicaoNome = 'Instituição XYZ';
-  searchQuery = '';
+
   feedbackText = '';
+  colaboradorRating = 0;
+  sistemaRating = 0;
   stars = [1, 2, 3, 4, 5];
-  colaboradorRating = 0; // Avaliação de colaboradores
-  sistemaRating = 0; // Avaliação do sistema
+
+  voluntarios = [
+    { id: 1, nome: 'Guilherme Silva' },
+    { id: 2, nome: 'Vinícius Andrade' },
+    { id: 3, nome: 'Sergio Lima' }
+  ];
+  voluntarioSelecionadoId: number | null = null;
+  anonimo = false;
+
+  submitted = false;
+  success = false;
+  loading = false;
+
+  feedbacks: { voluntario: string; feedbackText: string }[] = [];
+
+  ngOnInit(): void {
+    const stored = localStorage.getItem('feedbacks');
+    if (stored) this.feedbacks = JSON.parse(stored);
+  }
 
   toggleSidebar(): void {
     this.sidebarOpen = !this.sidebarOpen;
@@ -38,12 +58,37 @@ export class FeedbackInstituicaoComponent {
   }
 
   submitFeedback(): void {
-    console.log('Feedback enviado:', {
-      feedbackText: this.feedbackText,
-      colaboradorRating: this.colaboradorRating,
-      sistemaRating: this.sistemaRating,
-    });
-    alert('Feedback enviado com sucesso!');
-  }
+    this.submitted = true;
 
+    if (!this.voluntarioSelecionadoId || !this.feedbackText || !this.colaboradorRating || !this.sistemaRating) {
+      return;
+    }
+
+    this.loading = true;
+
+    setTimeout(() => {
+      const voluntario = this.voluntarios.find(v => v.id === this.voluntarioSelecionadoId);
+      const nome = this.anonimo ? 'Anônimo' : voluntario?.nome;
+
+      const feedback = {
+        voluntario: nome || '',
+        feedbackText: this.feedbackText,
+      };
+
+      this.feedbacks.unshift(feedback);
+      localStorage.setItem('feedbacks', JSON.stringify(this.feedbacks));
+
+      this.success = true;
+      this.loading = false;
+
+      setTimeout(() => (this.success = false), 3000);
+
+      this.feedbackText = '';
+      this.colaboradorRating = 0;
+      this.sistemaRating = 0;
+      this.voluntarioSelecionadoId = null;
+      this.anonimo = false;
+      this.submitted = false;
+    }, 1000);
+  }
 }

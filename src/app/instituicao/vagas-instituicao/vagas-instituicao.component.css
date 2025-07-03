@@ -17,7 +17,7 @@
   color: var(--branco);
 }
 
-/* Sidebar fixa padrão */
+/* Sidebar fixa */
 .custom-sidebar {
   width: 250px;
   height: 100vh;
@@ -26,7 +26,6 @@
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  font-family: 'Roboto', sans-serif;
 }
 
 .cabeca {
@@ -39,7 +38,6 @@
   font-size: 20px;
   font-weight: bold;
   color: var(--branco);
-  margin-top: 10px;
 }
 
 .corpo {
@@ -64,7 +62,6 @@
   color: var(--branco);
   text-decoration: none;
   transition: background-color 0.3s;
-  font-size: 16px;
 }
 
 .menu-list a:hover {
@@ -77,20 +74,18 @@
   text-align: center;
   font-weight: bold;
   font-size: 14px;
-  color: var(--branco);
 }
-
 
 /* Conteúdo principal */
 .main-content {
   flex-grow: 1;
   padding: 40px 20px;
-  display: block;
-  justify-content: center;
-  align-items: center;
-  overflow-y: auto;
   min-height: 100vh;
   box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  overflow-y: auto;
 }
 
 /* Formulário */
@@ -154,6 +149,13 @@ form textarea:focus {
 
 .submit-btn:hover {
   background-color: var(--lilas);
+}
+
+.submit-btn:disabled {
+  background-color: var(--cinza-claro);
+  color: var(--cinza-escuro);
+  border: 1px solid var(--cinza-escuro);
+  cursor: not-allowed;
 }
 
 .error-message {

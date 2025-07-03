@@ -1,35 +1,44 @@
-/* Container Principal */
+:root {
+  --roxo-escuro: #43054e;
+  --roxo: #662c92;
+  --lilas: #bf0087;
+  --magenta: #ec0089;
+  --amarelo: #fde100;
+  --branco: #fff;
+  --cinza-claro: #f0f0f0;
+  --cinza-escuro: #333;
+  --destaque: #f39c12;
+}
+
+/* Layout base */
 .perfil-container {
   display: flex;
   height: 100vh;
   font-family: 'Roboto', sans-serif;
-  background: linear-gradient(to bottom, var(--magenta), var(--lilas) 50%, var(--roxo));
+  background: linear-gradient(to bottom, var(--magenta), var(--lilas), var(--roxo));
   color: var(--branco);
 }
 
-/* Sidebar fixa padrão */
+/* Sidebar */
 .custom-sidebar {
   width: 250px;
   height: 100vh;
   background-color: var(--roxo-escuro);
   color: var(--branco);
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  font-family: 'Roboto', sans-serif;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
 }
 
 .cabeca {
-  padding: 40px;
+  padding: 40px 20px;
   border-bottom: 1px solid var(--lilas);
   text-align: center;
 }
 
 .logo-text {
-  font-size: 20px;
+  font-size: 1.5rem;
   font-weight: bold;
-  color: var(--branco);
-  margin-top: 10px;
 }
 
 .corpo {
@@ -44,17 +53,18 @@
 }
 
 .menu-list li {
-  margin: 10px 0;
+  margin: 0;
 }
 
 .menu-list a {
   display: flex;
   align-items: center;
-  padding: 10px 20px;
+  gap: 0.75rem;
+  padding: 1rem 1.5rem;
   color: var(--branco);
   text-decoration: none;
+  font-size: 1rem;
   transition: background-color 0.3s;
-  font-size: 16px;
 }
 
 .menu-list a:hover {
@@ -62,179 +72,117 @@
 }
 
 .rodape {
-  padding: 20px;
+  padding: 1rem;
   border-top: 1px solid var(--lilas);
   text-align: center;
+  font-size: 0.9rem;
   font-weight: bold;
-  font-size: 14px;
-  color: var(--branco);
 }
 
-
-/* Conteúdo Principal */
+/* Conteúdo principal */
 .main-content {
   flex-grow: 1;
-  padding: 40px;
+  padding: 3rem;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   overflow-y: auto;
 }
 
-/* Barra de Busca */
-.search-bar {
-  display: flex;
-  align-items: center;
-  margin-bottom: 30px;
-}
-
-.search-bar input {
-  flex: 1;
-  padding: 10px 15px;
-  border: 1px solid var(--lilas);
-  border-radius: 25px;
-  font-size: 16px;
-  outline: none;
-  transition: border-color 0.3s;
-}
-
-.search-bar input:focus {
-  border-color: var(--magenta);
-}
-
-.search-button {
-  background-color: var(--branco);
-  border: none;
-  color: var(--roxo);
-  padding: 10px 15px;
-  margin-left: 10px;
-  border-radius: 50%;
-  cursor: pointer;
-  font-size: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background-color 0.3s;
-}
-
-.search-button:hover {
-  background-color: var(--roxo);
-}
-/* Formulário de Perfil */
+/* Card de formulário */
 .profile-container {
-  width: 100%;
-  max-width: 600px;
-  padding: 20px;
   background: var(--branco);
-  border-radius: 10px;
-  border-color: var(--lilas);
-  box-shadow: 0 4px 10px rgba(255, 255, 255, 0.3);
+  border-radius: 1rem;
+  padding: 2rem;
+  max-width: 600px;
+  width: 100%;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
 }
 
 .profile-container h3 {
   text-align: center;
   color: var(--roxo-escuro);
-  margin-bottom: 20px;
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
 }
 
+/* Formulário */
 form {
   display: flex;
   flex-direction: column;
-  border-color: var(--lilas);
 }
 
 label {
-  margin-bottom: 5px;
   color: var(--roxo-escuro);
-  font-size: 16px;
-  font-weight: bold;
+  margin-bottom: 0.25rem;
+  font-weight: 600;
+  font-size: 0.95rem;
 }
 
 input[type="text"],
 input[type="email"],
-select,
-textarea {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid var(--lilas);
-  border-color: var(--lilas);
-  border-radius: 5px;
-  margin-bottom: 15px;
+input[type="password"],
+textarea,
+select {
   background: var(--branco);
-  font-size: 14px;
-  color: var(--cinza-escuro);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-form textarea {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
   border: 1px solid var(--lilas);
-  border-radius: 5px;
-  font-family: 'Roboto', sans-serif;
-  font-size: 14px;
+  color: var(--cinza-escuro);
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  transition: border-color 0.2s;
 }
 
-input[type="text"]:focus,
-input[type="email"]:focus,
-select:focus,
-textarea:focus {
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--magenta);
   outline: none;
-  border: 1px solid var(--lilas);
 }
-input[type="text"],
-input[type="password"],
-select,
-textarea {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid var(--lilas);
-  border-color: var(--lilas);
-  border-radius: 5px;
-  margin-bottom: 15px;
-  background: var(--branco);
-  font-size: 14px;
-  color: var(--cinza-escuro);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
+
+/* Botão */
 button {
-  width: 100%;
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
-  background: var(--magenta);
+  background-color: var(--magenta);
   color: var(--branco);
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.75rem;
   font-weight: bold;
+  font-size: 1rem;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s;
 }
 
 button:hover {
   background-color: var(--lilas);
 }
 
-/* Ajustes Responsivos */
+button:disabled {
+  background-color: var(--cinza-claro);
+  cursor: not-allowed;
+}
+
+/* Mensagens de erro */
+small {
+  color: var(--amarelo);
+  font-size: 0.75rem;
+  margin-top: -0.5rem;
+  margin-bottom: 1rem;
+}
+
+/* Responsivo */
 @media (max-width: 768px) {
   .main-content {
-    padding: 20px;
+    padding: 1.5rem;
   }
 
   .profile-container {
-    padding: 15px;
+    padding: 1.5rem;
   }
 
-  input[type="text"],
-  input[type="email"],
-  select {
-    font-size: 13px;
-  }
-
-  button {
-    font-size: 14px;
-    padding: 8px;
-  }
-
-  .search-bar input {
-    max-width: 70%;
+  .custom-sidebar {
+    display: none; /* Esconde o menu lateral em telas pequenas */
   }
 }

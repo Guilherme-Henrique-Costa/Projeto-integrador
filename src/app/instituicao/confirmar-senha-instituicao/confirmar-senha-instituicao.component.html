@@ -1,6 +1,7 @@
 <div class="page-container">
   <div class="form-container">
     <h1>Criar nova senha</h1>
+
     <div class="form-group">
       <label for="newPassword">Nova Senha:</label>
       <input
@@ -14,6 +15,7 @@
         A senha é obrigatória.
       </div>
     </div>
+
     <div class="form-group">
       <label for="confirmPassword">Confirmar Senha:</label>
       <input
@@ -27,12 +29,14 @@
         A confirmação é obrigatória.
       </div>
     </div>
+
     <button
       class="btn-confirm"
       [disabled]="!newPassword.valid || !confirmPassword.valid || senha !== confirmarSenha"
       (click)="cadastrar()">
       Confirmar
     </button>
+
     <div *ngIf="senha !== confirmarSenha && confirmarSenha">
       <p class="error-message">As senhas não coincidem.</p>
     </div>

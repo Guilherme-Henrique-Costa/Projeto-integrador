@@ -8,27 +8,19 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
 // Componentes próprios
-import { CadastroComponent } from './voluntario/cadastro/cadastro.component';
-import { LoginComponent } from './voluntario/login/login.component';
 import { LoginInstituicaoComponent } from './instituicao/login-instituicao/login-instituicao.component';
 import { HomeComponent } from './home/home.component';
 import { CadastroInstituicaoComponent } from './instituicao/cadastro-instituicao/cadastro-instituicao.component';
 import { PoliticaPrivacidadeComponent } from './politica-privacidade/politica-privacidade.component';
-import { MenuComponent } from './voluntario/menu/menu.component';
 import { MenuInstituicaoComponent } from './instituicao/menu-instituicao/menu-instituicao.component';
-import { ConfirmarSenhaComponent } from './voluntario/confirmar-senha/confirmar-senha.component';
 import { ConfirmarSenhaInstituicaoComponent } from './instituicao/confirmar-senha-instituicao/confirmar-senha-instituicao.component';
 import { PerfilInstituicaoComponent } from './instituicao/perfil-instituicao/perfil-instituicao.component';
 import { VagasInstituicaoComponent } from './instituicao/vagas-instituicao/vagas-instituicao.component';
 import { GestaoInstituicaoComponent } from './instituicao/gestao-instituicao/gestao-instituicao.component';
-import { VagasVoluntarioComponent } from './voluntario/vagas-voluntario/vagas-voluntario.component';
 import { CandidatosComponent } from './instituicao/candidatos/candidatos.component';
-import { PerfilComponent } from './voluntario/perfil/perfil.component';
-import { FeedbackComponent } from './voluntario/feedback/feedback.component';
 import { FeedbackInstituicaoComponent } from './instituicao/feedback-instituicao/feedback-instituicao.component';
 import { MensagemInstituicaoComponent } from './instituicao/mensagem-instituicao/mensagem-instituicao.component';
 import { RankingInstituicaoComponent } from './instituicao/ranking-instituicao/ranking-instituicao.component';
-import { RelatoriosInstituicaoComponent } from './instituicao/relatorios-instituicao/relatorios-instituicao.component';
 import { ChatPessoalComponent } from './instituicao/chat-pessoal/chat-pessoal.component';
 import { CalendarModule } from 'primeng/calendar';
 
@@ -56,40 +48,26 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { RippleModule } from 'primeng/ripple';
 import { SidebarModule } from 'primeng/sidebar';
 import { RatingModule } from 'primeng/rating';
-import { AgendaComponent } from './voluntario/agenda/agenda.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
-import { MensagemComponent } from './voluntario/mensagem/mensagem.component';
-import { ChatVoluntarioComponent } from './voluntario/chat-voluntario/chat-voluntario.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
-    CadastroComponent,
     HomeComponent,
     CadastroInstituicaoComponent,
     PoliticaPrivacidadeComponent,
-    MenuComponent,
-    MenuInstituicaoComponent,
-    ConfirmarSenhaComponent,
     ConfirmarSenhaInstituicaoComponent,
     PerfilInstituicaoComponent,
     VagasInstituicaoComponent,
     GestaoInstituicaoComponent,
     LoginInstituicaoComponent,
-    VagasVoluntarioComponent,
     CandidatosComponent,
-    PerfilComponent,
-    FeedbackComponent,
     FeedbackInstituicaoComponent,
     MensagemInstituicaoComponent,
     RankingInstituicaoComponent,
     ChatPessoalComponent,
-    AgendaComponent,
-    MensagemComponent,
-    ChatVoluntarioComponent,
-  
+    MenuInstituicaoComponent,
   ],
   imports: [
     BrowserModule,

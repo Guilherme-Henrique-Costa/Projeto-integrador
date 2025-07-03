@@ -1,56 +1,88 @@
 <div class="app-container">
-  <!-- Sidebar de Navegação -->
-<div class="custom-sidebar">
-  <div class="cabeca">
-    <span class="logo-text">Instituição</span>
-  </div>
-  <div class="corpo">
-    <ul class="menu-list">
-      <li *ngFor="let item of sidebarItems">
-        <a [routerLink]="item.route">
-          <i [class]="item.icon"></i> {{ item.label }}
-        </a>
-      </li>
-    </ul>
-  </div>
-  <div class="rodape">
-    <div class="user-info">
-      <span>Instituição</span>
+  <!-- Sidebar fixa padrão -->
+  <div class="custom-sidebar">
+    <div class="cabeca">
+      <span class="logo-text">Instituição</span>
+    </div>
+    <div class="corpo">
+      <ul class="menu-list">
+        <li *ngFor="let item of sidebarItems">
+          <a [routerLink]="item.route">
+            <i [class]="item.icon"></i> {{ item.label }}
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="rodape">
+      <div class="user-info">
+        <span>Instituição</span>
+      </div>
     </div>
   </div>
-</div>
 
+  <!-- Conteúdo principal -->
+  <div class="main-content" [ngClass]="{ 'expanded': !sidebarOpen }">
+    <div class="feedback-card">
+      <h2>Deixe seu feedback</h2>
+      <p>Compartilhe sua experiência com a plataforma e os colaboradores</p>
 
-  <!-- Conteúdo Principal -->
-  <div class="main-content" [ngClass]="{'expanded': !sidebarOpen}">
-    
-
-    <div class="feedback-form">
-      <h2>Feedback para a Instituição</h2>
-      <p>Conte-nos sobre a experiência com nossos colaboradores e serviços!</p>
-      <textarea
-        placeholder="Descreva sua experiência"
-        [(ngModel)]="feedbackText">
-      </textarea>
-      <p>Avalie nossos colaboradores (0 a 5 estrelas):</p>
-      <div class="stars">
-        <span
-          *ngFor="let star of stars; let i = index"
-          [class.filled]="i < colaboradorRating"
-          (click)="rateColaborador(i + 1)">
-          &#9733;
-        </span>
+      <!-- Selecione voluntário -->
+      <div class="form-group">
+        <label for="voluntario">Voluntário que você deseja avaliar:</label>
+        <select id="voluntario" [(ngModel)]="voluntarioSelecionadoId">
+          <option [ngValue]="null" disabled selected>Selecione um voluntário</option>
+          <option *ngFor="let v of voluntarios" [ngValue]="v.id">{{ v.nome }}</option>
+        </select>
       </div>
-      <p>Avalie nosso sistema de gestão (0 a 5 estrelas):</p>
-      <div class="stars">
-        <span
-          *ngFor="let star of stars; let i = index"
-          [class.filled]="i < sistemaRating"
-          (click)="rateSystem(i + 1)">
-          &#9733;
-        </span>
+
+      <!-- Feedback texto -->
+      <textarea [(ngModel)]="feedbackText" placeholder="Descreva sua experiência..."></textarea>
+      <div class="validation-error" *ngIf="feedbackText === '' && submitted">Descreva sua experiência.</div>
+
+      <!-- Avaliação colaborador -->
+      <div class="rating-group">
+        <label>Avaliação dos colaboradores:</label>
+        <div class="stars">
+          <span *ngFor="let star of stars; let i = index" [class.filled]="i < colaboradorRating" (click)="rateColaborador(i + 1)">★</span>
+        </div>
       </div>
-      <button (click)="submitFeedback()">Enviar Feedback</button>
+
+      <!-- Avaliação sistema -->
+      <div class="rating-group">
+        <label>Avaliação do sistema:</label>
+        <div class="stars">
+          <span *ngFor="let star of stars; let i = index" [class.filled]="i < sistemaRating" (click)="rateSystem(i + 1)">★</span>
+        </div>
+      </div>
+
+      <!-- Anônimo -->
+      <div class="form-group">
+        <label>
+          <input type="checkbox" [(ngModel)]="anonimo" /> Quero enviar anonimamente
+        </label>
+      </div>
+
+      <!-- Botão -->
+      <button (click)="submitFeedback()" [disabled]="loading">
+        <ng-container *ngIf="!loading && !success">Enviar Feedback</ng-container>
+        <ng-container *ngIf="loading">Enviando...</ng-container>
+        <ng-container *ngIf="success">✔ Enviado!</ng-container>
+      </button>
+
+      <!-- Confirmação -->
+      <div class="success-msg" *ngIf="success">
+        Obrigado por sua contribuição!
+      </div>
+
+      <!-- Histórico -->
+      <div class="feedback-history" *ngIf="feedbacks.length">
+        <h4>Feedbacks anteriores:</h4>
+        <ul>
+          <li *ngFor="let fb of feedbacks">
+            <strong>{{ fb.voluntario }}</strong> - {{ fb.feedbackText }}
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </div>

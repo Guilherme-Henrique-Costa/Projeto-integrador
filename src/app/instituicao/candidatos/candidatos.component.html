@@ -24,35 +24,33 @@
   <div class="main-content">
     <!-- Barra de Busca -->
     <div class="search-bar">
-      <input
-        type="text"
-        placeholder="Pesquisar"
-        [(ngModel)]="searchQuery"
-      />
+      <input type="text" placeholder="Pesquisar vaga ou candidato..." [(ngModel)]="searchQuery" />
       <button class="search-button">
         <i class="pi pi-search"></i>
       </button>
     </div>
 
-    <h2>Vagas com candidatos</h2>
-    <ul>
-      <li *ngFor="let vaga of vagasComCandidatos" (click)="selecionarVaga(vaga)">
-        {{ vaga.cargo }} - {{ vaga.localidade }}
-      </li>
-    </ul>
-
-    <div *ngIf="vagaSelecionada">
-      <h2>Candidatos para a vaga {{ vagaSelecionada.cargo }}</h2>
-
-      <ul *ngIf="candidatos.length > 0; else noCandidatos">
-        <li *ngFor="let candidato of candidatos">
-          {{ candidato.nomeVoluntario }} ({{ candidato.emailVoluntario }}) –
-          Candidatado em: {{ candidato.dataCandidatura | date: 'dd/MM/yyyy' }}
+    <div class="box">
+      <h2>Vagas com Candidatos</h2>
+      <ul class="vaga-list">
+        <li *ngFor="let vaga of vagasComCandidatos" (click)="selecionarVaga(vaga)">
+          <span class="vaga-cargo">{{ vaga.cargo }}</span>
+          <span class="vaga-local">{{ vaga.localidade }}</span>
         </li>
       </ul>
+    </div>
 
+    <div *ngIf="vagaSelecionada" class="box">
+      <h2>Candidatos para: {{ vagaSelecionada.cargo }}</h2>
+      <ul *ngIf="candidatos.length > 0; else noCandidatos" class="candidato-list">
+        <li *ngFor="let candidato of candidatos">
+          <strong>{{ candidato.nomeVoluntario }}</strong> —
+          {{ candidato.emailVoluntario }}<br />
+          <small>Candidatado em: {{ candidato.dataCandidatura | date: 'dd/MM/yyyy' }}</small>
+        </li>
+      </ul>
       <ng-template #noCandidatos>
-        <p>Nenhum candidato para esta vaga.</p>
+        <p class="sem-candidatos">Nenhum candidato para esta vaga.</p>
       </ng-template>
     </div>
   </div>

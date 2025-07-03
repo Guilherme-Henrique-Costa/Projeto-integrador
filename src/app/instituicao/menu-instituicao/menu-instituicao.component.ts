@@ -3,19 +3,18 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-menu-instituicao',
   templateUrl: './menu-instituicao.component.html',
-  styleUrls: ['./menu-instituicao.component.css']
+  styleUrls: ['./menu-instituicao.component.css'] // mantém como CSS
 })
 export class MenuInstituicaoComponent implements OnInit {
   searchQuery: string = '';
   sidebarOpen: boolean = true;
-
-  instituicaoNome: string = 'Instituição'; // Nome padrão, será substituído após o login
+  instituicaoNome: string = 'Instituição';
 
   sidebarItems = [
-    { label: 'Menu', icon: 'pi pi-compass', route: '/menu-instituicao'},
+    { label: 'Menu', icon: 'pi pi-compass', route: '/menu-instituicao' },
     { label: 'Perfil', icon: 'pi pi-user', route: '/perfil-instituicao' },
     { label: 'Vagas', icon: 'pi pi-bookmark', route: '/vagas-instituicao' },
-    { label: 'Candidatos', icon: 'pi pi-user', route: '/candidatos'},
+    { label: 'Candidatos', icon: 'pi pi-users', route: '/candidatos' },
     { label: 'Feedback', icon: 'pi pi-inbox', route: '/feedback-instituicao' },
     { label: 'Gestão', icon: 'pi pi-chart-line', route: '/gestao' },
     { label: 'Mensagens', icon: 'pi pi-comments', route: '/mensagem-instituicao' },
@@ -39,13 +38,10 @@ export class MenuInstituicaoComponent implements OnInit {
     '⭐⭐⭐☆☆ Alexandre'
   ];
 
-  constructor() {}
-
   ngOnInit(): void {
-    // Recupera o nome da instituição do localStorage
     const nomeSalvo = localStorage.getItem('userName');
     if (nomeSalvo) {
-      this.instituicaoNome = nomeSalvo; // Atualiza o nome da instituição no menu
+      this.instituicaoNome = nomeSalvo;
     }
   }
 

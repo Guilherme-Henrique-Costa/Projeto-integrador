@@ -1,32 +1,38 @@
-/* Container Principal */
-.app-container {
-  display: flex;
+:host, html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
 }
 
-/* Sidebar fixa padrão */
+/* Container principal */
+.app-container {
+  display: flex;
+  min-height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Sidebar fixa */
 .custom-sidebar {
-  position: fixed;
-  width: 250px;
-  height: 100vh;
+  width: 260px;
   background-color: var(--roxo-escuro);
   color: var(--branco);
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  font-family: 'Roboto', sans-serif;
+  justify-content: space-between;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
 }
 
 .cabeca {
-  padding: 40px;
+  padding: 2rem;
   border-bottom: 1px solid var(--lilas);
   text-align: center;
 }
 
 .logo-text {
-  font-size: 20px;
-  font-weight: bold;
-  color: var(--branco);
-  margin-top: 10px;
+  font-size: 1.5rem;
+  font-weight: 600;
 }
 
 .corpo {
@@ -41,17 +47,17 @@
 }
 
 .menu-list li {
-  margin: 10px 0;
+  margin: 0;
 }
 
 .menu-list a {
   display: flex;
   align-items: center;
-  padding: 10px 20px;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
   color: var(--branco);
   text-decoration: none;
   transition: background-color 0.3s;
-  font-size: 16px;
 }
 
 .menu-list a:hover {
@@ -59,104 +65,95 @@
 }
 
 .rodape {
-  padding: 20px;
+  padding: 1rem;
   border-top: 1px solid var(--lilas);
   text-align: center;
+  font-size: 0.9rem;
   font-weight: bold;
-  font-size: 14px;
-  color: var(--branco);
 }
 
-/* Conteúdo Principal */
+/* Conteúdo principal */
 .main-content {
-  margin-left: 250px;
   flex-grow: 1;
-  background: linear-gradient(to bottom, var(--magenta), var(--lilas) 50%, var(--roxo));
-  padding: 20px;
+  background: linear-gradient(to bottom, #b498dd, #ab8ce4, #9b75e0);
+  padding: 2rem;
   color: var(--branco);
-  font-family: sans-serif;
-  transition: margin-left 0.3s;
+  overflow-y: auto;
 }
 
-.main-content.expanded {
-  margin-left: 0;
-}
-
-/* Barra de Busca */
+/* Barra de busca */
 .search-bar {
   display: flex;
   align-items: center;
-  margin-bottom: 30px;
+  margin-bottom: 2rem;
 }
 
 .search-bar input {
   flex: 1;
-  padding: 10px 15px;
-  border: 1px solid var(--lilas);
-  border-radius: 25px;
-  font-size: 16px;
+  padding: 0.75rem 1rem;
+  border: none;
+  border-radius: 50px;
+  font-size: 1rem;
   outline: none;
-  transition: border-color 0.3s;
+  transition: all 0.3s;
+  box-shadow: 0 0 0 2px transparent;
 }
 
 .search-bar input:focus {
-  border-color: var(--magenta);
+  box-shadow: 0 0 0 2px var(--lilas);
 }
 
 .search-button {
-  background-color: var(--branco);
+  background: var(--branco);
   border: none;
   color: var(--roxo);
-  padding: 10px 15px;
-  margin-left: 10px;
+  margin-left: 1rem;
+  padding: 0.5rem;
   border-radius: 50%;
+  font-size: 1.2rem;
   cursor: pointer;
-  font-size: 18px;
+  transition: background 0.3s;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background-color 0.3s;
 }
 
 .search-button:hover {
-  background-color: var(--roxo);
+  background: var(--amarelo);
 }
 
-/* Seções de Ranking e Feedback */
+/* Seções */
 .ranking-section,
 .feedback-section {
-  background-color: var(--branco);
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  margin-bottom: 30px;
+  background: var(--branco);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  color: var(--cinza-escuro);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .ranking-section h3,
 .feedback-section h3 {
-  margin-bottom: 20px;
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
   color: var(--roxo-escuro);
-  font-size: 20px;
   border-bottom: 2px solid var(--magenta);
-  padding-bottom: 10px;
+  padding-bottom: 0.5rem;
 }
 
-.ranking-section ul,
-.feedback-section ul {
+ul {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.ranking-section ul li,
-.feedback-section ul li {
-  padding: 10px 0;
+ul li {
+  padding: 0.75rem 0;
   border-bottom: 1px solid var(--cinza-claro);
-  font-size: 16px;
-  color: var(--cinza-escuro);
+  font-size: 1rem;
 }
 
-.ranking-section ul li:last-child,
-.feedback-section ul li:last-child {
+ul li:last-child {
   border-bottom: none;
 }
