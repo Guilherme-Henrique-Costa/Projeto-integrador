@@ -1,14 +1,14 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
 export interface Instituicao {
-   id?: number;
+  id?: number;
   nome: string;
   cnpj: string;
   email: string;
-  password: string;
+  senha: string;
   description: string;
   telefoneContato: string;
   endereco: string;
@@ -34,28 +34,38 @@ export interface Instituicao {
   comentariosSugestoes: string;
 }
 
+export interface InstituicaoLoginResponse {
+  token: string;
+  id: number;
+  nome: string;
+}
+
+
 @Injectable({
   providedIn: 'root',
 })
 export class LoginService {
-  private url = 'http://localhost:8080/api/v1/instituicao'; // URL base do backend
-  aceiteLgpd!: boolean; // Gerenciar aceitação dos termos de privacidade
+  private url = 'http://localhost:8080/api/v1/auth/instituicao';
+  aceiteLgpd!: boolean;
 
   constructor(private http: HttpClient) {}
 
-  login(user: { email: string; senha: string }): Observable<string> {
+  // Método de login da instituição
+  login(user: { email: string; senha: string }): Observable<InstituicaoLoginResponse> {
     const loginPayload = {
       email: user.email,
-      password: user.senha,
+      senha: user.senha,
     };
 
     console.log('📤 Requisição POST para login:', loginPayload);
 
-    return this.http.post<string>(`${this.url}/login`, loginPayload).pipe(
-      tap((token: string) => {
-        console.log('✅ JWT recebido:', token);
-        localStorage.setItem('token', token);
+    return this.http.post<InstituicaoLoginResponse>(`${this.url}/login`, loginPayload).pipe(
+      tap((response) => {
+        console.log('✅ JWT recebido:', response.token);
+        localStorage.setItem('tokenInstituicao', response.token);
         localStorage.setItem('userEmail', user.email);
+        localStorage.setItem('instituicaoId', response.id.toString());
+        localStorage.setItem('userName', response.nome); // <- salvando nome da instituição
       }),
       catchError(this.handleError)
     );
@@ -71,25 +81,38 @@ export class LoginService {
     );
   }
 
-  // Método para tratar erros da requisição HTTP
+  // Tratamento de erros
   private handleError(error: any): Observable<never> {
-    let errorMessage = 'Erro desconhecido!';
-    if (error.error instanceof ErrorEvent) {
-      errorMessage = `Erro: ${error.error.message}`;
-    } else {
-      errorMessage = `Erro ${error.status}: ${error.error}`;
-    }
-    return throwError(() => new Error(errorMessage));
+  console.error('📛 Erro bruto retornado pela API:', error);
+
+  let errorMessage = 'Erro desconhecido!';
+
+  if (error.error instanceof ErrorEvent) {
+    // Erro de cliente
+    errorMessage = `Erro do cliente: ${error.error.message}`;
+  } else if (error.status) {
+    // Erro HTTP (sem corpo JSON esperado)
+    const msg = typeof error.error === 'string' ? error.error : JSON.stringify(error.error);
+    errorMessage = `Erro ${error.status}: ${msg}`;
+  } else {
+    // Fallback
+    errorMessage = `Erro inesperado: ${JSON.stringify(error)}`;
   }
 
-  // Método para logout: remove as informações de autenticação do localStorage
+  console.error('📛 Erro tratado:', errorMessage);
+  return throwError(() => new Error(errorMessage));
+}
+
+  // Método de logout
   logout(): void {
     localStorage.removeItem('userEmail');
     localStorage.removeItem('userName');
+    localStorage.removeItem('instituicaoId');
+    localStorage.removeItem('token');
   }
 
-  // Verifica se o usuário está logado
+  // Verifica se está logado
   isLoggedIn(): boolean {
-    return !!localStorage.getItem('userEmail'); // Retorna verdadeiro se houver um email armazenado
+    return !!localStorage.getItem('userEmail');
   }
 }

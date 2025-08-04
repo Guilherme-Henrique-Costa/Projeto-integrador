@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
+import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -100,7 +101,7 @@ import { FullCalendarModule } from '@fullcalendar/angular';
     FullCalendarModule,
     CalendarModule,
   ],
-  providers: [MessageService, LoginService],
+  providers: [MessageService, LoginService, provideNgxMask()],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

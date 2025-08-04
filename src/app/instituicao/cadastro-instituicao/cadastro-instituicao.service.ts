@@ -8,7 +8,7 @@ export interface Instituicao {
   nome: string;
   cnpj: string;
   email: string;
-  password: string;
+  senha: string;
   description: string;
   telefoneContato: string;
   endereco: string;

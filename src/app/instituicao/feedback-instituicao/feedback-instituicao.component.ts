@@ -19,7 +19,7 @@ export class FeedbackInstituicaoComponent implements OnInit {
     { label: 'Sair', icon: 'pi pi-sign-out', route: '/login-instituicao' },
   ];
 
-  instituicaoNome = 'Instituição XYZ';
+  instituicaoNome: string = 'Instituição';
 
   feedbackText = '';
   colaboradorRating = 0;
@@ -41,9 +41,14 @@ export class FeedbackInstituicaoComponent implements OnInit {
   feedbacks: { voluntario: string; feedbackText: string }[] = [];
 
   ngOnInit(): void {
-    const stored = localStorage.getItem('feedbacks');
-    if (stored) this.feedbacks = JSON.parse(stored);
+  const stored = localStorage.getItem('feedbacks');
+  if (stored) this.feedbacks = JSON.parse(stored);
+
+  const nomeSalvo = localStorage.getItem('userName');
+  if (nomeSalvo) {
+    this.instituicaoNome = nomeSalvo;
   }
+}
 
   toggleSidebar(): void {
     this.sidebarOpen = !this.sidebarOpen;

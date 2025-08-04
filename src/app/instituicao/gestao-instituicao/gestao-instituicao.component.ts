@@ -37,6 +37,13 @@ export class GestaoInstituicaoComponent {
     { nome: 'Fernanda Rocha', email: 'fernanda@email.com', telefone: '61 77777-3333', areaInteresse: 'Saúde', disponibilidade: 'Finais de Semana' }
   ];
 
+  ngOnInit(): void {
+    const nomeSalvo = localStorage.getItem('userName');
+    if (nomeSalvo) {
+      this.instituicaoNome = nomeSalvo;
+    }
+  }
+
   toggleSidebar(): void {
     this.sidebarOpen = !this.sidebarOpen;
   }

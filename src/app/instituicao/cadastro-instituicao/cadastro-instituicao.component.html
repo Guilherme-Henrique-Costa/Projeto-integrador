@@ -18,11 +18,21 @@
           </div>
           <div class="p-field">
             <label>CNPJ:</label>
-            <input pInputText formControlName="cnpj" />
+            <input
+              pInputText
+              formControlName="cnpj"
+              mask="00.000.000/0000-00"
+              placeholder="00.000.000/0000-00"
+            />
           </div>
           <div class="p-field">
             <label>Telefone:</label>
-            <input pInputText formControlName="telefoneContato" />
+            <input
+              pInputText
+              formControlName="telefoneContato"
+              mask="(00) 0000-0000"
+              placeholder="(00) 0000-0000"
+            />
           </div>
           <div class="p-field">
             <label>Endereço:</label>
@@ -42,7 +52,12 @@
           </div>
           <div class="p-field">
             <label>Telefone:</label>
-            <input pInputText formControlName="telefoneContatoVoluntariado" />
+            <input
+              pInputText
+              formControlName="telefoneContatoVoluntariado"
+              mask="(00) 00000-0000"
+              placeholder="(00) 00000-0000"
+            />
           </div>
         </p-accordionTab>
 
@@ -180,7 +195,12 @@
           </div>
           <div class="p-field">
             <label>Horas mensais esperadas:</label>
-            <input pInputText formControlName="horasMensaisVoluntario" />
+            <input
+              pInputText
+              formControlName="horasMensaisVoluntario"
+              mask="00"
+              placeholder="00"
+            />
           </div>
           <div class="p-field">
             <label>Contatos a repassar aos voluntários:</label>
@@ -210,14 +230,15 @@
         <p-accordionTab header="Credenciais">
           <div class="p-field">
             <label>Senha:</label>
-            <input pPassword formControlName="password" />
+            <input pPassword formControlName="senha" />
           </div>
         </p-accordionTab>
 
-        
-          <div class="button-container">
-        <button type="submit" label="Cadastrar" class="ui-button-primary">Cadastrar</button>
-      </div>
+        <div class="button-container">
+          <button type="submit" label="Cadastrar" class="ui-button-primary">
+            Cadastrar
+          </button>
+        </div>
       </p-accordion>
     </form>
   </div>

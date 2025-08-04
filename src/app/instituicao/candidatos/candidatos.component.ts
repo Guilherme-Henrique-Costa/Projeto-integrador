@@ -12,6 +12,7 @@ export class CandidatosComponent implements OnInit {
   candidatos: Candidatura[] = [];
   vagasComCandidatos: Vaga[] = [];
   vagaSelecionada: Vaga | null = null;
+  instituicaoNome: string = 'Instituição';
 
   sidebarItems = [
     { label: 'Menu', icon: 'pi pi-compass', route: '/menu-instituicao'},
@@ -28,6 +29,11 @@ export class CandidatosComponent implements OnInit {
   constructor(private candidatosService: CandidatosService) { }
 
   ngOnInit(): void {
+    const nomeSalvo = localStorage.getItem('userName');
+    if (nomeSalvo) {
+      this.instituicaoNome = nomeSalvo;
+    }
+
     this.carregarVagasComCandidatos();
   }
 

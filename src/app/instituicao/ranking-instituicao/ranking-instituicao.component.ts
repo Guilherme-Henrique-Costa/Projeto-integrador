@@ -9,7 +9,7 @@ export class RankingInstituicaoComponent {
   searchQuery: string = '';
   sidebarOpen: boolean = true;
 
-  instituicaoNome: string = 'Instituição'; // Nome padrão, será substituído após o login
+  instituicaoNome: string = 'Instituição';
 
   sidebarItems = [
     { label: 'Menu', icon: 'pi pi-compass', route: '/menu-instituicao'},
@@ -34,10 +34,9 @@ export class RankingInstituicaoComponent {
   constructor() {}
 
   ngOnInit(): void {
-    // Recupera o nome da instituição do localStorage
     const nomeSalvo = localStorage.getItem('userName');
     if (nomeSalvo) {
-      this.instituicaoNome = nomeSalvo; // Atualiza o nome da instituição no menu
+      this.instituicaoNome = nomeSalvo;
     }
   }
 

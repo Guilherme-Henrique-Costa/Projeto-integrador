@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
-import { LoginService, Instituicao } from './login-instituicao.service';
+import { LoginService, Instituicao, InstituicaoLoginResponse } from './login-instituicao.service';
 import { frases, label, placeholder, Text } from 'src/assets/dicionario';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -9,7 +9,7 @@ import { HttpErrorResponse } from '@angular/common/http';
   selector: 'app-login-instituicao',
   templateUrl: './login-instituicao.component.html',
   styleUrls: ['./login-instituicao.component.css'],
-  providers: [MessageService]
+  providers: [MessageService],
 })
 export class LoginInstituicaoComponent {
   email: string = '';
@@ -33,41 +33,37 @@ export class LoginInstituicaoComponent {
 
   // Método de login para autenticar a instituição
   login(): void {
-  if (this.isEmailValido(this.email) && this.isSenhaValida(this.senha)) {
-    console.log('🔐 Senha digitada no campo:', this.senha); // <- AQUI
+    if (this.isEmailValido(this.email) && this.isSenhaValida(this.senha)) {
+      console.log('🔐 Senha digitada no campo:', this.senha);
 
-    const payload = { email: this.email, senha: this.senha };
-    console.log('🟡 Enviando payload de login:', payload);
+      const payload = { email: this.email, senha: this.senha };
+      console.log('🟡 Enviando payload de login:', payload);
 
-    this.loginService.login(payload).subscribe(
-      (token: string) => {
-        console.log('🟢 Token recebido do backend:', token);
-        localStorage.setItem('token', token);
-        localStorage.setItem('userEmail', this.email);
+       this.loginService.login(payload).subscribe(
+        (response: InstituicaoLoginResponse) => {
+          console.log('🟢 Token recebido do backend:', response.token);
+          localStorage.setItem('token', response.token);
+          localStorage.setItem('userEmail', this.email);
+          localStorage.setItem('instituicaoId', response.id.toString());
+          localStorage.setItem('userName', response.nome); // <- aqui o nome salvo
 
-        this.exibirMensagemSucesso('Login realizado com sucesso.');
-        this.redirecionarPara('/menu-instituicao', 1000);
-      },
-      (error: HttpErrorResponse) => {
-        console.error('🔴 Erro de login:', error);
-        const mensagemErro =
-          error.status === 401
-            ? 'Credenciais inválidas. Verifique o e-mail e a senha.'
-            : 'Erro ao realizar login. Tente novamente mais tarde.';
-        this.exibirMensagemErro(mensagemErro);
-      }
-    );
-  } else {
-    const erroMsg = this.getMensagemErro();
-    console.warn('⚠️ Dados inválidos:', {
-      email: this.email,
-      senha: this.senha,
-      motivo: erroMsg
-    });
-    this.exibirMensagemErro(erroMsg);
+          this.exibirMensagemSucesso('Login realizado com sucesso.');
+          this.redirecionarPara('/menu-instituicao', 1000);
+        },
+        (error: HttpErrorResponse) => {
+          console.error('🔴 Erro de login:', error);
+          const mensagemErro =
+            error.status === 401
+              ? 'Credenciais inválidas. Verifique o e-mail e a senha.'
+              : 'Erro ao realizar login. Tente novamente mais tarde.';
+          this.exibirMensagemErro(mensagemErro);
+        }
+      );
+    } else {
+      const erroMsg = this.getMensagemErro();
+      this.exibirMensagemErro(erroMsg);
+    }
   }
-}
-
 
   private isEmailValido(email: string): boolean {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);

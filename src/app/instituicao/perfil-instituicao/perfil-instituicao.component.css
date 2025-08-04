@@ -71,14 +71,6 @@
   background-color: var(--lilas);
 }
 
-.rodape {
-  padding: 1rem;
-  border-top: 1px solid var(--lilas);
-  text-align: center;
-  font-size: 0.9rem;
-  font-weight: bold;
-}
-
 /* Conteúdo principal */
 .main-content {
   flex-grow: 1;

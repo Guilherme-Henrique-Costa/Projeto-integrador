@@ -54,14 +54,6 @@
   background-color: var(--lilas);
 }
 
-.rodape {
-  padding: 20px;
-  text-align: center;
-  border-top: 1px solid var(--lilas);
-  font-size: 14px;
-  font-weight: bold;
-}
-
 .main-content {
   flex-grow: 1;
   background: linear-gradient(to bottom, var(--magenta), var(--lilas), var(--roxo));

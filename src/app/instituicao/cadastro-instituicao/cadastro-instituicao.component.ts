@@ -41,7 +41,7 @@ export class CadastroInstituicaoComponent {
       endereco: ['', [Validators.required]],
       causasApoio: [[], Validators.required],
       habilidadesRequeridas: [[], Validators.required],
-      password: ['', [Validators.required, Validators.minLength(6)]],
+      senha: ['', [Validators.required, Validators.minLength(6)]],
 
       responsavelPreenchimento: ['', Validators.required],
       nomeContatoVoluntariado: ['', Validators.required],
@@ -136,7 +136,7 @@ export class CadastroInstituicaoComponent {
       email: 'E-mail',
       telefoneContato: 'Telefone',
       endereco: 'Endereço',
-      password: 'Senha',
+      senha: 'Senha',
       areaAtuacao: 'Área de atuação',
       nomeResponsavel: 'Nome do Responsável',
       cpfResponsavel: 'CPF do Responsável',
