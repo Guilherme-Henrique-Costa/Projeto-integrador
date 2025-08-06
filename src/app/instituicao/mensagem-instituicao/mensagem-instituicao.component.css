@@ -4,25 +4,26 @@
   font-family: 'Roboto', sans-serif;
 }
 
+/* Sidebar fixa */
 .custom-sidebar {
-  width: 250px;
+  width: 260px;
   background-color: var(--roxo-escuro);
   color: var(--branco);
   display: flex;
   flex-direction: column;
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  justify-content: space-between;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
 }
 
 .cabeca {
-  padding: 40px;
-  text-align: center;
+  padding: 2rem;
   border-bottom: 1px solid var(--lilas);
+  text-align: center;
 }
 
 .logo-text {
-  font-size: 20px;
-  font-weight: bold;
-  color: var(--branco);
+  font-size: 1.5rem;
+  font-weight: 600;
 }
 
 .corpo {
@@ -32,21 +33,21 @@
 
 .menu-list {
   list-style: none;
-  margin: 0;
   padding: 0;
+  margin: 0;
 }
 
 .menu-list li {
-  margin: 10px 0;
+  margin: 0;
 }
 
 .menu-list a {
   display: flex;
   align-items: center;
-  padding: 10px 20px;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
   color: var(--branco);
   text-decoration: none;
-  font-size: 16px;
   transition: background-color 0.3s;
 }
 
