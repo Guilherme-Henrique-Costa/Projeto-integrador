@@ -1,50 +1,72 @@
 <div class="app-container">
+  <!-- Sidebar -->
+  <nav
+    class="custom-sidebar"
+    [class.collapsed]="!sidebarOpen"
+    aria-label="Navegação da instituição"
+  >
+    <div class="cabeca">
+      <span class="logo-text">{{ (instituicaoNome$ | async) ?? 'Instituição' }}</span>
+      <button
+        type="button"
+        class="btn-toggle"
+        (click)="toggleSidebar()"
+        [attr.aria-label]="'Alternar menu'"
+      >
+        <i class="pi pi-bars"></i>
+      </button>
+    </div>
 
-  <!-- Sidebar de Navegação -->
-<div class="custom-sidebar">
-  <div class="cabeca">
-    <span class="logo-text">{{ instituicaoNome }}</span>
-  </div>
-  <div class="corpo">
-    <ul class="menu-list">
-      <li *ngFor="let item of sidebarItems">
-        <a [routerLink]="item.route">
-          <i [class]="item.icon"></i> {{ item.label }}
-        </a>
-      </li>
-    </ul>
-  </div>
-</div>
-
+    <div class="corpo">
+      <ul class="menu-list">
+        <li *ngFor="let item of sidebarItems; trackBy: trackByIndex">
+          <a
+            [routerLink]="item.route"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            (click)="item.label === 'Sair' ? sair() : null"
+          >
+            <i [class]="item.icon"></i>
+            <span class="menu-label">{{ item.label }}</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
 
   <!-- Conteúdo Principal -->
-  <div class="main-content">
+  <main class="main-content" [ngClass]="{ expanded: !sidebarOpen }">
     <!-- Barra de Busca -->
     <div class="search-bar">
       <input
         type="text"
         placeholder="Pesquisar"
-        [(ngModel)]="searchQuery"
+        [formControl]="searchCtrl"
+        aria-label="Pesquisar ranking e feedback"
       />
-      <button class="search-button">
+      <button class="search-button" type="button" aria-label="Pesquisar">
         <i class="pi pi-search"></i>
       </button>
     </div>
 
     <!-- Seção de Ranking -->
-    <div class="ranking-section">
+    <section class="ranking-section">
       <h3>Ranking</h3>
       <ul>
-        <li *ngFor="let item of filteredRankingItems()">{{ item }}</li>
+        <li *ngFor="let item of (rankingItems$ | async); trackBy: trackByIndex">
+          {{ item }}
+        </li>
       </ul>
-    </div>
+    </section>
 
     <!-- Seção de Feedback -->
-    <div class="feedback-section">
+    <section class="feedback-section">
       <h3>Feedback</h3>
       <ul>
-        <li *ngFor="let item of filteredFeedbackItems()">{{ item }}</li>
+        <li *ngFor="let item of (feedbackItems$ | async); trackBy: trackByIndex">
+          {{ item }}
+        </li>
       </ul>
-    </div>
-  </div>
+    </section>
+  </main>
 </div>

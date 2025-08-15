@@ -1,21 +1,36 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { VagasInstituicaoService, VagaInstituicao } from './vagas-instituicao.service';
 import { GeocodingService } from 'src/app/services/geocoding.service';
+import { MenuInstituicaoService } from '../menu-instituicao/menu-instituicao.service';
+
+interface Coords { latitude: number; longitude: number; }
 
 @Component({
   selector: 'app-vagas-instituicao',
   templateUrl: './vagas-instituicao.component.html',
   styleUrls: ['./vagas-instituicao.component.css'],
   providers: [MessageService],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VagasInstituicaoComponent {
-  vagaForm: FormGroup;
-  searchQuery: string = '';
-  sidebarOpen: boolean = true;
-  instituicaoNome: string = 'Instituição';
+  vagaForm: FormGroup = this.fb.group({
+    cargo: ['', Validators.required],
+    localidade: ['', Validators.required],
+    descricao: ['', Validators.required],
+    especificacoes: ['', Validators.required], // CSV; será split no submit
+    tipoVaga: ['', Validators.required],
+    area: ['', Validators.required],
+    horario: ['', Validators.required],
+    tempoVoluntariado: ['', Validators.required],
+    disponibilidade: ['', Validators.required],
+  });
+
+  sidebarOpen = true;
+  instituicaoNome$ = this.menuService.getInstituicaoNome$();
+  saving = false;
 
   sidebarItems = [
     { label: 'Menu', icon: 'pi pi-compass', route: '/menu-instituicao'},
@@ -30,85 +45,66 @@ export class VagasInstituicaoComponent {
   ];
 
   constructor(
-    private fb: FormBuilder,
-    private vagasInstituicaoService: VagasInstituicaoService,
-    private router: Router,
-    private messageService: MessageService,
-    private geocodingService: GeocodingService,
-  ) {
-    this.vagaForm = this.fb.group({
-      cargo: ['', Validators.required],
-      localidade: ['', Validators.required],
-      descricao: ['', Validators.required],
-      especificacoes: ['', Validators.required],
-      tipoVaga: ['', Validators.required],
-      area: ['', Validators.required],
-      horario: ['', Validators.required],
-      tempoVoluntariado: ['', Validators.required],
-      disponibilidade: ['', Validators.required],
-    });
-  }
+    private readonly fb: FormBuilder,
+    private readonly vagasService: VagasInstituicaoService,
+    private readonly router: Router,
+    private readonly message: MessageService,
+    private readonly geocodingService: GeocodingService,
+    private readonly menuService: MenuInstituicaoService,
+  ) {}
 
   ngOnInit(): void {
-    const nomeSalvo = localStorage.getItem('userName');
-    if (nomeSalvo) {
-      this.instituicaoNome = nomeSalvo;
-    }
+    this.menuService.loadFromStorage();
   }
 
   onSubmit(): void {
-    console.log('[VagasComponent] Submissão iniciada.');
-
-    if (this.vagaForm.valid) {
-      const formValue = this.vagaForm.value;
-      formValue.especificacoes = formValue.especificacoes
-        .split(',')
-        .map((item: string) => item.trim());
-
-      console.log('[VagasComponent] Valores do formulário:', formValue);
-
-      this.geocodingService.buscarCoordenadas(formValue.localidade).subscribe({
-        next: (coords) => {
-          console.log('[VagasComponent] Coordenadas obtidas com sucesso:', coords);
-
-          const idInstituicao = Number(localStorage.getItem('instituicaoId'));
-          if (!idInstituicao) {
-            this.exibirMensagemErro('Instituição não identificada. Faça login novamente.');
-            return;
-          }
-
-          const novaVaga: VagaInstituicao = {
-            ...formValue,
-            instituicao: { id: idInstituicao },
-            latitude: coords.latitude,
-            longitude: coords.longitude,
-            cidade: formValue.localidade
-          };
-
-          console.log('[VagasComponent] Vaga final montada para envio:', novaVaga);
-
-          this.vagasInstituicaoService.cadastrarVaga(novaVaga).subscribe(
-            () => {
-              console.log('[VagasComponent] Vaga cadastrada com sucesso.');
-              this.exibirMensagemSucesso('Vaga publicada com sucesso!');
-              this.vagaForm.reset();
-            },
-            (error) => {
-              console.error('[VagasComponent] Erro ao cadastrar vaga:', error);
-              this.exibirMensagemErro('Erro ao publicar a vaga. Tente novamente.');
-            }
-          );
-        },
-        error: (err) => {
-          console.error('[VagasComponent] Erro ao obter coordenadas:', err);
-          this.exibirMensagemErro('Endereço inválido. Verifique o campo Localidade.');
-        }
-      });
-    } else {
-      console.warn('[VagasComponent] Formulário inválido.');
-      this.exibirMensagemErro(this.getMensagemErro());
+    if (this.vagaForm.invalid) {
       this.vagaForm.markAllAsTouched();
+      this.exibirMensagemErro(this.getMensagemErro());
+      return;
     }
+
+    const formValue = this.vagaForm.getRawValue();
+    const especificacoes: string[] = String(formValue.especificacoes)
+      .split(',')
+      .map((s) => s.trim())
+      .filter(Boolean);
+
+    const idInstituicao = Number(localStorage.getItem('instituicaoId'));
+    if (!idInstituicao) {
+      this.exibirMensagemErro('Instituição não identificada. Faça login novamente.');
+      return;
+    }
+
+    this.saving = true;
+
+    this.geocodingService.buscarCoordenadas(formValue.localidade).subscribe({
+      next: (coords: Coords) => {
+        const novaVaga: VagaInstituicao = {
+          ...formValue,
+          especificacoes,
+          instituicao: { id: idInstituicao },
+          latitude: coords.latitude,
+          longitude: coords.longitude,
+          cidade: formValue.localidade,
+        };
+
+        this.vagasService.cadastrarVaga(novaVaga).subscribe({
+          next: () => {
+            this.exibirMensagemSucesso('Vaga publicada com sucesso!');
+            this.vagaForm.reset();
+          },
+          error: (err: Error) => {
+            this.exibirMensagemErro(err.message || 'Erro ao publicar a vaga.');
+          },
+          complete: () => (this.saving = false),
+        });
+      },
+      error: () => {
+        this.saving = false;
+        this.exibirMensagemErro('Endereço inválido. Verifique o campo Localidade.');
+      },
+    });
   }
 
   toggleSidebar(): void {
@@ -120,22 +116,22 @@ export class VagasInstituicaoComponent {
   }
 
   isFieldInvalid(field: string): boolean {
-    return !!this.vagaForm.get(field)?.invalid &&
-      (!!this.vagaForm.get(field)?.touched || !!this.vagaForm.get(field)?.dirty);
+    const c = this.vagaForm.get(field);
+    return !!c && c.invalid && (c.touched || c.dirty);
   }
 
   private getMensagemErro(): string {
-    for (const field in this.vagaForm.controls) {
-      const control = this.vagaForm.get(field);
-      if (control?.errors?.['required']) {
-        return `O campo ${this.getFieldName(field)} é obrigatório.`;
+    const controls = this.vagaForm.controls;
+    for (const key of Object.keys(controls)) {
+      if (controls[key].hasError('required')) {
+        return `O campo ${this.getFieldName(key)} é obrigatório.`;
       }
     }
     return 'Por favor, corrija os erros antes de enviar.';
   }
 
   private getFieldName(field: string): string {
-    const fieldNames: { [key: string]: string } = {
+    const map: Record<string, string> = {
       cargo: 'Cargo',
       localidade: 'Localidade de Trabalho',
       descricao: 'Descrição',
@@ -146,24 +142,20 @@ export class VagasInstituicaoComponent {
       tempoVoluntariado: 'Tempo de Voluntariado',
       disponibilidade: 'Disponibilidade',
     };
-    return fieldNames[field] || field;
+    return map[field] || field;
   }
 
-  private exibirMensagemSucesso(mensagem: string): void {
-    this.messageService.add({
-      severity: 'success',
-      summary: 'Sucesso',
-      detail: mensagem,
-      styleClass: 'toast-success',
-    });
+  private exibirMensagemSucesso(detail: string): void {
+    this.message.add({ severity: 'success', summary: 'Sucesso', detail, styleClass: 'toast-success' });
+  }
+  private exibirMensagemErro(detail: string): void {
+    this.message.add({ severity: 'error', summary: 'Erro', detail, styleClass: 'toast-error' });
   }
 
-  private exibirMensagemErro(mensagem: string): void {
-    this.messageService.add({
-      severity: 'error',
-      summary: 'Erro',
-      detail: mensagem,
-      styleClass: 'toast-error',
-    });
+  sair(): void {
+    this.menuService.logout();
+    this.router.navigate(['/login-instituicao']);
   }
+
+  trackByIndex = (i: number) => i;
 }

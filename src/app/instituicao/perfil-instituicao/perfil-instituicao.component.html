@@ -1,58 +1,67 @@
 <div class="perfil-container">
   <!-- Sidebar -->
-  <!-- Sidebar de Navegação -->
-<div class="custom-sidebar">
-  <div class="cabeca">
-    <span class="logo-text">{{ instituicaoNome }}</span>
-  </div>
-  <div class="corpo">
-    <ul class="menu-list">
-      <li *ngFor="let item of sidebarItems">
-        <a [routerLink]="item.route">
-          <i [class]="item.icon"></i> {{ item.label }}
-        </a>
-      </li>
-    </ul>
-  </div>
-</div>
-
+  <nav class="custom-sidebar" [class.collapsed]="!sidebarOpen">
+    <div class="cabeca">
+      <span class="logo-text">{{ (instituicaoNome$ | async) ?? 'Instituição' }}</span>
+      <button type="button" class="btn-toggle" (click)="toggleSidebar()" [attr.aria-label]="'Alternar menu'">
+        <i class="pi pi-bars"></i>
+      </button>
+    </div>
+    <div class="corpo">
+      <ul class="menu-list">
+        <li *ngFor="let item of sidebarItems; trackBy: trackByIndex">
+          <a
+            [routerLink]="item.route"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            (click)="item.label === 'Sair' ? sair() : null"
+          >
+            <i [class]="item.icon"></i> <span class="menu-label">{{ item.label }}</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
 
   <!-- Conteúdo Principal -->
-  <div class="main-content" [ngClass]="{'expanded': !sidebarOpen}">
+  <main class="main-content" [ngClass]="{ expanded: !sidebarOpen }">
     <div class="profile-container">
-      <h3>Perfil Instituição</h3>
+      <h3>Perfil da Instituição</h3>
+
       <form [formGroup]="cadastroForm" (ngSubmit)="salvar()">
         <!-- Campo Nome -->
-        <label for="name">Nome:</label>
-        <input type="text" id="name" formControlName="name" placeholder="Digite o nome da instituição" />
-        <div *ngIf="cadastroForm.get('name')?.touched && cadastroForm.get('name')?.invalid">
-          <small>{{ getErrorMessage('name') }}</small>
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" formControlName="nome" placeholder="Nome da instituição" />
+        <div *ngIf="cadastroForm.get('nome')?.touched && cadastroForm.get('nome')?.invalid">
+          <small>{{ getErrorMessage('nome') }}</small>
         </div>
 
         <!-- Campo E-mail -->
         <label for="email">E-mail:</label>
-        <input type="email" id="email" formControlName="email" placeholder="Digite o e-mail da instituição" />
+        <input type="email" id="email" formControlName="email" placeholder="email@exemplo.com" />
         <div *ngIf="cadastroForm.get('email')?.touched && cadastroForm.get('email')?.invalid">
           <small>{{ getErrorMessage('email') }}</small>
         </div>
 
         <!-- Campo CNPJ -->
         <label for="cnpj">CNPJ:</label>
-        <input type="text" id="cnpj" formControlName="cnpj" placeholder="Digite o CNPJ" />
+        <input type="text" id="cnpj" formControlName="cnpj" placeholder="00.000.000/0000-00" />
         <div *ngIf="cadastroForm.get('cnpj')?.touched && cadastroForm.get('cnpj')?.invalid">
           <small>{{ getErrorMessage('cnpj') }}</small>
         </div>
 
         <!-- Campo Senha -->
         <label for="password">Senha:</label>
-        <input type="password" id="password" formControlName="password" placeholder="Digite a senha" />
+        <input type="password" id="password" formControlName="password" placeholder="Mínimo 6 caracteres" />
         <div *ngIf="cadastroForm.get('password')?.touched && cadastroForm.get('password')?.invalid">
           <small>{{ getErrorMessage('password') }}</small>
         </div>
 
         <!-- Botão para Salvar -->
-        <button type="submit" [disabled]="cadastroForm.invalid">Salvar mudanças</button>
+        <button type="submit" [disabled]="cadastroForm.invalid || saving">
+          {{ saving ? 'Salvando...' : 'Salvar mudanças' }}
+        </button>
       </form>
     </div>
-  </div>
+  </main>
 </div>

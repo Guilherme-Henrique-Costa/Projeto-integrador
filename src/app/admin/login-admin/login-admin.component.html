@@ -1,0 +1,57 @@
+<div class="login-container">
+  <div class="login-card">
+    <div class="header">
+      <h1>Admin CEUB</h1>
+      <p class="subtitle">Acesse o painel de administração</p>
+    </div>
+
+    <form class="form">
+      <div class="form-group">
+        <label for="email">E-mail</label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          placeholder="admin@ceub.br"
+          required
+          autocomplete="email"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="senha">Senha</label>
+        <input
+          id="senha"
+          name="senha"
+          type="password"
+          placeholder="Sua senha"
+          required
+          autocomplete="current-password"
+        />
+      </div>
+
+      <div class="form-row">
+        <label class="checkbox">
+          <input type="checkbox" />
+          <span>Lembrar de mim</span>
+        </label>
+
+        <a class="link" routerLink="/esqueci-senha-admin">Esqueci minha senha</a>
+      </div>
+
+      <button class="btn btn-primary" type="submit">Entrar</button>
+
+      <div class="divider">
+        <span>ou</span>
+      </div>
+
+      <button class="btn btn-text" type="button" routerLink="/cadastro-admin">
+        Criar conta de administrador
+      </button>
+    </form>
+  </div>
+
+  <footer class="footer">
+  <span>© {{ anoAtual }} CEUB – Administração</span>
+</footer>
+</div>

@@ -1,33 +1,38 @@
-:host, html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  width: 100%;
-  overflow: hidden;
-}
-
-/* Container principal */
 .app-container {
   display: flex;
-  min-height: 100vh;
+  height: 100vh;
   font-family: 'Segoe UI', sans-serif;
+  overflow: hidden;              /* evita scroll horizontal ao colapsar */
 }
 
-/* Sidebar fixa */
+/* ===== Sidebar ===== */
 .custom-sidebar {
   width: 260px;
+  min-width: 260px;              /* garante largura fixa inicial */
   background-color: var(--roxo-escuro);
   color: var(--branco);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+  transition: width .2s ease, min-width .2s ease;
+  overflow: hidden;              /* evita vazamento de conteúdo ao colapsar */
 }
 
+/* Estado colapsado */
+.custom-sidebar.collapsed {
+  width: 70px;
+  min-width: 70px;
+  border-right: 1px solid rgba(255, 255, 255, .08); /* borda opcional */
+}
+
+/* ===== Cabeçalho da Sidebar ===== */
 .cabeca {
   padding: 2rem;
   border-bottom: 1px solid var(--lilas);
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .logo-text {
@@ -35,6 +40,22 @@
   font-weight: 600;
 }
 
+.btn-toggle {
+  background: transparent;
+  border: none;
+  color: var(--branco);
+  cursor: pointer;
+}
+
+/* Ajustes específicos para colapso */
+.custom-sidebar.collapsed .cabeca {
+  padding: .75rem;
+}
+.custom-sidebar.collapsed .logo-text {
+  display: none;
+}
+
+/* ===== Corpo da Sidebar ===== */
 .corpo {
   flex: 1;
   overflow-y: auto;
@@ -57,23 +78,40 @@
   padding: 1rem 1.5rem;
   color: var(--branco);
   text-decoration: none;
-  transition: background-color 0.3s;
+  transition: background-color .3s, padding .2s, gap .2s;
+  white-space: nowrap;
 }
 
-.menu-list a:hover {
+.menu-list a:hover,
+.menu-list a.active {
   background-color: var(--lilas);
 }
 
-/* Conteúdo principal */
+.menu-label {
+  white-space: nowrap;
+}
+
+/* Quando colapsa, mostra só os ícones */
+.custom-sidebar.collapsed .menu-list a {
+  justify-content: center;
+  padding: .75rem 0;
+  gap: 0;
+}
+
+.custom-sidebar.collapsed .menu-label {
+  display: none;
+}
+
+/* ===== Conteúdo Principal ===== */
 .main-content {
-  flex-grow: 1;
-  background: linear-gradient(to bottom, #b498dd, #ab8ce4, #9b75e0);
-  padding: 2rem;
+  flex: 1 1 auto;                /* ocupa o espaço restante */
+  background: linear-gradient(to bottom, var(--magenta), var(--lilas) 50%, var(--roxo));
+  padding: 20px;
   color: var(--branco);
   overflow-y: auto;
 }
 
-/* Barra de busca */
+/* ===== Search bar ===== */
 .search-bar {
   display: flex;
   align-items: center;
@@ -82,47 +120,41 @@
 
 .search-bar input {
   flex: 1;
-  padding: 0.75rem 1rem;
+  padding: .75rem 1rem;
   border: none;
   border-radius: 50px;
   font-size: 1rem;
   outline: none;
-  transition: all 0.3s;
+  background: var(--branco);
+  color: var(--cinza-escuro);
   box-shadow: 0 0 0 2px transparent;
+  transition: box-shadow .3s;
 }
-
-.search-bar input:focus {
-  box-shadow: 0 0 0 2px var(--lilas);
-}
+.search-bar input:focus { box-shadow: 0 0 0 2px var(--lilas); }
 
 .search-button {
   background: var(--branco);
   border: none;
   color: var(--roxo);
   margin-left: 1rem;
-  padding: 0.5rem;
+  padding: .5rem;
   border-radius: 50%;
   font-size: 1.2rem;
   cursor: pointer;
-  transition: background 0.3s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: flex; align-items: center; justify-content: center;
+  transition: background .2s ease;
 }
+.search-button:hover { background: var(--amarelo); }
 
-.search-button:hover {
-  background: var(--amarelo);
-}
-
-/* Seções */
+/* ===== Cards/Sections ===== */
 .ranking-section,
 .feedback-section {
   background: var(--branco);
+  color: var(--cinza-escuro);
   border-radius: 1rem;
   padding: 1.5rem;
   margin-bottom: 2rem;
-  color: var(--cinza-escuro);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 10px rgba(0,0,0,.1);
 }
 
 .ranking-section h3,
@@ -131,21 +163,15 @@
   font-size: 1.25rem;
   color: var(--roxo-escuro);
   border-bottom: 2px solid var(--magenta);
-  padding-bottom: 0.5rem;
+  padding-bottom: .5rem;
 }
 
-ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
+ul { list-style: none; padding: 0; margin: 0; }
+ul li { padding: .75rem 0; border-bottom: 1px solid var(--cinza-claro); font-size: 1rem; }
+ul li:last-child { border-bottom: none; }
 
-ul li {
-  padding: 0.75rem 0;
-  border-bottom: 1px solid var(--cinza-claro);
-  font-size: 1rem;
-}
-
-ul li:last-child {
-  border-bottom: none;
+/* ===== Responsivo ===== */
+@media (max-width: 768px) {
+  .main-content { padding: 1.25rem; }
+  .custom-sidebar { display: none; }
 }

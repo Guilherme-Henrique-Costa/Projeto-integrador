@@ -31,8 +31,31 @@
   background-color: #bf0087; /* tom mais escuro do magenta */
 }
 
+.btn-admin {
+  padding: 12px 32px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: var(--branco);
+  background-color: var(--magenta);
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+}
+
+.btn-admin:hover {
+  background-color: #bf0087; /* tom mais escuro do magenta */
+}
+
 @media (max-width: 600px) {
   .btn-instituicao {
+    width: 100%;
+    max-width: 300px;
+    font-size: 1rem;
+  }
+
+  .btn-admin {
     width: 100%;
     max-width: 300px;
     font-size: 1rem;

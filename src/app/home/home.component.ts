@@ -17,11 +17,14 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Intencionalmente vazio para uso futuro
   }
 
   instituicao() {
     this.router.navigate(['/login-instituicao']);
+  }
+
+  admin() {
+    this.router.navigate(['/login-admin']);
   }
 
 }

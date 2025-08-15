@@ -14,26 +14,38 @@
 .perfil-container {
   display: flex;
   height: 100vh;
-  font-family: 'Roboto', sans-serif;
-  background: linear-gradient(to bottom, var(--magenta), var(--lilas), var(--roxo));
-  color: var(--branco);
+  font-family: 'Segoe UI', sans-serif;
+  overflow: hidden;              /* evita scroll horizontal ao colapsar */
 }
 
-/* Sidebar fixa */
+/* ===== Sidebar ===== */
 .custom-sidebar {
   width: 260px;
+  min-width: 260px;              /* garante largura fixa inicial */
   background-color: var(--roxo-escuro);
   color: var(--branco);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+  transition: width .2s ease, min-width .2s ease;
+  overflow: hidden;              /* evita vazamento de conteúdo ao colapsar */
 }
 
+/* Estado colapsado */
+.custom-sidebar.collapsed {
+  width: 70px;
+  min-width: 70px;
+  border-right: 1px solid rgba(255, 255, 255, .08); /* borda opcional */
+}
+
+/* ===== Cabeçalho da Sidebar ===== */
 .cabeca {
   padding: 2rem;
   border-bottom: 1px solid var(--lilas);
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .logo-text {
@@ -41,6 +53,22 @@
   font-weight: 600;
 }
 
+.btn-toggle {
+  background: transparent;
+  border: none;
+  color: var(--branco);
+  cursor: pointer;
+}
+
+/* Ajustes específicos para colapso */
+.custom-sidebar.collapsed .cabeca {
+  padding: .75rem;
+}
+.custom-sidebar.collapsed .logo-text {
+  display: none;                 /* esconde o nome grande */
+}
+
+/* ===== Corpo da Sidebar ===== */
 .corpo {
   flex: 1;
   overflow-y: auto;
@@ -63,20 +91,39 @@
   padding: 1rem 1.5rem;
   color: var(--branco);
   text-decoration: none;
-  transition: background-color 0.3s;
+  transition: background-color .3s, padding .2s, gap .2s;
+  white-space: nowrap;
 }
 
-.menu-list a:hover {
+.menu-list a:hover,
+.menu-list a.active {
   background-color: var(--lilas);
 }
 
-/* Conteúdo principal */
-.main-content {
-  flex-grow: 1;
-  padding: 3rem;
-  display: flex;
-  align-items: center;
+.menu-label {
+  white-space: nowrap;
+}
+
+/* Quando colapsa, mostra só os ícones */
+.custom-sidebar.collapsed .menu-list a {
   justify-content: center;
+  padding: .75rem 0;
+  gap: 0;
+}
+
+.custom-sidebar.collapsed .menu-label {
+  display: none;
+}
+
+/* ===== Conteúdo Principal ===== */
+.main-content {
+  flex: 1 1 auto;
+  background: linear-gradient(to bottom, var(--magenta), var(--lilas) 50%, var(--roxo));
+  color: var(--branco);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px 24px;
   overflow-y: auto;
 }
 
@@ -165,15 +212,7 @@ small {
 
 /* Responsivo */
 @media (max-width: 768px) {
-  .main-content {
-    padding: 1.5rem;
-  }
-
-  .profile-container {
-    padding: 1.5rem;
-  }
-
-  .custom-sidebar {
-    display: none; /* Esconde o menu lateral em telas pequenas */
-  }
+  .main-content { padding: 1.5rem; }
+  .profile-container { padding: 1.5rem; }
+  .custom-sidebar { display: none; }
 }

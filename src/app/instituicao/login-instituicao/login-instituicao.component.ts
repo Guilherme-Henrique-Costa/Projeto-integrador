@@ -1,124 +1,102 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
-import { LoginService, Instituicao, InstituicaoLoginResponse } from './login-instituicao.service';
+import { LoginService } from './login-instituicao.service';
 import { frases, label, placeholder, Text } from 'src/assets/dicionario';
-import { HttpErrorResponse } from '@angular/common/http';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login-instituicao',
   templateUrl: './login-instituicao.component.html',
   styleUrls: ['./login-instituicao.component.css'],
   providers: [MessageService],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginInstituicaoComponent {
-  email: string = '';
-  senha: string = '';
-
+  // dialog LGPD
   position = 'center';
   displayPosition = true;
 
+  // dicionário
   text = Text;
   placeholder = placeholder;
   frasesAleatorias = frases;
   label = label;
 
+  // reactive form
+  form: FormGroup = this.fb.group({
+    email: ['', [Validators.required, Validators.email]],
+    senha: ['', [Validators.required, Validators.minLength(3)]],
+  });
+
   constructor(
-    private router: Router,
-    private messageService: MessageService,
-    private loginService: LoginService // Injetar LoginService
+    private readonly fb: FormBuilder,
+    private readonly router: Router,
+    private readonly messageService: MessageService,
+    private readonly loginService: LoginService,
   ) {}
 
-  ngOnInit(): void {}
-
-  // Método de login para autenticar a instituição
-  login(): void {
-    if (this.isEmailValido(this.email) && this.isSenhaValida(this.senha)) {
-      console.log('🔐 Senha digitada no campo:', this.senha);
-
-      const payload = { email: this.email, senha: this.senha };
-      console.log('🟡 Enviando payload de login:', payload);
-
-       this.loginService.login(payload).subscribe(
-        (response: InstituicaoLoginResponse) => {
-          console.log('🟢 Token recebido do backend:', response.token);
-          localStorage.setItem('token', response.token);
-          localStorage.setItem('userEmail', this.email);
-          localStorage.setItem('instituicaoId', response.id.toString());
-          localStorage.setItem('userName', response.nome); // <- aqui o nome salvo
-
-          this.exibirMensagemSucesso('Login realizado com sucesso.');
-          this.redirecionarPara('/menu-instituicao', 1000);
-        },
-        (error: HttpErrorResponse) => {
-          console.error('🔴 Erro de login:', error);
-          const mensagemErro =
-            error.status === 401
-              ? 'Credenciais inválidas. Verifique o e-mail e a senha.'
-              : 'Erro ao realizar login. Tente novamente mais tarde.';
-          this.exibirMensagemErro(mensagemErro);
-        }
-      );
-    } else {
-      const erroMsg = this.getMensagemErro();
-      this.exibirMensagemErro(erroMsg);
+  // submit do formulário
+  onSubmit(): void {
+    if (this.form.invalid) {
+      this.exibirMensagemErro(this.getMensagemErro());
+      return;
     }
+
+    const payload = this.form.getRawValue(); // { email, senha }
+    this.loginService.login(payload).subscribe({
+      next: () => {
+        this.exibirMensagemSucesso('Login realizado com sucesso.');
+        this.redirecionarPara('/menu-instituicao', 500);
+      },
+      error: (err: Error) => {
+        const mensagem =
+          err.message?.includes('401') || err.message?.toLowerCase().includes('não autorizado')
+            ? 'Credenciais inválidas. Verifique o e-mail e a senha.'
+            : err.message || 'Erro ao realizar login. Tente novamente mais tarde.';
+        this.exibirMensagemErro(mensagem);
+      },
+    });
   }
 
-  private isEmailValido(email: string): boolean {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  }
-
-  private isSenhaValida(senha: string): boolean {
-    return senha.length >= 3; // Pode ajustar o comprimento mínimo conforme necessário
-  }
-
+  // helpers de validação/mensagens
   private getMensagemErro(): string {
-    if (!this.isEmailValido(this.email)) {
-      return 'O email inserido é inválido.';
-    } else if (!this.isSenhaValida(this.senha)) {
-      return 'A senha precisa ter no mínimo 3 caracteres.';
-    }
-    return 'Email ou senha inválidos';
+    const email = this.form.get('email');
+    const senha = this.form.get('senha');
+
+    if (email?.hasError('required')) return 'O e-mail é obrigatório.';
+    if (email?.hasError('email')) return 'O e-mail inserido é inválido.';
+    if (senha?.hasError('required')) return 'A senha é obrigatória.';
+    if (senha?.hasError('minlength')) return 'A senha precisa ter no mínimo 3 caracteres.';
+    return 'Verifique os campos e tente novamente.';
   }
 
   private exibirMensagemSucesso(mensagem: string): void {
-    this.messageService.add({
-      severity: 'success',
-      summary: 'Sucesso',
-      detail: mensagem,
-    });
+    this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: mensagem });
   }
-
   private exibirMensagemErro(mensagem: string): void {
-    this.messageService.add({
-      severity: 'error',
-      summary: 'Erro',
-      detail: mensagem,
-    });
+    this.messageService.add({ severity: 'error', summary: 'Erro', detail: mensagem });
   }
 
-  private redirecionarPara(rota: string, delay: number = 0): void {
+  private redirecionarPara(rota: string, delay = 0): void {
     setTimeout(() => this.router.navigate([rota]), delay);
   }
 
+  // ações de navegação
   cadastrarInstituicao(): void {
     this.redirecionarPara('/cadastro-instituicao');
   }
-
   voltar(): void {
     this.redirecionarPara('/home');
   }
-
   redefinirSenha(): void {
     this.redirecionarPara('/confirmar-senha-instituicao');
   }
 
+  // LGPD dialog
   aceitar(): void {
     this.displayPosition = false;
-    this.redirecionarPara('/login-instituicao');
   }
-
   rejeitar(): void {
     this.displayPosition = false;
     this.redirecionarPara('/cadastro-rejeitado');

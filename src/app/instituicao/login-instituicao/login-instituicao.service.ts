@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 export interface Instituicao {
   id?: number;
@@ -40,79 +41,55 @@ export interface InstituicaoLoginResponse {
   nome: string;
 }
 
-
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class LoginService {
-  private url = 'http://localhost:8080/api/v1/auth/instituicao';
-  aceiteLgpd!: boolean;
+  // deixe apiUrl em environment.ts: ex: http://localhost:8080/api/v1
+  private readonly baseUrl = `${environment.apiUrl}/auth/instituicao`;
 
   constructor(private http: HttpClient) {}
 
-  // Método de login da instituição
-  login(user: { email: string; senha: string }): Observable<InstituicaoLoginResponse> {
-    const loginPayload = {
-      email: user.email,
-      senha: user.senha,
-    };
-
-    console.log('📤 Requisição POST para login:', loginPayload);
-
-    return this.http.post<InstituicaoLoginResponse>(`${this.url}/login`, loginPayload).pipe(
-      tap((response) => {
-        console.log('✅ JWT recebido:', response.token);
-        localStorage.setItem('tokenInstituicao', response.token);
-        localStorage.setItem('userEmail', user.email);
-        localStorage.setItem('instituicaoId', response.id.toString());
-        localStorage.setItem('userName', response.nome); // <- salvando nome da instituição
-      }),
-      catchError(this.handleError)
-    );
+  login(payload: { email: string; senha: string }): Observable<InstituicaoLoginResponse> {
+    return this.http
+      .post<InstituicaoLoginResponse>(`${this.baseUrl}/login`, payload)
+      .pipe(
+        tap((res) => {
+          // padronize as chaves: use sempre 'token', 'userEmail', 'instituicaoId', 'userName'
+          localStorage.setItem('token', res.token);
+          localStorage.setItem('userEmail', payload.email);
+          localStorage.setItem('instituicaoId', String(res.id));
+          localStorage.setItem('userName', res.nome);
+        }),
+        catchError(this.handleError),
+      );
   }
 
-  // Método para registrar uma instituição
   register(instituicao: Instituicao): Observable<Instituicao> {
-    return this.http.post<Instituicao>(`${this.url}/register`, instituicao).pipe(
-      tap((response: Instituicao) => {
-        console.log('Instituição registrada:', response);
-      }),
-      catchError(this.handleError)
-    );
+    return this.http
+      .post<Instituicao>(`${this.baseUrl}/register`, instituicao)
+      .pipe(catchError(this.handleError));
   }
 
-  // Tratamento de erros
-  private handleError(error: any): Observable<never> {
-  console.error('📛 Erro bruto retornado pela API:', error);
-
-  let errorMessage = 'Erro desconhecido!';
-
-  if (error.error instanceof ErrorEvent) {
-    // Erro de cliente
-    errorMessage = `Erro do cliente: ${error.error.message}`;
-  } else if (error.status) {
-    // Erro HTTP (sem corpo JSON esperado)
-    const msg = typeof error.error === 'string' ? error.error : JSON.stringify(error.error);
-    errorMessage = `Erro ${error.status}: ${msg}`;
-  } else {
-    // Fallback
-    errorMessage = `Erro inesperado: ${JSON.stringify(error)}`;
-  }
-
-  console.error('📛 Erro tratado:', errorMessage);
-  return throwError(() => new Error(errorMessage));
-}
-
-  // Método de logout
   logout(): void {
+    localStorage.removeItem('token');
     localStorage.removeItem('userEmail');
     localStorage.removeItem('userName');
     localStorage.removeItem('instituicaoId');
-    localStorage.removeItem('token');
   }
 
-  // Verifica se está logado
   isLoggedIn(): boolean {
-    return !!localStorage.getItem('userEmail');
+    return !!localStorage.getItem('token');
+  }
+
+  private handleError(error: any): Observable<never> {
+    // mensagens mais limpas e previsíveis
+    let message = 'Erro desconhecido.';
+    if (error?.error instanceof ErrorEvent) {
+      message = `Erro do cliente: ${error.error.message}`;
+    } else if (typeof error?.error === 'string') {
+      message = error.error;
+    } else if (error?.status) {
+      message = `Erro ${error.status}${error.statusText ? ` - ${error.statusText}` : ''}`;
+    }
+    return throwError(() => new Error(message));
   }
 }

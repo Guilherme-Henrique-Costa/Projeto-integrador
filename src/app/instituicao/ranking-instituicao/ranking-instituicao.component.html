@@ -1,44 +1,61 @@
 <div class="app-container">
-  <!-- Sidebar de Navegação -->
-  <div class="custom-sidebar">
+  <!-- Sidebar -->
+  <nav class="custom-sidebar" [class.collapsed]="!sidebarOpen">
     <div class="cabeca">
-      <span class="logo-text">{{ instituicaoNome }}</span>
+      <span class="logo-text">{{ (instituicaoNome$ | async) ?? 'Instituição' }}</span>
+      <button type="button" class="btn-toggle" (click)="toggleSidebar()" [attr.aria-label]="'Alternar menu'">
+        <i class="pi pi-bars"></i>
+      </button>
     </div>
     <div class="corpo">
       <ul class="menu-list">
-        <li *ngFor="let item of sidebarItems">
-          <a [routerLink]="item.route">
-            <i [class]="item.icon"></i> {{ item.label }}
+        <li *ngFor="let item of sidebarItems; trackBy: trackByRoute">
+          <a
+            [routerLink]="item.route"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            (click)="item.label === 'Sair' ? sair() : null"
+          >
+            <i [class]="item.icon"></i>
+            <span class="menu-label">{{ item.label }}</span>
           </a>
         </li>
       </ul>
     </div>
-  </div>
+  </nav>
 
   <!-- Conteúdo Principal -->
-  <div class="main-content">
-    <!-- Barra de Busca -->
+  <main class="main-content">
     <div class="search-bar">
-      <input type="text" placeholder="Pesquisar" [(ngModel)]="searchQuery" />
-      <button class="search-button">
+      <input
+        type="text"
+        placeholder="Pesquisar"
+        [(ngModel)]="searchQuery"
+        [attr.aria-label]="'Pesquisar no ranking'"
+      />
+      <button class="search-button" type="button" aria-label="Pesquisar">
         <i class="pi pi-search"></i>
       </button>
     </div>
 
-    <!-- Centralizar ranking sem afetar a barra -->
     <div class="ranking-wrapper">
       <div class="ranking-container">
         <h3>Ranking</h3>
-        <ul class="ranking-list">
-          <li *ngFor="let item of ranking">
-            <div class="ranking-item">
+
+        <ul class="ranking-list" *ngIf="rankingFiltrado.length > 0; else vazio">
+          <li *ngFor="let item of rankingFiltrado; trackBy: trackByPosicao">
+            <div class="ranking-item" [ngClass]="{'top-1': item.posicao === 1, 'top-2': item.posicao === 2, 'top-3': item.posicao === 3}">
               <span class="ranking-posicao">{{ item.posicao }}º</span>
-              <i class="pi pi-medal icon"></i>
+              <span class="ranking-medal">{{ medalEmoji(item.posicao) }}</span>
               <span class="ranking-nome">{{ item.nome }}</span>
             </div>
           </li>
         </ul>
+
+        <ng-template #vazio>
+          <p class="ranking-vazio">Nenhum resultado encontrado.</p>
+        </ng-template>
       </div>
     </div>
-  </div>
+  </main>
 </div>

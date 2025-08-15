@@ -15,6 +15,10 @@ import { FeedbackInstituicaoComponent } from './instituicao/feedback-instituicao
 import { MensagemInstituicaoComponent } from './instituicao/mensagem-instituicao/mensagem-instituicao.component';
 import { RankingInstituicaoComponent } from './instituicao/ranking-instituicao/ranking-instituicao.component';
 import { ChatPessoalComponent } from './instituicao/chat-pessoal/chat-pessoal.component';
+import { LoginAdminComponent } from './admin/login-admin/login-admin.component';
+import { CadastroAdminComponent } from './admin/cadastro-admin/cadastro-admin.component';
+import { EsqueciSenhaAdminComponent } from './admin/esqueci-senha-admin/esqueci-senha-admin.component';
+import { MenuAdminComponent } from './admin/menu-admin/menu-admin.component';
 
 const routes: Routes = [
   {
@@ -106,6 +110,26 @@ const routes: Routes = [
     path: 'mensagem-instituicao/chat/:nome',
     component: ChatPessoalComponent,
   },
+
+  {
+    path: 'login-admin',
+    component: LoginAdminComponent,
+  },
+
+  {
+    path: 'cadastro-admin',
+    component: CadastroAdminComponent,
+  },
+
+  {
+    path: 'esqueci-senha-admin',
+    component: EsqueciSenhaAdminComponent,
+  },
+
+  {
+    path: 'menu-admin',
+    component: MenuAdminComponent,
+  }
 
 ];
 

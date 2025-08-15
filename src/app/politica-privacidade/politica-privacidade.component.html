@@ -1,33 +1,36 @@
-<div class="container-inicio">
-  <div class="titulo"><h1>{{texto.politicaDePrivacidade}}</h1></div>
-  <div class="texto">
-    <h2>{{texto.dadosColetados}}</h2>
-    <p>
-     {{frasesAleatorias.frase10}}
-    </p>
-    <p>
-      {{frasesAleatorias.frase11}}
-    </p>
-    <p>
-      {{frasesAleatorias.frase12}}
-    </p>
-    <h2>{{frasesAleatorias.frase13}}</h2>
-    <p>
-      {{frasesAleatorias.frase14}}
-    </p>
-    <h2>{{frasesAleatorias.frase15}}</h2>
-    <p>
-      {{frasesAleatorias.frase16}}
-    </p>
-  </div>
-  <div class="grid p-fluid justify-content-center p-4">
-    <div class="btn">
-      <p-button
-        [style]="{ border: 'none' }"
-        class="btn-inicio"
-        routerLink="/login"
-        label={{label.voltarParaInicio}}
-      ></p-button>
-    </div>
-  </div>
+<div class="pp-page">
+  <section class="pp-hero">
+    <h1 class="pp-hero__title">{{ texto.politicaDePrivacidade }}</h1>
+    <p class="pp-hero__subtitle">Como coletamos, usamos e protegemos seus dados.</p>
+  </section>
+
+  <main class="pp-main" role="main">
+    <article class="pp-card">
+      <section class="pp-section">
+        <h2>{{ texto.dadosColetados }}</h2>
+        <p>{{ frasesAleatorias.frase10 }}</p>
+        <p>{{ frasesAleatorias.frase11 }}</p>
+        <p>{{ frasesAleatorias.frase12 }}</p>
+      </section>
+
+      <section class="pp-section">
+        <h2>{{ frasesAleatorias.frase13 }}</h2>
+        <p>{{ frasesAleatorias.frase14 }}</p>
+      </section>
+
+      <section class="pp-section">
+        <h2>{{ frasesAleatorias.frase15 }}</h2>
+        <p>{{ frasesAleatorias.frase16 }}</p>
+      </section>
+
+      <div class="pp-actions">
+        <p-button
+          class="pp-btn pp-btn--primary"
+          [label]="label.voltarParaInicio"
+          icon="pi pi-arrow-left"
+          routerLink="/login-instituicao"
+        ></p-button>
+      </div>
+    </article>
+  </main>
 </div>

@@ -1,24 +1,38 @@
 .app-container {
   display: flex;
   height: 100vh;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Segoe UI', sans-serif;
+  overflow: hidden;              /* evita scroll horizontal ao colapsar */
 }
 
-/* Sidebar fixa */
+/* ===== Sidebar ===== */
 .custom-sidebar {
   width: 260px;
+  min-width: 260px;              /* garante largura fixa inicial */
   background-color: var(--roxo-escuro);
   color: var(--branco);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+  transition: width .2s ease, min-width .2s ease;
+  overflow: hidden;              /* evita vazamento de conteúdo ao colapsar */
 }
 
+/* Estado colapsado */
+.custom-sidebar.collapsed {
+  width: 70px;
+  min-width: 70px;
+  border-right: 1px solid rgba(255, 255, 255, .08); /* borda opcional */
+}
+
+/* ===== Cabeçalho da Sidebar ===== */
 .cabeca {
   padding: 2rem;
   border-bottom: 1px solid var(--lilas);
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .logo-text {
@@ -26,6 +40,22 @@
   font-weight: 600;
 }
 
+.btn-toggle {
+  background: transparent;
+  border: none;
+  color: var(--branco);
+  cursor: pointer;
+}
+
+/* Ajustes específicos para colapso */
+.custom-sidebar.collapsed .cabeca {
+  padding: .75rem;
+}
+.custom-sidebar.collapsed .logo-text {
+  display: none;                 /* esconde o nome grande */
+}
+
+/* ===== Corpo da Sidebar ===== */
 .corpo {
   flex: 1;
   overflow-y: auto;
@@ -48,17 +78,35 @@
   padding: 1rem 1.5rem;
   color: var(--branco);
   text-decoration: none;
-  transition: background-color 0.3s;
+  transition: background-color .3s, padding .2s, gap .2s;
+  white-space: nowrap;
 }
 
-.menu-list a:hover {
+.menu-list a:hover,
+.menu-list a.active {
   background-color: var(--lilas);
 }
 
+.menu-label {
+  white-space: nowrap;
+}
+
+/* Quando colapsa, mostra só os ícones */
+.custom-sidebar.collapsed .menu-list a {
+  justify-content: center;
+  padding: .75rem 0;
+  gap: 0;
+}
+
+.custom-sidebar.collapsed .menu-label {
+  display: none;
+}
+
+/* ===== Conteúdo Principal ===== */
 .main-content {
-  flex-grow: 1;
-  background: linear-gradient(to bottom, var(--magenta), var(--lilas), var(--roxo));
-  padding: 2rem;
+  flex: 1 1 auto;                /* ocupa o espaço restante */
+  background: linear-gradient(to bottom, var(--magenta), var(--lilas) 50%, var(--roxo));
+  padding: 20px;
   color: var(--branco);
   overflow-y: auto;
 }
@@ -68,7 +116,6 @@
   align-items: center;
   margin-bottom: 2rem;
 }
-
 .search-bar input {
   flex: 1;
   padding: 0.75rem 1rem;
@@ -76,7 +123,6 @@
   border: 1px solid var(--lilas);
   font-size: 1rem;
 }
-
 .search-button {
   margin-left: 0.5rem;
   padding: 0.6rem 0.8rem;
@@ -88,16 +134,12 @@
   cursor: pointer;
   transition: background 0.3s;
 }
+.search-button:hover { background-color: var(--lilas); color: var(--branco); }
 
-.search-button:hover {
-  background-color: var(--lilas);
-}
+/* Layout de gestão */
+.gestao-container { display: flex; gap: 2rem; }
 
-.gestao-container {
-  display: flex;
-  gap: 2rem;
-}
-
+/* Lista */
 .gestao-sidebar {
   width: 280px;
   background: var(--branco);
@@ -106,26 +148,16 @@
   border-radius: 1rem;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
 }
-
-.lista-voluntarios {
-  list-style: none;
-  padding: 0;
-}
-
+.lista-voluntarios { list-style: none; padding: 0; margin: 0; }
 .item-voluntario {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.75rem;
-  border-radius: 0.5rem;
-  cursor: pointer;
+  display: flex; align-items: center; gap: 0.75rem;
+  padding: 0.75rem; border-radius: 0.5rem; cursor: pointer;
   transition: background 0.2s;
 }
+.item-voluntario:hover { background-color: var(--cinza-claro); }
+.item-voluntario.selected { background-color: var(--lilas); color: var(--branco); font-weight: bold; }
 
-.item-voluntario:hover {
-  background-color: var(--cinza-claro);
-}
-
+/* Detalhes */
 .gestao-detalhes {
   flex: 1;
   background: var(--branco);
@@ -134,17 +166,8 @@
   border-radius: 1rem;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
 }
-
-.gestao-detalhes h3 {
-  font-size: 1.4rem;
-  margin-bottom: 1rem;
-  color: var(--roxo-escuro);
-}
-
-.competencias {
-  padding-left: 1.5rem;
-  margin: 1rem 0;
-}
+.gestao-detalhes h3 { font-size: 1.4rem; margin-bottom: 1rem; color: var(--roxo-escuro); }
+.competencias { padding-left: 1.5rem; margin: 1rem 0; }
 
 textarea {
   width: 100%;
@@ -166,7 +189,9 @@ textarea {
   font-weight: bold;
   transition: background-color 0.3s;
 }
+.btn-enviar:hover { background-color: var(--lilas); }
 
-.btn-enviar:hover {
-  background-color: var(--lilas);
+@media (max-width: 900px) {
+  .gestao-container { flex-direction: column; }
+  .gestao-sidebar { width: 100%; }
 }

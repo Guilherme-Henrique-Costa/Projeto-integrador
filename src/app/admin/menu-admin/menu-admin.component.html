@@ -1,0 +1,39 @@
+<div class="menu-container">
+  <!-- Topbar -->
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo">CEUB</span>
+      <span class="title">Admin</span>
+    </div>
+
+    <div class="user-area">
+      <span class="greet">{{ saudacao }}, <b>{{ nome }}</b></span>
+      <button class="btn btn-outline" (click)="sair()">Sair</button>
+    </div>
+  </header>
+
+  <!-- Conteúdo -->
+  <main class="content">
+    <h1 class="page-title">Menu principal</h1>
+    <p class="page-subtitle">Escolha uma área para começar</p>
+
+    <section class="cards">
+      <article
+        class="card"
+        *ngFor="let item of itens"
+        (click)="navegar(item.rota)"
+        tabindex="0"
+        (keyup.enter)="navegar(item.rota)"
+      >
+        <div class="icon">{{ item.icone }}</div>
+        <div class="info">
+          <h3>{{ item.titulo }}</h3>
+          <p>{{ item.descricao }}</p>
+        </div>
+        <div class="arrow">→</div>
+      </article>
+    </section>
+  </main>
+
+  <footer class="footer">© {{ hoje | date:'yyyy' }} CEUB – Administração</footer>
+</div>

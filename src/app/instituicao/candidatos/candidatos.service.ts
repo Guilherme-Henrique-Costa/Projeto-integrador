@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 export interface Candidatura {
-   voluntarioId: number;
+  voluntarioId: number;
   vagaId: number;
   nomeVoluntario: string;
   emailVoluntario: string;
-  dataCandidatura: Date;
+  dataCandidatura: string | Date; // backend pode enviar string ISO; o componente trata
   status: string;
 }
 
@@ -19,39 +20,33 @@ export interface Vaga {
   descricao: string;
 }
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class CandidatosService {
-  private candidatosUrl = 'http://localhost:8080/api/v1/candidaturas/vaga';  // Endpoint para listar candidatos por vaga
-  private vagasComCandidatosUrl = 'http://localhost:8080/api/v1/vagasInstituicao/com-candidatos';  // Endpoint para listar vagas com candidatos
-
-  private httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-    }),
-  };
+  private readonly candidatosUrl = `${environment.apiUrl}/candidaturas/vaga`;
+  private readonly vagasComCandidatosUrl = `${environment.apiUrl}/vagasInstituicao/com-candidatos`;
 
   constructor(private http: HttpClient) {}
 
-  // Método para listar candidatos de uma vaga específica
+  /** Lista candidatos de uma vaga específica */
   listarCandidatos(vagaId: number): Observable<Candidatura[]> {
-  const url = `${this.candidatosUrl}/${vagaId}`;
-  console.log('[CandidatosService] GET', url);
-  return this.http.get<Candidatura[]>(url, this.httpOptions).pipe(
-    catchError(this.handleError)
-  );
-}
+    return this.http
+      .get<Candidatura[]>(`${this.candidatosUrl}/${vagaId}`)
+      .pipe(catchError(this.handleError));
+  }
 
-  // Método para listar vagas com candidatos
-  listarVagasComCandidatos(): Observable<Vaga[]> {
-    return this.http.get<Vaga[]>(this.vagasComCandidatosUrl, this.httpOptions).pipe(
-      catchError(this.handleError)
-    );
+  /** Lista vagas que possuem candidatos */
+  listarVagasComCandidatos(instituicaoId?: number): Observable<Vaga[]> {
+    const params = instituicaoId ? new HttpParams().set('instituicaoId', String(instituicaoId)) : undefined;
+    return this.http
+      .get<Vaga[]>(this.vagasComCandidatosUrl, { params })
+      .pipe(catchError(this.handleError));
   }
 
   private handleError(error: any): Observable<never> {
-    console.error('Ocorreu um erro:', error);
-    return throwError(() => new Error('Erro ao buscar os dados.'));
+    const msg =
+      error?.error instanceof ErrorEvent
+        ? `Erro do cliente: ${error.error.message}`
+        : `Erro ${error?.status || ''} ${error?.statusText || ''}`.trim() || 'Erro desconhecido.';
+    return throwError(() => new Error(msg));
   }
 }

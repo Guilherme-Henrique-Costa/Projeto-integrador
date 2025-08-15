@@ -1,68 +1,131 @@
 <div class="app-container">
-  <!-- Sidebar fixa padrão -->
-  <div class="custom-sidebar">
+  <!-- Sidebar -->
+  <nav class="custom-sidebar" [class.collapsed]="!sidebarOpen">
     <div class="cabeca">
-      <span class="logo-text">{{ instituicaoNome }}</span>
+      <span class="logo-text">{{
+        (instituicaoNome$ | async) ?? "Instituição"
+      }}</span>
+      <button type="button" class="btn-toggle" (click)="toggleSidebar()" [attr.aria-label]="'Alternar menu'">
+        <i class="pi pi-bars"></i>
+      </button>
     </div>
     <div class="corpo">
       <ul class="menu-list">
-        <li *ngFor="let item of sidebarItems">
-          <a [routerLink]="item.route">
-            <i [class]="item.icon"></i> {{ item.label }}
+        <li *ngFor="let item of sidebarItems; trackBy: trackByIndex">
+          <a
+            [routerLink]="item.route"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            (click)="item.label === 'Sair' ? sair() : null"
+          >
+            <i [class]="item.icon"></i>
+            <span class="menu-label">{{ item.label }}</span>
           </a>
         </li>
       </ul>
     </div>
-  </div>
+  </nav>
 
-  <!-- Conteúdo principal -->
-  <div class="main-content" [ngClass]="{ 'expanded': !sidebarOpen }">
+  <!-- Main -->
+  <main class="main-content" [ngClass]="{ expanded: !sidebarOpen }">
     <div class="feedback-card">
       <h2>Deixe seu feedback</h2>
       <p>Compartilhe sua experiência com a plataforma e os colaboradores</p>
 
-      <!-- Selecione voluntário -->
-      <div class="form-group">
-        <label for="voluntario">Voluntário que você deseja avaliar:</label>
-        <select id="voluntario" [(ngModel)]="voluntarioSelecionadoId">
-          <option [ngValue]="null" disabled selected>Selecione um voluntário</option>
-          <option *ngFor="let v of voluntarios" [ngValue]="v.id">{{ v.nome }}</option>
-        </select>
-      </div>
-
-      <!-- Feedback texto -->
-      <textarea [(ngModel)]="feedbackText" placeholder="Descreva sua experiência..."></textarea>
-      <div class="validation-error" *ngIf="feedbackText === '' && submitted">Descreva sua experiência.</div>
-
-      <!-- Avaliação colaborador -->
-      <div class="rating-group">
-        <label>Avaliação dos colaboradores:</label>
-        <div class="stars">
-          <span *ngFor="let star of stars; let i = index" [class.filled]="i < colaboradorRating" (click)="rateColaborador(i + 1)">★</span>
+      <form [formGroup]="form" (ngSubmit)="submitFeedback()">
+        <!-- Voluntário -->
+        <div class="form-group">
+          <label for="voluntario">Voluntário que você deseja avaliar:</label>
+          <select id="voluntario" formControlName="voluntarioSelecionadoId">
+            <option [ngValue]="null" disabled>Selecione um voluntário</option>
+            <option
+              *ngFor="let v of voluntarios; trackBy: trackByIndex"
+              [ngValue]="v.id"
+            >
+              {{ v.nome }}
+            </option>
+          </select>
+          <div
+            class="validation-error"
+            *ngIf="submitted && form.get('voluntarioSelecionadoId')?.invalid"
+          >
+            Selecione um voluntário.
+          </div>
         </div>
-      </div>
 
-      <!-- Avaliação sistema -->
-      <div class="rating-group">
-        <label>Avaliação do sistema:</label>
-        <div class="stars">
-          <span *ngFor="let star of stars; let i = index" [class.filled]="i < sistemaRating" (click)="rateSystem(i + 1)">★</span>
+        <!-- Feedback texto -->
+        <textarea
+          formControlName="feedbackText"
+          placeholder="Descreva sua experiência..."
+        ></textarea>
+        <div
+          class="validation-error"
+          *ngIf="submitted && form.get('feedbackText')?.invalid"
+        >
+          Descreva sua experiência (mín. 3 caracteres).
         </div>
-      </div>
 
-      <!-- Anônimo -->
-      <div class="form-group">
-        <label>
-          <input type="checkbox" [(ngModel)]="anonimo" /> Quero enviar anonimamente
-        </label>
-      </div>
+        <!-- Avaliação colaborador -->
+        <div class="rating-group">
+          <label>Avaliação dos colaboradores:</label>
+          <div class="stars">
+            <span
+              *ngFor="let star of stars; let i = index; trackBy: trackByIndex"
+              [class.filled]="i + 1 <= form.get('colaboradorRating')?.value"
+              (click)="rateColaborador(i + 1)"
+              role="button"
+              [attr.aria-label]="'Nota ' + (i + 1)"
+              tabindex="0"
+              >★</span
+            >
+          </div>
+          <div
+            class="validation-error"
+            *ngIf="submitted && form.get('colaboradorRating')?.invalid"
+          >
+            Escolha uma nota para os colaboradores.
+          </div>
+        </div>
 
-      <!-- Botão -->
-      <button (click)="submitFeedback()" [disabled]="loading">
-        <ng-container *ngIf="!loading && !success">Enviar Feedback</ng-container>
-        <ng-container *ngIf="loading">Enviando...</ng-container>
-        <ng-container *ngIf="success">✔ Enviado!</ng-container>
-      </button>
+        <!-- Avaliação sistema -->
+        <div class="rating-group">
+          <label>Avaliação do sistema:</label>
+          <div class="stars">
+            <span
+              *ngFor="let star of stars; let i = index; trackBy: trackByIndex"
+              [class.filled]="i + 1 <= form.get('sistemaRating')?.value"
+              (click)="rateSystem(i + 1)"
+              role="button"
+              [attr.aria-label]="'Nota ' + (i + 1)"
+              tabindex="0"
+              >★</span
+            >
+          </div>
+          <div
+            class="validation-error"
+            *ngIf="submitted && form.get('sistemaRating')?.invalid"
+          >
+            Escolha uma nota para o sistema.
+          </div>
+        </div>
+
+        <!-- Anônimo -->
+        <div class="form-group check-inline">
+          <label>
+            <input type="checkbox" formControlName="anonimo" /> Quero enviar
+            anonimamente
+          </label>
+        </div>
+
+        <!-- Botão -->
+        <button type="submit" [disabled]="loading">
+          <ng-container *ngIf="!loading && !success"
+            >Enviar Feedback</ng-container
+          >
+          <ng-container *ngIf="loading">Enviando...</ng-container>
+          <ng-container *ngIf="success">✔ Enviado!</ng-container>
+        </button>
+      </form>
 
       <!-- Confirmação -->
       <div class="success-msg" *ngIf="success">
@@ -73,11 +136,11 @@
       <div class="feedback-history" *ngIf="feedbacks.length">
         <h4>Feedbacks anteriores:</h4>
         <ul>
-          <li *ngFor="let fb of feedbacks">
+          <li *ngFor="let fb of feedbacks; trackBy: trackByIndex">
             <strong>{{ fb.voluntario }}</strong> - {{ fb.feedbackText }}
           </li>
         </ul>
       </div>
     </div>
-  </div>
+  </main>
 </div>

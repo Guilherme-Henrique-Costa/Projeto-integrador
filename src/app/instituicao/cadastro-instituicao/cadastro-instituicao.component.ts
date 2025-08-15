@@ -3,7 +3,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CadastroInstituicaoService, Instituicao } from './cadastro-instituicao.service';
 import { InstituicaoValidators } from '../../validators/instituicao-validators';
-import { MenuItem, MessageService } from 'primeng/api';
+import { MessageService } from 'primeng/api';
+
+interface OptionLV { label: string; value: string; }
 
 @Component({
   selector: 'app-cadastro-instituicao',
@@ -13,50 +15,65 @@ import { MenuItem, MessageService } from 'primeng/api';
 export class CadastroInstituicaoComponent {
   cadastroForm: FormGroup;
 
-  // Opções para seleção de causas e habilidades
-  causasOptions: string[] = [
-    'Capacitação Profissional', 'Combate à Pobreza', 'Consumo Consciente', 'Crianças e Jovens',
-    'Cultura, Esportes e Artes', 'Defesa de Direitos', 'Educação', 'Idoso', 'Meio Ambiente',
-    'Participação Cidadã', 'Proteção Animal', 'Saúde', 'Pessoas com Deficiência', 'Todas as Causas', 'Outro'
-  ];
+  // Opções normalizadas para PrimeNG MultiSelect
+  causasOptions: OptionLV[] = [
+    'Capacitação Profissional','Combate à Pobreza','Consumo Consciente','Crianças e Jovens',
+    'Cultura, Esportes e Artes','Defesa de Direitos','Educação','Idoso','Meio Ambiente',
+    'Participação Cidadã','Proteção Animal','Saúde','Pessoas com Deficiência','Todas as Causas','Outro'
+  ].map(v => ({ label: v, value: v }));
 
-  habilidadesOptions: string[] = [
-    'Artes/Artesanato', 'Comunicação', 'Dança/Música', 'Direito', 'Educação', 'Esportes',
-    'Gastronomia', 'Gestão', 'Idiomas', 'Informática/Eletrônica', 'Saúde/Psicologia',
-    'Todas as Habilidades', 'Outro'
-  ];
+  habilidadesOptions: OptionLV[] = [
+    'Artes/Artesanato','Comunicação','Dança/Música','Direito','Educação','Esportes',
+    'Gastronomia','Gestão','Idiomas','Informática/Eletrônica','Saúde/Psicologia',
+    'Todas as Habilidades','Outro'
+  ].map(v => ({ label: v, value: v }));
+
+  areaAtuacaoOptions: OptionLV[] = [
+    'Assistência Social','Saúde','Educação','Cultura','Esporte','Meio Ambiente','Direitos Humanos','Tecnologia'
+  ].map(v => ({ label: v, value: v }));
 
   constructor(
-    private fb: FormBuilder,
-    private router: Router,
-    private cadastroService: CadastroInstituicaoService,
-    private messageService: MessageService
+    private readonly fb: FormBuilder,
+    private readonly router: Router,
+    private readonly cadastroService: CadastroInstituicaoService,
+    private readonly messageService: MessageService
   ) {
-    // Inicialização do formulário
     this.cadastroForm = this.fb.group({
+      // Dados básicos
       nome: ['', [Validators.required, Validators.minLength(3)]],
       cnpj: ['', [Validators.required, InstituicaoValidators.cnpj]],
       email: ['', [Validators.required, Validators.email]],
       telefoneContato: ['', [Validators.required]],
       endereco: ['', [Validators.required]],
+      description: [''],
+
+      // Seleções (arrays)
+      areaAtuacao: [[], Validators.required],
       causasApoio: [[], Validators.required],
       habilidadesRequeridas: [[], Validators.required],
+
+      // Credenciais
       senha: ['', [Validators.required, Validators.minLength(6)]],
 
+      // Contatos
       responsavelPreenchimento: ['', Validators.required],
       nomeContatoVoluntariado: ['', Validators.required],
       funcaoContatoVoluntariado: ['', Validators.required],
       telefoneContatoVoluntariado: ['', Validators.required],
 
+      // Status
       semFinsLucrativos: ['', Validators.required],
       constituidaFormalmente: ['', Validators.required],
       emAtividade: ['', Validators.required],
       sedeDesvinculada: [''],
       prestadoraServicos: [''],
+
+      // CEUB
       interesseRH: ['', Validators.required],
       prestarInfosCEUB: ['', Validators.required],
       avaliadaCEUB: ['', Validators.required],
 
+      // Info adicionais
       motivoInteresseVoluntarios: ['', Validators.required],
       enderecoTrabalhoVoluntario: ['', Validators.required],
       horasMensaisVoluntario: ['', Validators.required],
@@ -65,100 +82,85 @@ export class CadastroInstituicaoComponent {
     });
   }
 
-  // Submissão final do formulário
+  // Submissão final
   onSubmit(): void {
-  if (this.cadastroForm.valid) {
-    const formValue = this.cadastroForm.value;
+    if (this.cadastroForm.invalid) {
+      this.cadastroForm.markAllAsTouched();
+      this.toast('error', 'Formulário inválido', 'Revise os campos destacados.');
+      this.logErros();
+      return;
+    }
 
     const instituicao: Instituicao = {
-      ...formValue,
-      areaAtuacao: formValue.areaAtuacao?.join(', ') || '',
-      causasApoio: formValue.causasApoio?.join(', ') || '',
-      habilidadesRequeridas: formValue.habilidadesRequeridas?.join(', ') || ''
-    };
+      ...this.cadastroForm.value,
+      // Arrays permanecem arrays — sem join!
+    } as Instituicao;
 
-    console.log('Enviando dados do formulário:', instituicao);
+    console.log('[CadastroInstituicao] Payload:', instituicao);
 
-    this.cadastroService.cadastrarInstituicao(instituicao).subscribe(
-      response => {
-        console.log('Instituição cadastrada com sucesso:', response);
+    this.cadastroService.cadastrarInstituicao(instituicao).subscribe({
+      next: () => {
+        this.toast('success', 'Cadastro realizado', 'Sua instituição foi cadastrada com sucesso.');
         this.router.navigate(['/login-instituicao']);
       },
-      error => console.error('Erro ao cadastrar a instituição:', error)
-    );
-  } else {
-    this.cadastroForm.markAllAsTouched();
-    console.error('Formulário inválido', this.cadastroForm.value);
-    this.logErros();
-  }
-}
-
-
-  // Log de erros no console
-  private logErros() {
-    Object.keys(this.cadastroForm.controls).forEach(key => {
-      const control = this.cadastroForm.get(key);
-      if (control?.invalid) {
-        console.error(`Campo inválido: ${key}`, control.errors);
-      }
+      error: (e: Error) => this.toast('error', 'Falha no cadastro', e.message)
     });
   }
 
-  // Mensagens de erro para cada campo
+  // Helpers
+  private toast(severity: 'success'|'info'|'warn'|'error', summary: string, detail: string) {
+    this.messageService.add({ severity, summary, detail });
+  }
+
+  private logErros() {
+    Object.keys(this.cadastroForm.controls).forEach(key => {
+      const control = this.cadastroForm.get(key);
+      if (control?.invalid) console.error(`Campo inválido: ${key}`, control.errors);
+    });
+  }
+
   getErrorMessage(field: string): string {
     const control = this.cadastroForm.get(field);
     if (!control) return '';
 
-    if (control.hasError('required')) {
-      return `${this.getFieldLabel(field)} é obrigatório.`;
-    }
-    if (control.hasError('minlength')) {
-      return `O campo deve ter no mínimo ${control.errors?.['minlength'].requiredLength} caracteres.`;
-    }
-    if (control.hasError('maxlength')) {
-      return `O campo deve ter no máximo ${control.errors?.['maxlength'].requiredLength} caracteres.`;
-    }
-    if (control.hasError('pattern')) {
-      return `O formato do campo está incorreto.`;
-    }
-    if (control.hasError('email')) {
-      return `E-mail deve ser válido e conter '@'.`;
-    }
-
+    if (control.hasError('required')) return `${this.getFieldLabel(field)} é obrigatório.`;
+    if (control.hasError('minlength')) return `Mínimo ${control.errors?.['minlength'].requiredLength} caracteres.`;
+    if (control.hasError('maxlength')) return `Máximo ${control.errors?.['maxlength'].requiredLength} caracteres.`;
+    if (control.hasError('pattern')) return `Formato inválido.`;
+    if (control.hasError('email')) return `Informe um e-mail válido.`;
     return '';
   }
 
-  // Rótulos dos campos
   private getFieldLabel(field: string): string {
-    const labels: { [key: string]: string } = {
-      nome: 'Nome',
+    const labels: Record<string, string> = {
+      nome: 'Razão Social',
       cnpj: 'CNPJ',
       email: 'E-mail',
       telefoneContato: 'Telefone',
       endereco: 'Endereço',
+      description: 'Descrição',
       senha: 'Senha',
       areaAtuacao: 'Área de atuação',
-      nomeResponsavel: 'Nome do Responsável',
-      cpfResponsavel: 'CPF do Responsável',
-      responsavelPreenchimento: 'Responsável pelo Preenchimento',
-      nomeContatoVoluntariado: 'Nome do Contato',
-      funcaoContatoVoluntariado: 'Função do Contato',
-      telefoneContatoVoluntariado: 'Telefone do Contato',
-      semFinsLucrativos: 'A entidade é sem fins lucrativos?',
-      constituidaFormalmente: 'A entidade é constituída formalmente?',
-      emAtividade: 'A entidade encontra-se em atividade?',
-      sedeDesvinculada: 'A entidade tem sede desvinculada de residência familiar?',
-      prestadoraServicos: 'A entidade presta serviços à comunidade?',
-      interesseRH: 'A entidade tem interesse em recursos humanos voluntários?',
-      prestarInfosCEUB: 'A entidade está disposta a prestar informações para o CEUB?',
-      avaliadaCEUB: 'A entidade está disposta a ser avaliada pelo CEUB?',
-      motivoInteresseVoluntarios: 'Por que deseja receber voluntários?',
+      causasApoio: 'Causas de apoio',
+      habilidadesRequeridas: 'Habilidades requeridas',
+      responsavelPreenchimento: 'Responsável pelo preenchimento',
+      nomeContatoVoluntariado: 'Nome do contato',
+      funcaoContatoVoluntariado: 'Função do contato',
+      telefoneContatoVoluntariado: 'Telefone do contato',
+      semFinsLucrativos: 'Sem fins lucrativos',
+      constituidaFormalmente: 'Constituída formalmente',
+      emAtividade: 'Em atividade',
+      sedeDesvinculada: 'Sede desvinculada',
+      prestadoraServicos: 'Prestadora de serviços',
+      interesseRH: 'Interesse em RH voluntário',
+      prestarInfosCEUB: 'Disposta a prestar informações ao CEUB',
+      avaliadaCEUB: 'Disposta a ser avaliada pelo CEUB',
+      motivoInteresseVoluntarios: 'Motivo do interesse por voluntários',
       enderecoTrabalhoVoluntario: 'Endereço do trabalho voluntário',
-      horasMensaisVoluntario: 'Horas mensais disponíveis por voluntário',
-      contatosRepassadosVoluntarios: 'Contatos repassados aos voluntários',
-      comentariosSugestoes: 'Comentários e sugestões'
+      horasMensaisVoluntario: 'Horas mensais esperadas',
+      contatosRepassadosVoluntarios: 'Contatos a repassar',
+      comentariosSugestoes: 'Comentários/Sugestões'
     };
-    return labels[field] || field.charAt(0).toUpperCase() + field.slice(1);
+    return labels[field] || field;
   }
 }
-

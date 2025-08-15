@@ -1,24 +1,38 @@
 .app-container {
   display: flex;
   height: 100vh;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Segoe UI', sans-serif;
+  overflow: hidden;              /* evita scroll horizontal ao colapsar */
 }
 
-/* Sidebar fixa */
+/* ===== Sidebar ===== */
 .custom-sidebar {
   width: 260px;
+  min-width: 260px;              /* garante largura fixa inicial */
   background-color: var(--roxo-escuro);
   color: var(--branco);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+  transition: width .2s ease, min-width .2s ease;
+  overflow: hidden;              /* evita vazamento de conteúdo ao colapsar */
 }
 
+/* Estado colapsado */
+.custom-sidebar.collapsed {
+  width: 70px;
+  min-width: 70px;
+  border-right: 1px solid rgba(255, 255, 255, .08); /* borda opcional */
+}
+
+/* ===== Cabeçalho da Sidebar ===== */
 .cabeca {
   padding: 2rem;
   border-bottom: 1px solid var(--lilas);
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .logo-text {
@@ -26,6 +40,22 @@
   font-weight: 600;
 }
 
+.btn-toggle {
+  background: transparent;
+  border: none;
+  color: var(--branco);
+  cursor: pointer;
+}
+
+/* Ajustes específicos para colapso */
+.custom-sidebar.collapsed .cabeca {
+  padding: .75rem;
+}
+.custom-sidebar.collapsed .logo-text {
+  display: none;                 /* esconde o nome grande */
+}
+
+/* ===== Corpo da Sidebar ===== */
 .corpo {
   flex: 1;
   overflow-y: auto;
@@ -48,98 +78,67 @@
   padding: 1rem 1.5rem;
   color: var(--branco);
   text-decoration: none;
-  transition: background-color 0.3s;
+  transition: background-color .3s, padding .2s, gap .2s;
+  white-space: nowrap;
 }
 
-.menu-list a:hover {
+.menu-list a:hover,
+.menu-list a.active {
   background-color: var(--lilas);
 }
 
+.menu-label {
+  white-space: nowrap;
+}
+
+/* Quando colapsa, mostra só os ícones */
+.custom-sidebar.collapsed .menu-list a {
+  justify-content: center;
+  padding: .75rem 0;
+  gap: 0;
+}
+
+.custom-sidebar.collapsed .menu-label {
+  display: none;
+}
+
+/* ===== Conteúdo Principal ===== */
 .main-content {
-  flex-grow: 1;
-  background: linear-gradient(to bottom, var(--magenta), var(--lilas), var(--roxo));
-  padding: 2rem;
+  flex: 1 1 auto;                /* ocupa o espaço restante */
+  background: linear-gradient(to bottom, var(--magenta), var(--lilas) 50%, var(--roxo));
+  padding: 20px;
   color: var(--branco);
   overflow-y: auto;
 }
 
+/* Card de mensagens */
 .mensagens-container {
-  background-color: var(--branco);
-  padding: 2rem;
-  border-radius: 1rem;
-  max-width: 800px;
-  margin: 0 auto;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  background-color: var(--branco); padding: 2rem; border-radius: 1rem;
+  max-width: 800px; margin: 0 auto; box-shadow: 0 8px 24px rgba(0,0,0,0.2);
 }
+.mensagens-container h3 { font-size: 1.25rem; color: var(--roxo-escuro); text-align: center; margin-bottom: 1.5rem; }
 
-.mensagens-container h3 {
-  font-size: 1.25rem;
-  color: var(--roxo-escuro);
-  text-align: center;
-  margin-bottom: 1.5rem;
-}
-
+/* Chat */
 .chat-box {
-  height: 55vh;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-bottom: 1rem;
+  height: 55vh; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; margin-bottom: 1rem;
 }
+.chat-box::-webkit-scrollbar { width: 8px; }
+.chat-box::-webkit-scrollbar-thumb { background: #c7b6e8; border-radius: 8px; }
 
 .bolha {
-  max-width: 70%;
-  padding: 12px;
-  border-radius: 12px;
-  font-size: 14px;
-  word-wrap: break-word;
+  max-width: 70%; padding: 12px; border-radius: 12px; font-size: 14px; word-wrap: break-word;
 }
+.bolha-esquerda { background-color: #eeeeee; align-self: flex-start; color: #222; }
+.bolha-direita { background-color: #d1c4e9; align-self: flex-end; color: #222; }
+.timestamp { font-size: 10px; text-align: right; margin-top: 4px; color: #777; }
 
-.bolha-esquerda {
-  background-color: #eeeeee;
-  align-self: flex-start;
-  color: #222;
-}
-
-.bolha-direita {
-  background-color: #d1c4e9;
-  align-self: flex-end;
-  color: #222;
-}
-
-.timestamp {
-  font-size: 10px;
-  text-align: right;
-  margin-top: 4px;
-  color: #777;
-}
-
-.chat-input {
-  display: flex;
-  gap: 10px;
-}
-
+.chat-input { display: flex; gap: 10px; }
 .chat-input input {
-  flex: 1;
-  padding: 10px 14px;
-  border-radius: 25px;
-  border: 1px solid var(--lilas);
-  font-size: 14px;
-  outline: none;
+  flex: 1; padding: 10px 14px; border-radius: 25px;
+  border: 1px solid var(--lilas); font-size: 14px; outline: none;
 }
-
 .chat-input button {
-  background-color: var(--magenta);
-  border: none;
-  color: var(--branco);
-  padding: 10px 16px;
-  border-radius: 50px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s;
+  background-color: var(--magenta); border: none; color: var(--branco);
+  padding: 10px 16px; border-radius: 50px; font-size: 16px; cursor: pointer; transition: background-color .3s;
 }
-
-.chat-input button:hover {
-  background-color: var(--lilas);
-}
+.chat-input button:hover { background-color: var(--lilas); }

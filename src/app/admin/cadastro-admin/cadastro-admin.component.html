@@ -1,0 +1,61 @@
+<div class="cadastro-container">
+  <div class="cadastro-card">
+    <div class="header">
+      <h1>Cadastrar Administrador</h1>
+      <p class="subtitle">Crie sua conta para acessar o painel</p>
+    </div>
+
+    <div *ngIf="erro" class="alert-erro">{{ erro }}</div>
+    <div *ngIf="sucesso" class="alert-sucesso">{{ sucesso }}</div>
+
+    <form [formGroup]="formulario" (ngSubmit)="enviar()" class="form">
+      <div class="form-group">
+        <label>Nome</label>
+        <input pInputText formControlName="nome" placeholder="Seu nome" />
+        <small class="p-error" *ngIf="f.nome.touched && f.nome.invalid">
+          Informe um nome com ao menos 3 caracteres.
+        </small>
+      </div>
+
+      <div class="form-group">
+        <label>E-mail</label>
+        <input pInputText type="email" formControlName="email" placeholder="admin@ceub.br" />
+        <small class="p-error" *ngIf="f.email.touched && f.email.invalid">
+          Informe um e-mail válido.
+        </small>
+      </div>
+
+      <div class="form-row-2">
+        <div class="form-group">
+          <label>Senha</label>
+          <input type="password" formControlName="senha" placeholder="Crie uma senha" />
+          <small class="p-error" *ngIf="f.senha.touched && f.senha.invalid">
+            Mínimo de 6 caracteres.
+          </small>
+        </div>
+
+        <div class="form-group">
+          <label>Confirmar senha</label>
+          <input type="password" formControlName="confirmar" placeholder="Repita a senha" />
+          <small class="p-error" *ngIf="f.confirmar.touched && f.confirmar.invalid">
+            Confirme a senha.
+          </small>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Função / Cargo (opcional)</label>
+        <select formControlName="funcao">
+          <option value="ADMIN_CEUB">Administrador CEUB</option>
+          <option value="ADMIN">Administrador Geral</option>
+        </select>
+      </div>
+
+      <button class="btn btn-primary" type="submit" [disabled]="carregando || formulario.invalid">
+        {{ carregando ? 'Cadastrando...' : 'Cadastrar' }}
+      </button>
+
+      <button type="button" class="btn btn-text" (click)="voltarLogin()">Voltar ao login</button>
+    </form>
+  </div>
+</div>

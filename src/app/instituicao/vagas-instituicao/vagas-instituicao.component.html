@@ -1,29 +1,37 @@
 <div class="vagas-container">
-  <!-- Sidebar de Navegação -->
-  <div class="custom-sidebar">
+  <!-- Sidebar -->
+  <nav class="custom-sidebar" [class.collapsed]="!sidebarOpen">
     <div class="cabeca">
-      <span class="logo-text">{{ instituicaoNome }}</span>
+      <span class="logo-text">{{ (instituicaoNome$ | async) ?? 'Instituição' }}</span>
+      <button type="button" class="btn-toggle" (click)="toggleSidebar()" [attr.aria-label]="'Alternar menu'">
+        <i class="pi pi-bars"></i>
+      </button>
     </div>
     <div class="corpo">
       <ul class="menu-list">
-        <li *ngFor="let item of sidebarItems">
-          <a [routerLink]="item.route">
-            <i [class]="item.icon"></i> {{ item.label }}
+        <li *ngFor="let item of sidebarItems; trackBy: trackByIndex">
+          <a
+            [routerLink]="item.route"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            (click)="item.label === 'Sair' ? sair() : null"
+          >
+            <i [class]="item.icon"></i> <span class="menu-label">{{ item.label }}</span>
           </a>
         </li>
       </ul>
     </div>
-  </div>
+  </nav>
 
   <!-- Conteúdo Principal -->
-  <div class="main-content" [ngClass]="{'expanded': !sidebarOpen}">
+  <main class="main-content" [ngClass]="{ expanded: !sidebarOpen }">
     <div class="vaga-form-wrapper">
       <div class="vaga-form-container">
         <h2>Publique sua vaga!</h2>
-        <form [formGroup]="vagaForm" (ngSubmit)="onSubmit()">
 
+        <form [formGroup]="vagaForm" (ngSubmit)="onSubmit()">
           <label for="cargo">Cargo:</label>
-          <input id="cargo" formControlName="cargo" placeholder="Descrição do Cargo" />
+          <input id="cargo" formControlName="cargo" placeholder="Descrição do cargo" />
           <div *ngIf="isFieldInvalid('cargo')" class="error-message">O campo Cargo é obrigatório.</div>
 
           <label for="localidade">Localidade de Trabalho:</label>
@@ -39,8 +47,14 @@
           <div *ngIf="isFieldInvalid('descricao')" class="error-message">O campo Descrição é obrigatório.</div>
 
           <label for="especificacoes">Especificações da vaga:</label>
-          <input id="especificacoes" formControlName="especificacoes" placeholder="Ex: Java, Atendimento, Photoshop..." />
-          <div *ngIf="isFieldInvalid('especificacoes')" class="error-message">O campo Especificações é obrigatório.</div>
+          <input
+            id="especificacoes"
+            formControlName="especificacoes"
+            placeholder="Ex: Java, Atendimento, Photoshop..."
+          />
+          <div *ngIf="isFieldInvalid('especificacoes')" class="error-message">
+            O campo Especificações é obrigatório.
+          </div>
 
           <label for="horario">Horário:</label>
           <input id="horario" formControlName="horario" placeholder="Ex: 08h - 12h" />
@@ -48,7 +62,9 @@
 
           <label for="tempoVoluntariado">Tempo de Voluntariado:</label>
           <input id="tempoVoluntariado" formControlName="tempoVoluntariado" placeholder="Ex: 3 meses" />
-          <div *ngIf="isFieldInvalid('tempoVoluntariado')" class="error-message">O campo Tempo de Voluntariado é obrigatório.</div>
+          <div *ngIf="isFieldInvalid('tempoVoluntariado')" class="error-message">
+            O campo Tempo de Voluntariado é obrigatório.
+          </div>
 
           <label for="area">Área de Atuação:</label>
           <input id="area" formControlName="area" placeholder="Ex: Saúde, Educação, Meio Ambiente" />
@@ -56,13 +72,15 @@
 
           <label for="disponibilidade">Disponibilidade:</label>
           <input id="disponibilidade" formControlName="disponibilidade" placeholder="Ex: Manhã, Fins de Semana..." />
-          <div *ngIf="isFieldInvalid('disponibilidade')" class="error-message">O campo Disponibilidade é obrigatório.</div>
+          <div *ngIf="isFieldInvalid('disponibilidade')" class="error-message">
+            O campo Disponibilidade é obrigatório.
+          </div>
 
-          <button type="submit" class="submit-btn" [disabled]="!vagaForm.dirty || vagaForm.invalid">
-            Publique!
+          <button type="submit" class="submit-btn" [disabled]="vagaForm.invalid || saving">
+            {{ saving ? 'Publicando…' : 'Publique!' }}
           </button>
         </form>
       </div>
     </div>
-  </div>
+  </main>
 </div>

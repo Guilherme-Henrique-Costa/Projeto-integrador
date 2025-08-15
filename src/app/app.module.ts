@@ -50,6 +50,10 @@ import { RippleModule } from 'primeng/ripple';
 import { SidebarModule } from 'primeng/sidebar';
 import { RatingModule } from 'primeng/rating';
 import { FullCalendarModule } from '@fullcalendar/angular';
+import { LoginAdminComponent } from './admin/login-admin/login-admin.component';
+import { CadastroAdminComponent } from './admin/cadastro-admin/cadastro-admin.component';
+import { MenuAdminComponent } from './admin/menu-admin/menu-admin.component';
+import { EsqueciSenhaAdminComponent } from './admin/esqueci-senha-admin/esqueci-senha-admin.component';
 
 
 @NgModule({
@@ -69,6 +73,10 @@ import { FullCalendarModule } from '@fullcalendar/angular';
     RankingInstituicaoComponent,
     ChatPessoalComponent,
     MenuInstituicaoComponent,
+    LoginAdminComponent,
+    CadastroAdminComponent,
+    MenuAdminComponent,
+    EsqueciSenhaAdminComponent,
   ],
   imports: [
     BrowserModule,

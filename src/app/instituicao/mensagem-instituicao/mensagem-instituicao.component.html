@@ -1,30 +1,40 @@
 <div class="app-container">
-  <!-- Sidebar de Navegação -->
-  <div class="custom-sidebar">
+  <!-- Sidebar -->
+  <nav class="custom-sidebar" [class.collapsed]="!sidebarOpen">
     <div class="cabeca">
-      <span class="logo-text">{{ instituicaoNome }}</span>
+      <span class="logo-text">{{ (instituicaoNome$ | async) ?? 'Instituição' }}</span>
+      <button type="button" class="btn-toggle" (click)="toggleSidebar()" [attr.aria-label]="'Alternar menu'">
+        <i class="pi pi-bars"></i>
+      </button>
     </div>
     <div class="corpo">
       <ul class="menu-list">
-        <li *ngFor="let item of sidebarItems">
-          <a [routerLink]="item.route">
-            <i [class]="item.icon"></i> {{ item.label }}
+        <li *ngFor="let item of sidebarItems; trackBy: trackByIndex">
+          <a
+            [routerLink]="item.route"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            (click)="item.label === 'Sair' ? sair() : null"
+          >
+            <i [class]="item.icon"></i> <span class="menu-label">{{ item.label }}</span>
           </a>
         </li>
       </ul>
     </div>
-  </div>
+  </nav>
 
   <!-- Conteúdo Principal -->
-  <div class="main-content" [ngClass]="{ expanded: !sidebarOpen }">
+  <main class="main-content" [ngClass]="{ expanded: !sidebarOpen }">
     <div class="mensagens-container">
-      <h3>Chat com {{ nomeVoluntario }}</h3>
+      <h3>Chat com {{ nomeVoluntario || 'Voluntário' }}</h3>
 
       <!-- Lista de mensagens -->
-      <div class="chat-box" #chatContainer>
-        <div *ngFor="let msg of mensagensReais"
-             [ngClass]="msg.ehUsuario ? 'bolha-esquerda' : 'bolha-direita'"
-             class="bolha">
+      <div class="chat-box" #chatContainer aria-live="polite">
+        <div
+          *ngFor="let msg of mensagensReais; trackBy: trackByIndex"
+          class="bolha"
+          [ngClass]="msg.ehUsuario ? 'bolha-esquerda' : 'bolha-direita'"
+        >
           <div class="conteudo">{{ msg.mensagemVoluntario }}</div>
           <div class="timestamp">{{ msg.dataHora | date: 'shortTime' }}</div>
         </div>
@@ -32,11 +42,16 @@
 
       <!-- Campo de envio -->
       <div class="chat-input">
-        <input [(ngModel)]="novaMensagem" placeholder="Digite sua mensagem..." />
-        <button (click)="enviarMensagemInstituicao()">
+        <input
+          [(ngModel)]="novaMensagem"
+          placeholder="Digite sua mensagem..."
+          [attr.aria-label]="'Mensagem para ' + (nomeVoluntario || 'voluntário')"
+          (keyup.enter)="enviarMensagemInstituicao()"
+        />
+        <button (click)="enviarMensagemInstituicao()" [attr.aria-label]="'Enviar mensagem'">
           <i class="pi pi-send"></i>
         </button>
       </div>
     </div>
-  </div>
+  </main>
 </div>

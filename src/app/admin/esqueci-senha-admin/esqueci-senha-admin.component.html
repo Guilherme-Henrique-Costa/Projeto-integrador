@@ -1,0 +1,58 @@
+<div class="forgot-container">
+  <div class="forgot-card">
+    <div class="header">
+      <h1>Recuperar senha</h1>
+      <p class="subtitle">Etapa 1: confirme seu e-mail</p>
+    </div>
+
+    <div *ngIf="erro" class="alert-erro">{{ erro }}</div>
+    <div *ngIf="sucesso" class="alert-sucesso">{{ sucesso }}</div>
+
+    <!-- Etapa 1 -->
+    <div class="form">
+      <div class="form-group">
+        <label>E-mail</label>
+        <input type="email" [class.disabled]="emailValidado"
+               [readonly]="emailValidado"
+               placeholder="admin@ceub.br" formControlName="email" />
+        <small class="p-error" *ngIf="f.email.touched && f.email.invalid">Informe um e-mail válido.</small>
+      </div>
+
+      <button class="btn btn-primary"
+              type="button"
+              (click)="verificarEmail()"
+              [disabled]="carregando || emailValidado || f.email.invalid">
+        {{ carregando && !emailValidado ? 'Verificando...' : 'Verificar e-mail' }}
+      </button>
+    </div>
+
+    <!-- Etapa 2 (só aparece após validar) -->
+    <div class="divider" *ngIf="emailValidado"><span>Etapa 2: redefinir senha</span></div>
+
+    <form *ngIf="emailValidado" [formGroup]="formulario" (ngSubmit)="trocarSenha()" class="form">
+      <div class="form-row-2">
+        <div class="form-group">
+          <label>Nova senha</label>
+          <input type="password" formControlName="novaSenha" placeholder="Crie uma nova senha" />
+          <small class="p-error" *ngIf="f.novaSenha.touched && f.novaSenha.invalid">
+            Mínimo de 6 caracteres.
+          </small>
+        </div>
+
+        <div class="form-group">
+          <label>Confirmar nova senha</label>
+          <input type="password" formControlName="confirmarSenha" placeholder="Repita a nova senha" />
+          <small class="p-error" *ngIf="f.confirmarSenha.touched && f.confirmarSenha.invalid">
+            Confirme sua nova senha.
+          </small>
+        </div>
+      </div>
+
+      <button class="btn btn-primary" type="submit" [disabled]="carregando || formulario.invalid">
+        {{ carregando ? 'Trocando...' : 'Trocar senha' }}
+      </button>
+    </form>
+
+    <button class="btn btn-text mt-2" type="button" (click)="voltarLogin()">Voltar ao login</button>
+  </div>
+</div>

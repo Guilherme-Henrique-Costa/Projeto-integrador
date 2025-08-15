@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 export interface Instituicao {
   id?: number;
@@ -9,48 +10,48 @@ export interface Instituicao {
   cnpj: string;
   email: string;
   senha: string;
-  description: string;
+  description?: string;
   telefoneContato: string;
   endereco: string;
+
   areaAtuacao: string[];
   causasApoio: string[];
   habilidadesRequeridas: string[];
+
   responsavelPreenchimento: string;
   nomeContatoVoluntariado: string;
   funcaoContatoVoluntariado: string;
   telefoneContatoVoluntariado: string;
+
   semFinsLucrativos: string;
   constituidaFormalmente: string;
   emAtividade: string;
-  sedeDesvinculada: string;
-  prestadoraServicos: string;
+  sedeDesvinculada?: string;
+  prestadoraServicos?: string;
   interesseRH: string;
   prestarInfosCEUB: string;
   avaliadaCEUB: string;
+
   motivoInteresseVoluntarios: string;
   enderecoTrabalhoVoluntario: string;
   horasMensaisVoluntario: string;
   contatosRepassadosVoluntarios: string;
-  comentariosSugestoes: string;
+  comentariosSugestoes?: string;
 }
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class CadastroInstituicaoService {
-  private apiUrl = 'http://localhost:8080/api/v1/instituicao';
+  private readonly apiUrl = `${environment.apiUrl}instituicao`;
+
+  private readonly httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+  };
 
   constructor(private http: HttpClient) {}
 
-  private httpOptions = {
-    headers: new HttpHeaders({
-      'Content-Type': 'application/json',
-    }),
-  };
-
-  cadastrarInstituicao(instituicao: Instituicao): Observable<any> {
+  cadastrarInstituicao(instituicao: Instituicao): Observable<Instituicao> {
     return this.http
-      .post<any>(this.apiUrl, instituicao, this.httpOptions)
+      .post<Instituicao>(this.apiUrl, instituicao, this.httpOptions)
       .pipe(catchError(this.handleError));
   }
 
@@ -60,23 +61,26 @@ export class CadastroInstituicaoService {
       errorMessage = `Erro: ${error.error.message}`;
     } else {
       switch (error.status) {
+        case 0:
+          errorMessage = 'Falha de conexão. Verifique sua rede.';
+          break;
         case 400:
-          errorMessage = 'Os dados enviados são inválidos. Por favor, revise o formulário.';
+          errorMessage = 'Dados inválidos. Revise o formulário.';
           break;
         case 403:
-          errorMessage = 'Acesso negado. Você não tem permissão para realizar esta operação.';
+          errorMessage = 'Acesso negado.';
           break;
         case 404:
-          errorMessage = 'O recurso solicitado não foi encontrado. Verifique a URL.';
+          errorMessage = 'Endpoint não encontrado.';
           break;
         case 500:
-          errorMessage = 'Erro no servidor. Tente novamente mais tarde.';
+          errorMessage = 'Erro no servidor. Tente mais tarde.';
           break;
         default:
           errorMessage = `Erro ${error.status}: ${error.message}`;
       }
     }
-    console.error('Erro capturado:', errorMessage);
+    console.error('[CadastroInstituicaoService] ', errorMessage, error);
     return throwError(() => new Error(errorMessage));
   }
 }

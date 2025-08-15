@@ -1,52 +1,83 @@
 <div class="candidatos-container">
-  <!-- Sidebar de Navegação -->
-  <div class="custom-sidebar">
+  <!-- Sidebar -->
+  <nav class="custom-sidebar" [class.collapsed]="!sidebarOpen">
     <div class="cabeca">
-      <span class="logo-text">{{ instituicaoNome }}</span>
+      <span class="logo-text">{{ (instituicaoNome$ | async) ?? 'Instituição' }}</span>
+      <button type="button" class="btn-toggle" (click)="toggleSidebar()" [attr.aria-label]="'Alternar menu'">
+        <i class="pi pi-bars"></i>
+      </button>
     </div>
     <div class="corpo">
       <ul class="menu-list">
-        <li *ngFor="let item of sidebarItems">
-          <a [routerLink]="item.route">
-            <i [class]="item.icon"></i> {{ item.label }}
+        <li *ngFor="let item of sidebarItems; trackBy: trackByIndex">
+          <a
+            [routerLink]="item.route"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            (click)="item.label === 'Sair' ? sair() : null"
+          >
+            <i [class]="item.icon"></i> <span class="menu-label">{{ item.label }}</span>
           </a>
         </li>
       </ul>
     </div>
-  </div>
+  </nav>
 
-  <!-- Conteúdo Principal -->
-  <div class="main-content">
-    <!-- Barra de Busca -->
+  <!-- Main -->
+  <main class="main-content">
+    <!-- Busca -->
     <div class="search-bar">
-      <input type="text" placeholder="Pesquisar vaga ou candidato..." [(ngModel)]="searchQuery" />
-      <button class="search-button">
+      <input type="text" placeholder="Pesquisar vaga ou candidato..." [formControl]="searchCtrl" />
+      <button class="search-button" type="button" aria-label="Pesquisar">
         <i class="pi pi-search"></i>
       </button>
     </div>
 
     <div class="box">
       <h2>Vagas com Candidatos</h2>
-      <ul class="vaga-list">
-        <li *ngFor="let vaga of vagasComCandidatos" (click)="selecionarVaga(vaga)">
-          <span class="vaga-cargo">{{ vaga.cargo }}</span>
-          <span class="vaga-local">{{ vaga.localidade }}</span>
-        </li>
-      </ul>
+
+      <ng-container *ngIf="!loadingVagas; else vagasLoading">
+        <ul class="vaga-list">
+          <li
+            *ngFor="let vaga of (vagasFiltradas$ | async); trackBy: trackByIndex"
+            (click)="selecionarVaga(vaga)"
+          >
+            <span class="vaga-cargo">{{ vaga.cargo }}</span>
+            <span class="vaga-local">{{ vaga.localidade }}</span>
+          </li>
+        </ul>
+        <p *ngIf="(vagasFiltradas$ | async)?.length === 0" class="sem-candidatos">
+          Nenhuma vaga encontrada.
+        </p>
+      </ng-container>
+
+      <ng-template #vagasLoading>
+        <p class="sem-candidatos">Carregando vagas…</p>
+      </ng-template>
     </div>
 
     <div *ngIf="vagaSelecionada" class="box">
       <h2>Candidatos para: {{ vagaSelecionada.cargo }}</h2>
-      <ul *ngIf="candidatos.length > 0; else noCandidatos" class="candidato-list">
-        <li *ngFor="let candidato of candidatos">
-          <strong>{{ candidato.nomeVoluntario }}</strong> —
-          {{ candidato.emailVoluntario }}<br />
-          <small>Candidatado em: {{ candidato.dataCandidatura | date: 'dd/MM/yyyy' }}</small>
-        </li>
-      </ul>
+
+      <ng-container *ngIf="!loadingCandidatos; else candLoading">
+        <ul *ngIf="(candidatosFiltrados$ | async)?.length! > 0; else noCandidatos" class="candidato-list">
+          <li *ngFor="let candidato of (candidatosFiltrados$ | async); trackBy: trackByIndex">
+            <strong>{{ candidato.nomeVoluntario }}</strong> — {{ candidato.emailVoluntario }}<br />
+            <small>
+              Candidatado em: {{ candidato.dataCandidatura | date: 'dd/MM/yyyy' }}
+              <span *ngIf="candidato.status">&nbsp;•&nbsp;Status: {{ candidato.status }}</span>
+            </small>
+          </li>
+        </ul>
+      </ng-container>
+
       <ng-template #noCandidatos>
         <p class="sem-candidatos">Nenhum candidato para esta vaga.</p>
       </ng-template>
+
+      <ng-template #candLoading>
+        <p class="sem-candidatos">Carregando candidatos…</p>
+      </ng-template>
     </div>
-  </div>
+  </main>
 </div>

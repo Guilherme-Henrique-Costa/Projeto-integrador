@@ -85,6 +85,10 @@
   text-decoration: underline;
 }
 
+.link-btn:hover{
+  background: var(--magenta);
+}
+
 .privacy-dialog .link-privacidade {
   color: var(--destaque);
   text-decoration: underline;

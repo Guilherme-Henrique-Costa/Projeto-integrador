@@ -1,25 +1,39 @@
 /* -------- Container Principal -------- */
 .app-container {
   display: flex;
-  min-height: 100vh;
+  height: 100vh;
   font-family: 'Segoe UI', sans-serif;
+  overflow: hidden;              /* evita scroll horizontal ao colapsar */
 }
 
-/* Sidebar fixa */
+/* ===== Sidebar ===== */
 .custom-sidebar {
   width: 260px;
+  min-width: 260px;              /* garante largura fixa inicial */
   background-color: var(--roxo-escuro);
   color: var(--branco);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+  transition: width .2s ease, min-width .2s ease;
+  overflow: hidden;              /* evita vazamento de conteúdo ao colapsar */
 }
 
+/* Estado colapsado */
+.custom-sidebar.collapsed {
+  width: 70px;
+  min-width: 70px;
+  border-right: 1px solid rgba(255, 255, 255, .08); /* borda opcional */
+}
+
+/* ===== Cabeçalho da Sidebar ===== */
 .cabeca {
   padding: 2rem;
   border-bottom: 1px solid var(--lilas);
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .logo-text {
@@ -27,6 +41,22 @@
   font-weight: 600;
 }
 
+.btn-toggle {
+  background: transparent;
+  border: none;
+  color: var(--branco);
+  cursor: pointer;
+}
+
+/* Ajustes específicos para colapso */
+.custom-sidebar.collapsed .cabeca {
+  padding: .75rem;
+}
+.custom-sidebar.collapsed .logo-text {
+  display: none;                 /* esconde o nome grande */
+}
+
+/* ===== Corpo da Sidebar ===== */
 .corpo {
   flex: 1;
   overflow-y: auto;
@@ -49,20 +79,44 @@
   padding: 1rem 1.5rem;
   color: var(--branco);
   text-decoration: none;
-  transition: background-color 0.3s;
+  transition: background-color .3s, padding .2s, gap .2s;
+  white-space: nowrap;
 }
 
-.menu-list a:hover {
+.menu-list a:hover,
+.menu-list a.active {
   background-color: var(--lilas);
 }
 
+.menu-label {
+  white-space: nowrap;
+}
+
+/* Quando colapsa, mostra só os ícones */
+.custom-sidebar.collapsed .menu-list a {
+  justify-content: center;
+  padding: .75rem 0;
+  gap: 0;
+}
+
+.custom-sidebar.collapsed .menu-label {
+  display: none;
+}
+
+/* ===== Conteúdo Principal ===== */
+.main-content {
+  flex: 1 1 auto;                /* ocupa o espaço restante */
+  background: linear-gradient(to bottom, var(--magenta), var(--lilas) 50%, var(--roxo));
+  padding: 20px;
+  color: var(--branco);
+  overflow-y: auto;
+}
 /* Barra de Busca */
 .search-bar {
   display: flex;
   align-items: center;
   margin-bottom: 30px;
 }
-
 .search-bar input {
   flex: 1;
   padding: 10px 15px;
@@ -72,11 +126,7 @@
   outline: none;
   transition: border-color 0.3s;
 }
-
-.search-bar input:focus {
-  border-color: var(--magenta);
-}
-
+.search-bar input:focus { border-color: var(--magenta); }
 .search-button {
   background-color: var(--branco);
   border: none;
@@ -86,58 +136,27 @@
   border-radius: 50%;
   cursor: pointer;
   font-size: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: flex; align-items: center; justify-content: center;
   transition: background-color 0.3s;
 }
-
-.search-button:hover {
-  background-color: var(--roxo);
-}
-
-/* Conteúdo Principal */
-.main-content {
-  flex-grow: 1;
-  background: linear-gradient(to bottom, var(--magenta), var(--lilas) 50%, var(--roxo));
-  padding: 20px;
-  color: var(--branco);
-  font-family: sans-serif;
-}
+.search-button:hover { background-color: var(--roxo); color: var(--branco); }
 
 /* Ranking */
+.ranking-wrapper { display: flex; justify-content: center; align-items: center; padding: 20px; }
 .ranking-container {
   background-color: var(--branco);
   padding: 20px;
   border-radius: 15px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
   width: 100%;
-  max-width: 400px;
+  max-width: 420px;
   text-align: center;
 }
+.ranking-container h3 { color: var(--roxo-escuro); margin-bottom: 10px; }
 
-.ranking-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-}
-
-
-.ranking-container h3 {
-  color: var(--roxo-escuro);
-}
-
-.ranking-list {
-  list-style: none;
-  color: var(--roxo-escuro);
-  padding: 0;
-  margin: 0;
-}
-
+.ranking-list { list-style: none; color: var(--roxo-escuro); padding: 0; margin: 0; }
 .ranking-item {
-  display: flex;
-  align-items: center;
+  display: flex; align-items: center;
   padding: 10px;
   background-color: var(--branco);
   border: 1px solid var(--lilas);
@@ -145,16 +164,19 @@
   margin-bottom: 10px;
   border-radius: 25px;
 }
+.ranking-posicao { font-weight: 700; margin-right: 10px; min-width: 2.3rem; text-align: right; }
+.ranking-medal { margin: 0 8px; }
+.ranking-nome { margin-left: 6px; }
 
-.ranking-posicao {
-  font-weight: bold;
-  margin-right: 10px;
-}
+/* Destaque Top 3 */
+.ranking-item.top-1 { border-color: #f5c518; box-shadow: 0 0 0 2px rgba(245,197,24,0.15) inset; }
+.ranking-item.top-2 { border-color: #c0c0c0; box-shadow: 0 0 0 2px rgba(192,192,192,0.15) inset; }
+.ranking-item.top-3 { border-color: #cd7f32; box-shadow: 0 0 0 2px rgba(205,127,50,0.15) inset; }
 
-.ranking-nome {
-  margin-left: 10px;
-}
-
-.icon {
-  color: gold;
+.ranking-vazio {
+  color: var(--branco);
+  background: var(--roxo);
+  border-radius: 10px;
+  padding: 10px;
+  font-style: italic;
 }

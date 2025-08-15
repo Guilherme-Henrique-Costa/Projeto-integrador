@@ -1,58 +1,109 @@
 import { Component } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { MessageService } from 'primeng/api';
+import { ConfirmarSenhaInstituicaoService } from './confirmar-senha-instituicao.service';
 
 @Component({
   selector: 'app-confirmar-senha-instituicao',
   templateUrl: './confirmar-senha-instituicao.component.html',
-  styleUrls: ['./confirmar-senha-instituicao.component.css'],
-  providers: [MessageService]
+  styleUrls: ['./confirmar-senha-instituicao.component.css']
 })
 export class ConfirmarSenhaInstituicaoComponent {
-  senha: string = '';
-  confirmarSenha: string = '';
+  carregando = false;
+  erro: string | null = null;
+  sucesso: string | null = null;
+
+  // estado da etapa
+  emailValidado = false;
+  infoUsuario: { id?: number; nome?: string } | null = null;
+
+  formulario = this.fb.group({
+    email: ['', [Validators.required, Validators.email]],
+    novaSenha: [{ value: '', disabled: true }, [Validators.required, Validators.minLength(6)]],
+    confirmarSenha: [{ value: '', disabled: true }, [Validators.required]]
+  });
 
   constructor(
-    private router: Router,
-    private messageService: MessageService
+    private readonly fb: FormBuilder,
+    private readonly service: ConfirmarSenhaInstituicaoService,
+    private readonly router: Router
   ) {}
 
-  cadastrar(): void {
-    if (this.isSenhaValida()) {
-      this.exibirMensagemSucesso('Senha confirmada com sucesso');
-      this.redirecionarPara('/login-instituicao', 1000);
-    } else {
-      this.exibirMensagemErro('A senha precisa ter no mínimo 3 caracteres.');
+  get f() { return this.formulario.controls; }
+
+  /** Etapa 1: verificar e-mail */
+  verificarEmail(): void {
+    this.resetMensagens();
+    if (this.f.email.invalid) {
+      this.f.email.markAsTouched();
+      return;
     }
-  }
 
-  private isSenhaValida(): boolean {
-    return this.senha.length >= 3;
-  }
+    this.carregando = true;
+    const email = this.f.email.value!;
 
-  private exibirMensagemSucesso(detalhe: string): void {
-    this.messageService.add({
-      severity: 'success',
-      summary: 'Sucesso',
-      detail: detalhe,
-      styleClass: 'toast-success'
+    this.service.verificarEmail(email).subscribe({
+      next: (res) => {
+        this.carregando = false;
+        if (res.existe) {
+          this.emailValidado = true;
+          this.infoUsuario = { id: res.id, nome: res.nome };
+
+          // habilita campos de senha
+          this.f.novaSenha.enable();
+          this.f.confirmarSenha.enable();
+          this.sucesso = 'E-mail localizado. Defina sua nova senha abaixo.';
+        } else {
+          this.erro = 'Este e-mail não está cadastrado.';
+        }
+      },
+      error: (e: Error) => {
+        this.carregando = false;
+        this.erro = e.message || 'Falha ao verificar o e-mail.';
+      }
     });
   }
 
-  private exibirMensagemErro(detalhe: string): void {
-    this.messageService.add({
-      severity: 'error',
-      summary: 'Erro',
-      detail: detalhe,
-      styleClass: 'toast-error'
+  /** Etapa 2: trocar senha */
+  trocarSenha(): void {
+    this.resetMensagens();
+
+    if (!this.emailValidado) {
+      this.erro = 'Valide o e-mail antes de alterar a senha.';
+      return;
+    }
+    if (this.f.novaSenha.invalid || this.f.confirmarSenha.invalid) {
+      this.f.novaSenha.markAsTouched();
+      this.f.confirmarSenha.markAsTouched();
+      return;
+    }
+    if (this.f.novaSenha.value !== this.f.confirmarSenha.value) {
+      this.erro = 'As senhas não coincidem.';
+      return;
+    }
+
+    this.carregando = true;
+    const email = this.f.email.value!;
+    const novaSenha = this.f.novaSenha.value!;
+
+    this.service.redefinirSenha(email, novaSenha).subscribe({
+      next: () => {
+        this.carregando = false;
+        this.sucesso = 'Senha alterada com sucesso! Você já pode fazer login.';
+        setTimeout(() => this.router.navigate(['/login-instituicao']), 1200);
+      },
+      error: (e: Error) => {
+        this.carregando = false;
+        this.erro = e.message || 'Não foi possível alterar a senha.';
+      }
     });
   }
 
-  private redirecionarPara(caminho: string, delay: number): void {
-    setTimeout(() => this.router.navigate([caminho]), delay);
-  }
-
-  voltar(): void {
+  voltarLogin(): void {
     this.router.navigate(['/login-instituicao']);
+  }
+
+  private resetMensagens(): void {
+    this.erro = this.sucesso = null;
   }
 }

@@ -1,20 +1,37 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class MenuInstituicaoService {
-  private instituicaoNome: string = "Instituicção"; // Nome padrão, será substituído após o login
+  /** Estado reativo do nome da instituição */
+  private readonly nome$ = new BehaviorSubject<string>('Instituição');
 
-  constructor() { }
+  constructor() {
+    this.loadFromStorage();
+  }
 
-   // Função para definir o nome do voluntário
-   setInstituicaoNome(nome: string): void {
-    this.instituicaoNome = nome;
-   }
+  /** Carrega o nome salvo após o login */
+  loadFromStorage(): void {
+    const nome = localStorage.getItem('userName');
+    if (nome && nome.trim().length > 0) this.nome$.next(nome);
+  }
 
-   // Função para retornar o nome da instituição
-   getInstituicaoNome(): string {
-    return this.instituicaoNome;
-   }
+  /** Define/atualiza o nome (ex.: após edição de perfil) */
+  setInstituicaoNome(nome: string): void {
+    this.nome$.next(nome);
+    localStorage.setItem('userName', nome);
+  }
+
+  /** Observável do nome para assinar no componente */
+  getInstituicaoNome$() {
+    return this.nome$.asObservable();
+  }
+
+  /** Logout básico (pode delegar para um AuthService se tiver) */
+  logout(): void {
+    localStorage.removeItem('token');
+    localStorage.removeItem('userEmail');
+    localStorage.removeItem('userName');
+    localStorage.removeItem('instituicaoId');
+  }
 }

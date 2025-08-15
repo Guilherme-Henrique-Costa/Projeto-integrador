@@ -21,86 +21,36 @@
     </p>
     <ng-template pTemplate="footer">
       <div class="dialog-actions">
-        <button
-          pButton
-          pRipple
-          class="btn-rejeitar"
-          (click)="rejeitar()"
-          [label]="label.rejeitar"
-        ></button>
-        <button
-          pButton
-          pRipple
-          class="btn-aceitar"
-          (click)="aceitar()"
-          [label]="label.aceitar"
-        ></button>
+        <button pButton pRipple class="btn-rejeitar" (click)="rejeitar()" [label]="label.rejeitar"></button>
+        <button pButton pRipple class="btn-aceitar" (click)="aceitar()" [label]="label.aceitar"></button>
       </div>
     </ng-template>
   </p-dialog>
 
   <!-- Tela de Login -->
   <div class="login-card">
-    <button
-      type="button"
-      pButton
-      icon="pi pi-arrow-left"
-      class="btn-voltar"
-      (click)="voltar()"
-    ></button>
+    <button type="button" pButton icon="pi pi-arrow-left" class="btn-voltar" (click)="voltar()"></button>
 
     <h1 class="titulo">{{ text.ceub }}</h1>
     <h2 class="subtitulo">{{ text.VI }}</h2>
 
-    <form (ngSubmit)="login()" class="login-form">
+    <!-- Reactive form -->
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="login-form">
       <span class="p-float-label">
-        <input
-          type="text"
-          pInputText
-          id="username"
-          name="username"
-          [(ngModel)]="email"
-          required
-        />
-        <label for="username">Email</label>
+        <input type="text" pInputText id="email" formControlName="email" required />
+        <label for="email">Email</label>
       </span>
 
       <span class="p-float-label">
-        <input
-          type="password"
-          pInputText
-          id="password"
-          name="password"
-          [(ngModel)]="senha"
-          required
-        />
-        <label for="password">Senha</label>
+        <input type="password" pInputText id="senha" formControlName="senha" required />
+        <label for="senha">Senha</label>
       </span>
 
-      <button
-        type="submit"
-        pButton
-        pRipple
-        class="btn-login"
-        [label]="label.login"
-      ></button>
+      <button type="submit" pButton pRipple class="btn-login" [label]="label.login"></button>
 
       <div class="login-links">
-        <button
-          type="button"
-          pButton
-          class="link-btn"
-          (click)="redefinirSenha()"
-          [label]="label.redefinir"
-        ></button>
-
-        <button
-          type="button"
-          pButton
-          class="link-btn"
-          (click)="cadastrarInstituicao()"
-          [label]="label.cadastro"
-        ></button>
+        <button type="button" pButton class="link-btn" (click)="redefinirSenha()" [label]="label.redefinir"></button>
+        <button type="button" pButton class="link-btn" (click)="cadastrarInstituicao()" [label]="label.cadastro"></button>
       </div>
     </form>
   </div>
