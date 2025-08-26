@@ -28,35 +28,37 @@ export class CandidatosComponent {
   searchCtrl = new FormControl<string>('', { nonNullable: true });
 
   /** Listas filtradas reativas */
-  vagasFiltradas$ = combineLatest([
-    this.searchCtrl.valueChanges.pipe(startWith('')),
-  ]).pipe(
+  vagasFiltradas$ = combineLatest([this.searchCtrl.valueChanges.pipe(startWith(''))]).pipe(
     map(([q]) => {
-      const query = q.toLowerCase();
-      return query
+      const query = (q || '').toLowerCase();
+      const out = query
         ? this.vagasComCandidatos.filter(
             (v) =>
-              v.cargo.toLowerCase().includes(query) ||
-              v.localidade.toLowerCase().includes(query) ||
-              v.descricao.toLowerCase().includes(query),
+              (v.cargo || '').toLowerCase().includes(query) ||
+              (v.localidade || '').toLowerCase().includes(query) ||
+              (v.descricao || '').toLowerCase().includes(query),
           )
         : this.vagasComCandidatos;
+      // print
+      console.log('[CandidatosComponent] vagasFiltradas', out.length);
+      return out;
     }),
   );
 
-  candidatosFiltrados$ = combineLatest([
-    this.searchCtrl.valueChanges.pipe(startWith('')),
-  ]).pipe(
+  candidatosFiltrados$ = combineLatest([this.searchCtrl.valueChanges.pipe(startWith(''))]).pipe(
     map(([q]) => {
-      const query = q.toLowerCase();
-      return query
+      const query = (q || '').toLowerCase();
+      const out = query
         ? this.candidatos.filter(
             (c) =>
-              c.nomeVoluntario.toLowerCase().includes(query) ||
-              c.emailVoluntario.toLowerCase().includes(query) ||
+              (c.nomeVoluntario || '').toLowerCase().includes(query) ||
+              (c.emailVoluntario || '').toLowerCase().includes(query) ||
               String(c.status || '').toLowerCase().includes(query),
           )
         : this.candidatos;
+      // print
+      console.log('[CandidatosComponent] candidatosFiltrados', out.length);
+      return out;
     }),
   );
 
@@ -90,12 +92,15 @@ export class CandidatosComponent {
   carregarVagasComCandidatos(): void {
     this.loadingVagas = true;
     const instituicaoId = Number(localStorage.getItem('instituicaoId')) || undefined;
+    console.log('[CandidatosComponent] carregarVagasComCandidatos instituicaoId=', instituicaoId);
 
     this.candidatosService.listarVagasComCandidatos(instituicaoId).subscribe({
       next: (vagas) => {
         this.vagasComCandidatos = vagas ?? [];
+        console.log('[CandidatosComponent] vagas carregadas:', this.vagasComCandidatos.length);
       },
       error: (err: Error) => {
+        console.error('[CandidatosComponent] erro ao carregar vagas:', err);
         this.message.add({ severity: 'error', summary: 'Erro', detail: err.message });
       },
       complete: () => (this.loadingVagas = false),
@@ -103,21 +108,22 @@ export class CandidatosComponent {
   }
 
   selecionarVaga(vaga: Vaga): void {
+    console.log('[CandidatosComponent] selecionarVaga id=', vaga?.id);
     this.vagaSelecionada = vaga;
     this.carregarCandidatos(vaga.id);
   }
 
   carregarCandidatos(vagaId: number): void {
     this.loadingCandidatos = true;
+    console.log('[CandidatosComponent] carregarCandidatos vagaId=', vagaId);
+
     this.candidatosService.listarCandidatos(vagaId).subscribe({
       next: (list) => {
-        // normaliza datas para Date (se vier string ISO)
-        this.candidatos = (list || []).map((c) => ({
-          ...c,
-          dataCandidatura: c.dataCandidatura ? new Date(c.dataCandidatura) : c.dataCandidatura,
-        }));
+        this.candidatos = list || [];
+        console.log('[CandidatosComponent] candidatos carregados:', this.candidatos.length);
       },
       error: (err: Error) => {
+        console.error('[CandidatosComponent] erro ao carregar candidatos:', err);
         this.message.add({ severity: 'error', summary: 'Erro', detail: err.message });
       },
       complete: () => (this.loadingCandidatos = false),
@@ -126,6 +132,7 @@ export class CandidatosComponent {
 
   toggleSidebar(): void {
     this.sidebarOpen = !this.sidebarOpen;
+    console.log('[CandidatosComponent] sidebarOpen:', this.sidebarOpen);
   }
 
   sair(): void {

@@ -19,6 +19,10 @@ import { LoginAdminComponent } from './admin/login-admin/login-admin.component';
 import { CadastroAdminComponent } from './admin/cadastro-admin/cadastro-admin.component';
 import { EsqueciSenhaAdminComponent } from './admin/esqueci-senha-admin/esqueci-senha-admin.component';
 import { MenuAdminComponent } from './admin/menu-admin/menu-admin.component';
+import { VoluntariosAdminComponent } from './admin/voluntarios-admin/voluntarios-admin.component';
+import { InstituicoesAdminComponent } from './admin/instituicoes-admin/instituicoes-admin.component';
+import { RelatoriosAdminComponent } from './admin/relatorios-admin/relatorios-admin.component';
+import { MensagensAdminComponent } from './admin/mensagens-admin/mensagens-admin.component';
 
 const routes: Routes = [
   {
@@ -95,10 +99,11 @@ const routes: Routes = [
   },
 
   {
-  path: 'relatorios-instituicao',
-  loadChildren: () =>
-    import('./instituicao/relatorios-instituicao/relatorios-instituicao.module')
-      .then((m) => m.RelatoriosInstituicaoModule)
+    path: 'relatorios-instituicao',
+    loadChildren: () =>
+      import(
+        './instituicao/relatorios-instituicao/relatorios-instituicao.module'
+      ).then((m) => m.RelatoriosInstituicaoModule),
   },
 
   {
@@ -128,9 +133,31 @@ const routes: Routes = [
 
   {
     path: 'menu-admin',
-    component: MenuAdminComponent,
-  }
+    loadChildren: () =>
+      import('./admin/menu-admin/menu-admin.module').then(
+        (m) => m.MenuAdminModule
+      ),
+  },
 
+  {
+    path: 'voluntarios-admin',
+    component: VoluntariosAdminComponent,
+  },
+
+  {
+    path: 'instituicoes-admin',
+    component: InstituicoesAdminComponent,
+  },
+
+  {
+    path: 'relatorios-admin',
+    component: RelatoriosAdminComponent,
+  },
+
+  {
+    path: 'mensagens-admin',
+    component: MensagensAdminComponent,
+  }
 ];
 
 @NgModule({

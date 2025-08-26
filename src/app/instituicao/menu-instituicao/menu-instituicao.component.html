@@ -1,18 +1,9 @@
 <div class="app-container">
   <!-- Sidebar -->
-  <nav
-    class="custom-sidebar"
-    [class.collapsed]="!sidebarOpen"
-    aria-label="Navegação da instituição"
-  >
+  <nav class="custom-sidebar" [class.collapsed]="!sidebarOpen" aria-label="Navegação instituição">
     <div class="cabeca">
       <span class="logo-text">{{ (instituicaoNome$ | async) ?? 'Instituição' }}</span>
-      <button
-        type="button"
-        class="btn-toggle"
-        (click)="toggleSidebar()"
-        [attr.aria-label]="'Alternar menu'"
-      >
+      <button type="button" class="btn-toggle" (click)="toggleSidebar()" aria-label="Alternar menu">
         <i class="pi pi-bars"></i>
       </button>
     </div>
@@ -34,39 +25,85 @@
     </div>
   </nav>
 
-  <!-- Conteúdo Principal -->
+  <!-- Main -->
   <main class="main-content" [ngClass]="{ expanded: !sidebarOpen }">
-    <!-- Barra de Busca -->
-    <div class="search-bar">
-      <input
-        type="text"
-        placeholder="Pesquisar"
-        [formControl]="searchCtrl"
-        aria-label="Pesquisar ranking e feedback"
-      />
-      <button class="search-button" type="button" aria-label="Pesquisar">
-        <i class="pi pi-search"></i>
-      </button>
+    <!-- Topbar -->
+    <div class="topbar-inline">
+      <div class="brand">
+        <span class="logo">CEUB</span>
+        <span class="title">Instituição • Menu</span>
+      </div>
+      <button class="btn btn-outline" (click)="sair()"><i class="pi pi-sign-out"></i> Sair</button>
     </div>
 
-    <!-- Seção de Ranking -->
-    <section class="ranking-section">
-      <h3>Ranking</h3>
-      <ul>
-        <li *ngFor="let item of (rankingItems$ | async); trackBy: trackByIndex">
-          {{ item }}
-        </li>
-      </ul>
+    <!-- Busca -->
+    <section class="card search-card">
+      <div class="search-bar">
+        <span class="p-input-icon-left w-100">
+          <i class="pi pi-search"></i>
+          <input
+            pInputText
+            type="text"
+            placeholder="Buscar no ranking e feedback…"
+            [formControl]="searchCtrl"
+            aria-label="Pesquisar"
+          />
+        </span>
+        <button class="btn icon" type="button" (click)="searchCtrl.setValue('')" title="Limpar busca">
+          <i class="pi pi-times"></i>
+        </button>
+      </div>
     </section>
 
-    <!-- Seção de Feedback -->
-    <section class="feedback-section">
-      <h3>Feedback</h3>
-      <ul>
-        <li *ngFor="let item of (feedbackItems$ | async); trackBy: trackByIndex">
-          {{ item }}
-        </li>
-      </ul>
+    <!-- Conteúdo -->
+    <section class="grid-2">
+      <!-- Ranking -->
+      <section class="card">
+        <header class="card-header">
+          <h3>Ranking</h3>
+          <span class="counter" *ngIf="(rankingItems$ | async) as rk">{{ rk.length }} itens</span>
+        </header>
+
+        <ng-container *ngIf="(rankingItems$ | async) as ranking; else rankingVazio">
+          <ul class="list rank">
+            <li *ngFor="let item of ranking; let i = index; trackBy: trackByIndex" class="rank-item">
+              <span class="pos" [class.p1]="i===0" [class.p2]="i===1" [class.p3]="i===2">{{ i + 1 }}</span>
+              <div class="txt">{{ item }}</div>
+            </li>
+          </ul>
+        </ng-container>
+
+        <ng-template #rankingVazio>
+          <div class="empty">
+            <i class="pi pi-inbox"></i>
+            <p>Nenhum item de ranking encontrado</p>
+          </div>
+        </ng-template>
+      </section>
+
+      <!-- Feedback -->
+      <section class="card">
+        <header class="card-header">
+          <h3>Feedback</h3>
+          <span class="counter" *ngIf="(feedbackItems$ | async) as fb">{{ fb.length }} itens</span>
+        </header>
+
+        <ng-container *ngIf="(feedbackItems$ | async) as feedback; else feedbackVazio">
+          <ul class="list feedback">
+            <li *ngFor="let item of feedback; trackBy: trackByIndex" class="fb-item">
+              <i class="pi pi-comment"></i>
+              <div class="txt" [title]="item">{{ item }}</div>
+            </li>
+          </ul>
+        </ng-container>
+
+        <ng-template #feedbackVazio>
+          <div class="empty">
+            <i class="pi pi-inbox"></i>
+            <p>Nenhum feedback encontrado</p>
+          </div>
+        </ng-template>
+      </section>
     </section>
   </main>
 </div>

@@ -19,7 +19,8 @@
   justify-content: center;
   align-items: flex-start;
   padding: 40px 20px;
-  background: linear-gradient(to bottom, var(--roxo-escuro), var(--magenta));
+  background: radial-gradient(1200px 600px at 80% -10%, #6a5acd22, transparent),
+              linear-gradient(135deg, #0f0c29, #302b63, #24243e);
   min-height: 100vh;
 }
 
@@ -100,7 +101,34 @@ button.ui-button-primary:active { transform: translateY(0); }
 .p-accordion .p-accordion-header.p-highlight { background: var(--roxo); }
 .p-accordion .p-accordion-content { background: var(--cinza-claro); border-radius: 8px; padding: 18px; color: var(--cinza-escuro); }
 
+/* ===== Utilitários novos (CEP) ===== */
+.p-field--inline {
+  display: flex;
+  align-items: end;
+  gap: 10px;
+}
+.p-field--inline .grow { flex: 1; }
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0,1fr));
+  gap: 12px;
+}
+
+/* Botão fantasma (mesmo look do perfil) */
+.btn-ghost {
+  background: #f3f4f6;
+  color: #374151;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 10px 12px;
+  cursor: pointer;
+}
+.btn-ghost:hover { background: #e5e7eb; }
+.btn-sm { padding: 8px 10px; font-size: .9rem; }
+
 /* Responsivo */
 @media (max-width: 768px) {
   .form-container { padding: 20px; }
+  .grid-3 { grid-template-columns: 1fr; }
 }

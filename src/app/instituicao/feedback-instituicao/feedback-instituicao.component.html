@@ -1,23 +1,15 @@
 <div class="app-container">
-  <!-- Sidebar -->
-  <nav class="custom-sidebar" [class.collapsed]="!sidebarOpen">
+  <nav class="custom-sidebar" [class.collapsed]="!sidebarOpen" aria-label="Navegação instituição">
     <div class="cabeca">
-      <span class="logo-text">{{
-        (instituicaoNome$ | async) ?? "Instituição"
-      }}</span>
-      <button type="button" class="btn-toggle" (click)="toggleSidebar()" [attr.aria-label]="'Alternar menu'">
+      <span class="logo-text">{{ (instituicaoNome$ | async) ?? 'Instituição' }}</span>
+      <button type="button" class="btn-toggle" (click)="toggleSidebar()" aria-label="Alternar menu">
         <i class="pi pi-bars"></i>
       </button>
     </div>
     <div class="corpo">
       <ul class="menu-list">
         <li *ngFor="let item of sidebarItems; trackBy: trackByIndex">
-          <a
-            [routerLink]="item.route"
-            routerLinkActive="active"
-            [routerLinkActiveOptions]="{ exact: true }"
-            (click)="item.label === 'Sair' ? sair() : null"
-          >
+          <a [routerLink]="item.route" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="item.label === 'Sair' ? sair() : null">
             <i [class]="item.icon"></i>
             <span class="menu-label">{{ item.label }}</span>
           </a>
@@ -26,121 +18,125 @@
     </div>
   </nav>
 
-  <!-- Main -->
   <main class="main-content" [ngClass]="{ expanded: !sidebarOpen }">
-    <div class="feedback-card">
-      <h2>Deixe seu feedback</h2>
-      <p>Compartilhe sua experiência com a plataforma e os colaboradores</p>
-
-      <form [formGroup]="form" (ngSubmit)="submitFeedback()">
-        <!-- Voluntário -->
-        <div class="form-group">
-          <label for="voluntario">Voluntário que você deseja avaliar:</label>
-          <select id="voluntario" formControlName="voluntarioSelecionadoId">
-            <option [ngValue]="null" disabled>Selecione um voluntário</option>
-            <option
-              *ngFor="let v of voluntarios; trackBy: trackByIndex"
-              [ngValue]="v.id"
-            >
-              {{ v.nome }}
-            </option>
-          </select>
-          <div
-            class="validation-error"
-            *ngIf="submitted && form.get('voluntarioSelecionadoId')?.invalid"
-          >
-            Selecione um voluntário.
-          </div>
-        </div>
-
-        <!-- Feedback texto -->
-        <textarea
-          formControlName="feedbackText"
-          placeholder="Descreva sua experiência..."
-        ></textarea>
-        <div
-          class="validation-error"
-          *ngIf="submitted && form.get('feedbackText')?.invalid"
-        >
-          Descreva sua experiência (mín. 3 caracteres).
-        </div>
-
-        <!-- Avaliação colaborador -->
-        <div class="rating-group">
-          <label>Avaliação dos colaboradores:</label>
-          <div class="stars">
-            <span
-              *ngFor="let star of stars; let i = index; trackBy: trackByIndex"
-              [class.filled]="i + 1 <= form.get('colaboradorRating')?.value"
-              (click)="rateColaborador(i + 1)"
-              role="button"
-              [attr.aria-label]="'Nota ' + (i + 1)"
-              tabindex="0"
-              >★</span
-            >
-          </div>
-          <div
-            class="validation-error"
-            *ngIf="submitted && form.get('colaboradorRating')?.invalid"
-          >
-            Escolha uma nota para os colaboradores.
-          </div>
-        </div>
-
-        <!-- Avaliação sistema -->
-        <div class="rating-group">
-          <label>Avaliação do sistema:</label>
-          <div class="stars">
-            <span
-              *ngFor="let star of stars; let i = index; trackBy: trackByIndex"
-              [class.filled]="i + 1 <= form.get('sistemaRating')?.value"
-              (click)="rateSystem(i + 1)"
-              role="button"
-              [attr.aria-label]="'Nota ' + (i + 1)"
-              tabindex="0"
-              >★</span
-            >
-          </div>
-          <div
-            class="validation-error"
-            *ngIf="submitted && form.get('sistemaRating')?.invalid"
-          >
-            Escolha uma nota para o sistema.
-          </div>
-        </div>
-
-        <!-- Anônimo -->
-        <div class="form-group check-inline">
-          <label>
-            <input type="checkbox" formControlName="anonimo" /> Quero enviar
-            anonimamente
-          </label>
-        </div>
-
-        <!-- Botão -->
-        <button type="submit" [disabled]="loading">
-          <ng-container *ngIf="!loading && !success"
-            >Enviar Feedback</ng-container
-          >
-          <ng-container *ngIf="loading">Enviando...</ng-container>
-          <ng-container *ngIf="success">✔ Enviado!</ng-container>
-        </button>
-      </form>
-
-      <!-- Confirmação -->
-      <div class="success-msg" *ngIf="success">
-        Obrigado por sua contribuição!
+    <div class="topbar-inline">
+      <div class="brand">
+        <span class="logo">CEUB</span>
+        <span class="title">Instituição • Feedback</span>
       </div>
-
-      <!-- Histórico -->
-      <div class="feedback-history" *ngIf="feedbacks.length">
-        <h4>Feedbacks anteriores:</h4>
-        <ul>
-          <li *ngFor="let fb of feedbacks; trackBy: trackByIndex">
-            <strong>{{ fb.voluntario }}</strong> - {{ fb.feedbackText }}
-          </li>
-        </ul>
-      </div>
+      <button class="btn btn-outline" (click)="sair()"><i class="pi pi-sign-out"></i> Sair</button>
     </div>
+
+    <section class="grid-2">
+      <div class="card feedback-card">
+        <header class="card-header">
+          <div>
+            <h3>Deixe seu feedback</h3>
+            <p class="muted">Compartilhe sua experiência com a plataforma e os colaboradores</p>
+          </div>
+        </header>
+
+        <form [formGroup]="form" (ngSubmit)="submitFeedback()" novalidate class="form-grid">
+          <!-- Busca + seleção de voluntário -->
+          <div class="field">
+            <label for="buscaVol">Pesquisar voluntário</label>
+            <input id="buscaVol" type="text" [formControl]="voluntarioSearch" placeholder="Nome ou e-mail" />
+          </div>
+
+          <div class="field">
+            <label for="voluntario">Voluntário</label>
+            <select id="voluntario" formControlName="voluntarioSelecionadoId">
+              <option [ngValue]="null" disabled>Selecione um voluntário</option>
+              <option *ngFor="let v of (filteredVoluntarios$ | async) ?? []; trackBy: trackByIndex" [ngValue]="v.id">
+                {{ v.nome || v.emailInstitucional || ('ID ' + v.id) }}
+              </option>
+            </select>
+            <small class="error" *ngIf="submitted && form.get('voluntarioSelecionadoId')?.invalid">Selecione um voluntário.</small>
+          </div>
+
+          <div class="field check-inline col-span-2">
+            <label><input type="checkbox" formControlName="anonimo" /> Enviar anonimamente</label>
+          </div>
+
+          <div class="field col-span-2">
+            <label>Avaliação dos colaboradores</label>
+            <div class="stars" role="radiogroup" aria-label="Avaliação dos colaboradores">
+              <span *ngFor="let star of stars; let i = index; trackBy: trackByIndex"
+                    [class.filled]="i + 1 <= form.get('colaboradorRating')?.value"
+                    (click)="rateColaborador(i + 1)"
+                    role="radio"
+                    [attr.aria-checked]="i + 1 <= form.get('colaboradorRating')?.value"
+                    tabindex="0">★</span>
+            </div>
+            <small class="error" *ngIf="submitted && form.get('colaboradorRating')?.invalid">Escolha uma nota para os colaboradores.</small>
+          </div>
+
+          <div class="field col-span-2">
+            <label>Avaliação do sistema</label>
+            <div class="stars" role="radiogroup" aria-label="Avaliação do sistema">
+              <span *ngFor="let star of stars; let i = index; trackBy: trackByIndex"
+                    [class.filled]="i + 1 <= form.get('sistemaRating')?.value"
+                    (click)="rateSystem(i + 1)"
+                    role="radio"
+                    [attr.aria-checked]="i + 1 <= form.get('sistemaRating')?.value"
+                    tabindex="0">★</span>
+            </div>
+            <small class="error" *ngIf="submitted && form.get('sistemaRating')?.invalid">Escolha uma nota para o sistema.</small>
+          </div>
+
+          <div class="field col-span-2">
+            <label for="feedbackText">Descreva sua experiência</label>
+            <textarea id="feedbackText" formControlName="feedbackText" rows="6" placeholder="Conte o que funcionou bem e o que pode melhorar…"></textarea>
+            <div class="row-between">
+              <small class="error" *ngIf="submitted && form.get('feedbackText')?.invalid">Mínimo de 3 caracteres (máx. {{ MAX_FEEDBACK }}).</small>
+              <small class="muted">{{ feedbackLen }}/{{ MAX_FEEDBACK }}</small>
+            </div>
+          </div>
+
+          <div class="actions col-span-2">
+            <button type="reset" class="btn btn-ghost"
+                    (click)="form.reset({ voluntarioSelecionadoId: null, feedbackText: '', colaboradorRating: 0, sistemaRating: 0, anonimo: false })">
+              Cancelar
+            </button>
+            <button type="submit" class="btn btn-primary" [disabled]="loading">
+              <i class="pi" [ngClass]="loading ? 'pi-spin pi-spinner' : 'pi-send'"></i>
+              <span *ngIf="!loading && !success">Enviar feedback</span>
+              <span *ngIf="loading">Enviando…</span>
+              <span *ngIf="success">✔ Enviado!</span>
+            </button>
+          </div>
+
+          <div class="success-msg" *ngIf="success">Obrigado por sua contribuição!</div>
+        </form>
+      </div>
+
+      <div class="card history-card">
+        <header class="card-header">
+          <h3>Feedbacks anteriores</h3>
+        </header>
+
+        <div class="field">
+          <input type="text" [formControl]="historySearch" placeholder="Pesquisar no histórico…" />
+        </div>
+
+        <ng-container *ngIf="(filteredHistory$ | async) as feedbacks; else vazio">
+          <div *ngIf="feedbacks.length; else vazio">
+            <ul class="history-list">
+              <li *ngFor="let fb of feedbacks; trackBy: trackByIndex">
+                <div class="chip">{{ fb.voluntario }}</div>
+                <p>{{ fb.feedbackText }}</p>
+              </li>
+            </ul>
+          </div>
+        </ng-container>
+
+        <ng-template #vazio>
+          <div class="empty">
+            <i class="pi pi-inbox"></i>
+            <p>Nenhum feedback registrado ainda.</p>
+          </div>
+        </ng-template>
+      </div>
+    </section>
   </main>
 </div>

@@ -1,12 +1,13 @@
 <div class="perfil-container">
   <!-- Sidebar -->
-  <nav class="custom-sidebar" [class.collapsed]="!sidebarOpen">
+  <nav class="custom-sidebar" [class.collapsed]="!sidebarOpen" aria-label="Navegação instituição">
     <div class="cabeca">
       <span class="logo-text">{{ (instituicaoNome$ | async) ?? 'Instituição' }}</span>
-      <button type="button" class="btn-toggle" (click)="toggleSidebar()" [attr.aria-label]="'Alternar menu'">
+      <button type="button" class="btn-toggle" (click)="toggleSidebar()" aria-label="Alternar menu">
         <i class="pi pi-bars"></i>
       </button>
     </div>
+
     <div class="corpo">
       <ul class="menu-list">
         <li *ngFor="let item of sidebarItems; trackBy: trackByIndex">
@@ -16,52 +17,180 @@
             [routerLinkActiveOptions]="{ exact: true }"
             (click)="item.label === 'Sair' ? sair() : null"
           >
-            <i [class]="item.icon"></i> <span class="menu-label">{{ item.label }}</span>
+            <i [class]="item.icon"></i>
+            <span class="menu-label">{{ item.label }}</span>
           </a>
         </li>
       </ul>
     </div>
   </nav>
 
-  <!-- Conteúdo Principal -->
+  <!-- Main -->
   <main class="main-content" [ngClass]="{ expanded: !sidebarOpen }">
-    <div class="profile-container">
-      <h3>Perfil da Instituição</h3>
-
-      <form [formGroup]="cadastroForm" (ngSubmit)="salvar()">
-        <!-- Campo Nome -->
-        <label for="nome">Nome:</label>
-        <input type="text" id="nome" formControlName="nome" placeholder="Nome da instituição" />
-        <div *ngIf="cadastroForm.get('nome')?.touched && cadastroForm.get('nome')?.invalid">
-          <small>{{ getErrorMessage('nome') }}</small>
-        </div>
-
-        <!-- Campo E-mail -->
-        <label for="email">E-mail:</label>
-        <input type="email" id="email" formControlName="email" placeholder="email@exemplo.com" />
-        <div *ngIf="cadastroForm.get('email')?.touched && cadastroForm.get('email')?.invalid">
-          <small>{{ getErrorMessage('email') }}</small>
-        </div>
-
-        <!-- Campo CNPJ -->
-        <label for="cnpj">CNPJ:</label>
-        <input type="text" id="cnpj" formControlName="cnpj" placeholder="00.000.000/0000-00" />
-        <div *ngIf="cadastroForm.get('cnpj')?.touched && cadastroForm.get('cnpj')?.invalid">
-          <small>{{ getErrorMessage('cnpj') }}</small>
-        </div>
-
-        <!-- Campo Senha -->
-        <label for="password">Senha:</label>
-        <input type="password" id="password" formControlName="password" placeholder="Mínimo 6 caracteres" />
-        <div *ngIf="cadastroForm.get('password')?.touched && cadastroForm.get('password')?.invalid">
-          <small>{{ getErrorMessage('password') }}</small>
-        </div>
-
-        <!-- Botão para Salvar -->
-        <button type="submit" [disabled]="cadastroForm.invalid || saving">
-          {{ saving ? 'Salvando...' : 'Salvar mudanças' }}
-        </button>
-      </form>
+    <!-- Topbar -->
+    <div class="topbar-inline">
+      <div class="brand">
+        <span class="logo">CEUB</span>
+        <span class="title">Instituição • Perfil</span>
+      </div>
+      <button class="btn btn-outline" (click)="sair()"><i class="pi pi-sign-out"></i> Sair</button>
     </div>
+
+    <!-- Card: Dados básicos + Logo -->
+    <section class="card perfil-card">
+      <header class="card-header">
+        <div class="info">
+          <h3>Dados da instituição</h3>
+          <p class="muted">Atualize as informações públicas e de acesso</p>
+        </div>
+      </header>
+
+      <form [formGroup]="cadastroForm" (ngSubmit)="salvar()" novalidate class="form-grid">
+        <!-- Bloco de Logo -->
+        <div class="field col-span-2">
+          <label>Logo da instituição</label>
+          <div class="logo-block">
+            <div
+              class="logo-preview"
+              [class.placeholder]="!logoPreview"
+              [style.backgroundImage]="logoPreview ? 'url(' + logoPreview + ')' : null"
+              role="img"
+              aria-label="Pré-visualização do logo">
+              <i *ngIf="!logoPreview" class="pi pi-image"></i>
+            </div>
+
+            <div class="logo-actions">
+              <label class="btn btn-ghost btn-sm file-btn">
+                <input type="file" accept="image/*" (change)="onLogoChange($event)" hidden />
+                <i class="pi pi-upload"></i> Enviar logo
+              </label>
+
+              <button type="button" class="btn btn-ghost btn-sm" *ngIf="logoPreview" (click)="removerLogo()">
+                <i class="pi pi-trash"></i> Remover
+              </button>
+
+              <small class="muted">PNG/JPG até 2&nbsp;MB • 256×256 recomendado</small>
+            </div>
+          </div>
+        </div>
+
+        <!-- Nome -->
+        <div class="field" [ngClass]="{'invalid': cadastroForm.get('nome')?.touched && cadastroForm.get('nome')?.invalid}">
+          <label for="nome">Nome da instituição</label>
+          <input id="nome" type="text" formControlName="nome" placeholder="Ex.: Instituto Verde" />
+          <small *ngIf="cadastroForm.get('nome')?.touched && cadastroForm.get('nome')?.invalid" aria-live="polite">
+            {{ getErrorMessage('nome') }}
+          </small>
+        </div>
+
+        <!-- E-mail -->
+        <div class="field" [ngClass]="{'invalid': cadastroForm.get('email')?.touched && cadastroForm.get('email')?.invalid}">
+          <label for="email">E-mail</label>
+          <input id="email" type="email" formControlName="email" placeholder="email@exemplo.com" />
+          <small *ngIf="cadastroForm.get('email')?.touched && cadastroForm.get('email')?.invalid" aria-live="polite">
+            {{ getErrorMessage('email') }}
+          </small>
+        </div>
+
+        <!-- CNPJ -->
+        <div class="field" [ngClass]="{'invalid': cadastroForm.get('cnpj')?.touched && cadastroForm.get('cnpj')?.invalid}">
+          <label for="cnpj">CNPJ</label>
+          <input id="cnpj" type="text" formControlName="cnpj" placeholder="00.000.000/0000-00" inputmode="numeric" />
+          <small *ngIf="cadastroForm.get('cnpj')?.touched && cadastroForm.get('cnpj')?.invalid" aria-live="polite">
+            {{ getErrorMessage('cnpj') }}
+          </small>
+        </div>
+
+        <!-- Senha -->
+        <div class="field" [ngClass]="{'invalid': cadastroForm.get('password')?.touched && cadastroForm.get('password')?.invalid}">
+          <label for="password">Senha</label>
+          <input id="password" type="password" formControlName="password" placeholder="Mínimo 6 caracteres" autocomplete="new-password" />
+          <small *ngIf="cadastroForm.get('password')?.touched && cadastroForm.get('password')?.invalid" aria-live="polite">
+            {{ getErrorMessage('password') }}
+          </small>
+        </div>
+
+        <!-- Ações -->
+        <div class="actions">
+          <button type="button" class="btn btn-ghost" (click)="cadastroForm.reset(); removerLogo()">Cancelar</button>
+          <button type="submit" class="btn btn-primary" [disabled]="cadastroForm.invalid || saving">
+            <i class="pi" [ngClass]="saving ? 'pi-spin pi-spinner' : 'pi-save'"></i>
+            {{ saving ? 'Salvando...' : 'Salvar mudanças' }}
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Card: Contato & Endereço -->
+    <section class="card contato-card">
+      <header class="card-header">
+        <div class="info">
+          <h3>Contato & Endereço</h3>
+          <p class="muted">Esses dados aparecem nas páginas públicas e e-mails</p>
+        </div>
+      </header>
+
+      <form [formGroup]="cadastroForm" novalidate class="form-grid-3">
+        <!-- Telefones/Site -->
+        <div class="field" [ngClass]="{'invalid': cadastroForm.get('telefone')?.touched && cadastroForm.get('telefone')?.invalid}">
+          <label for="telefone">Telefone</label>
+          <input id="telefone" type="tel" formControlName="telefone" placeholder="(61) 3333-3333" />
+          <small *ngIf="cadastroForm.get('telefone')?.touched && cadastroForm.get('telefone')?.invalid">
+            {{ getErrorMessage('telefone') }}
+          </small>
+        </div>
+
+        <div class="field">
+          <label for="whatsapp">WhatsApp</label>
+          <input id="whatsapp" type="tel" formControlName="whatsapp" placeholder="(61) 9 9999-9999" />
+        </div>
+
+        <div class="field">
+          <label for="site">Site</label>
+          <input id="site" type="url" formControlName="site" placeholder="https://exemplo.org" />
+        </div>
+
+        <!-- Endereço -->
+        <div class="field field-inline">
+          <div class="grow">
+            <label for="cep">CEP</label>
+            <input id="cep" type="text" formControlName="cep" placeholder="00000-000" inputmode="numeric" />
+          </div>
+          <button type="button" class="btn btn-ghost btn-sm" (click)="buscarCep()">
+            <i class="pi pi-search"></i> Buscar
+          </button>
+        </div>
+
+        <div class="field col-span-2">
+          <label for="endereco">Endereço</label>
+          <input id="endereco" type="text" formControlName="endereco" placeholder="Rua, avenida, etc." />
+        </div>
+
+        <div class="field">
+          <label for="numero">Número</label>
+          <input id="numero" type="text" formControlName="numero" placeholder="123" />
+        </div>
+
+        <div class="field">
+          <label for="complemento">Complemento</label>
+          <input id="complemento" type="text" formControlName="complemento" placeholder="Sala, bloco, etc." />
+        </div>
+
+        <div class="field">
+          <label for="bairro">Bairro</label>
+          <input id="bairro" type="text" formControlName="bairro" placeholder="Bairro" />
+        </div>
+
+        <div class="field">
+          <label for="cidade">Cidade</label>
+          <input id="cidade" type="text" formControlName="cidade" placeholder="Cidade" />
+        </div>
+
+        <div class="field">
+          <label for="uf">UF</label>
+          <input id="uf" type="text" formControlName="uf" placeholder="DF" maxlength="2" />
+        </div>
+      </form>
+    </section>
   </main>
 </div>

@@ -54,6 +54,8 @@ export class RankingInstituicaoComponent {
     this.menuService.loadFromStorage();
   }
 
+  clearSearch(): void { this.searchQuery = ''; }
+
   toggleSidebar(): void {
     this.sidebarOpen = !this.sidebarOpen;
   }

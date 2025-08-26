@@ -1,9 +1,10 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MenuInstituicaoService } from '../menu-instituicao/menu-instituicao.service';
 import { Router } from '@angular/router';
+import { BehaviorSubject, combineLatest, startWith, map } from 'rxjs';
+import { FeedbackInstituicaoService, VoluntarioRef, FeedbackVoluntario } from './feedback-instituicao.service';
 
-interface Voluntario { id: number; nome: string; }
 interface HistoricoFeedback { voluntario: string; feedbackText: string; }
 
 @Component({
@@ -16,26 +17,54 @@ export class FeedbackInstituicaoComponent {
   sidebarOpen = true;
   instituicaoNome$ = this.menuService.getInstituicaoNome$();
 
+  readonly MAX_FEEDBACK = 600;
+  stars = [1, 2, 3, 4, 5];
+
   form: FormGroup = this.fb.group({
     voluntarioSelecionadoId: [null, [Validators.required]],
-    feedbackText: ['', [Validators.required, Validators.minLength(3)]],
+    feedbackText: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(this.MAX_FEEDBACK)]],
     colaboradorRating: [0, [Validators.min(1)]],
     sistemaRating: [0, [Validators.min(1)]],
     anonimo: [false],
   });
 
-  stars = [1, 2, 3, 4, 5];
-  voluntarios: Voluntario[] = [
-    { id: 1, nome: 'Guilherme Silva' },
-    { id: 2, nome: 'Vinícius Andrade' },
-    { id: 3, nome: 'Sergio Lima' },
-  ];
+  voluntarioSearch = new FormControl<string>('', { nonNullable: true });
+  historySearch = new FormControl<string>('', { nonNullable: true });
+
+  private voluntarios$ = new BehaviorSubject<VoluntarioRef[]>([]);
+  private history$ = new BehaviorSubject<HistoricoFeedback[]>([]);
+
+  filteredVoluntarios$ = combineLatest([
+    this.voluntarios$,
+    this.voluntarioSearch.valueChanges.pipe(startWith(''))
+  ]).pipe(
+    map(([arr, q]) => {
+      const query = (q || '').toLowerCase();
+      if (!query) return arr;
+      return arr.filter(v =>
+        (v.nome || '').toLowerCase().includes(query) ||
+        (v.emailInstitucional || '').toLowerCase().includes(query)
+      );
+    })
+  );
+
+  filteredHistory$ = combineLatest([
+    this.history$,
+    this.historySearch.valueChanges.pipe(startWith(''))
+  ]).pipe(
+    map(([arr, q]) => {
+      const query = (q || '').toLowerCase();
+      if (!query) return arr;
+      return arr.filter(h =>
+        h.voluntario.toLowerCase().includes(query) ||
+        h.feedbackText.toLowerCase().includes(query)
+      );
+    })
+  );
 
   loading = false;
   success = false;
   submitted = false;
-
-  feedbacks: HistoricoFeedback[] = [];
 
   sidebarItems = [
     { label: 'Menu', icon: 'pi pi-compass', route: '/menu-instituicao' },
@@ -53,59 +82,77 @@ export class FeedbackInstituicaoComponent {
     private readonly fb: FormBuilder,
     private readonly menuService: MenuInstituicaoService,
     private readonly router: Router,
+    private readonly api: FeedbackInstituicaoService,
+    private readonly cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
     this.menuService.loadFromStorage();
-
-    const stored = localStorage.getItem('feedbacks');
-    if (stored) this.feedbacks = JSON.parse(stored) as HistoricoFeedback[];
-
-    // Pré-seleciona “Selecione” como null
-    this.form.get('voluntarioSelecionadoId')?.setValue(null);
+    this.loadVoluntarios();
+    this.loadHistory();
   }
 
-  toggleSidebar(): void {
-    this.sidebarOpen = !this.sidebarOpen;
+  private loadVoluntarios(): void {
+    this.api.listVoluntarios().subscribe({
+      next: (rows) => { this.voluntarios$.next(rows || []); this.cdr.markForCheck(); },
+      error: () => { this.voluntarios$.next([]); this.cdr.markForCheck(); }
+    });
   }
 
-  rateColaborador(r: number): void {
-    this.form.get('colaboradorRating')?.setValue(r);
+  private loadHistory(): void {
+    this.api.listAll().subscribe({
+      next: (rows) => {
+        const items: HistoricoFeedback[] = (rows || []).map(r => ({
+          voluntario: r.voluntario?.nome || r.voluntario?.emailInstitucional || '—',
+          feedbackText: r.feedback
+        }));
+        this.history$.next(items);
+        this.cdr.markForCheck();
+      },
+      error: () => { this.history$.next([]); this.cdr.markForCheck(); }
+    });
   }
 
-  rateSystem(r: number): void {
-    this.form.get('sistemaRating')?.setValue(r);
+  get feedbackLen(): number {
+    return (this.form.get('feedbackText')?.value || '').length;
   }
+
+  toggleSidebar(): void { this.sidebarOpen = !this.sidebarOpen; }
+
+  rateColaborador(r: number): void { this.form.get('colaboradorRating')?.setValue(r); }
+  rateSystem(r: number): void { this.form.get('sistemaRating')?.setValue(r); }
 
   submitFeedback(): void {
     this.submitted = true;
 
-    // validações manuais para ratings mínimos
     const colab = this.form.get('colaboradorRating')?.value || 0;
     const sis = this.form.get('sistemaRating')?.value || 0;
     if (colab < 1) this.form.get('colaboradorRating')?.setErrors({ min: true });
     if (sis < 1) this.form.get('sistemaRating')?.setErrors({ min: true });
-
     if (this.form.invalid) return;
+
+    const { voluntarioSelecionadoId, anonimo, feedbackText } = this.form.getRawValue();
+    const payload: FeedbackVoluntario = {
+      descricaoVaga: '', // se quiser vincular a uma vaga, preencher aqui
+      feedback: String(feedbackText).trim(),
+      voluntario: { id: Number(voluntarioSelecionadoId) }
+    };
 
     this.loading = true;
 
-    setTimeout(() => {
-      const { voluntarioSelecionadoId, anonimo, feedbackText } = this.form.getRawValue();
-      const voluntario = this.voluntarios.find(v => v.id === voluntarioSelecionadoId);
-      const nome = anonimo ? 'Anônimo' : voluntario?.nome ?? '';
-
-      const novo: HistoricoFeedback = { voluntario: nome, feedbackText };
-      this.feedbacks = [novo, ...this.feedbacks];
-      localStorage.setItem('feedbacks', JSON.stringify(this.feedbacks));
-
-      this.success = true;
-      this.loading = false;
-
-      setTimeout(() => (this.success = false), 3000);
-      this.submitted = false;
-      this.form.reset({ voluntarioSelecionadoId: null, feedbackText: '', colaboradorRating: 0, sistemaRating: 0, anonimo: false });
-    }, 800);
+    this.api.create(payload).subscribe({
+      next: () => {
+        const v = this.voluntarios$.value.find(x => x.id === Number(voluntarioSelecionadoId));
+        const nome = anonimo ? 'Anônimo' : (v?.nome || v?.emailInstitucional || '—');
+        const novo: HistoricoFeedback = { voluntario: nome, feedbackText: payload.feedback };
+        this.history$.next([novo, ...this.history$.value]);
+        this.success = true;
+        setTimeout(() => (this.success = false), 2500);
+        this.form.reset({ voluntarioSelecionadoId: null, feedbackText: '', colaboradorRating: 0, sistemaRating: 0, anonimo: false });
+      },
+      error: () => {},
+      complete: () => { this.loading = false; this.cdr.markForCheck(); }
+    });
   }
 
   sair(): void {

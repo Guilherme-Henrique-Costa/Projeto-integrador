@@ -5,7 +5,7 @@
       <p class="subtitle">Acesse o painel de administração</p>
     </div>
 
-    <form class="form">
+    <form class="form" #form="ngForm" (ngSubmit)="enviar(form)" novalidate>
       <div class="form-group">
         <label for="email">E-mail</label>
         <input
@@ -15,7 +15,10 @@
           placeholder="admin@ceub.br"
           required
           autocomplete="email"
+          [(ngModel)]="email"
+          #emailRef="ngModel"
         />
+        <small class="p-error" *ngIf="emailRef.touched && emailRef.invalid">Informe um e-mail válido.</small>
       </div>
 
       <div class="form-group">
@@ -27,23 +30,28 @@
           placeholder="Sua senha"
           required
           autocomplete="current-password"
+          [(ngModel)]="senha"
+          #senhaRef="ngModel"
         />
+        <small class="p-error" *ngIf="senhaRef.touched && senhaRef.invalid">Informe a senha.</small>
       </div>
 
       <div class="form-row">
         <label class="checkbox">
-          <input type="checkbox" />
+          <input type="checkbox" name="lembrar" [(ngModel)]="lembrar" />
           <span>Lembrar de mim</span>
         </label>
 
         <a class="link" routerLink="/esqueci-senha-admin">Esqueci minha senha</a>
       </div>
 
-      <button class="btn btn-primary" type="submit">Entrar</button>
+      <button class="btn btn-primary" type="submit" [disabled]="carregando || form.invalid">
+        {{ carregando ? 'Entrando...' : 'Entrar' }}
+      </button>
 
-      <div class="divider">
-        <span>ou</span>
-      </div>
+      <div *ngIf="erro" class="alert-erro" style="margin-top:10px">{{ erro }}</div>
+
+      <div class="divider"><span>ou</span></div>
 
       <button class="btn btn-text" type="button" routerLink="/cadastro-admin">
         Criar conta de administrador
@@ -52,6 +60,6 @@
   </div>
 
   <footer class="footer">
-  <span>© {{ anoAtual }} CEUB – Administração</span>
-</footer>
+    <span>© {{ anoAtual }} CEUB – Administração</span>
+  </footer>
 </div>

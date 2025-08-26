@@ -6,37 +6,89 @@
 
     <form [formGroup]="cadastroForm" (ngSubmit)="onSubmit()">
       <p-accordion [multiple]="false" [activeIndex]="[0]">
-        <!-- Etapa 1 -->
+
+        <!-- Etapa 1: Instituição + Endereço com CEP -->
         <p-accordionTab header="Informações da Instituição">
           <div class="p-field">
             <label>Razão Social:</label>
             <input pInputText formControlName="nome" />
+            <small class="p-error" *ngIf="cadastroForm.get('nome')?.touched && cadastroForm.get('nome')?.invalid">
+              {{ getErrorMessage('nome') }}
+            </small>
           </div>
+
           <div class="p-field">
             <label>E-mail:</label>
             <input pInputText formControlName="email" />
+            <small class="p-error" *ngIf="cadastroForm.get('email')?.touched && cadastroForm.get('email')?.invalid">
+              {{ getErrorMessage('email') }}
+            </small>
           </div>
+
           <div class="p-field">
             <label>CNPJ:</label>
-            <input
-              pInputText
-              formControlName="cnpj"
-              mask="00.000.000/0000-00"
-              placeholder="00.000.000/0000-00"
-            />
+            <input pInputText formControlName="cnpj" mask="00.000.000/0000-00" placeholder="00.000.000/0000-00" />
+            <small class="p-error" *ngIf="cadastroForm.get('cnpj')?.touched && cadastroForm.get('cnpj')?.invalid">
+              {{ getErrorMessage('cnpj') }}
+            </small>
           </div>
+
           <div class="p-field">
             <label>Telefone:</label>
-            <input
-              pInputText
-              formControlName="telefoneContato"
-              mask="(00) 0000-0000"
-              placeholder="(00) 0000-0000"
-            />
+            <input pInputText formControlName="telefoneContato" mask="(00) 0000-0000" placeholder="(00) 0000-0000" />
+            <small class="p-error" *ngIf="cadastroForm.get('telefoneContato')?.touched && cadastroForm.get('telefoneContato')?.invalid">
+              {{ getErrorMessage('telefoneContato') }}
+            </small>
           </div>
+
+          <!-- CEP + Buscar -->
+          <div class="p-field p-field--inline">
+            <div class="grow">
+              <label>CEP:</label>
+              <input pInputText formControlName="cep" mask="00000-000" placeholder="00000-000" />
+            </div>
+            <button type="button" class="btn-ghost btn-sm" (click)="buscarCep()">
+              <i class="pi pi-search"></i> Buscar
+            </button>
+          </div>
+
+          <!-- Endereço detalhado -->
           <div class="p-field">
             <label>Endereço:</label>
-            <input pInputText formControlName="endereco" />
+            <input pInputText formControlName="endereco" placeholder="Rua, avenida, etc." />
+            <small class="p-error" *ngIf="cadastroForm.get('endereco')?.touched && cadastroForm.get('endereco')?.invalid">
+              {{ getErrorMessage('endereco') }}
+            </small>
+          </div>
+
+          <div class="grid-3">
+            <div class="p-field">
+              <label>Número:</label>
+              <input pInputText formControlName="numero" />
+            </div>
+            <div class="p-field">
+              <label>Complemento:</label>
+              <input pInputText formControlName="complemento" />
+            </div>
+            <div class="p-field">
+              <label>Bairro:</label>
+              <input pInputText formControlName="bairro" />
+            </div>
+          </div>
+
+          <div class="grid-3">
+            <div class="p-field">
+              <label>Cidade:</label>
+              <input pInputText formControlName="cidade" />
+            </div>
+            <div class="p-field">
+              <label>UF:</label>
+              <input pInputText formControlName="uf" maxlength="2" />
+            </div>
+            <div class="p-field">
+              <label>Endereço (descrição pública):</label>
+              <input pInputText formControlName="description" />
+            </div>
           </div>
         </p-accordionTab>
 
@@ -52,110 +104,45 @@
           </div>
           <div class="p-field">
             <label>Telefone:</label>
-            <input
-              pInputText
-              formControlName="telefoneContatoVoluntariado"
-              mask="(00) 00000-0000"
-              placeholder="(00) 00000-0000"
-            />
+            <input pInputText formControlName="telefoneContatoVoluntariado" mask="(00) 00000-0000" placeholder="(00) 00000-0000" />
           </div>
         </p-accordionTab>
 
         <!-- Etapa 3 -->
         <p-accordionTab header="Status da Instituição">
-          <div class="p-field">
+          <div class="p-field inline">
             <label>É sem fins lucrativos?</label>
-            <p-radioButton
-              name="semFinsLucrativos"
-              value="Sim"
-              formControlName="semFinsLucrativos"
-              label="Sim"
-            ></p-radioButton>
-            <p-radioButton
-              name="semFinsLucrativos"
-              value="Não"
-              formControlName="semFinsLucrativos"
-              label="Não"
-            ></p-radioButton>
+            <p-radioButton name="semFinsLucrativos" value="Sim" formControlName="semFinsLucrativos" label="Sim"></p-radioButton>
+            <p-radioButton name="semFinsLucrativos" value="Não" formControlName="semFinsLucrativos" label="Não"></p-radioButton>
           </div>
-          <div class="p-field">
+          <div class="p-field inline">
             <label>Constituída formalmente?</label>
-            <p-radioButton
-              name="constituidaFormalmente"
-              value="Sim"
-              formControlName="constituidaFormalmente"
-              label="Sim"
-            ></p-radioButton>
-            <p-radioButton
-              name="constituidaFormalmente"
-              value="Não"
-              formControlName="constituidaFormalmente"
-              label="Não"
-            ></p-radioButton>
+            <p-radioButton name="constituidaFormalmente" value="Sim" formControlName="constituidaFormalmente" label="Sim"></p-radioButton>
+            <p-radioButton name="constituidaFormalmente" value="Não" formControlName="constituidaFormalmente" label="Não"></p-radioButton>
           </div>
-          <div class="p-field">
+          <div class="p-field inline">
             <label>Em atividade?</label>
-            <p-radioButton
-              name="emAtividade"
-              value="Sim"
-              formControlName="emAtividade"
-              label="Sim"
-            ></p-radioButton>
-            <p-radioButton
-              name="emAtividade"
-              value="Não"
-              formControlName="emAtividade"
-              label="Não"
-            ></p-radioButton>
+            <p-radioButton name="emAtividade" value="Sim" formControlName="emAtividade" label="Sim"></p-radioButton>
+            <p-radioButton name="emAtividade" value="Não" formControlName="emAtividade" label="Não"></p-radioButton>
           </div>
         </p-accordionTab>
 
         <!-- Etapa 4 -->
         <p-accordionTab header="CEUB">
-          <div class="p-field">
+          <div class="p-field inline">
             <label>Interesse em RH voluntário?</label>
-            <p-radioButton
-              name="interesseRH"
-              value="Sim"
-              formControlName="interesseRH"
-              label="Sim"
-            ></p-radioButton>
-            <p-radioButton
-              name="interesseRH"
-              value="Não"
-              formControlName="interesseRH"
-              label="Não"
-            ></p-radioButton>
+            <p-radioButton name="interesseRH" value="Sim" formControlName="interesseRH" label="Sim"></p-radioButton>
+            <p-radioButton name="interesseRH" value="Não" formControlName="interesseRH" label="Não"></p-radioButton>
           </div>
-          <div class="p-field">
+          <div class="p-field inline">
             <label>Disposto a prestar informações?</label>
-            <p-radioButton
-              name="prestarInfosCEUB"
-              value="Sim"
-              formControlName="prestarInfosCEUB"
-              label="Sim"
-            ></p-radioButton>
-            <p-radioButton
-              name="prestarInfosCEUB"
-              value="Não"
-              formControlName="prestarInfosCEUB"
-              label="Não"
-            ></p-radioButton>
+            <p-radioButton name="prestarInfosCEUB" value="Sim" formControlName="prestarInfosCEUB" label="Sim"></p-radioButton>
+            <p-radioButton name="prestarInfosCEUB" value="Não" formControlName="prestarInfosCEUB" label="Não"></p-radioButton>
           </div>
-          <div class="p-field">
+          <div class="p-field inline">
             <label>Disposto a ser avaliado?</label>
-            <p-radioButton
-              name="avaliadaCEUB"
-              value="Sim"
-              formControlName="avaliadaCEUB"
-              label="Sim"
-            ></p-radioButton>
-            <p-radioButton
-              name="avaliadaCEUB"
-              value="Não"
-              formControlName="avaliadaCEUB"
-              label="Não"
-            ></p-radioButton>
+            <p-radioButton name="avaliadaCEUB" value="Sim" formControlName="avaliadaCEUB" label="Sim"></p-radioButton>
+            <p-radioButton name="avaliadaCEUB" value="Não" formControlName="avaliadaCEUB" label="Não"></p-radioButton>
           </div>
         </p-accordionTab>
 
@@ -163,17 +150,15 @@
         <p-accordionTab header="Causas e Habilidades">
           <div class="p-field">
             <label>Causas de apoio:</label>
-            <p-multiSelect
-              [options]="causasOptions"
-              formControlName="causasApoio"
-            ></p-multiSelect>
+            <p-multiSelect [options]="causasOptions" formControlName="causasApoio"></p-multiSelect>
           </div>
           <div class="p-field">
             <label>Habilidades requeridas:</label>
-            <p-multiSelect
-              [options]="habilidadesOptions"
-              formControlName="habilidadesRequeridas"
-            ></p-multiSelect>
+            <p-multiSelect [options]="habilidadesOptions" formControlName="habilidadesRequeridas"></p-multiSelect>
+          </div>
+          <div class="p-field">
+            <label>Área de atuação:</label>
+            <p-multiSelect [options]="areaAtuacaoOptions" formControlName="areaAtuacao"></p-multiSelect>
           </div>
         </p-accordionTab>
 
@@ -181,40 +166,23 @@
         <p-accordionTab header="Informações Adicionais">
           <div class="p-field">
             <label>Motivo do interesse por voluntários:</label>
-            <textarea
-              pInputTextarea
-              formControlName="motivoInteresseVoluntarios"
-            ></textarea>
+            <textarea pInputTextarea formControlName="motivoInteresseVoluntarios"></textarea>
           </div>
           <div class="p-field">
             <label>Endereço do trabalho voluntário:</label>
-            <textarea
-              pInputTextarea
-              formControlName="enderecoTrabalhoVoluntario"
-            ></textarea>
+            <textarea pInputTextarea formControlName="enderecoTrabalhoVoluntario"></textarea>
           </div>
           <div class="p-field">
             <label>Horas mensais esperadas:</label>
-            <input
-              pInputText
-              formControlName="horasMensaisVoluntario"
-              mask="00"
-              placeholder="00"
-            />
+            <input pInputText formControlName="horasMensaisVoluntario" mask="00" placeholder="00" />
           </div>
           <div class="p-field">
             <label>Contatos a repassar aos voluntários:</label>
-            <textarea
-              pInputTextarea
-              formControlName="contatosRepassadosVoluntarios"
-            ></textarea>
+            <textarea pInputTextarea formControlName="contatosRepassadosVoluntarios"></textarea>
           </div>
           <div class="p-field">
             <label>Comentários/Sugestões:</label>
-            <textarea
-              pInputTextarea
-              formControlName="comentariosSugestoes"
-            ></textarea>
+            <textarea pInputTextarea formControlName="comentariosSugestoes"></textarea>
           </div>
         </p-accordionTab>
 
@@ -235,9 +203,7 @@
         </p-accordionTab>
 
         <div class="button-container">
-          <button type="submit" label="Cadastrar" class="ui-button-primary">
-            Cadastrar
-          </button>
+          <button type="submit" label="Cadastrar" class="ui-button-primary">Cadastrar</button>
         </div>
       </p-accordion>
     </form>

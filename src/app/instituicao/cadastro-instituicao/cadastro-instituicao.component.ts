@@ -15,7 +15,6 @@ interface OptionLV { label: string; value: string; }
 export class CadastroInstituicaoComponent {
   cadastroForm: FormGroup;
 
-  // Opções normalizadas para PrimeNG MultiSelect
   causasOptions: OptionLV[] = [
     'Capacitação Profissional','Combate à Pobreza','Consumo Consciente','Crianças e Jovens',
     'Cultura, Esportes e Artes','Defesa de Direitos','Educação','Idoso','Meio Ambiente',
@@ -44,8 +43,16 @@ export class CadastroInstituicaoComponent {
       cnpj: ['', [Validators.required, InstituicaoValidators.cnpj]],
       email: ['', [Validators.required, Validators.email]],
       telefoneContato: ['', [Validators.required]],
-      endereco: ['', [Validators.required]],
       description: [''],
+
+      // 🔹 Endereço com CEP (novos campos)
+      cep: ['', [Validators.maxLength(9)]],
+      endereco: ['', [Validators.required]],
+      numero: [''],
+      complemento: [''],
+      bairro: [''],
+      cidade: [''],
+      uf: ['', [Validators.maxLength(2)]],
 
       // Seleções (arrays)
       areaAtuacao: [[], Validators.required],
@@ -82,6 +89,32 @@ export class CadastroInstituicaoComponent {
     });
   }
 
+  // 🔹 ViaCEP – mesmo comportamento do perfil
+  async buscarCep(): Promise<void> {
+    const cepDigits = String(this.cadastroForm.get('cep')?.value || '').replace(/\D/g, '');
+    if (cepDigits.length !== 8) {
+      this.toast('warn', 'CEP', 'Informe um CEP válido com 8 dígitos.');
+      return;
+    }
+    try {
+      const resp = await fetch(`https://viacep.com.br/ws/${cepDigits}/json/`);
+      const data = await resp.json();
+      if (data?.erro) {
+        this.toast('warn', 'CEP', 'CEP não encontrado.');
+        return;
+      }
+      this.cadastroForm.patchValue({
+        endereco: data.logradouro || '',
+        bairro:   data.bairro || '',
+        cidade:   data.localidade || '',
+        uf:       data.uf || '',
+      });
+      this.toast('success', 'CEP', 'Endereço preenchido automaticamente.');
+    } catch {
+      this.toast('error', 'CEP', 'Falha ao consultar o CEP.');
+    }
+  }
+
   // Submissão final
   onSubmit(): void {
     if (this.cadastroForm.invalid) {
@@ -93,10 +126,7 @@ export class CadastroInstituicaoComponent {
 
     const instituicao: Instituicao = {
       ...this.cadastroForm.value,
-      // Arrays permanecem arrays — sem join!
     } as Instituicao;
-
-    console.log('[CadastroInstituicao] Payload:', instituicao);
 
     this.cadastroService.cadastrarInstituicao(instituicao).subscribe({
       next: () => {
@@ -137,8 +167,14 @@ export class CadastroInstituicaoComponent {
       cnpj: 'CNPJ',
       email: 'E-mail',
       telefoneContato: 'Telefone',
-      endereco: 'Endereço',
       description: 'Descrição',
+      endereco: 'Endereço',
+      cep: 'CEP',
+      numero: 'Número',
+      complemento: 'Complemento',
+      bairro: 'Bairro',
+      cidade: 'Cidade',
+      uf: 'UF',
       senha: 'Senha',
       areaAtuacao: 'Área de atuação',
       causasApoio: 'Causas de apoio',

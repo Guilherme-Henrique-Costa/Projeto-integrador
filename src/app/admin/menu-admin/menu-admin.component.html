@@ -1,39 +1,69 @@
-<div class="menu-container">
-  <!-- Topbar -->
-  <header class="topbar">
-    <div class="brand">
-      <span class="logo">CEUB</span>
-      <span class="title">Admin</span>
+<div class="app-container">
+  <!-- Sidebar -->
+  <nav class="custom-sidebar" [class.collapsed]="!sidebarOpen" aria-label="Navegação admin">
+    <div class="cabeca">
+      <span class="logo-text">{{ adminNome }}</span>
+      <button type="button" class="btn-toggle" (click)="toggleSidebar()" aria-label="Alternar menu">
+        <i class="pi pi-bars"></i>
+      </button>
+    </div>
+    <div class="corpo">
+      <ul class="menu-list">
+        <li *ngFor="let item of sidebarItems; trackBy: trackByIndex">
+          <a
+            [routerLink]="item.route"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            (click)="item.label === 'Sair' ? sair() : null"
+          >
+            <i [class]="item.icon"></i>
+            <span class="menu-label">{{ item.label }}</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Main -->
+  <main class="main-content" [ngClass]="{ 'expanded': !sidebarOpen }">
+    <div class="topbar-inline">
+      <div class="brand">
+        <span class="logo">CEUB</span>
+        <span class="title">Admin • Monitoramento</span>
+      </div>
     </div>
 
-    <div class="user-area">
-      <span class="greet">{{ saudacao }}, <b>{{ nome }}</b></span>
-      <button class="btn btn-outline" (click)="sair()">Sair</button>
-    </div>
-  </header>
+    <!-- Resumos rápidos -->
+    <section class="cards-resumo">
+      <div class="resumo-card">
+        <div class="kpi-titulo">Voluntários ativos</div>
+        <div class="kpi-valor">{{ resumo.voluntariosAtivos }}</div>
+      </div>
+      <div class="resumo-card">
+        <div class="kpi-titulo">Instituições ativas</div>
+        <div class="kpi-valor">{{ resumo.instituicoesAtivas }}</div>
+      </div>
+      <div class="resumo-card">
+        <div class="kpi-titulo">Novas candidaturas (mês)</div>
+        <div class="kpi-valor">{{ resumo.novasCandidaturasMes }}</div>
+      </div>
+      <div class="resumo-card">
+        <div class="kpi-titulo">Vagas abertas</div>
+        <div class="kpi-valor">{{ resumo.vagasAbertas }}</div>
+      </div>
+    </section>
 
-  <!-- Conteúdo -->
-  <main class="content">
-    <h1 class="page-title">Menu principal</h1>
-    <p class="page-subtitle">Escolha uma área para começar</p>
+    <!-- Gráficos -->
+    <section class="graficos">
+      <div class="grafico-card">
+        <h3>Distribuição</h3>
+        <p-chart type="pie" [data]="pieData" [options]="pieOptions"></p-chart>
+      </div>
 
-    <section class="cards">
-      <article
-        class="card"
-        *ngFor="let item of itens"
-        (click)="navegar(item.rota)"
-        tabindex="0"
-        (keyup.enter)="navegar(item.rota)"
-      >
-        <div class="icon">{{ item.icone }}</div>
-        <div class="info">
-          <h3>{{ item.titulo }}</h3>
-          <p>{{ item.descricao }}</p>
-        </div>
-        <div class="arrow">→</div>
-      </article>
+      <div class="grafico-card">
+        <h3>Evolução (últimos meses)</h3>
+        <p-chart type="line" [data]="lineData" [options]="lineOptions"></p-chart>
+      </div>
     </section>
   </main>
-
-  <footer class="footer">© {{ hoje | date:'yyyy' }} CEUB – Administração</footer>
 </div>

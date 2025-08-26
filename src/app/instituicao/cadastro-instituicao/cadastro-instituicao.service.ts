@@ -10,9 +10,18 @@ export interface Instituicao {
   cnpj: string;
   email: string;
   senha: string;
-  description?: string;
+
   telefoneContato: string;
   endereco: string;
+
+  cep?: string;
+  numero?: string;
+  complemento?: string;
+  bairro?: string;
+  cidade?: string;
+  uf?: string;
+
+  description?: string;
 
   areaAtuacao: string[];
   causasApoio: string[];
@@ -41,7 +50,8 @@ export interface Instituicao {
 
 @Injectable({ providedIn: 'root' })
 export class CadastroInstituicaoService {
-  private readonly apiUrl = `${environment.apiUrl}instituicao`;
+  // ⚠️ garante a barra antes do recurso
+  private readonly apiUrl = `${environment.apiUrl}/instituicao`;
 
   private readonly httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -61,26 +71,15 @@ export class CadastroInstituicaoService {
       errorMessage = `Erro: ${error.error.message}`;
     } else {
       switch (error.status) {
-        case 0:
-          errorMessage = 'Falha de conexão. Verifique sua rede.';
-          break;
-        case 400:
-          errorMessage = 'Dados inválidos. Revise o formulário.';
-          break;
-        case 403:
-          errorMessage = 'Acesso negado.';
-          break;
-        case 404:
-          errorMessage = 'Endpoint não encontrado.';
-          break;
-        case 500:
-          errorMessage = 'Erro no servidor. Tente mais tarde.';
-          break;
-        default:
-          errorMessage = `Erro ${error.status}: ${error.message}`;
+        case 0:   errorMessage = 'Falha de conexão. Verifique sua rede.'; break;
+        case 400: errorMessage = 'Dados inválidos. Revise o formulário.'; break;
+        case 403: errorMessage = 'Acesso negado.'; break;
+        case 404: errorMessage = 'Endpoint não encontrado.'; break;
+        case 500: errorMessage = 'Erro no servidor. Tente mais tarde.'; break;
+        default:  errorMessage = `Erro ${error.status}: ${error.message}`;
       }
     }
-    console.error('[CadastroInstituicaoService] ', errorMessage, error);
+    console.error('[CadastroInstituicaoService]', errorMessage, error);
     return throwError(() => new Error(errorMessage));
   }
 }

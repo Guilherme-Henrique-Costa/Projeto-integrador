@@ -1,94 +1,166 @@
 <div class="app-container">
   <!-- Sidebar -->
-  <nav class="custom-sidebar" [class.collapsed]="!sidebarOpen">
+  <nav class="custom-sidebar" [class.collapsed]="!sidebarOpen" aria-label="Navegação instituição">
     <div class="cabeca">
       <span class="logo-text">{{ (instituicaoNome$ | async) ?? 'Instituição' }}</span>
-      <button type="button" class="btn-toggle" (click)="toggleSidebar()" [attr.aria-label]="'Alternar menu'">
+      <button type="button" class="btn-toggle" (click)="toggleSidebar()" aria-label="Alternar menu">
         <i class="pi pi-bars"></i>
       </button>
     </div>
+
     <div class="corpo">
       <ul class="menu-list">
-        <li *ngFor="let item of sidebarItems; trackBy: trackByIndex">
+        <li *ngFor="let item of sidebarItems; trackBy: trackByMenu">
           <a
             [routerLink]="item.route"
             routerLinkActive="active"
             [routerLinkActiveOptions]="{ exact: true }"
             (click)="item.label === 'Sair' ? sair() : null"
           >
-            <i [class]="item.icon"></i> <span class="menu-label">{{ item.label }}</span>
+            <i [class]="item.icon"></i>
+            <span class="menu-label">{{ item.label }}</span>
           </a>
         </li>
       </ul>
     </div>
   </nav>
 
-  <!-- Conteúdo Principal -->
+  <!-- Main -->
   <main class="main-content" [ngClass]="{ 'expanded': !sidebarOpen }">
-    <!-- Barra de Busca -->
-    <div class="search-bar">
-      <input
-        type="text"
-        placeholder="Pesquisar voluntário..."
-        [(ngModel)]="searchQuery"
-        aria-label="Pesquisar voluntário"
-      />
-      <button class="search-button" type="button" aria-label="Pesquisar">
-        <i class="pi pi-search"></i>
-      </button>
+    <!-- Topbar -->
+    <div class="topbar-inline">
+      <div class="brand">
+        <span class="logo">CEUB</span>
+        <span class="title">Instituição • Gestão</span>
+      </div>
+      <button class="btn btn-outline" (click)="sair()"><i class="pi pi-sign-out"></i> Sair</button>
     </div>
 
-    <!-- Lista e Detalhes -->
-    <div class="gestao-container">
-      <!-- Lista -->
-      <aside class="gestao-sidebar">
-        <h2 class="titulo">Voluntários</h2>
-        <ul class="lista-voluntarios">
+    <!-- Busca -->
+    <section class="card search-card" aria-label="Pesquisar voluntários">
+      <div class="search-bar">
+        <span class="p-input-icon-left w-100">
+          <i class="pi pi-search"></i>
+          <input
+            pInputText
+            type="text"
+            placeholder="Pesquisar voluntário…"
+            [formControl]="searchCtrl"
+            aria-label="Pesquisar voluntário"
+          />
+        </span>
+        <button class="btn icon" type="button" (click)="searchCtrl.setValue('')" title="Limpar">
+          <i class="pi pi-times"></i>
+        </button>
+      </div>
+    </section>
+
+    <!-- Grid -->
+    <section class="grid-2">
+      <!-- Lista de voluntários -->
+      <section class="card lista-card">
+        <header class="card-header">
+          <h3>Voluntários</h3>
+          <span class="counter" *ngIf="!loadingVoluntarios">{{ voluntariosFiltrados.length }}</span>
+          <span class="counter loading" *ngIf="loadingVoluntarios">Carregando…</span>
+        </header>
+
+        <ul class="lista-voluntarios" *ngIf="!loadingVoluntarios; else loadingList">
           <li
-            *ngFor="let voluntario of voluntariosFiltrados; trackBy: trackByIndex"
+            *ngFor="let v of voluntariosFiltrados; trackBy: trackByVol"
             class="item-voluntario"
-            [ngClass]="{ 'selected': voluntario === voluntarioSelecionado }"
-            (click)="selecionarVoluntario(voluntario)"
+            [class.selected]="v.id === voluntarioSelecionado?.id"
+            (click)="selecionarVoluntario(v)"
             role="button"
-            [attr.aria-label]="'Selecionar ' + voluntario.nome"
             tabindex="0"
+            [attr.aria-pressed]="v.id === voluntarioSelecionado?.id"
           >
-            <i class="pi pi-user icone"></i>
-            <span class="nome">{{ voluntario.nome }}</span>
+            <div class="item-main">
+              <i class="pi pi-user icone"></i>
+              <div class="txt">
+                <div class="nome">{{ v.nome }}</div>
+                <div class="meta">
+                  {{ v.areaInteresse || '—' }} • {{ v.disponibilidade || '—' }}
+                </div>
+                <div class="meta">{{ v.emailInstitucional }}</div>
+              </div>
+            </div>
+            <i class="pi pi-chevron-right"></i>
           </li>
         </ul>
-      </aside>
 
-      <!-- Detalhes -->
-      <section class="gestao-detalhes" *ngIf="voluntarioSelecionado as v">
-        <h3><i class="pi pi-user"></i> {{ v.nome }}</h3>
+        <ng-template #loadingList>
+          <div class="empty">
+            <i class="pi pi-spinner pi-spin"></i>
+            <p>Carregando voluntários…</p>
+          </div>
+        </ng-template>
 
-        <p><strong>Nome:</strong> {{ v.nome }}</p>
-        <p><strong>Email:</strong> {{ v.email }}</p>
-        <p><strong>Telefone:</strong> {{ v.telefone }}</p>
-        <p><strong>Área de Interesse:</strong> {{ v.areaInteresse }}</p>
-        <p><strong>Disponibilidade:</strong> {{ v.disponibilidade }}</p>
-
-        <h4>Competências:</h4>
-        <ul class="competencias">
-          <li><strong>Comunicação:</strong> Comunica-se bem com diferentes públicos.</li>
-          <li><strong>Trabalho em Equipe:</strong> Colabora com times multidisciplinares.</li>
-          <li><strong>Liderança:</strong> Coordena e motiva equipes.</li>
-          <li><strong>Gestão de Tempo:</strong> Organiza e prioriza tarefas com autonomia.</li>
-        </ul>
-
-        <label for="servico">Serviço Voluntário:</label>
-        <textarea
-          id="servico"
-          placeholder="Descreva a atividade realizada..."
-          rows="4"
-          [(ngModel)]="descricaoServico"
-        ></textarea>
-
-        <button class="btn-enviar" (click)="registrarServico()">
-          <i class="pi pi-send"></i> Registrar Serviço
-        </button>
+        <div class="empty" *ngIf="!loadingVoluntarios && voluntariosFiltrados.length === 0">
+          <i class="pi pi-inbox"></i>
+          <p>Nenhum voluntário encontrado.</p>
+        </div>
       </section>
-    </div>
+
+      <!-- Detalhes + registro -->
+      <section class="card detalhes-card">
+        <header class="card-header">
+          <h3 *ngIf="voluntarioSelecionado; else selV">Detalhes do voluntário</h3>
+          <ng-template #selV><h3>Selecione um voluntário</h3></ng-template>
+        </header>
+
+        <ng-container *ngIf="voluntarioSelecionado as v; else vazio">
+          <div class="dados" aria-label="Dados do voluntário">
+            <div><b>Nome:</b> {{ v.nome }}</div>
+            <div><b>E-mail:</b> {{ v.emailInstitucional }}</div>
+            <div><b>Telefone:</b> {{ v.telefone || '—' }}</div>
+            <div><b>Área de interesse:</b> {{ v.areaInteresse || '—' }}</div>
+            <div><b>Disponibilidade:</b> {{ v.disponibilidade || '—' }}</div>
+          </div>
+
+          <h4>Competências</h4>
+          <ul class="competencias">
+            <li><b>Comunicação:</b> Comunica-se bem com diferentes públicos.</li>
+            <li><b>Trabalho em equipe:</b> Colabora com times multidisciplinares.</li>
+            <li><b>Liderança:</b> Coordena e motiva equipes.</li>
+            <li><b>Gestão de tempo:</b> Organiza e prioriza tarefas com autonomia.</li>
+          </ul>
+
+          <label for="servico">Serviço voluntário</label>
+          <textarea
+            id="servico"
+            rows="4"
+            maxlength="5000"
+            placeholder="Descreva a atividade realizada…"
+            [(ngModel)]="descricaoServico"
+          ></textarea>
+
+          <div class="row-between muted">
+            <small>{{ servicoLen }}/5000</small>
+            <small *ngIf="success" class="ok"><i class="pi pi-check-circle"></i> Registrado!</small>
+            <small *ngIf="loadingSalvar"><i class="pi pi-spinner pi-spin"></i> Salvando…</small>
+          </div>
+
+          <div class="actions">
+            <button class="btn btn-ghost" type="button" (click)="descricaoServico=''">Limpar</button>
+            <button
+              class="btn btn-primary"
+              type="button"
+              (click)="registrarServico()"
+              [disabled]="!descricaoServico.trim() || loadingSalvar"
+            >
+              <i class="pi pi-send"></i> Registrar serviço
+            </button>
+          </div>
+        </ng-container>
+
+        <ng-template #vazio>
+          <div class="empty">
+            <i class="pi pi-user"></i>
+            <p>Escolha um voluntário na lista ao lado.</p>
+          </div>
+        </ng-template>
+      </section>
+    </section>
   </main>
 </div>

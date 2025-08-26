@@ -1,9 +1,20 @@
 <div class="app-container">
   <!-- Sidebar -->
-  <nav class="custom-sidebar" [class.collapsed]="!sidebarOpen">
+  <nav
+    class="custom-sidebar"
+    [class.collapsed]="!sidebarOpen"
+    aria-label="Navegação instituição"
+  >
     <div class="cabeca">
-      <span class="logo-text">{{ (instituicaoNome$ | async) ?? 'Instituição' }}</span>
-      <button type="button" class="btn-toggle" (click)="toggleSidebar()" [attr.aria-label]="'Alternar menu'">
+      <span class="logo-text">{{
+        (instituicaoNome$ | async) ?? "Instituição"
+      }}</span>
+      <button
+        type="button"
+        class="btn-toggle"
+        (click)="toggleSidebar()"
+        aria-label="Alternar menu"
+      >
         <i class="pi pi-bars"></i>
       </button>
     </div>
@@ -16,42 +27,79 @@
             [routerLinkActiveOptions]="{ exact: true }"
             (click)="item.label === 'Sair' ? sair() : null"
           >
-            <i [class]="item.icon"></i> <span class="menu-label">{{ item.label }}</span>
+            <i [class]="item.icon"></i>
+            <span class="menu-label">{{ item.label }}</span>
           </a>
         </li>
       </ul>
     </div>
   </nav>
 
-  <!-- Conteúdo Principal -->
+  <!-- Main -->
   <main class="main-content" [ngClass]="{ expanded: !sidebarOpen }">
-    <div class="mensagens-container">
-      <h3>Chat com {{ nomeVoluntario || 'Voluntário' }}</h3>
+    <!-- Topbar -->
+    <div class="topbar-inline">
+      <div class="brand">
+        <span class="logo">CEUB</span>
+        <span class="title">Instituição • Mensagens</span>
+      </div>
+      <button class="btn btn-outline" (click)="sair()">
+        <i class="pi pi-sign-out"></i> Sair
+      </button>
+    </div>
+
+    <section class="card chat-card">
+      <header class="chat-header">
+        <div class="avatar">{{ (nomeVoluntario || "V").slice(0, 1) }}</div>
+        <div class="who">
+          <h3 class="name">{{ nomeVoluntario || "Voluntário" }}</h3>
+          <small class="muted" *ngIf="loading"
+            ><i class="pi pi-spin pi-spinner"></i> Carregando…</small
+          >
+        </div>
+      </header>
 
       <!-- Lista de mensagens -->
       <div class="chat-box" #chatContainer aria-live="polite">
         <div
-          *ngFor="let msg of mensagensReais; trackBy: trackByIndex"
+          *ngFor="let msg of mensagensReais; trackBy: trackByMsg"
           class="bolha"
-          [ngClass]="msg.ehUsuario ? 'bolha-esquerda' : 'bolha-direita'"
+          [ngClass]="msg.ehUsuario ? 'bolha-esq' : 'bolha-dir'"
         >
           <div class="conteudo">{{ msg.mensagemVoluntario }}</div>
-          <div class="timestamp">{{ msg.dataHora | date: 'shortTime' }}</div>
+          <div class="timestamp">
+            {{ msg.dataHora | date : "shortTime" }}
+            <span *ngIf="msg._pending" class="pending"> · enviando…</span>
+          </div>
+        </div>
+
+        <div class="empty" *ngIf="!loading && mensagensReais.length === 0">
+          <i class="pi pi-comments"></i>
+          <p>Comece a conversa enviando uma mensagem.</p>
         </div>
       </div>
 
       <!-- Campo de envio -->
       <div class="chat-input">
         <input
+          #inputMsg
           [(ngModel)]="novaMensagem"
-          placeholder="Digite sua mensagem..."
-          [attr.aria-label]="'Mensagem para ' + (nomeVoluntario || 'voluntário')"
-          (keyup.enter)="enviarMensagemInstituicao()"
+          placeholder="Digite sua mensagem…"
+          [attr.aria-label]="
+            'Mensagem para ' + (nomeVoluntario || 'voluntário')
+          "
+          (keydown.enter)="enviarMensagemInstituicao()"
         />
-        <button (click)="enviarMensagemInstituicao()" [attr.aria-label]="'Enviar mensagem'">
-          <i class="pi pi-send"></i>
+        <button
+          (click)="enviarMensagemInstituicao()"
+          [disabled]="sending || !novaMensagem.trim()"
+        >
+          <i
+            class="pi"
+            [ngClass]="sending ? 'pi-spin pi-spinner' : 'pi-send'"
+          ></i>
         </button>
       </div>
-    </div>
+    </section>
   </main>
 </div>

@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { MenuAdminComponent } from './menu-admin.component';
 
 const routes: Routes = [
-  {path: 'menu-admin', component: MenuAdminComponent}
+  {path: '', component: MenuAdminComponent}
 ];
 
 @NgModule({

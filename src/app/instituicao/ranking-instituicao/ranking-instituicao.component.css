@@ -1,182 +1,78 @@
-/* -------- Container Principal -------- */
-.app-container {
-  display: flex;
-  height: 100vh;
-  font-family: 'Segoe UI', sans-serif;
-  overflow: hidden;              /* evita scroll horizontal ao colapsar */
+:root{
+  --roxo-escuro:#43054e; --roxo:#662c92; --lilas:#bf0087; --magenta:#ec0089;
+  --amarelo:#fde100; --branco:#fff; --cinza-claro:#f5f5f5; --cinza-escuro:#333;
+}
+
+/* ===== Layout base ===== */
+.app-container{
+  display:flex; min-height:100vh; font-family:'Segoe UI',sans-serif; overflow:hidden;
+  background: radial-gradient(1200px 600px at 80% -10%, #6a5acd22, transparent),
+              linear-gradient(135deg,#0f0c29,#302b63,#24243e);
+  color:var(--branco);
 }
 
 /* ===== Sidebar ===== */
-.custom-sidebar {
-  width: 260px;
-  min-width: 260px;              /* garante largura fixa inicial */
-  background-color: var(--roxo-escuro);
-  color: var(--branco);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
-  transition: width .2s ease, min-width .2s ease;
-  overflow: hidden;              /* evita vazamento de conteúdo ao colapsar */
+.custom-sidebar{ width:260px; min-width:260px; background:var(--roxo-escuro); color:var(--branco);
+  display:flex; flex-direction:column; box-shadow:2px 0 10px rgba(0,0,0,.2);
+  transition:width .2s,min-width .2s; overflow:hidden;
 }
+.custom-sidebar.collapsed{ width:70px; min-width:70px; }
+.custom-sidebar.collapsed .logo-text, .custom-sidebar.collapsed .menu-label{ display:none; }
+.cabeca{ padding:1.25rem; border-bottom:1px solid var(--lilas); display:flex; align-items:center; justify-content:space-between; }
+.logo-text{ font-size:1.25rem; font-weight:600; }
+.btn-toggle{ background:transparent; border:none; color:var(--branco); cursor:pointer; }
+.corpo{ flex:1; overflow-y:auto; }
+.menu-list{ list-style:none; padding:0; margin:0; }
+.menu-list a{ display:flex; align-items:center; gap:1rem; padding:1rem 1.25rem; color:var(--branco);
+  text-decoration:none; transition:background-color .3s; white-space:nowrap; }
+.menu-list a:hover, .menu-list a.active{ background:var(--lilas); }
 
-/* Estado colapsado */
-.custom-sidebar.collapsed {
-  width: 70px;
-  min-width: 70px;
-  border-right: 1px solid rgba(255, 255, 255, .08); /* borda opcional */
-}
+/* ===== Main / Topbar ===== */
+.main-content{ flex:1 1 auto; padding:24px; overflow-y:auto; }
+.topbar-inline{ display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; }
+.brand{ display:flex; align-items:baseline; gap:10px; }
+.logo{ display:inline-grid; place-items:center; width:84px; height:34px; border-radius:8px; background:#6d28d9; color:#fff; font-weight:800; }
+.title{ font-weight:700; }
 
-/* ===== Cabeçalho da Sidebar ===== */
-.cabeca {
-  padding: 2rem;
-  border-bottom: 1px solid var(--lilas);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
+/* Buttons */
+.btn{ height:36px; padding:0 14px; border-radius:10px; cursor:pointer; border:1px solid #f0d7ff; background:transparent; color:#f0d7ff; }
+.btn:hover{ background:rgba(255,255,255,.08); }
+.btn-outline{ background:transparent; }
+.btn.icon{ width:36px; padding:0; display:inline-grid; place-items:center; }
 
-.logo-text {
-  font-size: 1.5rem;
-  font-weight: 600;
-}
+/* ===== Cards ===== */
+.card{ background:var(--branco); color:var(--cinza-escuro); border-radius:12px; padding:16px; box-shadow:0 6px 18px rgba(0,0,0,.15); }
+.card-header{ display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; }
+.card-header h3{ margin:0; color:var(--roxo-escuro); }
+.counter{ background:#f3e8ff; color:#6d28d9; padding:4px 10px; border-radius:999px; font-weight:700; font-size:.82rem; }
 
-.btn-toggle {
-  background: transparent;
-  border: none;
-  color: var(--branco);
-  cursor: pointer;
-}
+.search-card{ margin-bottom:14px; }
+.search-bar{ display:flex; align-items:center; gap:10px; }
+.w-100{ width:100%; }
 
-/* Ajustes específicos para colapso */
-.custom-sidebar.collapsed .cabeca {
-  padding: .75rem;
+/* ===== Ranking ===== */
+.ranking-card{ max-width:520px; margin:0 auto; }
+.ranking-list{ list-style:none; padding:0; margin:0; }
+.ranking-item{
+  display:flex; align-items:center; gap:8px;
+  padding:12px; border:1px solid #eee; border-radius:25px; background:#fff; color:var(--roxo-escuro);
 }
-.custom-sidebar.collapsed .logo-text {
-  display: none;                 /* esconde o nome grande */
-}
+.ranking-list li + li{ margin-top:10px; }
+.ranking-posicao{ font-weight:800; min-width:2.4rem; text-align:right; }
+.ranking-medal{ margin:0 4px; }
+.ranking-nome{ font-weight:600; }
 
-/* ===== Corpo da Sidebar ===== */
-.corpo {
-  flex: 1;
-  overflow-y: auto;
-}
+/* Destaques */
+.ranking-item.top-1{ border-color:#f5c518; box-shadow:0 0 0 2px rgba(245,197,24,.15) inset; }
+.ranking-item.top-2{ border-color:#c0c0c0; box-shadow:0 0 0 2px rgba(192,192,192,.15) inset; }
+.ranking-item.top-3{ border-color:#cd7f32; box-shadow:0 0 0 2px rgba(205,127,50,.15) inset; }
 
-.menu-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
+/* Empty */
+.empty{ display:flex; flex-direction:column; align-items:center; justify-content:center; color:#6b7280; padding:24px 0; }
+.empty .pi{ font-size:1.4rem; margin-bottom:6px; }
 
-.menu-list li {
-  margin: 0;
-}
-
-.menu-list a {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 1rem 1.5rem;
-  color: var(--branco);
-  text-decoration: none;
-  transition: background-color .3s, padding .2s, gap .2s;
-  white-space: nowrap;
-}
-
-.menu-list a:hover,
-.menu-list a.active {
-  background-color: var(--lilas);
-}
-
-.menu-label {
-  white-space: nowrap;
-}
-
-/* Quando colapsa, mostra só os ícones */
-.custom-sidebar.collapsed .menu-list a {
-  justify-content: center;
-  padding: .75rem 0;
-  gap: 0;
-}
-
-.custom-sidebar.collapsed .menu-label {
-  display: none;
-}
-
-/* ===== Conteúdo Principal ===== */
-.main-content {
-  flex: 1 1 auto;                /* ocupa o espaço restante */
-  background: linear-gradient(to bottom, var(--magenta), var(--lilas) 50%, var(--roxo));
-  padding: 20px;
-  color: var(--branco);
-  overflow-y: auto;
-}
-/* Barra de Busca */
-.search-bar {
-  display: flex;
-  align-items: center;
-  margin-bottom: 30px;
-}
-.search-bar input {
-  flex: 1;
-  padding: 10px 15px;
-  border: 1px solid var(--lilas);
-  border-radius: 25px;
-  font-size: 16px;
-  outline: none;
-  transition: border-color 0.3s;
-}
-.search-bar input:focus { border-color: var(--magenta); }
-.search-button {
-  background-color: var(--branco);
-  border: none;
-  color: var(--roxo);
-  padding: 10px 15px;
-  margin-left: 10px;
-  border-radius: 50%;
-  cursor: pointer;
-  font-size: 18px;
-  display: flex; align-items: center; justify-content: center;
-  transition: background-color 0.3s;
-}
-.search-button:hover { background-color: var(--roxo); color: var(--branco); }
-
-/* Ranking */
-.ranking-wrapper { display: flex; justify-content: center; align-items: center; padding: 20px; }
-.ranking-container {
-  background-color: var(--branco);
-  padding: 20px;
-  border-radius: 15px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  width: 100%;
-  max-width: 420px;
-  text-align: center;
-}
-.ranking-container h3 { color: var(--roxo-escuro); margin-bottom: 10px; }
-
-.ranking-list { list-style: none; color: var(--roxo-escuro); padding: 0; margin: 0; }
-.ranking-item {
-  display: flex; align-items: center;
-  padding: 10px;
-  background-color: var(--branco);
-  border: 1px solid var(--lilas);
-  color: var(--roxo-escuro);
-  margin-bottom: 10px;
-  border-radius: 25px;
-}
-.ranking-posicao { font-weight: 700; margin-right: 10px; min-width: 2.3rem; text-align: right; }
-.ranking-medal { margin: 0 8px; }
-.ranking-nome { margin-left: 6px; }
-
-/* Destaque Top 3 */
-.ranking-item.top-1 { border-color: #f5c518; box-shadow: 0 0 0 2px rgba(245,197,24,0.15) inset; }
-.ranking-item.top-2 { border-color: #c0c0c0; box-shadow: 0 0 0 2px rgba(192,192,192,0.15) inset; }
-.ranking-item.top-3 { border-color: #cd7f32; box-shadow: 0 0 0 2px rgba(205,127,50,0.15) inset; }
-
-.ranking-vazio {
-  color: var(--branco);
-  background: var(--roxo);
-  border-radius: 10px;
-  padding: 10px;
-  font-style: italic;
+/* Responsivo */
+@media (max-width: 768px){
+  .custom-sidebar{ display:none; }
+  .main-content{ padding:16px; }
 }

@@ -1,0 +1,160 @@
+<div class="app-container">
+  <!-- Sidebar -->
+  <nav class="custom-sidebar" [class.collapsed]="!sidebarOpen" aria-label="Navegação admin">
+    <div class="cabeca">
+      <span class="logo-text">{{ adminNome }}</span>
+      <button type="button" class="btn-toggle" (click)="toggleSidebar()" aria-label="Alternar menu">
+        <i class="pi pi-bars"></i>
+      </button>
+    </div>
+    <div class="corpo">
+      <ul class="menu-list">
+        <li *ngFor="let item of sidebarItems; trackBy: trackByIndex">
+          <a
+            [routerLink]="item.route"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            (click)="item.label === 'Sair' ? sair() : null"
+          >
+            <i [class]="item.icon"></i>
+            <span class="menu-label">{{ item.label }}</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Main -->
+  <main class="main-content" [ngClass]="{ 'expanded': !sidebarOpen }">
+    <!-- topbar interna -->
+    <div class="topbar-inline">
+      <div class="brand">
+        <span class="logo">CEUB</span>
+        <span class="title">Admin • Voluntários</span>
+      </div>
+      <button class="btn btn-outline" (click)="sair()"><i class="pi pi-sign-out"></i> Sair</button>
+    </div>
+
+    <!-- Resumos -->
+    <section class="cards-resumo">
+      <div class="resumo-card">
+        <div class="kpi-titulo">Voluntários ativos</div>
+        <div class="kpi-valor">{{ totalAtivos }}</div>
+      </div>
+      <div class="resumo-card">
+        <div class="kpi-titulo">Pendentes</div>
+        <div class="kpi-valor">{{ totalPend }}</div>
+      </div>
+      <div class="resumo-card">
+        <div class="kpi-titulo">Inativos</div>
+        <div class="kpi-valor">{{ totalInativos }}</div>
+      </div>
+      <div class="resumo-card">
+        <div class="kpi-titulo">Média de horas</div>
+        <div class="kpi-valor">{{ mediaHoras }}h</div>
+      </div>
+    </section>
+
+    <!-- Gráficos -->
+    <section class="graficos">
+      <div class="grafico-card">
+        <h3>Status dos voluntários</h3>
+        <p-chart type="pie" [data]="pieData" [options]="pieOptions"></p-chart>
+      </div>
+
+      <div class="grafico-card">
+        <h3>Horas por área</h3>
+        <p-chart type="bar" [data]="barData" [options]="barOptions"></p-chart>
+      </div>
+    </section>
+
+    <!-- Filtros -->
+    <section class="filtros">
+      <div class="filtros-grid">
+        <span class="p-input-icon-left">
+          <i class="pi pi-search"></i>
+          <input pInputText type="text" [(ngModel)]="busca" placeholder="Buscar por nome, e-mail, área, cidade…" />
+        </span>
+
+        <p-dropdown
+          [options]="areas"
+          [(ngModel)]="filtroArea"
+          [showClear]="true"
+          placeholder="Área"
+          [style]="{ width: '100%' }"
+        ></p-dropdown>
+
+        <p-dropdown
+          [options]="statusOptions"
+          [(ngModel)]="filtroStatus"
+          [showClear]="true"
+          placeholder="Status"
+          [style]="{ width: '100%' }"
+        ></p-dropdown>
+
+        <p-dropdown
+          [options]="cidades"
+          [(ngModel)]="filtroCidade"
+          [showClear]="true"
+          placeholder="Cidade"
+          [style]="{ width: '100%' }"
+        ></p-dropdown>
+      </div>
+    </section>
+
+    <!-- Tabela -->
+    <section class="tabela">
+      <p-table
+        [value]="pagina"
+        [tableStyle]="{ 'min-width': '60rem' }"
+        responsiveLayout="scroll"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Voluntário</th>
+            <th>Área</th>
+            <th>Status</th>
+            <th>Cidade</th>
+            <th>Inscrições</th>
+            <th>Horas</th>
+            <th>Criado em</th>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-v>
+          <tr>
+            <td>
+              <div class="cell-main">
+                <i class="pi pi-user user-ico"></i>
+                <div class="cell-user">
+                  <div class="nome">{{ v.nome }}</div>
+                  <div class="email">{{ v.email }}</div>
+                </div>
+              </div>
+            </td>
+            <td>{{ v.area }}</td>
+            <td>
+              <p-tag
+                [severity]="v.status === 'Ativo' ? 'success' : v.status === 'Pendente' ? 'warning' : 'danger'"
+                [value]="v.status"
+              ></p-tag>
+            </td>
+            <td>{{ v.cidade }}</td>
+            <td>{{ v.inscricoes }}</td>
+            <td>{{ v.horas }}</td>
+            <td>{{ v.criadoEm | date:'dd/MM/yyyy' }}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+
+      <p-paginator
+        [rows]="rows"
+        [totalRecords]="filtrados.length"
+        [first]="page * rows"
+        (onPageChange)="onPageChange($event)"
+        [rowsPerPageOptions]="[6,10,20]"
+        styleClass="mt-2"
+      ></p-paginator>
+    </section>
+  </main>
+</div>

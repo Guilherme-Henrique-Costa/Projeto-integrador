@@ -30,6 +30,7 @@ import { MessageService } from 'primeng/api';
 import { LoginService } from './instituicao/login-instituicao/login-instituicao.service';
 
 // PrimeNG Módulos
+import { ChartModule } from 'primeng/chart';
 import { AccordionModule } from 'primeng/accordion';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
@@ -50,11 +51,19 @@ import { RippleModule } from 'primeng/ripple';
 import { SidebarModule } from 'primeng/sidebar';
 import { RatingModule } from 'primeng/rating';
 import { FullCalendarModule } from '@fullcalendar/angular';
+import { DropdownModule } from 'primeng/dropdown';
+import { TableModule } from 'primeng/table';
+import { TagModule } from 'primeng/tag';
+import { PaginatorModule } from 'primeng/paginator';
+
 import { LoginAdminComponent } from './admin/login-admin/login-admin.component';
 import { CadastroAdminComponent } from './admin/cadastro-admin/cadastro-admin.component';
 import { MenuAdminComponent } from './admin/menu-admin/menu-admin.component';
 import { EsqueciSenhaAdminComponent } from './admin/esqueci-senha-admin/esqueci-senha-admin.component';
-
+import { VoluntariosAdminComponent } from './admin/voluntarios-admin/voluntarios-admin.component';
+import { InstituicoesAdminComponent } from './admin/instituicoes-admin/instituicoes-admin.component';
+import { RelatoriosAdminComponent } from './admin/relatorios-admin/relatorios-admin.component';
+import { MensagensAdminComponent } from './admin/mensagens-admin/mensagens-admin.component';
 
 @NgModule({
   declarations: [
@@ -77,6 +86,10 @@ import { EsqueciSenhaAdminComponent } from './admin/esqueci-senha-admin/esqueci-
     CadastroAdminComponent,
     MenuAdminComponent,
     EsqueciSenhaAdminComponent,
+    VoluntariosAdminComponent,
+    InstituicoesAdminComponent,
+    RelatoriosAdminComponent,
+    MensagensAdminComponent,
   ],
   imports: [
     BrowserModule,
@@ -86,7 +99,8 @@ import { EsqueciSenhaAdminComponent } from './admin/esqueci-senha-admin/esqueci-
     BrowserAnimationsModule,
     HttpClientModule,
 
-    // PrimeNG Módulos
+    // PrimeNG
+    ChartModule,
     InputTextModule,
     ButtonModule,
     PasswordModule,
@@ -108,6 +122,11 @@ import { EsqueciSenhaAdminComponent } from './admin/esqueci-senha-admin/esqueci-
     MultiSelectModule,
     FullCalendarModule,
     CalendarModule,
+    DropdownModule,
+    TableModule,
+    TagModule,
+    PaginatorModule,
+    NgxMaskDirective,
   ],
   providers: [MessageService, LoginService, provideNgxMask()],
   bootstrap: [AppComponent]

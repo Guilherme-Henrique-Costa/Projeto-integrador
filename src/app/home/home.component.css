@@ -9,7 +9,8 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-image: linear-gradient(to bottom, var(--magenta), var(--roxo-escuro));
+  background: radial-gradient(1200px 600px at 80% -10%, #6a5acd22, transparent),
+              linear-gradient(135deg, #0f0c29, #302b63, #24243e);
   margin: 0;
   padding: 20px;
 }

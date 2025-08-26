@@ -1,0 +1,164 @@
+<div class="app-container">
+  <!-- Sidebar -->
+  <nav class="custom-sidebar" [class.collapsed]="!sidebarOpen" aria-label="Navegação admin">
+    <div class="cabeca">
+      <span class="logo-text">{{ adminNome }}</span>
+      <button type="button" class="btn-toggle" (click)="toggleSidebar()" aria-label="Alternar menu">
+        <i class="pi pi-bars"></i>
+      </button>
+    </div>
+
+    <div class="corpo">
+      <ul class="menu-list">
+        <li *ngFor="let item of sidebarItems; trackBy: trackByIndex">
+          <a
+            [routerLink]="item.route"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            (click)="item.label === 'Sair' ? sair() : null"
+          >
+            <i [class]="item.icon"></i>
+            <span class="menu-label">{{ item.label }}</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Main -->
+  <main class="main-content" [ngClass]="{ 'expanded': !sidebarOpen }">
+    <!-- topbar -->
+    <div class="topbar-inline">
+      <div class="brand">
+        <span class="logo">CEUB</span>
+        <span class="title">Admin • Mensagens</span>
+      </div>
+      <button class="btn btn-outline" (click)="sair()"><i class="pi pi-sign-out"></i> Sair</button>
+    </div>
+
+    <!-- Conteúdo -->
+    <section class="mensagens-layout">
+      <!-- Lista de conversas -->
+      <aside class="lista">
+        <div class="lista-toolbar">
+          <span class="p-input-icon-left w-100">
+            <i class="pi pi-search"></i>
+            <input pInputText type="text" [(ngModel)]="busca" (ngModelChange)="aplicarFiltros()" placeholder="Buscar conversa…" />
+          </span>
+
+          <div class="fila">
+            <p-dropdown
+              [options]="tipos"
+              [(ngModel)]="filtroTipo"
+              [showClear]="true"
+              placeholder="Tipo"
+              [style]="{width:'100%'}"
+              (onChange)="aplicarFiltros()">
+            </p-dropdown>
+
+            <p-dropdown
+              [options]="ordenacoes"
+              [(ngModel)]="ordenarPor"
+              placeholder="Ordenar"
+              [style]="{width:'100%'}"
+              (onChange)="aplicarFiltros()">
+            </p-dropdown>
+
+            <p-inputSwitch [(ngModel)]="somenteNaoLidas" (onChange)="aplicarFiltros()"></p-inputSwitch>
+            <label class="switch-label">Não lidas</label>
+          </div>
+        </div>
+
+        <div class="lista-itens" *ngIf="conversasFiltradas.length; else vazio">
+          <button
+            class="conversa"
+            *ngFor="let c of conversasFiltradas; trackBy: trackById"
+            [class.active]="conversaSelecionada?.id === c.id"
+            (click)="abrirConversa(c)">
+            <div class="avatar">
+              <i class="pi" [ngClass]="{'pi-user': c.tipo==='Voluntário', 'pi-building': c.tipo==='Instituição'}"></i>
+            </div>
+            <div class="meta">
+              <div class="linha1">
+                <span class="titulo">{{ c.titulo }}</span>
+                <span class="hora">{{ c.ultimo?.data | date:'short' }}</span>
+              </div>
+              <div class="linha2">
+                <span class="snippet">{{ c.ultimo?.conteudo }}</span>
+                <span *ngIf="c.naoLidas>0" class="badge">{{ c.naoLidas }}</span>
+              </div>
+              <div class="linha3">
+                <span class="chip" [class.vol]="c.tipo==='Voluntário'" [class.inst]="c.tipo==='Instituição'">{{ c.tipo }}</span>
+              </div>
+            </div>
+          </button>
+        </div>
+
+        <ng-template #vazio>
+          <div class="lista-vazio">
+            <i class="pi pi-inbox"></i>
+            <p>Nenhuma conversa encontrada</p>
+          </div>
+        </ng-template>
+      </aside>
+
+      <!-- Painel de chat -->
+      <section class="chat" *ngIf="conversaSelecionada; else selecione">
+        <header class="chat-header">
+          <div class="alvo">
+            <div class="avatar small">
+              <i class="pi" [ngClass]="{'pi-user': conversaSelecionada?.tipo==='Voluntário', 'pi-building': conversaSelecionada?.tipo==='Instituição'}"></i>
+            </div>
+            <div>
+              <div class="nome">{{ conversaSelecionada?.titulo }}</div>
+              <div class="tipo">{{ conversaSelecionada?.tipo }}</div>
+            </div>
+          </div>
+
+          <div class="acoes">
+            <button class="icon-btn" (click)="marcarComoLida(conversaSelecionada!)" title="Marcar como lida">
+              <i class="pi pi-check-circle"></i>
+            </button>
+            <button class="icon-btn" (click)="atualizarConversas()" title="Atualizar">
+              <i class="pi pi-refresh"></i>
+            </button>
+          </div>
+        </header>
+
+        <div class="chat-body" #chatBody>
+          <div
+            *ngFor="let m of conversaSelecionada?.mensagens; trackBy: trackByMsg"
+            class="msg"
+            [ngClass]="{
+              'from-vol': m.autor==='Voluntario',
+              'from-inst': m.autor==='Instituicao',
+              'from-admin': m.autor==='Admin'
+            }">
+            <div class="bubble">
+              <div class="content">{{ m.conteudo }}</div>
+              <div class="meta">{{ m.data | date:'dd/MM HH:mm' }}</div>
+            </div>
+          </div>
+        </div>
+
+        <footer class="chat-input">
+          <input
+            pInputText
+            type="text"
+            [(ngModel)]="novaMensagem"
+            (keyup.enter)="enviarMensagem()"
+            placeholder="Escreva uma mensagem…" />
+
+          <button class="btn" (click)="enviarMensagem()"><i class="pi pi-send"></i> Enviar</button>
+        </footer>
+      </section>
+
+      <ng-template #selecione>
+        <section class="chat chat-placeholder">
+          <i class="pi pi-comments"></i>
+          <p>Selecione uma conversa para visualizar</p>
+        </section>
+      </ng-template>
+    </section>
+  </main>
+</div>

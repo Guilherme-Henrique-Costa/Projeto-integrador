@@ -1,12 +1,13 @@
 <div class="vagas-container">
   <!-- Sidebar -->
-  <nav class="custom-sidebar" [class.collapsed]="!sidebarOpen">
+  <nav class="custom-sidebar" [class.collapsed]="!sidebarOpen" aria-label="Navegação instituição">
     <div class="cabeca">
       <span class="logo-text">{{ (instituicaoNome$ | async) ?? 'Instituição' }}</span>
-      <button type="button" class="btn-toggle" (click)="toggleSidebar()" [attr.aria-label]="'Alternar menu'">
+      <button type="button" class="btn-toggle" (click)="toggleSidebar()" aria-label="Alternar menu">
         <i class="pi pi-bars"></i>
       </button>
     </div>
+
     <div class="corpo">
       <ul class="menu-list">
         <li *ngFor="let item of sidebarItems; trackBy: trackByIndex">
@@ -16,71 +17,130 @@
             [routerLinkActiveOptions]="{ exact: true }"
             (click)="item.label === 'Sair' ? sair() : null"
           >
-            <i [class]="item.icon"></i> <span class="menu-label">{{ item.label }}</span>
+            <i [class]="item.icon"></i>
+            <span class="menu-label">{{ item.label }}</span>
           </a>
         </li>
       </ul>
     </div>
   </nav>
 
-  <!-- Conteúdo Principal -->
+  <!-- Main -->
   <main class="main-content" [ngClass]="{ expanded: !sidebarOpen }">
-    <div class="vaga-form-wrapper">
-      <div class="vaga-form-container">
-        <h2>Publique sua vaga!</h2>
-
-        <form [formGroup]="vagaForm" (ngSubmit)="onSubmit()">
-          <label for="cargo">Cargo:</label>
-          <input id="cargo" formControlName="cargo" placeholder="Descrição do cargo" />
-          <div *ngIf="isFieldInvalid('cargo')" class="error-message">O campo Cargo é obrigatório.</div>
-
-          <label for="localidade">Localidade de Trabalho:</label>
-          <input id="localidade" formControlName="localidade" placeholder="Ex: Brasília, DF" />
-          <div *ngIf="isFieldInvalid('localidade')" class="error-message">O campo Localidade é obrigatório.</div>
-
-          <label for="tipoVaga">Tipo de Vaga:</label>
-          <input id="tipoVaga" formControlName="tipoVaga" placeholder="Presencial, Remota..." />
-          <div *ngIf="isFieldInvalid('tipoVaga')" class="error-message">O campo Tipo de Vaga é obrigatório.</div>
-
-          <label for="descricao">Descrição:</label>
-          <input id="descricao" formControlName="descricao" placeholder="Descrição detalhada da vaga" />
-          <div *ngIf="isFieldInvalid('descricao')" class="error-message">O campo Descrição é obrigatório.</div>
-
-          <label for="especificacoes">Especificações da vaga:</label>
-          <input
-            id="especificacoes"
-            formControlName="especificacoes"
-            placeholder="Ex: Java, Atendimento, Photoshop..."
-          />
-          <div *ngIf="isFieldInvalid('especificacoes')" class="error-message">
-            O campo Especificações é obrigatório.
-          </div>
-
-          <label for="horario">Horário:</label>
-          <input id="horario" formControlName="horario" placeholder="Ex: 08h - 12h" />
-          <div *ngIf="isFieldInvalid('horario')" class="error-message">O campo Horário é obrigatório.</div>
-
-          <label for="tempoVoluntariado">Tempo de Voluntariado:</label>
-          <input id="tempoVoluntariado" formControlName="tempoVoluntariado" placeholder="Ex: 3 meses" />
-          <div *ngIf="isFieldInvalid('tempoVoluntariado')" class="error-message">
-            O campo Tempo de Voluntariado é obrigatório.
-          </div>
-
-          <label for="area">Área de Atuação:</label>
-          <input id="area" formControlName="area" placeholder="Ex: Saúde, Educação, Meio Ambiente" />
-          <div *ngIf="isFieldInvalid('area')" class="error-message">O campo Área é obrigatório.</div>
-
-          <label for="disponibilidade">Disponibilidade:</label>
-          <input id="disponibilidade" formControlName="disponibilidade" placeholder="Ex: Manhã, Fins de Semana..." />
-          <div *ngIf="isFieldInvalid('disponibilidade')" class="error-message">
-            O campo Disponibilidade é obrigatório.
-          </div>
-
-          <button type="submit" class="submit-btn" [disabled]="vagaForm.invalid || saving">
-            {{ saving ? 'Publicando…' : 'Publique!' }}
-          </button>
-        </form>
+    <!-- Topbar -->
+    <div class="topbar-inline">
+      <div class="brand">
+        <span class="logo">CEUB</span>
+        <span class="title">Instituição • Vagas</span>
       </div>
+      <button class="btn btn-outline" (click)="sair()"><i class="pi pi-sign-out"></i> Sair</button>
     </div>
+
+    <!-- Card: Publicar vaga -->
+    <section class="card vaga-card">
+      <header class="card-header">
+        <div class="info">
+          <h3>Publique sua vaga</h3>
+          <p class="muted">Preencha as informações para que os voluntários encontrem sua oportunidade</p>
+        </div>
+      </header>
+
+      <form [formGroup]="vagaForm" (ngSubmit)="onSubmit()" novalidate class="form-grid">
+        <!-- Linha 1 -->
+        <div class="field" [ngClass]="{'invalid': isFieldInvalid('cargo')}">
+          <label for="cargo">Cargo</label>
+          <input id="cargo" type="text" formControlName="cargo" placeholder="Ex.: Facilitador de oficinas" />
+          <small *ngIf="isFieldInvalid('cargo')">O campo Cargo é obrigatório.</small>
+        </div>
+
+        <div class="field" [ngClass]="{'invalid': isFieldInvalid('area')}">
+          <label for="area">Área de atuação</label>
+          <input id="area" type="text" formControlName="area" placeholder="Ex.: Educação, Saúde, Meio Ambiente" />
+          <small *ngIf="isFieldInvalid('area')">O campo Área é obrigatório.</small>
+        </div>
+
+        <!-- Linha 2 -->
+        <div class="field" [ngClass]="{'invalid': isFieldInvalid('localidade')}">
+          <label for="localidade">Localidade</label>
+          <input id="localidade" type="text" formControlName="localidade" placeholder="Ex.: Brasília, DF" />
+          <small *ngIf="isFieldInvalid('localidade')">O campo Localidade é obrigatório.</small>
+        </div>
+
+        <div class="field" [ngClass]="{'invalid': isFieldInvalid('tipoVaga')}">
+          <label for="tipoVaga">Modalidade</label>
+          <!-- transformamos em seletor -->
+          <select id="tipoVaga" formControlName="tipoVaga">
+            <option value="" disabled>Selecione…</option>
+            <option value="Presencial">Presencial</option>
+            <option value="Remota">Remota</option>
+            <option value="Híbrida">Híbrida</option>
+          </select>
+          <small *ngIf="isFieldInvalid('tipoVaga')">Selecione a modalidade da vaga.</small>
+        </div>
+
+        <!-- Linha 3 -->
+        <div class="field" [ngClass]="{'invalid': isFieldInvalid('disponibilidade')}">
+          <label for="disponibilidade">Disponibilidade</label>
+          <input id="disponibilidade" type="text" formControlName="disponibilidade" placeholder="Ex.: Manhã, Tarde, Fins de semana" />
+          <small *ngIf="isFieldInvalid('disponibilidade')">O campo Disponibilidade é obrigatório.</small>
+        </div>
+
+        <div class="field" [ngClass]="{'invalid': isFieldInvalid('horario')}">
+          <label for="horario">Horário</label>
+          <input id="horario" type="text" formControlName="horario" placeholder="Ex.: 08h — 12h" />
+          <small *ngIf="isFieldInvalid('horario')">O campo Horário é obrigatório.</small>
+        </div>
+
+        <!-- Linha 4 (novos) -->
+        <div class="field">
+          <label for="quantidadeVagas">Nº de vagas</label>
+          <input id="quantidadeVagas" type="number" formControlName="quantidadeVagas" min="1" max="999" placeholder="Ex.: 5" />
+          <small *ngIf="isFieldInvalid('quantidadeVagas')">Informe um número válido (1–999).</small>
+        </div>
+
+        <div class="field">
+          <label for="dataInicio">Data de início</label>
+          <input id="dataInicio" type="date" formControlName="dataInicio" />
+          <small *ngIf="isFieldInvalid('dataInicio')">Data inválida.</small>
+        </div>
+
+        <!-- Especificações -->
+        <div class="field" [ngClass]="{'invalid': isFieldInvalid('especificacoes')}">
+          <label for="especificacoes">Especificações da vaga</label>
+          <input id="especificacoes" type="text" formControlName="especificacoes" placeholder="Ex.: Java, Atendimento, Photoshop…" />
+          <small *ngIf="isFieldInvalid('especificacoes')">O campo Especificações é obrigatório.</small>
+        </div>
+
+        <!-- Tempo -->
+        <div class="field" [ngClass]="{'invalid': isFieldInvalid('tempoVoluntariado')}">
+          <label for="tempoVoluntariado">Tempo de voluntariado</label>
+          <input id="tempoVoluntariado" type="text" formControlName="tempoVoluntariado" placeholder="Ex.: 3 meses" />
+          <small *ngIf="isFieldInvalid('tempoVoluntariado')">O campo Tempo de Voluntariado é obrigatório.</small>
+        </div>
+
+        <!-- Descrição -->
+        <div class="field col-span-2" [ngClass]="{'invalid': isFieldInvalid('descricao')}">
+          <label for="descricao">Descrição</label>
+          <textarea id="descricao" formControlName="descricao" rows="5" placeholder="Descreva as atividades, pré-requisitos e benefícios…"></textarea>
+          <small *ngIf="isFieldInvalid('descricao')">O campo Descrição é obrigatório.</small>
+        </div>
+
+        <!-- Benefícios (novo) -->
+        <div class="field col-span-2">
+          <label for="beneficios">Benefícios (opcional)</label>
+          <textarea id="beneficios" formControlName="beneficios" rows="3" placeholder="Ex.: Auxílio transporte, certificado, alimentação…"></textarea>
+          <small *ngIf="isFieldInvalid('beneficios')">Máximo de 400 caracteres.</small>
+        </div>
+
+        <!-- Ações -->
+        <div class="actions">
+          <button type="button" class="btn btn-ghost" (click)="vagaForm.reset()">Cancelar</button>
+          <button type="submit" class="btn btn-primary" [disabled]="vagaForm.invalid || saving">
+            <i class="pi" [ngClass]="saving ? 'pi-spin pi-spinner' : 'pi-send'"></i>
+            {{ saving ? 'Publicando…' : 'Publicar vaga' }}
+          </button>
+        </div>
+      </form>
+    </section>
   </main>
 </div>

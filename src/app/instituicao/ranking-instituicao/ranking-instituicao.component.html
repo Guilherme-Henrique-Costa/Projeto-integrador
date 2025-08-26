@@ -1,9 +1,9 @@
 <div class="app-container">
   <!-- Sidebar -->
-  <nav class="custom-sidebar" [class.collapsed]="!sidebarOpen">
+  <nav class="custom-sidebar" [class.collapsed]="!sidebarOpen" aria-label="Navegação instituição">
     <div class="cabeca">
       <span class="logo-text">{{ (instituicaoNome$ | async) ?? 'Instituição' }}</span>
-      <button type="button" class="btn-toggle" (click)="toggleSidebar()" [attr.aria-label]="'Alternar menu'">
+      <button type="button" class="btn-toggle" (click)="toggleSidebar()" aria-label="Alternar menu">
         <i class="pi pi-bars"></i>
       </button>
     </div>
@@ -24,38 +24,60 @@
     </div>
   </nav>
 
-  <!-- Conteúdo Principal -->
-  <main class="main-content">
-    <div class="search-bar">
-      <input
-        type="text"
-        placeholder="Pesquisar"
-        [(ngModel)]="searchQuery"
-        [attr.aria-label]="'Pesquisar no ranking'"
-      />
-      <button class="search-button" type="button" aria-label="Pesquisar">
-        <i class="pi pi-search"></i>
-      </button>
-    </div>
-
-    <div class="ranking-wrapper">
-      <div class="ranking-container">
-        <h3>Ranking</h3>
-
-        <ul class="ranking-list" *ngIf="rankingFiltrado.length > 0; else vazio">
-          <li *ngFor="let item of rankingFiltrado; trackBy: trackByPosicao">
-            <div class="ranking-item" [ngClass]="{'top-1': item.posicao === 1, 'top-2': item.posicao === 2, 'top-3': item.posicao === 3}">
-              <span class="ranking-posicao">{{ item.posicao }}º</span>
-              <span class="ranking-medal">{{ medalEmoji(item.posicao) }}</span>
-              <span class="ranking-nome">{{ item.nome }}</span>
-            </div>
-          </li>
-        </ul>
-
-        <ng-template #vazio>
-          <p class="ranking-vazio">Nenhum resultado encontrado.</p>
-        </ng-template>
+  <!-- Main -->
+  <main class="main-content" [ngClass]="{ expanded: !sidebarOpen }">
+    <!-- Topbar -->
+    <div class="topbar-inline">
+      <div class="brand">
+        <span class="logo">CEUB</span>
+        <span class="title">Instituição • Ranking</span>
       </div>
+      <button class="btn btn-outline" (click)="sair()"><i class="pi pi-sign-out"></i> Sair</button>
     </div>
+
+    <!-- Busca -->
+    <section class="card search-card">
+      <div class="search-bar">
+        <span class="p-input-icon-left w-100">
+          <i class="pi pi-search"></i>
+          <input
+            pInputText
+            type="text"
+            placeholder="Pesquisar no ranking…"
+            [(ngModel)]="searchQuery"
+            aria-label="Pesquisar no ranking"
+          />
+        </span>
+        <button class="btn icon" type="button" (click)="clearSearch()" title="Limpar">
+          <i class="pi pi-times"></i>
+        </button>
+      </div>
+    </section>
+
+    <!-- Ranking -->
+    <section class="card ranking-card">
+      <header class="card-header">
+        <h3>Ranking</h3>
+        <span class="counter">{{ rankingFiltrado.length }}</span>
+      </header>
+
+      <ul class="ranking-list" *ngIf="rankingFiltrado.length > 0; else vazio">
+        <li *ngFor="let item of rankingFiltrado; trackBy: trackByPosicao">
+          <div class="ranking-item"
+               [ngClass]="{'top-1': item.posicao === 1, 'top-2': item.posicao === 2, 'top-3': item.posicao === 3}">
+            <span class="ranking-posicao">{{ item.posicao }}º</span>
+            <span class="ranking-medal">{{ medalEmoji(item.posicao) }}</span>
+            <span class="ranking-nome">{{ item.nome }}</span>
+          </div>
+        </li>
+      </ul>
+
+      <ng-template #vazio>
+        <div class="empty">
+          <i class="pi pi-inbox"></i>
+          <p>Nenhum resultado encontrado.</p>
+        </div>
+      </ng-template>
+    </section>
   </main>
 </div>
