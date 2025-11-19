@@ -79,9 +79,7 @@
               <i class="pi pi-user icone"></i>
               <div class="txt">
                 <div class="nome">{{ v.nome }}</div>
-                <div class="meta">
-                  {{ v.areaInteresse || '—' }} • {{ v.disponibilidade || '—' }}
-                </div>
+                <div class="meta">{{ v.areaInteresse || '—' }} • {{ v.disponibilidade || '—' }}</div>
                 <div class="meta">{{ v.emailInstitucional }}</div>
               </div>
             </div>
@@ -102,7 +100,7 @@
         </div>
       </section>
 
-      <!-- Detalhes + registro -->
+      <!-- Detalhes -->
       <section class="card detalhes-card">
         <header class="card-header">
           <h3 *ngIf="voluntarioSelecionado; else selV">Detalhes do voluntário</h3>

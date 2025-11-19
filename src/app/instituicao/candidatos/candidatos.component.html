@@ -1,9 +1,20 @@
 <div class="candidatos-container">
   <!-- Sidebar -->
-  <nav class="custom-sidebar" [class.collapsed]="!sidebarOpen" aria-label="Navegação instituição">
+  <nav
+    class="custom-sidebar"
+    [class.collapsed]="!sidebarOpen"
+    aria-label="Menu lateral da instituição"
+  >
     <div class="cabeca">
-      <span class="logo-text">{{ (instituicaoNome$ | async) ?? 'Instituição' }}</span>
-      <button type="button" class="btn-toggle" (click)="toggleSidebar()" aria-label="Alternar menu">
+      <span class="logo-text">{{
+        (instituicaoNome$ | async) ?? "Instituição"
+      }}</span>
+      <button
+        type="button"
+        class="btn-toggle"
+        (click)="toggleSidebar()"
+        aria-label="Alternar menu"
+      >
         <i class="pi pi-bars"></i>
       </button>
     </div>
@@ -33,7 +44,9 @@
         <span class="logo">CEUB</span>
         <span class="title">Instituição • Candidatos</span>
       </div>
-      <button class="btn btn-outline" (click)="sair()"><i class="pi pi-sign-out"></i> Sair</button>
+      <button class="btn btn-outline" (click)="sair()">
+        <i class="pi pi-sign-out"></i> Sair
+      </button>
     </div>
 
     <!-- Busca -->
@@ -49,7 +62,12 @@
             aria-label="Pesquisar"
           />
         </span>
-        <button class="btn icon" type="button" (click)="searchCtrl.setValue('')" title="Limpar">
+        <button
+          class="btn icon"
+          type="button"
+          (click)="searchCtrl.setValue('')"
+          title="Limpar"
+        >
           <i class="pi pi-times"></i>
         </button>
       </div>
@@ -61,13 +79,18 @@
       <section class="card vagas-card">
         <header class="card-header">
           <h3>Vagas com candidatos</h3>
-          <span class="counter" *ngIf="(vagasFiltradas$ | async) as vgs">{{ vgs.length }} vagas</span>
+          <span class="counter" *ngIf="vagasFiltradas$ | async as vgs"
+            >{{ vgs.length }} vagas</span
+          >
         </header>
 
         <ng-container *ngIf="!loadingVagas; else vagasLoading">
           <ul class="vaga-list">
             <li
-              *ngFor="let vaga of (vagasFiltradas$ | async); trackBy: trackByIndex"
+              *ngFor="
+                let vaga of (vagasFiltradas$ | async) || [];
+                trackBy: trackByIndex
+              "
               (click)="selecionarVaga(vaga)"
               [class.active]="vagaSelecionada?.id === vaga.id"
               role="button"
@@ -81,14 +104,20 @@
             </li>
           </ul>
 
-          <div class="empty" *ngIf="(vagasFiltradas$ | async)?.length === 0">
+          <div
+            class="empty"
+            *ngIf="((vagasFiltradas$ | async)?.length ?? 0) === 0"
+          >
             <i class="pi pi-inbox"></i>
             <p>Nenhuma vaga encontrada.</p>
           </div>
         </ng-container>
 
         <ng-template #vagasLoading>
-          <div class="empty"><i class="pi pi-spin pi-spinner"></i><p>Carregando vagas…</p></div>
+          <div class="empty">
+            <i class="pi pi-spin pi-spinner"></i>
+            <p>Carregando vagas…</p>
+          </div>
         </ng-template>
       </section>
 
@@ -105,7 +134,12 @@
         </header>
 
         <ng-container *ngIf="vagaSelecionada">
-          <ng-container *ngIf="!loadingCandidatos; else candLoading">
+          <ng-container
+            *ngIf="
+              !loadingCandidatos || ((candidatos$ | async)?.length ?? 0) > 0;
+              else candLoading
+            "
+          >
             <p-table
               [value]="(candidatosFiltrados$ | async) || []"
               [tableStyle]="{ 'min-width': '56rem' }"
@@ -117,32 +151,56 @@
                   <th>E-mail</th>
                   <th>Data</th>
                   <th>Status</th>
+                  <th>Ação</th>
                 </tr>
               </ng-template>
 
               <ng-template pTemplate="body" let-c>
                 <tr>
-                  <td><b>{{ c.nomeVoluntario }}</b></td>
+                  <td>
+                    <b>{{ c.nomeVoluntario }}</b>
+                  </td>
                   <td>{{ c.emailVoluntario }}</td>
-                  <td>{{ c.dataCandidatura | date:'dd/MM/yyyy' }}</td>
+                  <td>{{ c.dataCandidatura | date : "dd/MM/yyyy" }}</td>
                   <td>
                     <p-tag
-                      [severity]="c.status === 'Aprovado' ? 'success' : c.status === 'Pendente' ? 'warning' : 'danger'"
-                      [value]="c.status || '—'">
-                    </p-tag>
+                      [severity]="
+                        c.status === 'Aprovado'
+                          ? 'success'
+                          : c.status === 'Pendente'
+                          ? 'warning'
+                          : 'danger'
+                      "
+                      [value]="c.status || '—'"
+                    ></p-tag>
+                  </td>
+                  <td>
+                    <button
+                      *ngIf="c.status === 'Pendente'"
+                      class="btn btn-primary"
+                      (click)="aprovarCandidatura(c)"
+                    >
+                      Aprovar
+                    </button>
                   </td>
                 </tr>
               </ng-template>
             </p-table>
 
-            <div class="empty" *ngIf="(candidatosFiltrados$ | async)?.length === 0">
+            <div
+              class="empty"
+              *ngIf="((candidatosFiltrados$ | async)?.length ?? 0) === 0"
+            >
               <i class="pi pi-users"></i>
               <p>Nenhum candidato para esta vaga.</p>
             </div>
           </ng-container>
 
           <ng-template #candLoading>
-            <div class="empty"><i class="pi pi-spin pi-spinner"></i><p>Carregando candidatos…</p></div>
+            <div class="empty">
+              <i class="pi pi-spin pi-spinner"></i>
+              <p>Carregando candidatos…</p>
+            </div>
           </ng-template>
         </ng-container>
       </section>

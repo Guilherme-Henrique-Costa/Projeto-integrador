@@ -45,14 +45,12 @@ export class GestaoInstituicaoService {
   constructor(private http: HttpClient) {}
 
   getVoluntariosDaInstituicao(instituicaoId: number): Observable<Voluntario[]> {
-    console.log('[GestaoInstituicaoService] GET voluntarios instId=', instituicaoId);
-    return this.http
-      .get<Voluntario[]>(this.voluntariosDaInstituicaoUrl(instituicaoId), { headers: this.authHeaders() })
-      .pipe(
-        tap(res => console.log('[GestaoInstituicaoService] voluntarios recebidos:', res?.length ?? 0)),
-        catchError(this.handleError('getVoluntariosDaInstituicao'))
-      );
-  }
+  const url = `${this.baseUrl}/instituicao/${instituicaoId}/voluntarios`;
+  return this.http.get<Voluntario[]>(url, { headers: this.authHeaders() }).pipe(
+    tap((res) => console.log('[GestaoInstituicaoService] voluntarios recebidos:', res?.length ?? 0)),
+    catchError(this.handleError('getVoluntariosDaInstituicao'))
+  );
+}
 
   registrarServico(payload: RegistrarServicoPayload): Observable<ServicoVoluntario> {
     console.log('[GestaoInstituicaoService] POST registrar servico', payload);

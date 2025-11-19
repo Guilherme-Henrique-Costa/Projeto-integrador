@@ -52,39 +52,39 @@ export class GestaoInstituicaoComponent implements OnInit {
     this.carregarVoluntarios();
   }
 
-  private carregarVoluntarios(): void {
-    const instituicaoId = Number(localStorage.getItem('instituicaoId'));
-    if (!instituicaoId) {
-      console.warn('[Gestao] instituicaoId não encontrado no localStorage.');
-      return;
-    }
-
-    this.loadingVoluntarios = true;
-    console.log('[Gestao] carregando voluntarios instId=', instituicaoId);
-
-    this.gestaoService.getVoluntariosDaInstituicao(instituicaoId).subscribe({
-      next: (vols) => {
-        this.voluntarios = vols || [];
-        console.log('[Gestao] voluntarios recebidos:', this.voluntarios.length);
-      },
-      error: (err) => {
-        console.error('[Gestao] erro ao buscar voluntarios:', err.message || err);
-      },
-      complete: () => (this.loadingVoluntarios = false),
-    });
+  carregarVoluntarios(): void {
+  const instituicaoId = Number(localStorage.getItem('instituicaoId'));
+  if (!instituicaoId) {
+    console.warn('[Gestao] instituicaoId não encontrado no localStorage.');
+    return;
   }
+
+  this.loadingVoluntarios = true;
+  console.log('[Gestao] carregando voluntarios instId=', instituicaoId);
+
+  this.gestaoService.getVoluntariosDaInstituicao(instituicaoId).subscribe({
+    next: (vols) => {
+      this.voluntarios = vols || [];
+      console.log('[Gestao] voluntarios recebidos:', this.voluntarios.length);
+    },
+    error: (err) => {
+      console.error('[Gestao] erro ao buscar voluntarios:', err.message || err);
+    },
+    complete: () => (this.loadingVoluntarios = false),
+  });
+}
 
   // lista filtrada pela busca
   get voluntariosFiltrados(): Voluntario[] {
-    const q = (this.searchCtrl.value || '').trim().toLowerCase();
-    if (!q) return this.voluntarios;
-    return this.voluntarios.filter((v) => {
-      const nome = (v.nome || '').toLowerCase();
-      const email = (v.emailInstitucional || '').toLowerCase();
-      const area = (v.areaInteresse || '').toLowerCase();
-      return nome.includes(q) || email.includes(q) || area.includes(q);
-    });
-  }
+  const q = (this.searchCtrl.value || '').trim().toLowerCase();
+  if (!q) return this.voluntarios;
+  return this.voluntarios.filter((v) => {
+    const nome = (v.nome || '').toLowerCase();
+    const email = (v.emailInstitucional || '').toLowerCase();
+    const area = (v.areaInteresse || '').toLowerCase();
+    return nome.includes(q) || email.includes(q) || area.includes(q);
+  });
+}
 
   get servicoLen(): number {
     return (this.descricaoServico || '').length;

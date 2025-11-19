@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 import { CandidatosService, Candidatura, Vaga } from './candidatos.service';
 import { FormControl } from '@angular/forms';
-import { combineLatest, map, startWith } from 'rxjs';
+import { BehaviorSubject, combineLatest, map, startWith } from 'rxjs';
 import { MessageService } from 'primeng/api';
 import { MenuInstituicaoService } from '../menu-instituicao/menu-instituicao.service';
 import { Router } from '@angular/router';
@@ -20,43 +20,47 @@ export class CandidatosComponent {
   instituicaoNome$ = this.menuService.getInstituicaoNome$();
 
   /** Estado */
-  vagasComCandidatos: Vaga[] = [];
-  candidatos: Candidatura[] = [];
+  vagasComCandidatos$ = new BehaviorSubject<Vaga[]>([]); // ✅ reativo
+  candidatos$ = new BehaviorSubject<Candidatura[]>([]);
   vagaSelecionada: Vaga | null = null;
 
   /** Busca reativa */
   searchCtrl = new FormControl<string>('', { nonNullable: true });
 
   /** Listas filtradas reativas */
-  vagasFiltradas$ = combineLatest([this.searchCtrl.valueChanges.pipe(startWith(''))]).pipe(
-    map(([q]) => {
+  vagasFiltradas$ = combineLatest([
+    this.vagasComCandidatos$,
+    this.searchCtrl.valueChanges.pipe(startWith('')),
+  ]).pipe(
+    map(([vagas, q]) => {
       const query = (q || '').toLowerCase();
       const out = query
-        ? this.vagasComCandidatos.filter(
+        ? vagas.filter(
             (v) =>
               (v.cargo || '').toLowerCase().includes(query) ||
               (v.localidade || '').toLowerCase().includes(query) ||
               (v.descricao || '').toLowerCase().includes(query),
           )
-        : this.vagasComCandidatos;
-      // print
+        : vagas;
       console.log('[CandidatosComponent] vagasFiltradas', out.length);
       return out;
     }),
   );
 
-  candidatosFiltrados$ = combineLatest([this.searchCtrl.valueChanges.pipe(startWith(''))]).pipe(
-    map(([q]) => {
+  candidatosFiltrados$ = combineLatest([
+    this.candidatos$,
+    this.searchCtrl.valueChanges.pipe(startWith('')),
+  ]).pipe(
+    map(([list, q]) => {
       const query = (q || '').toLowerCase();
       const out = query
-        ? this.candidatos.filter(
+        ? list.filter(
             (c) =>
               (c.nomeVoluntario || '').toLowerCase().includes(query) ||
               (c.emailVoluntario || '').toLowerCase().includes(query) ||
               String(c.status || '').toLowerCase().includes(query),
           )
-        : this.candidatos;
-      // print
+        : list;
       console.log('[CandidatosComponent] candidatosFiltrados', out.length);
       return out;
     }),
@@ -82,6 +86,7 @@ export class CandidatosComponent {
     private readonly message: MessageService,
     private readonly menuService: MenuInstituicaoService,
     private readonly router: Router,
+    private readonly cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
@@ -96,14 +101,19 @@ export class CandidatosComponent {
 
     this.candidatosService.listarVagasComCandidatos(instituicaoId).subscribe({
       next: (vagas) => {
-        this.vagasComCandidatos = vagas ?? [];
-        console.log('[CandidatosComponent] vagas carregadas:', this.vagasComCandidatos.length);
+        console.log('[CandidatosComponent] vagas carregadas:', vagas?.length);
+        this.vagasComCandidatos$.next(vagas ?? []); // ✅ agora emite reativamente
+        this.cdr.markForCheck();
       },
       error: (err: Error) => {
         console.error('[CandidatosComponent] erro ao carregar vagas:', err);
         this.message.add({ severity: 'error', summary: 'Erro', detail: err.message });
+        this.cdr.markForCheck();
       },
-      complete: () => (this.loadingVagas = false),
+      complete: () => {
+        this.loadingVagas = false;
+        this.cdr.markForCheck();
+      },
     });
   }
 
@@ -111,6 +121,7 @@ export class CandidatosComponent {
     console.log('[CandidatosComponent] selecionarVaga id=', vaga?.id);
     this.vagaSelecionada = vaga;
     this.carregarCandidatos(vaga.id);
+    this.cdr.markForCheck();
   }
 
   carregarCandidatos(vagaId: number): void {
@@ -119,20 +130,43 @@ export class CandidatosComponent {
 
     this.candidatosService.listarCandidatos(vagaId).subscribe({
       next: (list) => {
-        this.candidatos = list || [];
-        console.log('[CandidatosComponent] candidatos carregados:', this.candidatos.length);
+        console.log('[CandidatosComponent] candidatos carregados:', list?.length);
+        this.candidatos$.next(list ?? []);
+        this.cdr.markForCheck();
       },
       error: (err: Error) => {
         console.error('[CandidatosComponent] erro ao carregar candidatos:', err);
         this.message.add({ severity: 'error', summary: 'Erro', detail: err.message });
+        this.cdr.markForCheck();
       },
-      complete: () => (this.loadingCandidatos = false),
+      complete: () => {
+        this.loadingCandidatos = false;
+        this.cdr.markForCheck();
+      },
+    });
+  }
+
+  // Função para alterar o status da candidatura
+  aprovarCandidatura(c: Candidatura) {
+    if (!c.id) return;
+    this.candidatosService.atualizarStatusCandidatura(c.id, 'Aprovado').subscribe({
+      next: atualizado => {
+        const lista = this.candidatos$.getValue();
+        const idx = lista.findIndex(x => x.id === atualizado.id);
+        if (idx !== -1) {
+          lista[idx].status = atualizado.status;
+          this.candidatos$.next([...lista]);
+          this.cdr.markForCheck();
+        }
+      },
+      error: err => this.message.add({ severity:'error', summary:'Erro', detail: err.message })
     });
   }
 
   toggleSidebar(): void {
     this.sidebarOpen = !this.sidebarOpen;
     console.log('[CandidatosComponent] sidebarOpen:', this.sidebarOpen);
+    this.cdr.markForCheck();
   }
 
   sair(): void {
